@@ -45,3 +45,5 @@ for i in range(N_STUDENTS):
         gc.collect()
     except:
         continue
+
+print('========================DONE=======================')
