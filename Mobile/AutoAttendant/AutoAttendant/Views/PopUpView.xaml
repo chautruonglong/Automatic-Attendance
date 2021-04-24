@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup" xmlns:local="clr-namespace:AutoAttendant"
+                 x:Class="AutoAttendant.Views.PopUpView">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <!--<StackLayout
+        Margin="12"
+        Padding="24"
+        BackgroundColor="WhiteSmoke"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+        <StackLayout>
+            <Label Text="what's up?" />
+            <Entry
+                x:Name="TaskEntry"
+                Placeholder="write them here"
+                TextChanged="TaskEntry_OnTextChanged" />
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Place an exact date and time" />
+            <DatePicker />
+            <TimePicker />
+        </StackLayout>
+        <Button
+            x:Name="TaskButton"
+            BackgroundColor="Crimson"
+            Clicked="Button_OnClicked"
+            CornerRadius="10"
+            FontSize="Large"
+            IsEnabled="False"
+            Text="Add this task now"
+            TextColor="White" />
+    </StackLayout>-->
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+        <Frame CornerRadius="15"   
+               BackgroundColor="#3D3C40" Padding="10">
+
+            <StackLayout Orientation="Vertical" HeightRequest="220" WidthRequest="220" BackgroundColor="#3D3C40" Padding="20,10,10,0">
+                <Button ImageSource="closewindow30px"  
+                                    BackgroundColor="#3D3C40" 
+                                    FontAttributes="Bold" TextTransform="None"
+                                    Margin="180,0,0,5"  TextColor="#FFF "
+                                    BorderColor="#FFF" BorderRadius="10" WidthRequest="30" HeightRequest="30" HorizontalOptions="End" Clicked="ClosePopUp"/>
+                <Label Text="Add Room" FontSize="24" FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    TextColor="#FFF" Margin="0,0,0,10">
+
+                </Label>
+                <StackLayout Orientation="Horizontal" Margin="0,0,0,20">
+                    <Label Text="Room" TextColor="#F5F5F5" 
+                                       FontSize="18" FontAttributes="Bold"
+                                       VerticalOptions="Center" WidthRequest="100">
+                    </Label>
+                    <local:CustomEntry x:Name="Entry_room" TextColor="#FFF" FontSize="18"  
+                                               HeightRequest="50" Margin="30,0" WidthRequest="100"
+                                               VerticalOptions="Center" HorizontalOptions="Fill"
+                                               Placeholder="Enter Room" PlaceholderColor="#ccc"
+                                               >
+
+                    </local:CustomEntry>
+                </StackLayout>
+                
+                <Button Text="Add"  HeightRequest="40" WidthRequest="100"
+                                    HorizontalOptions="End" 
+                                    IsVisible="True" Background="#6562FC" BorderRadius="8"
+                                    Clicked="AddRoom" TextColor="#FFF" FontAttributes="Bold">
+                </Button>
+            </StackLayout>
+        </Frame>
+    </StackLayout>
+</pages:PopupPage>
