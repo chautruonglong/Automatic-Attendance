@@ -13,19 +13,16 @@ using Xamarin.Forms.Xaml;
 namespace AutoAttendant.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
+    [Obsolete]
     public partial class HomePage : MasterDetailPage
     {
         public HomePage()
         {
             InitializeComponent();
-            Detail = new NavigationPage(new ClassPage());
+            Detail = new NavigationPage(new RoomPage());
             
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-            // Ko dung`
-        }
 
         private void HandleTeacherProfile(object sender, EventArgs e)
         {
@@ -48,7 +45,7 @@ namespace AutoAttendant.Views
         private void HandleHome(object sender, EventArgs e)
         {
             //Navigation.PushAsync(new ClassPage());
-            Detail = new NavigationPage(new ClassPage());
+            Detail = new NavigationPage(new RoomPage());
             IsPresented = false;
         }
 

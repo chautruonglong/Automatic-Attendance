@@ -25,10 +25,13 @@ namespace AutoAttendant.Views
 
         private void SignUp(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new SignUpPage());
+            Navigation.PushModalAsync(new SignUpPage());
+            //await Application.Current.MainPage.Navigation.PushAsync(new SignUpPage());
         }
+
         //Test Git
         //Test Git
+        [Obsolete]
         private void LoginProcedure(object sender, EventArgs e)
         {
             User user = new User(Entry_user.Text, Entry_password.Text);

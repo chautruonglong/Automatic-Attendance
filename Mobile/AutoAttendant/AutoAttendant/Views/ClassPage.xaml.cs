@@ -20,7 +20,7 @@ namespace AutoAttendant.Views
         public ClassPage()
         {
             InitializeComponent();
-            HandleDatePicker();
+            //HandleDatePicker();
             this.BindingContext = new ListRoomViewModel();
         }
 
@@ -29,32 +29,32 @@ namespace AutoAttendant.Views
             Navigation.PushAsync(new ListStudentPage());
         }
 
-        private void HandleDatePicker()
-        {
-            string message = string.Empty;
-            var datePicker = new DatePicker
-            {
-                ClassId = "MyDatePicker",
-                Date = DateTime.Now,
-                IsVisible = false,
-                IsEnabled = false
+        //private void HandleDatePicker()
+        //{
+        //    string message = string.Empty;
+        //    var datePicker = new DatePicker
+        //    {
+        //        ClassId = "MyDatePicker",
+        //        Date = DateTime.Now,
+        //        IsVisible = false,
+        //        IsEnabled = false
                 
-            };
-            DatePickerLayout.Children.Add(datePicker);
+        //    };
+        //    DatePickerLayout.Children.Add(datePicker);
 
-            btnDatePicker.Clicked += (object sender, EventArgs e) =>
-            {
+        //    btnDatePicker.Clicked += (object sender, EventArgs e) =>
+        //    {
                 
-                IsEnabled = true;
-                datePicker.Focus();
-            };
+        //        IsEnabled = true;
+        //        datePicker.Focus();
+        //    };
             
-            datePicker.DateSelected += (object sender1, DateChangedEventArgs e) =>
-            {
-                message = datePicker.Date.ToString();
-                DisplayAlert("Notice", message, "OK");
-            };
-        }
+        //    datePicker.DateSelected += (object sender1, DateChangedEventArgs e) =>
+        //    {
+        //        message = datePicker.Date.ToString();
+        //        DisplayAlert("Notice", message, "OK");
+        //    };
+        //}
 
         [Obsolete]
         private async void AddRoom(object sender, EventArgs e)
@@ -75,7 +75,7 @@ namespace AutoAttendant.Views
 
 
         [Obsolete]
-        private async void ShowPopUpAddRoom(object sender, EventArgs e) // Show Popup and handle data from popup
+        private async void ShowPopUpAddClass(object sender, EventArgs e) // Show Popup and handle data from popup
         {
             string roomName = String.Empty;
             string message = String.Empty;
@@ -118,13 +118,6 @@ namespace AutoAttendant.Views
             await PopupNavigation.Instance.PushAsync(page);
             //PopupNavigation.PushAsync(new PopUpView());
         }
-
-
-
-
-
-
-
 
 
         //private void ChooseDay(object sender, EventArgs e)

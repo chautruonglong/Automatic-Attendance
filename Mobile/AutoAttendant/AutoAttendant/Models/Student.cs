@@ -12,7 +12,7 @@ namespace AutoAttendant.Models
         private string id;
         private string name;
         private string classs;
-        private string email;
+        private string faculty;
         private string phone;
         private string imageUrl;
 
@@ -53,15 +53,15 @@ namespace AutoAttendant.Models
             }
         }
 
-        public string Email
+        public string Faculty
         {
             get
             {
-                return this.email;
+                return this.faculty;
             }
             set
             {
-                this.email = value;
+                this.faculty = value;
             }
         }
 
@@ -94,12 +94,12 @@ namespace AutoAttendant.Models
 
         }
 
-        public Student(string id, string name, string classs, string email, string phone, string image)
+        public Student(string id, string name, string classs, string faculty, string phone, string image)
         {
             this.Id = id;
             this.Name = name;
             this.Classs = classs;
-            this.Email = email;
+            this.Faculty = faculty;
             this.Phone = phone;
             this.ImageUrl = image;
         }
