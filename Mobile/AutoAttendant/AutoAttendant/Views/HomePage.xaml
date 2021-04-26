@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoAttendant.Views.HomePage"
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False"
+             IconImageSource="search25px"
+             MasterBehavior="Popover"
+             >
+
+    <MasterDetailPage.Master>
+        <ContentPage Padding="10" BackgroundColor="#252836" Title="Master">
+            <ContentPage.Content>
+                <StackLayout Margin="5,30,5,5">
+                    
+                    <Frame CornerRadius="80" 
+                           HeightRequest="160"
+                           WidthRequest="160"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Padding="0"
+                           IsClippedToBounds="True"
+                           >
+                        <Image x:Name="Avatar"
+                               Source="DefaultAvatar.jpg" 
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="Center"
+                               Aspect="AspectFill"/>
+                    </Frame>
+                    
+                    <Label Text="Edit Image" TextColor="#FFF" Margin="0,20" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ChangeAvatar" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <StackLayout BackgroundColor="#252836">
+                        <Frame HeightRequest="25"
+                               BackgroundColor="#252836">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="HandleHome"/>
+                            </Frame.GestureRecognizers>
+                            <StackLayout Orientation="Horizontal" Padding="20,0" VerticalOptions="Center">
+                                <Image Source="home25px" WidthRequest="25" HeightRequest="25" Margin="0,0,30,0"/>
+                                <Label Text="Home" TextColor="#FFF" FontSize="20" VerticalTextAlignment="Center"
+                            FontAttributes="Bold"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <Frame HeightRequest="25"
+                               BackgroundColor="#252836">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="HandleTeacherProfile"/>
+                            </Frame.GestureRecognizers>
+                            <StackLayout Orientation="Horizontal" Padding="20,0" VerticalOptions="Center">
+                                <Image Source="user25px" WidthRequest="25" HeightRequest="25" Margin="0,0,30,0"/>
+                                <Label Text="Profile" TextColor="#FFF" FontSize="20" VerticalTextAlignment="Center"
+                            FontAttributes="Bold"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <Frame HeightRequest="25"
+                               BackgroundColor="#252836">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="HandleSetting"/>
+                            </Frame.GestureRecognizers>
+                            <StackLayout Orientation="Horizontal" Padding="20,0" VerticalOptions="Center">
+                                <Image Source="settings25px" WidthRequest="25" HeightRequest="25" Margin="0,0,30,0"/>
+                                <Label Text="Setting" TextColor="#FFF" FontSize="20" VerticalTextAlignment="Center"
+                            FontAttributes="Bold"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <Frame HeightRequest="25"
+                               BackgroundColor="#252836">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="HandleLogOut"/>
+                            </Frame.GestureRecognizers>
+                            <StackLayout Orientation="Horizontal" Padding="20,0" VerticalOptions="Center">
+                                <Image Source="exit25px" WidthRequest="25" HeightRequest="25" Margin="0,0,30,0"/>
+                                <Label Text="Log out" TextColor="#FFF" FontSize="20" VerticalTextAlignment="Center"
+                            FontAttributes="Bold"/>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+
+                </StackLayout>
+            </ContentPage.Content>
+        </ContentPage>
+    </MasterDetailPage.Master>
+    
+    <MasterDetailPage.Detail>
+        <ContentPage>
+            <ContentPage.Content Padding="10">
+                <StackLayout BackgroundColor="#021135">
+
+
+                </StackLayout>
+            </ContentPage.Content>
+        </ContentPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

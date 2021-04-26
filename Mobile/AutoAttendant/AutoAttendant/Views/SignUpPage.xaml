@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:AutoAttendant"
+             x:Class="AutoAttendant.Views.SignUpPage"
+             >
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Priority="0" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#021135" Padding="0,20">
+            <StackLayout Orientation="Vertical" Margin="20,20,20,40">
+                <Label Text="Sign up with" FontSize="16" TextColor="#FFF" FontAttributes="Bold"/>
+                <Button Text="Your Microsoft Account" ContentLayout="Left" ImageSource="microsoft25px"
+                        BackgroundColor="#022656" HorizontalOptions="Start"
+                        FontAttributes="Bold" TextTransform="None" FontSize="16"
+                        TextColor="#FFF" BorderRadius="10"
+                        BorderColor="#FFF" WidthRequest="260" />
+            </StackLayout>
+            <StackLayout Orientation="Vertical" Margin="20">
+                <Label  x:Name="Lb_Name" Text="Name"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        TextColor="#FFF"
+                        FontSize="18"
+                        FontFamily=""
+                        FontAttributes="Bold"/>
+
+                <local:CustomEntry x:Name="Entry_name" TextColor="#FFF" 
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   VerticalOptions="StartAndExpand"
+                                   Margin="0,0,0,15">
+                </local:CustomEntry>
+
+                <Label  x:Name="Lb_user" Text="E-mail or Username"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        TextColor="#FFF"
+                        FontSize="18"
+                        FontFamily=""
+                        FontAttributes="Bold"/>
+
+                <local:CustomEntry x:Name="Entry_user" TextColor="#FFF" 
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   VerticalOptions="StartAndExpand"
+                                   Margin="0,0,0,15">
+                </local:CustomEntry>
+
+                <Label  x:Name="Lb_password" Text="Password"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        TextColor="#FFF"
+                        FontSize="18"
+                        FontAttributes="Bold"/>
+
+                <local:CustomEntry x:Name="Entry_password" IsPasswordFlag="True"
+                                   IsPassword="True" TextColor="#FFF"
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   >
+                </local:CustomEntry>
+
+                <Button Text="Creat account" BackgroundColor="#1832F6" FontAttributes="Bold" 
+                        FontSize="16" TextColor="#FFF" BorderRadius="8" Margin="0,30,0,0" >
+                    
+                </Button>
+                <StackLayout Orientation="Horizontal" Margin="0,20,0,0">
+
+                    <Label Text="Already have an account?"
+                       TextColor="#FFF"
+                       FontSize="16"/>
+
+                    <Label x:Name="Btn_signup" Text="Login"
+                       TextColor="#FFF"
+                       TextTransform="None"
+                       BackgroundColor="#021135"
+                       FontAttributes="Bold"
+                       FontSize="17"
+                       Margin="5,-1,0,0">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Login" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

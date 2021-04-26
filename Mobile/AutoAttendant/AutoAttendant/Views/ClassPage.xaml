@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:AutoAttendant"
+             x:Class="AutoAttendant.Views.ClassPage"
+             >
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="SearchItem" Icon="search25px.png" Priority="0" />
+        
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#021135">
+            <!--<SearchBar Placeholder="Search" PlaceholderColor="#FFF" FontSize="16"  BackgroundColor="#021135" HeightRequest="40" TextColor="#FFF" CancelButtonColor="#FFF">
+
+            </SearchBar>-->
+            <StackLayout Orientation="Horizontal" Margin="10,0,0,0" x:Name="DatePickerLayout">
+                
+                <!--<Button Text="Date" x:Name="btnDatePicker" ContentLayout="Right" ImageSource="calendar25px"
+                        HorizontalOptions="Fill" BackgroundColor="#021135" 
+                        FontAttributes="Bold" TextTransform="None" FontSize="20"
+                        Margin="0,30,0,30"  TextColor="#FFF" BorderRadius="10"
+                        BorderColor="#FFF"/>-->
+                <Button Text="Add Class"  ContentLayout="Right" ImageSource="add30px"
+                        HorizontalOptions="Fill" BackgroundColor="#021135" 
+                        FontAttributes="Bold" TextTransform="None" FontSize="17"
+                        Margin="0,20,0,20"  TextColor="#FFF" BorderRadius="10"
+                        BorderColor="#FFF" Clicked="ShowPopUpAddClass"/>
+                
+            </StackLayout>
+
+            <StackLayout Padding="20" HeightRequest="500">
+                <ListView ItemsSource="{Binding RoomCollection}" RowHeight="80" HorizontalOptions="Center">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Spacing="10" VerticalOptions="CenterAndExpand">
+                                    <Button Text="{Binding Name}" Margin="0,0,0,10" BorderWidth="0" BackgroundColor="#246CFE" BorderRadius="8" FontSize="20" FontAttributes="Bold" x:Name="Btn_room2" Clicked="ClassClick"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
