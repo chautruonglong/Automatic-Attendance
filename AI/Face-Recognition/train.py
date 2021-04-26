@@ -1,10 +1,9 @@
-from os import path, makedirs, walk
+from os import path, makedirs, environ
 from myfacenet.detector import FaceDetector, DetectorModels
 from myfacenet.encoder import FacenetEncoder
 from myfacenet.classifier import ClassifierModels
 
-
-INPUT_DIR_DATASETS = 'D:/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Main-Dataset/data/faces'
+INPUT_DIR_DATASETS = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Main-Dataset/data/faces'
 
 
 def create_folder(folder):

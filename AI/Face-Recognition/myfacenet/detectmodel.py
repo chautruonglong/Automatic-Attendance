@@ -3,7 +3,7 @@ from cv2 import CascadeClassifier
 from dlib import get_frontal_face_detector
 from facenet.src.align.detect_face import detect_face, create_mtcnn
 from tensorflow import Graph
-from tensorflow.compat.v1 import GPUOptions, ConfigProto, Session
+from tensorflow import GPUOptions, ConfigProto, Session
 
 
 class HaarcascadeDetector:

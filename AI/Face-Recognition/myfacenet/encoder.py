@@ -7,7 +7,7 @@ from facenet.src import facenet
 from skimage.transform import resize
 from sklearn.preprocessing import LabelEncoder
 from myfacenet.classifier import FacenetClassifier
-from tensorflow import Session, get_default_graph
+from tensorflow import Session, GPUOptions, ConfigProto, get_default_graph
 
 INPUT_PRETRAIN_MODEL = 'premodels/20180402-114759.pb'
 OUTPUT_FACE_CLASSIFIERS = 'mymodels/face_classifiers.pickle'
@@ -35,7 +35,8 @@ class FacenetEncoder:
     _face_margin = 0
 
     def __init__(self, is_training=False):
-        self._session = Session()
+        gpu = GPUOptions(per_process_gpu_memory_fraction=0.3)
+        self._session = Session(config=ConfigProto(gpu_options=gpu, log_device_placement=False))
 
         with self._session.as_default():
             facenet.load_model(INPUT_PRETRAIN_MODEL)
@@ -79,8 +80,8 @@ class FacenetEncoder:
         vector = self.encode(img, face_bb)
         predict_face = self._classifier.predict([vector])[0]
         id = argmax(predict_face)
-        confidence = predict_face[id] * 10
         face_id = self._labels.classes_[id]
+        confidence = predict_face[id] * 10
 
         return face_id, confidence
 
@@ -90,6 +91,8 @@ class FacenetEncoder:
         img_paths = list(paths.list_images(dataset_path))
 
         for _, img_path in enumerate(img_paths):
+            print(f'Training image: {img_path}')
+
             name = img_path.split(sep)[-2]
             img = imread(img_path, IMREAD_COLOR)
             faces = detector.detect(img)
@@ -99,6 +102,6 @@ class FacenetEncoder:
                 known_names.append(name)
                 known_embeddings.append(vector.flatten())
 
-            print(img_path)
-
-        self.save_train(classifier, known_names, known_embeddings)
+        print("Training completed")
+        print("Exporting pickle file")
+        save_train(classifier, known_names, known_embeddings)
