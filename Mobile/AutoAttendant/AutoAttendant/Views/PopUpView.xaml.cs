@@ -34,18 +34,5 @@ namespace AutoAttendant.Views
         {
             await PopupNavigation.PopAsync();
         }
-        //private void TaskEntry_OnTextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    if (!string.IsNullOrEmpty(TaskEntry.Text))
-        //        TaskButton.IsEnabled = true;
-        //    else if (string.IsNullOrEmpty(TaskEntry.Text))
-        //        TaskButton.IsEnabled = false;
-        //}
-
-        //[Obsolete]
-        //private async void Button_OnClicked(object sender, EventArgs e)
-        //{
-        //    await PopupNavigation.PopAsync();
-        //}
     }
 }

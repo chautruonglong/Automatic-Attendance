@@ -31,7 +31,7 @@ namespace AutoAttendant.Views
 
         private void HandleDatePicker()
         {
-            string message = string.Empty;
+            //string message = string.Empty;
             var datePicker = new DatePicker
             {
                 ClassId = "MyDatePicker",
@@ -51,8 +51,10 @@ namespace AutoAttendant.Views
             
             datePicker.DateSelected += (object sender1, DateChangedEventArgs e) =>
             {
-                message = datePicker.Date.ToString();
-                DisplayAlert("Notice", message, "OK");
+                string day = datePicker.Date.DayOfWeek.ToString();
+                string date = datePicker.Date.ToString().Substring(0, 9);
+
+                lb_date.Text = "Rooms on " + day + " " + date;
             };
         }
 

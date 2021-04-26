@@ -16,34 +16,7 @@
             ScaleIn="1.2"
             ScaleOut="0.8" />
     </pages:PopupPage.Animation>
-    <!--<StackLayout
-        Margin="12"
-        Padding="24"
-        BackgroundColor="WhiteSmoke"
-        HorizontalOptions="Center"
-        VerticalOptions="Center">
-        <StackLayout>
-            <Label Text="what's up?" />
-            <Entry
-                x:Name="TaskEntry"
-                Placeholder="write them here"
-                TextChanged="TaskEntry_OnTextChanged" />
-        </StackLayout>
-        <StackLayout>
-            <Label Text="Place an exact date and time" />
-            <DatePicker />
-            <TimePicker />
-        </StackLayout>
-        <Button
-            x:Name="TaskButton"
-            BackgroundColor="Crimson"
-            Clicked="Button_OnClicked"
-            CornerRadius="10"
-            FontSize="Large"
-            IsEnabled="False"
-            Text="Add this task now"
-            TextColor="White" />
-    </StackLayout>-->
+
     <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
         <Frame CornerRadius="15"   
                BackgroundColor="#3D3C40" Padding="10">

@@ -25,16 +25,6 @@ namespace AutoAttendant.Views
             this.BindingContext = new ListStudentViewModel();
         }
 
-        //public class ListStudentViewModel
-        //{
-        //    public List<Student> Collection { get; set; }
-
-        //    public ListStudentViewModel()
-        //    {
-        //        Collection = Student.GetListStudent();
-        //    }
-        //}
-
         private void OnTapped(object sender, EventArgs e) // xu li khi nhan vao student
         {
             string message = string.Empty;

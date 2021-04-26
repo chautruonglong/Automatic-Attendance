@@ -11,23 +11,24 @@
             <!--<SearchBar Placeholder="Search" PlaceholderColor="#FFF" FontSize="16"  BackgroundColor="#021135" HeightRequest="40" TextColor="#FFF" CancelButtonColor="#FFF">
 
             </SearchBar>-->
-            <StackLayout Orientation="Horizontal" Margin="10,0,0,0" x:Name="DatePickerLayout">
+            <StackLayout Orientation="Horizontal" Margin="10,0,0,0" x:Name="DatePickerLayout" VerticalOptions="Center">
 
-                <Button Text="Date" x:Name="btnDatePicker" ContentLayout="Right" ImageSource="calendar25px"
+                <Button Text="Date" x:Name="btnDatePicker" ContentLayout="Right" ImageSource="calendar30px"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
-                        FontAttributes="Bold" TextTransform="None" FontSize="20"
-                        Margin="0,30,0,10"  TextColor="#FFF" BorderRadius="10"
+                        FontAttributes="Bold" TextTransform="None" FontSize="17"
+                        Margin="0,20,0,10"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" />
+                
                 <Button Text="Add Room"  ContentLayout="Right" ImageSource="add30px"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
-                        FontAttributes="Bold" TextTransform="None" FontSize="20"
-                        Margin="100,30,0,10"  TextColor="#FFF" BorderRadius="10"
+                        FontAttributes="Bold" TextTransform="None" FontSize="17"
+                        Margin="100,20,0,10"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" Clicked="ShowPopUpAddRoom"/>
 
             </StackLayout>
 
-            <StackLayout Padding="20" HeightRequest="500">
-                <Label Text="Today" FontSize="20" FontAttributes="Bold" TextColor="#FFF"/>
+            <StackLayout Padding="20,0" HeightRequest="500">
+                <Label x:Name="lb_date" Text="Today" FontSize="20" FontAttributes="Bold" TextColor="#FFF"/>
                 <ListView ItemsSource="{Binding RoomCollection}" RowHeight="80" HorizontalOptions="Center">
                     <ListView.ItemTemplate>
                         <DataTemplate>

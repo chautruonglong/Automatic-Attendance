@@ -16,17 +16,11 @@ namespace AutoAttendant.ViewModel
         public ListRoomViewModel()
         {
             RoomCollection = new ObservableCollection<Room>();
-            //RoomCollection.Add(new Room("1", "F308"));
-            //RoomCollection.Add(new Room("2", "F309"));
-            //RoomCollection.Add(new Room("3", "F310"));
-            //RoomCollection.Add(new Room("1", "F402"));
-            //RoomCollection.Add(new Room("2", "F403"));
-            //RoomCollection.Add(new Room("3", "F405"));
         }
 
-        public void AddRoom()
-        {
-            RoomCollection.Add(RoomName);
-        }
+        //public void AddRoom()
+        //{
+        //    RoomCollection.Add(RoomName);
+        //}
     }
 }

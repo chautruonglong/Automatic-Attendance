@@ -19,7 +19,8 @@ namespace AutoAttendant.Views
 
         private void Login(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new LoginPage());
+            //Navigation.PushAsync(new LoginPage());
+            Navigation.PopModalAsync();
         }
     }
 }
