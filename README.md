@@ -1,18 +1,11 @@
-# Automatic Attendance
+# Face Recognition Branch
+- Chau Truong Long
 
-## System Overview
+# Using Facenet Model
+- Ref: https://github.com/davidsandberg/facenet
+
+# Training My Images
+
 <p align="center">
-    <img src="Pictures/system_overview.png" alt="alt text" style="max-width:100%;">
-</p>
-
-## Mobile App
-
->#### Login
-<p align="center">
-    <img src="Pictures/Mobile/login.png" alt="alt text" style="max-width:100%;">
-</p>
-
->#### Activities
-<p align="center">
-    <img src="Pictures/Mobile/activities.png" alt="alt text" style="max-width:100%;">
+    <img src="screenshots/training.png" alt="alt text" style="max-width:100%;">
 </p>
