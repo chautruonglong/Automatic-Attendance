@@ -7,7 +7,7 @@ from tensorflow.compat.v1 import GPUOptions, ConfigProto, Session
 
 
 class HaarcascadeDetector:
-    _HAARCASCADE_MODEL = '../premodels/haarcascade_frontalface_default.xml'
+    _HAARCASCADE_MODEL = 'premodels/haarcascade_frontalface_default.xml'
 
     def __init__(self, face_size):
         self._face_size = face_size
@@ -17,6 +17,7 @@ class HaarcascadeDetector:
         img = cvtColor(img, COLOR_BGR2GRAY)
         img = equalizeHist(img)
         faces = self._detector.detectMultiScale(img, 1.1, 5, minSize=(self._face_size, self._face_size))
+
         return faces
 
 
@@ -30,6 +31,7 @@ class FacenetDetector:
         with Graph().as_default():
             gpu = GPUOptions(per_process_gpu_memory_fraction=0.3)
             session = Session(config=ConfigProto(gpu_options=gpu, log_device_placement=False))
+
             with session.as_default():
                 self._pnet, self._rnet, self._onet = create_mtcnn(session, model_path=None)
 
@@ -67,4 +69,5 @@ class DlibHOGDetector:
         img = cvtColor(img, COLOR_BGR2GRAY)
         img = equalizeHist(img)
         faces = self._detector(img, 0)
+
         return faces

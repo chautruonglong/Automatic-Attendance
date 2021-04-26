@@ -25,7 +25,7 @@ class FaceDetector:
         else:
             raise Exception('Not using detector model')
 
-        print(f'Using detector model: {DetectorModels(detector_model)} {face_size}')
+        print(f'Using detector model: {DetectorModels(detector_model)}')
 
     def detect(self, img):
         return self._detector.detect(img)

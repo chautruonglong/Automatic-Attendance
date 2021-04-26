@@ -7,14 +7,14 @@ from facenet.src import facenet
 from skimage.transform import resize
 from sklearn.preprocessing import LabelEncoder
 from myfacenet.classifier import FacenetClassifier
-from tensorflow.compat.v1 import Session, get_default_graph
+from tensorflow import Session, get_default_graph
 
-INPUT_PRETRAIN_MODEL = '../premodels/20180402-114759.pb'
-OUTPUT_FACE_CLASSIFIERS = '../mymodels/face_classifiers.pickle'
-OUTPUT_FACE_LABELS = '../mymodels/face_labels.pickle'
+INPUT_PRETRAIN_MODEL = 'premodels/20180402-114759.pb'
+OUTPUT_FACE_CLASSIFIERS = 'mymodels/face_classifiers.pickle'
+OUTPUT_FACE_LABELS = 'mymodels/face_labels.pickle'
 
 
-def save_train(self, classifier, known_names, known_embeddings):
+def save_train(classifier, known_names, known_embeddings):
     label = LabelEncoder()
     known_labels = label.fit_transform(known_names)
 
@@ -46,8 +46,10 @@ class FacenetEncoder:
             self._classifier = loads(classifiers)
             self._labels = loads(labels)
 
-    def set_face_crop(self, face_size, face_margin):
+    def set_face_size(self, face_size):
         self._face_size = face_size
+
+    def set_face_margin(self, face_margin):
         self._face_margin = face_margin
 
     def encode(self, img, face_bb):
@@ -88,14 +90,15 @@ class FacenetEncoder:
         img_paths = list(paths.list_images(dataset_path))
 
         for _, img_path in enumerate(img_paths):
-            # name = img_path.split(sep)[-2]
-            # img = imread(img_path, IMREAD_COLOR)
-            # faces = detector.detect(img)
-            #
-            # for face_bb in faces:
-            #     vector = self.encode(img, face_bb)
-            #     known_names.append(name)
-            #     known_embeddings.append(vector.flatten())
+            name = img_path.split(sep)[-2]
+            img = imread(img_path, IMREAD_COLOR)
+            faces = detector.detect(img)
+
+            for face_bb in faces:
+                vector = self.encode(img, face_bb)
+                known_names.append(name)
+                known_embeddings.append(vector.flatten())
+
             print(img_path)
 
         self.save_train(classifier, known_names, known_embeddings)
