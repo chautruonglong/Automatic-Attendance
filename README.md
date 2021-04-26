@@ -7,5 +7,5 @@
 # Training My Images
 
 <p align="center">
-    <img src="screenshots/training.png" alt="alt text" style="max-width:100%;">
+    <img src="Screenshots/training.png" alt="alt text" style="max-width:100%;">
 </p>
