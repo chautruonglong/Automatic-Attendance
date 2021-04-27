@@ -3,13 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AutoAttendant.Views.HomePage"
              NavigationPage.HasBackButton="False"
-             NavigationPage.HasNavigationBar="False"
-             IconImageSource="search25px"
+             NavigationPage.HasNavigationBar="False"     
              MasterBehavior="Popover"
              >
 
     <MasterDetailPage.Master>
-        <ContentPage Padding="10" BackgroundColor="#252836" Title="Master">
+        <ContentPage Padding="10" BackgroundColor="#252836" Title="Master" >
             <ContentPage.Content>
                 <StackLayout Margin="5,30,5,5">
                     

@@ -17402,7 +17402,10 @@ namespace AutoAttendant.Droid
 			public const int tooltip_frame_light = 2131165350;
 			
 			// aapt resource value: 0x7F0700A7
-			public const int user25px = 2131165351;
+			public const int trash = 2131165351;
+			
+			// aapt resource value: 0x7F0700A8
+			public const int user25px = 2131165352;
 			
 			static Drawable()
 			{

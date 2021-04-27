@@ -49,24 +49,50 @@ namespace AutoAttendant.Views
         private async void LoginProcedure(object sender, EventArgs e)
         {
             // Test call API Gifphy
+            //try
+            //{
+            //    var httpService = new HttpService();
+            //    string url = Entry_user.Text;
+            //    string api_key = Entry_password.Text;
+            //    string full_url = url + "?api_key=" + api_key + "&tag=cat";
+            //    var result = await httpService.SendAsync(full_url, HttpMethod.Get);
+
+            //    await DisplayAlert("JSON", result, "OK");
+            //    UserDialogs.Instance.ShowLoading("Please wait...");
+            //    await Task.Delay(2000);
+            //    UserDialogs.Instance.HideLoading();
+            //    await Navigation.PushAsync(new HomePage());
+            //    //var json = JsonConvert.DeserializeObject<ObservableCollection<User>>(result);
+            //}
+            //catch(Exception)
+            //{
+            //    await DisplayAlert("ERROR", "No Internet connected", "OK");
+            //}
             try
             {
-                var httpService = new HttpService();
-                string url = Entry_user.Text;
-                string api_key = Entry_password.Text;
-                string full_url = url + "?api_key=" + api_key + "&tag=cat";
-                var result = await httpService.SendAsync(full_url, HttpMethod.Get);
+                User user = new User(Entry_user.Text, Entry_password.Text);
+                if (user.CheckLogin())
+                {
+                    await Navigation.PushAsync(new HomePage());
+                }
+                else
+                {
+                    var httpService = new HttpService();
+                    string api_key = "3XPeaCNzXoWSD3WMpU7f1rfYx8AvQmTj";
+                    string url = "https://api.giphy.com/v1/gifs/random";
+                    string full_url = url + "?api_key=" + api_key + "&tag=cat";
+                    var result = await httpService.SendAsync(full_url, HttpMethod.Get);
+                    await DisplayAlert("JSON", result, "OK");
 
-                await DisplayAlert("JSON", result, "OK");
-                UserDialogs.Instance.ShowLoading("Please wait...");
-                await Task.Delay(2000);
-                UserDialogs.Instance.HideLoading();
-                await Navigation.PushAsync(new HomePage());
-                //var json = JsonConvert.DeserializeObject<ObservableCollection<User>>(result);
+                    UserDialogs.Instance.ShowLoading("Please wait...");
+                    await Task.Delay(2000);
+                    UserDialogs.Instance.HideLoading();
+                    await Navigation.PushAsync(new HomePage());
+                }
             }
-            catch(Exception)
+            catch (Exception)
             {
-                await DisplayAlert("ERROR", "No Internet connected", "OK");
+                await DisplayAlert("ERROR", "Login Fail", "Try Again");
             }
 
             // Call API Login AutoAttendant here

@@ -21,7 +21,7 @@
                         BorderColor="#FFF"/>-->
                 <Button Text="Add Class"  ContentLayout="Right" ImageSource="add30px"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
-                        FontAttributes="Bold" TextTransform="None" FontSize="17"
+                        TextTransform="None" FontSize="17"
                         Margin="0,20,0,20"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" Clicked="ShowPopUpAddClass"/>
                 
@@ -33,7 +33,20 @@
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Spacing="10" VerticalOptions="CenterAndExpand">
-                                    <Button Text="{Binding Name}" Margin="0,0,0,10" BorderWidth="0" BackgroundColor="#246CFE" BorderRadius="8" FontSize="20" FontAttributes="Bold" x:Name="Btn_room2" Clicked="ClassClick"/>
+                                    <Frame OutlineColor="Black"
+                                            x:Name="frameStudent"
+                                            CornerRadius="10"
+                                            Margin="10,0"
+                                            HeightRequest="20"
+                                            BackgroundColor="#246CFE">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="ClassClick"/>
+                                        </Frame.GestureRecognizers>
+                                        <StackLayout Orientation="Horizontal" Spacing="10">
+                                            <Label Text="{Binding Name}" TextColor="#000" FontSize="16" WidthRequest="200" VerticalTextAlignment="Center" HorizontalOptions="StartAndExpand" FontAttributes="Bold"/>
+                                            <Image Source="trash" WidthRequest="20" HeightRequest="20" />
+                                        </StackLayout>
+                                    </Frame>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
