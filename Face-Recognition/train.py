@@ -12,7 +12,7 @@ def create_folder(folder):
 
 
 if __name__ == '__main__':
-    detector = FaceDetector(detector_model=DetectorModels.HAARCASCADE)
+    detector = FaceDetector(detector_model=DetectorModels.HAARCASCADE, face_size=160)
 
     encoder = FacenetEncoder(is_training=True)
 

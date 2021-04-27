@@ -1,12 +1,14 @@
+from posix import listdir
 from numpy import expand_dims
 from keras.preprocessing.image import load_img, img_to_array, save_img
 from keras.preprocessing.image import ImageDataGenerator
 import os, gc
 
-N_STUDENTS = 20
-N_IMGS = 40
+N_IMGS = 50
 
-student_id = 102180160
+OUTPUT_PATH = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Main-Dataset/data/faces/'
+INPUT_PATH = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Dataset-3x4/Cong-nghe-thong-tin/K18/'
+
 
 generator = ImageDataGenerator(width_shift_range=[-50, 50],
                                height_shift_range=0.3,
@@ -18,31 +20,35 @@ generator = ImageDataGenerator(width_shift_range=[-50, 50],
                                fill_mode='nearest'
                                )
 
-for i in range(N_STUDENTS):
+names = os.listdir(OUTPUT_PATH)
+
+for name in names:
     try:
-        student_id += 1
-        img = load_img('K18/' + str(student_id) + '.jpg')
+        img = load_img(INPUT_PATH + name + '.jpg')
         data = img_to_array(img)
         data = expand_dims(data, axis=0)
         
         iterator = generator.flow(data, batch_size=1)
-        
-        folder = 'Data-Gen/' + str(student_id)
+       
+        folder = OUTPUT_PATH + name
         if not os.path.exists(folder):
             os.mkdir(folder)
+            
+        num = len(listdir(OUTPUT_PATH + name))
                 
-        for j in range(N_IMGS):
-            path = folder + '/' + str(student_id) + '_' + str(j) + '.jpg'
+        for i in range(N_IMGS):
+            path = folder + '/' + name + '_' + str(num + i) + '.jpg'
             batch = iterator.next()
             new_img = batch[0].astype('uint8')
             
-            print('Save ' + path)
+            print('Saving ' + path)
             save_img(path, new_img)
             
             del path, batch, new_img
         
         del img, data, iterator, folder
         gc.collect()
+        
     except:
         continue
 

@@ -91,11 +91,12 @@ class FacenetEncoder:
         img_paths = list(paths.list_images(dataset_path))
 
         for _, img_path in enumerate(img_paths):
-            print(f'Training image: {img_path}')
-
             name = img_path.split(sep)[-2]
             img = imread(img_path, IMREAD_COLOR)
             faces = detector.detect(img)
+
+            print(f'Training image: {img_path}')
+            print(f'Found {len(faces)} faces')
 
             for face_bb in faces:
                 vector = self.encode(img, face_bb)

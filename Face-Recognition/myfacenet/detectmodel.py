@@ -1,9 +1,10 @@
-from cv2 import cvtColor, equalizeHist, COLOR_BGR2GRAY
+from cv2 import cvtColor, COLOR_BGR2GRAY
 from cv2 import CascadeClassifier
+from mtcnn.mtcnn import MTCNN
 from dlib import get_frontal_face_detector
-from facenet.src.align.detect_face import detect_face, create_mtcnn
 from tensorflow import Graph
 from tensorflow import GPUOptions, ConfigProto, Session
+from facenet.src.align.detect_face import detect_face, create_mtcnn
 
 
 class HaarcascadeDetector:
@@ -15,10 +16,25 @@ class HaarcascadeDetector:
 
     def detect(self, img):
         img = cvtColor(img, COLOR_BGR2GRAY)
-        img = equalizeHist(img)
-        faces = self._detector.detectMultiScale(img, 1.1, 5, minSize=(self._face_size, self._face_size))
+        faces = self._detector.detectMultiScale(img, 1.1, 4, minSize=(self._face_size, self._face_size))
 
         return faces
+
+
+class MTCNNDetector:
+    def __init__(self, face_size):
+        self._face_size = face_size
+        self._detector = MTCNN(min_face_size=face_size)
+
+    def detect(self, img):
+        faces = self._detector.detect_faces(img)
+
+        faces_updated = []
+        for face in faces:
+            bb = face['box']
+            faces_updated.append(bb)
+
+        return faces_updated
 
 
 class FacenetDetector:
@@ -67,7 +83,12 @@ class DlibHOGDetector:
 
     def detect(self, img):
         img = cvtColor(img, COLOR_BGR2GRAY)
-        img = equalizeHist(img)
-        faces = self._detector(img, 0)
+        faces = self._detector(img)
 
-        return faces
+        faces_updated = []
+        for face in faces:
+            faces_updated.append(
+                [face.left(), face.top(), face.right() - face.left(), face.bottom() - face.top()]
+            )
+
+        return faces_updated
