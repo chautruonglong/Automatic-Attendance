@@ -12,6 +12,7 @@ using Xamarin.Forms.Xaml;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using Acr.UserDialogs;
+using System.Security.Cryptography;
 
 namespace AutoAttendant.Views
 {
@@ -47,18 +48,7 @@ namespace AutoAttendant.Views
         [Obsolete]
         private async void LoginProcedure(object sender, EventArgs e)
         {
-            //User user = new User(Entry_user.Text, Entry_password.Text);
-
-
-            //if (user.CheckLogin())
-            //{
-            //    //DisplayAlert("Login", "Login Succesfully", "OK");
-            //    Navigation.PushAsync(new HomePage());
-            //}
-            //else
-            //{
-            //    DisplayAlert("Login", "Fail", "Try Again");
-            //}
+            // Test call API Gifphy
             try
             {
                 var httpService = new HttpService();
@@ -66,19 +56,41 @@ namespace AutoAttendant.Views
                 string api_key = Entry_password.Text;
                 string full_url = url + "?api_key=" + api_key + "&tag=cat";
                 var result = await httpService.SendAsync(full_url, HttpMethod.Get);
+
                 await DisplayAlert("JSON", result, "OK");
                 UserDialogs.Instance.ShowLoading("Please wait...");
                 await Task.Delay(2000);
                 UserDialogs.Instance.HideLoading();
                 await Navigation.PushAsync(new HomePage());
-            //var json = JsonConvert.DeserializeObject<ObservableCollection<User>>(result);
+                //var json = JsonConvert.DeserializeObject<ObservableCollection<User>>(result);
             }
             catch(Exception)
             {
                 await DisplayAlert("ERROR", "No Internet connected", "OK");
             }
 
-            
+            // Call API Login AutoAttendant here
+            //try
+            //{
+            //    var httpService = new HttpService();
+            //    string user = Entry_user.Text;
+            //    string password = Entry_password.Text;
+            //    string url = " ";  // url of server
+
+            //    var result = await httpService.SendAsync(url, HttpMethod.Get); 
+            //    var user_json = JsonConvert.DeserializeObject<User>(result); // json response
+
+            //    if (user_json.Username == user && user_json.Password == password)
+            //    {
+            //        await Navigation.PushAsync(new HomePage());
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    await DisplayAlert("ERROR", "User or Password is not correct", "Try Again");
+            //}
+
+
         }
     }
 }
