@@ -15,7 +15,7 @@ if __name__ == '__main__':
     if isfile(args.image) is True:
         img = imread(args.image)
 
-        detector = FaceDetector(detector_model=DetectorModels.MTCNN, face_size=args.min_size)
+        detector = FaceDetector(detector_model=DetectorModels.HAARCASCADE, face_size=args.min_size)
         faces = detector.detect(img=img)
 
         namedWindow('Face Window', WINDOW_NORMAL)
@@ -28,5 +28,6 @@ if __name__ == '__main__':
         waitKey(0)
         destroyAllWindows()
         exit(0)
+
     else:
         print('File does not exist')

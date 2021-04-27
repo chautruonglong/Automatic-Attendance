@@ -1,4 +1,4 @@
-from os import path, makedirs, environ
+from os import path, makedirs
 from myfacenet.detector import FaceDetector, DetectorModels
 from myfacenet.encoder import FacenetEncoder
 from myfacenet.classifier import ClassifierModels
@@ -12,7 +12,7 @@ def create_folder(folder):
 
 
 if __name__ == '__main__':
-    detector = FaceDetector(detector_model=DetectorModels.HAARCASCADE, face_size=160)
+    detector = FaceDetector(detector_model=DetectorModels.HAARCASCADE, face_size=180)
 
     encoder = FacenetEncoder(is_training=True)
 
