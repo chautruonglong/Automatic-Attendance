@@ -7,7 +7,7 @@ from cv2 import imread, imshow, putText, rectangle, imwrite
 from cv2 import FONT_HERSHEY_SIMPLEX, LINE_AA, WINDOW_NORMAL
 from cv2 import namedWindow, waitKey, destroyAllWindows
 
-THRESHOLD = 50
+THRESHOLD = 10
 
 
 def set_label_for_bb(img, face, id, confidence):
@@ -22,7 +22,7 @@ def set_label_for_bb(img, face, id, confidence):
         text=f'{id} - {round(confidence, 2)}%',
         org=(x + 5, y - 5),
         fontFace=FONT_HERSHEY_SIMPLEX,
-        fontScale=1,
+        fontScale=0.5,
         color=(60, 20, 220),
         thickness=1,
         lineType=LINE_AA
@@ -54,7 +54,7 @@ if __name__ == '__main__':
                 set_label_for_bb(img, face, None, None)
 
         imshow('Face Window', img)
-        imwrite('long.jpg', img)
+        imwrite('Test/class.jpg', img)
         waitKey(0)
         destroyAllWindows()
         exit(0)
