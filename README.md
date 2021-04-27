@@ -15,3 +15,9 @@
 <p align="center">
     <img src="Screenshots/training.png" alt="alt text" style="max-width:100%;">
 </p>
+
+# Test Recognition
+
+<p align="center">
+    <img src="Screenshots/long.jpg" alt="alt text" style="max-width:100%;">
+</p>

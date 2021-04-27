@@ -1,5 +1,5 @@
 from enum import Enum
-from facenet.src.classifier import SVC
+from sklearn.svm import SVC
 
 
 class ClassifierModels(Enum):
@@ -24,4 +24,4 @@ class FacenetClassifier:
         self._classifier.fit(embeddings, labels)
 
     def predict(self, vector):
-        return self._classifier.predict(vector)
+        return self._classifier.predict_proba(vector)

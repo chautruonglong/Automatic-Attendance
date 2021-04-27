@@ -44,6 +44,8 @@ class FacenetEncoder:
             classifiers = open(OUTPUT_FACE_CLASSIFIERS, 'rb').read()
             labels = open(OUTPUT_FACE_LABELS, 'rb').read()
 
+            print('Loading my models')
+
             self._classifier = loads(classifiers)
             self._labels = loads(labels)
 
@@ -78,10 +80,10 @@ class FacenetEncoder:
 
     def identify(self, img, face_bb):
         vector = self.encode(img, face_bb)
-        predict_face = self._classifier.predict([vector])[0]
+        predict_face = self._classifier.predict(vector)[0]
         id = argmax(predict_face)
         face_id = self._labels.classes_[id]
-        confidence = predict_face[id] * 10
+        confidence = predict_face[id] * 100
 
         return face_id, confidence
 

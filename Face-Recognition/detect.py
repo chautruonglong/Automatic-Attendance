@@ -13,9 +13,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if isfile(args.image) is True:
-        img = imread(args.image)
-
         detector = FaceDetector(detector_model=DetectorModels.HAARCASCADE, face_size=args.min_size)
+        img = imread(args.image)
         faces = detector.detect(img=img)
 
         namedWindow('Face Window', WINDOW_NORMAL)
