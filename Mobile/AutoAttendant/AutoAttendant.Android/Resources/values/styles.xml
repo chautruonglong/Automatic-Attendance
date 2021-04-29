@@ -15,8 +15,8 @@
          which is used to tint widgets -->
     <!--<item name="colorAccent">#FF4081</item>-->
     
-    <item name="colorPrimary">#252836</item> 
-    <item name="android:actionBarSize">50dp</item>
+    <item name="colorPrimary">#212124</item> 
+    <item name="android:actionBarSize">60dp</item>
     
     <item name="android:titleTextStyle">@style/MyTextAppearance</item>
     <item name="android:colorActivatedHighlight">@android:color/transparent</item>

@@ -15,20 +15,20 @@
 
                 <Button Text="Date" x:Name="btnDatePicker" ContentLayout="Right" ImageSource="calendar30px"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
-                        TextTransform="None" FontSize="17"
+                        TextTransform="None" FontSize="16"
                         Margin="0,20,0,10"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" />
                 
                 <Button Text="Add new room"  ContentLayout="Right" ImageSource="add30px"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
-                        TextTransform="None" FontSize="17"
+                        TextTransform="None" FontSize="16"
                         Margin="100,20,0,10"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" Clicked="ShowPopUpAddRoom"/>
 
             </StackLayout>
 
             <StackLayout Padding="20,0" HeightRequest="500">
-                <Label x:Name="lb_date" Text="Today" FontSize="17" FontAttributes="Bold" TextColor="#FFF"/>
+                <Label x:Name="lb_date" Text="Today" FontSize="15" FontAttributes="Bold" TextColor="#FFF"/>
                 <ListView ItemsSource="{Binding RoomCollection}" RowHeight="80" HorizontalOptions="Center">
                     <ListView.ItemTemplate>
                         <DataTemplate>

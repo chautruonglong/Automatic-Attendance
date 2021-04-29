@@ -26,12 +26,11 @@
                 <!--<Label Text="Sort by" TextColor="#FFF" FontSize="18" WidthRequest="200" VerticalOptions="Center"/>-->
                 <Button Text="Add a student" x:Name="btn_AddStduent" ContentLayout="Right" ImageSource="add30px"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
-                        FontAttributes="Bold" TextTransform="None" FontSize="20"
+                        TextTransform="None" FontSize="16"
                         Margin="0,10,0,10"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" Clicked="AddSingleStudent"/>
                 <Button Text="Import Excel" x:Name="btn_Excel" ContentLayout="Right" ImageSource="microsoft_excel"
-                        HorizontalOptions="Fill" BackgroundColor="#021135" 
-                        FontAttributes="Bold" TextTransform="None" FontSize="20"
+                        HorizontalOptions="Fill" BackgroundColor="#021135" TextTransform="None" FontSize="16"
                         Margin="0,10,0,10"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" Clicked="ImportExcel"/>
             </StackLayout>
