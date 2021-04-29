@@ -10,16 +10,21 @@ using Xamarin.Forms.Xaml;
 namespace AutoAttendant.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ForgotPasswordPage : ContentPage
+    public partial class PasswordVerificationPage : ContentPage
     {
-        public ForgotPasswordPage()
+        public PasswordVerificationPage()
         {
             InitializeComponent();
         }
 
-        private void ToVerificationPage(object sender, EventArgs e)
+        private void ToResetPasswordPage(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new PasswordVerificationPage());
+            Navigation.PushAsync(new ResetPasswordPage());
+        }
+
+        private void ResendCode(object sender, EventArgs e)
+        {
+
         }
     }
 }
