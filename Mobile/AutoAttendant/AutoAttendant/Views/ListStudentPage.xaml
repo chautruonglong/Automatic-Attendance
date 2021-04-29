@@ -8,9 +8,9 @@
     <ContentPage.Content>
         <StackLayout BackgroundColor="#021135">
             <StackLayout Orientation="Horizontal" Padding="5,10,0,0" VerticalOptions="Center">
-                <Button x:Name="btnSortOption" Text="Class" ContentLayout="Right" ImageSource="sorting30px"  
+                <Button x:Name="btnSortOption" Text="Class" ContentLayout="Right" ImageSource="sorting"  
                         HorizontalOptions="Fill" VerticalOptions="Center" BackgroundColor="#021135" 
-                        FontAttributes="None" TextTransform="None" FontSize="20"
+                        FontAttributes="None" TextTransform="None" FontSize="17"
                         BorderRadius="8" TextColor="#FFF"
                         Clicked="OpenPicker"/>
                 <Picker IsEnabled="False" IsVisible="false" x:Name="PickerSort" SelectedIndexChanged="HandlePickerSort">
@@ -24,12 +24,12 @@
             
             <StackLayout Orientation="Horizontal" Padding="5,0,0,0" VerticalOptions="Center">
                 <!--<Label Text="Sort by" TextColor="#FFF" FontSize="18" WidthRequest="200" VerticalOptions="Center"/>-->
-                <Button Text="Add a student" x:Name="btn_AddStduent" ContentLayout="Right" ImageSource="add30px"
+                <Button Text="Add a student" x:Name="btn_AddStduent" ContentLayout="Left" ImageSource="add"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
                         TextTransform="None" FontSize="16"
                         Margin="0,10,0,10"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" Clicked="AddSingleStudent"/>
-                <Button Text="Import Excel" x:Name="btn_Excel" ContentLayout="Right" ImageSource="microsoft_excel"
+                <Button Text="Import Excel" x:Name="btn_Excel" ContentLayout="Left" ImageSource="microsoft_excel"
                         HorizontalOptions="Fill" BackgroundColor="#021135" TextTransform="None" FontSize="16"
                         Margin="0,10,0,10"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" Clicked="ImportExcel"/>

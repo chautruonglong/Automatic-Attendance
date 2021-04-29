@@ -1,5 +1,6 @@
 ﻿using AutoAttendant.Models;
 using AutoAttendant.ViewModel;
+using AutoAttendant.Views.PopUp;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
@@ -16,45 +17,18 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ClassPage : ContentPage
     {
-        ListRoomViewModel lrvm = new ListRoomViewModel();
+        ListClassViewModel lcvm = new ListClassViewModel();
         public ClassPage()
         {
             InitializeComponent();
-            //HandleDatePicker();
-            this.BindingContext = new ListRoomViewModel();
+            this.BindingContext = new ListClassViewModel();
         }
 
         private void ClassClick(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new ListStudentPage());
+            Navigation.PushAsync(new ClassTabbedPage());
         }
 
-        //private void HandleDatePicker()
-        //{
-        //    string message = string.Empty;
-        //    var datePicker = new DatePicker
-        //    {
-        //        ClassId = "MyDatePicker",
-        //        Date = DateTime.Now,
-        //        IsVisible = false,
-        //        IsEnabled = false
-                
-        //    };
-        //    DatePickerLayout.Children.Add(datePicker);
-
-        //    btnDatePicker.Clicked += (object sender, EventArgs e) =>
-        //    {
-                
-        //        IsEnabled = true;
-        //        datePicker.Focus();
-        //    };
-            
-        //    datePicker.DateSelected += (object sender1, DateChangedEventArgs e) =>
-        //    {
-        //        message = datePicker.Date.ToString();
-        //        DisplayAlert("Notice", message, "OK");
-        //    };
-        //}
 
         [Obsolete]
         private async void AddRoom(object sender, EventArgs e)
@@ -63,36 +37,25 @@ namespace AutoAttendant.Views
 
         }
 
-        //public class ListRoomViewModel
-        //{
-        //    public ObservableCollection<Room> RoomCollection { get; set; }
-
-        //    public ListRoomViewModel()
-        //    {
-        //        RoomCollection = new ObservableCollection<Room>(Room.GetListRoom());
-        //    }
-        //}
-
-
         [Obsolete]
         private async void ShowPopUpAddClass(object sender, EventArgs e) // Show Popup and handle data from popup
         {
-            string roomName = String.Empty;
+            string className = String.Empty;
             string message = String.Empty;
-            var page = new PopUpView();
+            var page = new PopUpAddClass();
             page.Action += async (sender1, stringparameter) =>
             {
                 
                 if(stringparameter != null)
                 {
-                    roomName = stringparameter; // get data tu` PopUp
-                    roomName = roomName.Replace(" ", "");
-                    roomName = roomName.ToUpper();
-                    message = roomName + " was added successfully";
+                    className = stringparameter; // get data tu` PopUp
+                    className = className.Replace(" ", "");
+                    className = className.ToUpper();
+                    message = className + " was added successfully";
 
-                    Room room = new Room("1", roomName);
-                    lrvm.RoomCollection.Add(room);
-                    this.BindingContext = lrvm;
+                    Classes classs = new Classes(className);
+                    lcvm.ClassCollection.Add(classs);
+                    this.BindingContext = lcvm;
 
 
                     await DisplayAlert("Notice", message, "OK");
@@ -107,30 +70,40 @@ namespace AutoAttendant.Views
 
             page.Disappearing += (c, d) =>
             {
-                if (roomName != null)
+                if (className != null)
                 {
                     
-
                 }
-                
             };
-
             await PopupNavigation.Instance.PushAsync(page);
             //PopupNavigation.PushAsync(new PopUpView());
         }
 
+        private void DeleteRoom(object sender, EventArgs e)
+        {
+            Image img = sender as Image;
+            var stackLayout = img.Parent;
+            var checkStack = stackLayout.GetType();
+            if (checkStack == typeof(StackLayout))
+            {
+                StackLayout container = (StackLayout)stackLayout;
+                var listChild = container.Children;
 
-        //private void ChooseDay(object sender, EventArgs e)
-        //{
+                var lb_room = listChild[0].GetType();
+                if (lb_room == typeof(Label))
+                {
+                    Label lb = (Label)listChild[0];
 
-        //    //var check = DatePickerLayout.Children[1]; // lay ra date picker trong stack layout
-        //    //if (check.GetType() == typeof(DatePicker))
-        //    //{
-        //    //    check.IsVisible = true;
-        //    //}
+                    var itemToRemove = lcvm.ClassCollection.Single(r => r.Name == lb.Text);
+                    lcvm.ClassCollection.Remove(itemToRemove);
+                }
+                else
+                {
+                    DisplayAlert("Fail", "Fail", "Try Again");
+                }
 
+            }
+        }
 
-
-        //}
     }
 }

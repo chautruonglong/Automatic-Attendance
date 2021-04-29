@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AutoAttendant.Views.RoomPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="SearchItem" Icon="search25px.png" Priority="0" />
-
+        <ToolbarItem Name="SearchItem" Icon="search25px.png" Priority="0"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout BackgroundColor="#021135">
@@ -13,13 +12,13 @@
             </SearchBar>-->
             <StackLayout Orientation="Horizontal" Margin="10,0,0,0" x:Name="DatePickerLayout" VerticalOptions="Center">
 
-                <Button Text="Date" x:Name="btnDatePicker" ContentLayout="Right" ImageSource="calendar30px"
+                <Button Text="Date" x:Name="btnDatePicker" ContentLayout="Left" ImageSource="calendar"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
                         TextTransform="None" FontSize="16"
                         Margin="0,20,0,10"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" />
-                
-                <Button Text="Add new room"  ContentLayout="Right" ImageSource="add30px"
+
+                <Button Text="Add new room"  ContentLayout="Left" ImageSource="add"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
                         TextTransform="None" FontSize="16"
                         Margin="100,20,0,10"  TextColor="#FFF" BorderRadius="10"
@@ -46,7 +45,7 @@
                                         <StackLayout Orientation="Horizontal" Spacing="10">
                                             <Label Text="{Binding Name}" TextColor="#000" FontSize="16" WidthRequest="200" VerticalTextAlignment="Center"
                                                    HorizontalOptions="StartAndExpand" FontAttributes="Bold"/>
-                                            <Image Source="trash" WidthRequest="20" HeightRequest="20" x:Name="icon_trash">
+                                            <Image Source="trash" WidthRequest="20" HeightRequest="20">
                                                 <Image.GestureRecognizers>
                                                     <TapGestureRecognizer Tapped="DeleteRoom"/>
                                                 </Image.GestureRecognizers>

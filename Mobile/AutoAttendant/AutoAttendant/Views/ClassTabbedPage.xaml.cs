@@ -7,24 +7,14 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace AutoAttendant.Views.PopUp
+namespace AutoAttendant.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PopUpAddStudent 
+    public partial class ClassTabbedPage : TabbedPage
     {
-        public PopUpAddStudent()
+        public ClassTabbedPage()
         {
             InitializeComponent();
-        }
-
-        private void ClosePopUp(object sender, EventArgs e)
-        {
-
-        }
-
-        private void AddStudent(object sender, EventArgs e)
-        {
-
         }
     }
 }

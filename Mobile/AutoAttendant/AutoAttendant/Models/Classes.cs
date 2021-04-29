@@ -4,22 +4,9 @@ using System.Text;
 
 namespace AutoAttendant.Models
 {
-    public class Room
+    public class Classes
     {
-        private string id;
-        private string name;
-
-        public string Id
-        {
-            get
-            {
-                return this.id;
-            }
-            set
-            {
-                this.id = value;
-            }
-        }
+        string name;
 
         public string Name
         {
@@ -33,17 +20,14 @@ namespace AutoAttendant.Models
             }
         }
 
-        public Room()
+        public Classes()
         {
 
         }
 
-        public Room(string id, string name)
+        public Classes(string name)
         {
-            this.Id = id;
             this.Name = name;
         }
-
     }
-
 }
