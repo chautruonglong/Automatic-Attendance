@@ -1,4 +1,5 @@
-﻿using AutoAttendant.Models;
+﻿using Acr.UserDialogs;
+using AutoAttendant.Models;
 using AutoAttendant.ViewModel;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -65,16 +66,6 @@ namespace AutoAttendant.Views
 
         }
 
-        //public class ListRoomViewModel
-        //{
-        //    public ObservableCollection<Room> RoomCollection { get; set; }
-
-        //    public ListRoomViewModel()
-        //    {
-        //        RoomCollection = new ObservableCollection<Room>(Room.GetListRoom());
-        //    }
-        //}
-
 
         [Obsolete]
         private async void ShowPopUpAddRoom(object sender, EventArgs e) // Show Popup and handle data from popup
@@ -90,14 +81,13 @@ namespace AutoAttendant.Views
                     roomName = stringparameter; // get data tu` PopUp
                     roomName = roomName.Replace(" ", "");
                     roomName = roomName.ToUpper();
-                    message = roomName + " was added successfully";
+                    //message = roomName + " was added successfully";
 
                     Room room = new Room("1", roomName);
                     lrvm.RoomCollection.Add(room);
                     this.BindingContext = lrvm;
 
-
-                    await DisplayAlert("Notice", message, "OK");
+                    UserDialogs.Instance.Toast("Room " + roomName + " was added");
 
                 }
                 else

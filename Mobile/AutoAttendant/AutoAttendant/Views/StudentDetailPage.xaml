@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoAttendant.Views.StudentDetailPage">
+    <ContentPage.Content>
+        <StackLayout Padding="20" BackgroundColor="#021135">
+            <Frame CornerRadius="60" 
+                   HeightRequest="120"
+                   WidthRequest="120"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Padding="0"
+                   IsClippedToBounds="True" Margin="0,0,0,10">
+                
+                <Image x:Name="Avatar"
+                       Source="DefaultAvatar.jpg" 
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       Aspect="AspectFill"/>
+            </Frame>
+
+            <Grid Padding="20,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Name" TextColor="#FFF" Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_Name" Text="Nguyễn Văn A" TextColor="#FFF" Grid.Row="0" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+                
+                <Label Text="Class" TextColor="#FFF" Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_Class" Text="18TCLC-DT2" TextColor="#FFF" Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+                
+                <Label Text="Time" TextColor="#FFF" Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_Time" Text="9:00 AM" TextColor="#FFF" Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+
+                <Label Text="Status" TextColor="#FFF" Grid.Row="3" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <RadioButton Grid.Row="3" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" GroupName="status" Content="Attended" TextColor="#9DFE65"/>
+                <RadioButton Grid.Row="3" Grid.Column="2" HorizontalOptions="Start" VerticalOptions="Center" GroupName="status" Content="Absent" TextColor="#EC3108"/>
+
+            </Grid>
+            <!--<ListView HeightRequest="80">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>-->
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

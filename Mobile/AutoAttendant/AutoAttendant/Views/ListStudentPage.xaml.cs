@@ -36,19 +36,24 @@ namespace AutoAttendant.Views
                 StackLayout fStacklayout = (StackLayout)fContent;
                 var listChildren = fStacklayout.Children; // Lấy tập Children của StackLayout
                 var firstLabel = listChildren[0];
-                var secondLabel = listChildren[2];
-                var thirdLabel = listChildren[3];
+                var secondLabel = listChildren[1];
+                var thirdLabel = listChildren[2];
 
                 //var isLabel = firstLabel.GetType(); // check kiểu của child đầu tiên
                 if (firstLabel.GetType() == typeof(Label) && secondLabel.GetType() == typeof(Label) && thirdLabel.GetType() == typeof(Label))
                 {
-                    Label labelName = (Label)firstLabel;
-                    Label labelClass = (Label)secondLabel;
-                    Label labelTime = (Label)thirdLabel;
-                    message = string.Format("Name: {0} \nClass: {1} \nTime: {2}", labelName.Text, labelClass.Text, labelTime.Text);
-                    DisplayAlert("Notice", message, "OK");
-                }
+                    Label Name = (Label)firstLabel;
+                    Label Class = (Label)secondLabel;
+                    Label Time = (Label)thirdLabel;
 
+                    var itemSelected = lsvm.StudentCollection.Single(r => r.Name == Name.Text);
+                    var index = lsvm.StudentCollection.IndexOf(itemSelected);
+                    Student std = lsvm.StudentCollection[index];
+
+                    message = string.Format("Name: {0} \nClass: {1} \nTime: {2}", std.Id, std.Name, std.Phone);
+                    DisplayAlert("Notice", message , "OK");
+                    Navigation.PushAsync(new StudentDetailPage(std));
+                }
             }
         }
 
@@ -91,17 +96,6 @@ namespace AutoAttendant.Views
                 IApplication application = excelEngine.Excel;
                 application.DefaultVersion = ExcelVersion.Excel2016;
                 var fileStream = await pickerResult.OpenReadAsync();
-                //Assembly assembly = typeof(App).GetTypeInfo().Assembly;
-                //Stream fileStream = assembly.GetManifestResourceStream(resourcePath);
-                //if(fileStream == null)
-                //{
-
-                //await DisplayAlert("Message", "NULL", "OK");
-                //}
-                //else
-                //{
-                //    await DisplayAlert("Message", "NOT NULL", "OK");
-                //}
 
                 //Open the workbook
                 IWorkbook workbook = application.Workbooks.Open(fileStream);
