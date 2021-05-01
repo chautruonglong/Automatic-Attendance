@@ -32,7 +32,7 @@ namespace AutoAttendant.Views
 
         private void HandleSetting(object sender, EventArgs e)
         {
-            Detail = new NavigationPage(new SettingPage());
+            Detail = new NavigationPage(new TempClassPage());
             IsPresented = false;
         }
 
