@@ -18,13 +18,13 @@ for file in os.listdir(INPUT_PATH):
                 os.makedirs(path)
             
             video = cv2.VideoCapture(INPUT_PATH + file)
-            count = 0
+            count = len(os.listdir(path))
 
             while True:
                 is_has, frame = video.read()
                 
                 if is_has:
-                    faces = detector.detectMultiScale(frame, 1.3, 5)
+                    faces = detector.detectMultiScale(frame, 1.2, 4)
                     
                     for x, y, w, h in faces:
                         new_img = frame[y:y + h, x:x + w]
