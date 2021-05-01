@@ -10,7 +10,7 @@
             <StackLayout Orientation="Horizontal" Padding="5,10,0,0" VerticalOptions="Center">
                 <Button x:Name="btnSortOption" Text="Class" ContentLayout="Right" ImageSource="sorting"  
                         HorizontalOptions="Fill" VerticalOptions="Center" BackgroundColor="#021135" 
-                        FontAttributes="None" TextTransform="None" FontSize="17"
+                        FontAttributes="None" TextTransform="None" FontSize="16"
                         BorderRadius="8" TextColor="#FFF"
                         Clicked="OpenPicker"/>
                 <Picker IsEnabled="False" IsVisible="false" x:Name="PickerSort" SelectedIndexChanged="HandlePickerSort">
@@ -27,11 +27,11 @@
                 <Button Text="Add a student" x:Name="btn_AddStduent" ContentLayout="Left" ImageSource="add"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
                         TextTransform="None" FontSize="16"
-                        Margin="0,10,0,10"  TextColor="#FFF" BorderRadius="10"
+                        Margin="0,5,0,10"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" Clicked="AddSingleStudent"/>
-                <Button Text="Import Excel" x:Name="btn_Excel" ContentLayout="Left" ImageSource="microsoft_excel"
+                <Button Text="Import Excel" x:Name="btn_Excel" ContentLayout="Left" ImageSource="excel"
                         HorizontalOptions="Fill" BackgroundColor="#021135" TextTransform="None" FontSize="16"
-                        Margin="0,10,0,10"  TextColor="#FFF" BorderRadius="10"
+                        Margin="40,5,0,10"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" Clicked="ImportExcel"/>
             </StackLayout>
             <ListView ItemsSource="{Binding StudentCollection}" RowHeight="80" HorizontalOptions="Center" x:Name="list_student">

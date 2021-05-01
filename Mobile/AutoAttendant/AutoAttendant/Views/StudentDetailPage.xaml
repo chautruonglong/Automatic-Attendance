@@ -4,9 +4,9 @@
              x:Class="AutoAttendant.Views.StudentDetailPage">
     <ContentPage.Content>
         <StackLayout Padding="20" BackgroundColor="#021135">
-            <Frame CornerRadius="60" 
-                   HeightRequest="120"
-                   WidthRequest="120"
+            <Frame CornerRadius="50" 
+                   HeightRequest="100"
+                   WidthRequest="100"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
                    Padding="0"
@@ -19,7 +19,7 @@
                        Aspect="AspectFill"/>
             </Frame>
 
-            <Grid Padding="20,0">
+            <Grid Padding="10,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
@@ -28,8 +28,8 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="90"/>
                 </Grid.ColumnDefinitions>
 
                 <Label Text="Name" TextColor="#FFF" Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
