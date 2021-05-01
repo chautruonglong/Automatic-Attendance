@@ -61,8 +61,8 @@
                 </local:CustomEntry>
 
                 <Button Text="Create account" BackgroundColor="#1832F6" TextTransform="None" FontAttributes="Bold"
-                        FontSize="17" TextColor="#FFF" BorderRadius="8" Margin="0,30,0,0" >
-                    
+                        FontSize="16" TextColor="#FFF" BorderRadius="8" Margin="0,30,0,0"  HeightRequest="40">
+                 
                 </Button>
                 <StackLayout Orientation="Horizontal" Margin="0,20,0,0">
 

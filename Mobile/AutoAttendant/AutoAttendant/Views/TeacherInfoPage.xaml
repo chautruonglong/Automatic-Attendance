@@ -1,15 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:AutoAttendant"
              x:Class="AutoAttendant.Views.TeacherInfoPage"
              NavigationPage.HasBackButton="True"
              NavigationPage.HasNavigationBar="True">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Teacher Info Page"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand"
-                FontSize="45"/>
+        <StackLayout Padding="20" BackgroundColor="#021135">
+            <Frame CornerRadius="60" 
+                   HeightRequest="120"
+                   WidthRequest="120"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Padding="0"
+                   IsClippedToBounds="True" Margin="0,0,0,10">
+
+                <Image x:Name="Avatar"
+                       Source="DefaultAvatar.jpg" 
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       Aspect="AspectFill"/>
+            </Frame>
+
+            <Grid Padding="20,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Name" TextColor="#FFF" Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <local:CustomEntry x:Name="Entry_name" IsPasswordFlag="True"
+                                   TextColor="#FFF" FontSize="16"
+                                   HeightRequest="40" Text="ABC"
+                                   Margin="0,0,0,5" Grid.Row="0" Grid.Column="1">
+                </local:CustomEntry>
+
+                <Label Text="Faculty" TextColor="#FFF" Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <local:CustomEntry x:Name="Entry_faculty" IsPasswordFlag="True"
+                                   TextColor="#FFF" FontSize="16"
+                                   HeightRequest="40" Text="ABC"
+                                   Margin="0,0,0,5" Grid.Row="1" Grid.Column="1">
+                </local:CustomEntry>
+
+                <Label Text="Email" TextColor="#FFF" Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <local:CustomEntry x:Name="Entry_email" IsPasswordFlag="True"
+                                   TextColor="#FFF" FontSize="16"
+                                   HeightRequest="40" Text="ABC"
+                                   Margin="0,0,0,5" Grid.Row="2" Grid.Column="1">
+                </local:CustomEntry>
+            </Grid>
+            <Button x:Name="Btn_save" Text="Save"
+                        FontSize="16"
+                        BackgroundColor="#1832F6"
+                        TextColor="#FFF"
+                        FontAttributes="Bold"
+                        HeightRequest="40"
+                        BorderRadius="8" Margin="20"
+                        />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

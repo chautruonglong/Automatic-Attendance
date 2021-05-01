@@ -55,6 +55,14 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>-->
+            <Button x:Name="Btn_save" Text="Save"
+                        FontSize="16"
+                        BackgroundColor="#1832F6"
+                        TextColor="#FFF"
+                        FontAttributes="Bold"
+                        HeightRequest="40"
+                        BorderRadius="8" Margin="20"
+                        />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
