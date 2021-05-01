@@ -1,7 +1,7 @@
 import os
 
-INPUT_PATH = 'raw/h264/class/'
-OUTPUT_PATH = 'raw/mp4/class/'
+INPUT_PATH = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Main-Dataset/raw/h264-fixed/1814/'
+OUTPUT_PATH = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Main-Dataset/raw/mp4/1814/'
 
 def command(file):
     name = file[: file.index('.')]

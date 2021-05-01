@@ -1,4 +1,3 @@
-from posix import listdir
 from numpy import expand_dims
 from keras.preprocessing.image import load_img, img_to_array, save_img
 from keras.preprocessing.image import ImageDataGenerator
@@ -10,11 +9,11 @@ OUTPUT_PATH = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-ma
 INPUT_PATH = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Dataset-3x4/Cong-nghe-thong-tin/K18/'
 
 
-generator = ImageDataGenerator(width_shift_range=[-50, 50],
+generator = ImageDataGenerator(width_shift_range=[-20, 30],
                                height_shift_range=0.3,
                                horizontal_flip=True,
                                vertical_flip=True,
-                               rotation_range=50,
+                               rotation_range=30,
                                brightness_range=[0.2, 1.3],
                                zoom_range=[0.5, 1.3],
                                fill_mode='nearest'
@@ -34,7 +33,7 @@ for name in names:
         if not os.path.exists(folder):
             os.mkdir(folder)
             
-        num = len(listdir(OUTPUT_PATH + name))
+        num = len(os.listdir(OUTPUT_PATH + name))
                 
         for i in range(N_IMGS):
             path = folder + '/' + name + '_' + str(num + i) + '.jpg'

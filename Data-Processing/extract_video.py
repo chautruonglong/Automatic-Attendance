@@ -1,38 +1,41 @@
 import os
 import cv2
 
-INPUT_PATH = 'raw/mp4/class/'
-OUTPUT_PATH = 'data/class/'
+INPUT_PATH = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Main-Dataset/raw/h264-fixed/1814/'
+OUTPUT_PATH = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Main-Dataset/data/1814/'
+HAARCASADE_PATH = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Automatic-Attendance/Face-Recognition/premodels/haarcascade_frontalface_default.xml'
 
-cv2.VideoCapture()
+detector = cv2.CascadeClassifier(HAARCASADE_PATH)
+
 for file in os.listdir(INPUT_PATH):
     try: 
         name, ext = file.split('.')
         
-        if ext == 'mp4':
+        if ext == 'h264':
+            
             path = OUTPUT_PATH + name
             if not os.path.exists(path):
                 os.makedirs(path)
             
             video = cv2.VideoCapture(INPUT_PATH + file)
             count = 0
-            
+
             while True:
                 is_has, frame = video.read()
                 
                 if is_has:
-                    new_img = f'{path}/{name}_{count}.jpg'
-                    cv2.imwrite(new_img, frame)
-                    count += 1
-                    print(f'Saving {new_img}')
+                    faces = detector.detectMultiScale(frame, 1.3, 5)
                     
-                    del frame, is_has
+                    for x, y, w, h in faces:
+                        new_img = frame[y:y + h, x:x + w]
+                        cv2.imwrite(f'{path}/{name}_{count}.jpg', new_img)
+                        print(f'Saving {path}/{name}_{count}.jpg')
+                        count += 1 
                 else:
                     break
-        
-        video.release()
-        del video, name, ext
+                
+                del frame
+                
+            del video
     except:
         pass
-
-cv2.destroyAllWindows()
