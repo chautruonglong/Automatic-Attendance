@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using Acr.UserDialogs;
 using System.Security.Cryptography;
+using System.IO;
 
 namespace AutoAttendant.Views
 {
@@ -44,6 +45,19 @@ namespace AutoAttendant.Views
             Navigation.PushModalAsync(new SignUpPage());
             //await Application.Current.MainPage.Navigation.PushAsync(new SignUpPage());
         }
+
+        public void HandleSchedule()
+        {
+            using (StreamReader r = new StreamReader(@"D:\University\Year3rd\Semester2\PBL5\Report\data.json"))
+            {
+                string json = r.ReadToEnd();
+                List<Schedule> items = JsonConvert.DeserializeObject<List<Schedule>>(json);
+                foreach(Schedule item in items)
+                {
+                    DisplayAlert("Notice", item.Subject, "OK");
+                }
+            }
+        }
         //Tesstaaa
         [Obsolete]
         private async void LoginProcedure(object sender, EventArgs e)
@@ -73,6 +87,7 @@ namespace AutoAttendant.Views
                 User user = new User(Entry_user.Text, Entry_password.Text);
                 if (user.CheckLogin())
                 {
+                    HandleSchedule();
                     await Navigation.PushAsync(new HomePage());
                 }
                 else

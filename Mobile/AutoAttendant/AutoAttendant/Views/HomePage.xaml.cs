@@ -49,12 +49,12 @@ namespace AutoAttendant.Views
             IsPresented = false;
         }
 
-        private void ChangeAvatar(object sender, EventArgs e)
+        async void ChangeAvatar(object sender, EventArgs e)
         {
-            CrossMedia.Current.Initialize();
+            await CrossMedia.Current.Initialize();
             if (!CrossMedia.Current.IsPickPhotoSupported)
             {
-                DisplayAlert("Notice", "Picking a photo is not supported", "OK");
+                await DisplayAlert("Notice", "Picking a photo is not supported", "OK");
                 return;
             }
             var mediaOptions = new PickMediaOptions()
@@ -64,7 +64,7 @@ namespace AutoAttendant.Views
             var selectedFile = CrossMedia.Current.PickPhotoAsync(mediaOptions);
             if (selectedFile == null)
             {
-                DisplayAlert("Error", "Could not get the image from Gallery!", "OK");
+                await DisplayAlert ("Error", "Could not get the image from Gallery!", "OK");
                 Avatar.Source = "DefaultAvatar.jpg";
             }
             //Avatar.Source = ImageSource.FromStream(() => selectedFile.GetStream());

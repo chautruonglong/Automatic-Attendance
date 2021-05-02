@@ -73,62 +73,69 @@ namespace AutoAttendant.Views
         }
         async void ImportExcel(object sender, EventArgs e) // xu li import excel them student
         {
-            var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+            try
+            {
+                var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
             {
                 { DevicePlatform.iOS, new[] {"com.microsoft.xlsx"} },
                 { DevicePlatform.Android, new[] { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" } },
             });
-            var pickerResult = await FilePicker.PickAsync(new PickOptions
-            {
-                //FileTypes = FilePickerFileType.Images,
-                FileTypes = customFileType,
-                PickerTitle = "Pick an Excel file"
-            });
-
-            if (pickerResult != null)
-            {
-                //var stream = await pickerResult.OpenReadAsync();
-                //resultImg.Source = ImageSource.FromStream(() => stream);
-                //var resourcePath = pickerResult.FullPath.ToString(); // lay ra path file
-                //await DisplayAlert("Message", "Path" + resourcePath, "OK");
-
-                ExcelEngine excelEngine = new ExcelEngine();
-                IApplication application = excelEngine.Excel;
-                application.DefaultVersion = ExcelVersion.Excel2016;
-                var fileStream = await pickerResult.OpenReadAsync();
-
-                //Open the workbook
-                IWorkbook workbook = application.Workbooks.Open(fileStream);
-              
-                //Access first worksheet from the workbook.
-                IWorksheet worksheet = workbook.Worksheets[0];
-                for (int i = 8; i <= 55; i++)
+                var pickerResult = await FilePicker.PickAsync(new PickOptions
                 {
-                    string id = "B" + i.ToString();
-                    string name = "C" + i.ToString();
-                    string phone = "D" + i.ToString();
-                    var mess1 = worksheet.Range[id].Text.ToString();
-                    var mess2 = worksheet.Range[name].Text.ToString();
-                    var mess3 = worksheet.Range[phone].Text.ToString();
+                    //FileTypes = FilePickerFileType.Images,
+                    FileTypes = customFileType,
+                    PickerTitle = "Pick an Excel file"
+                });
 
-                    try
+                if (pickerResult != null)
+                {
+                    //var stream = await pickerResult.OpenReadAsync();
+                    //resultImg.Source = ImageSource.FromStream(() => stream);
+                    //var resourcePath = pickerResult.FullPath.ToString(); // lay ra path file
+                    //await DisplayAlert("Message", "Path" + resourcePath, "OK");
+
+                    ExcelEngine excelEngine = new ExcelEngine();
+                    IApplication application = excelEngine.Excel;
+                    application.DefaultVersion = ExcelVersion.Excel2016;
+                    var fileStream = await pickerResult.OpenReadAsync();
+
+                    //Open the workbook
+                    IWorkbook workbook = application.Workbooks.Open(fileStream);
+
+                    //Access first worksheet from the workbook.
+                    IWorksheet worksheet = workbook.Worksheets[0];
+                    var numberOfStudent = (worksheet.Rows.Count()- 3);
+                    for (int i = 8; i <=numberOfStudent; i++)
                     {
-                        Student student = new Student(mess1, mess2, "18TCLC-DT2", "IT", mess3, "url");
-                        lsvm.StudentCollection.Add(student);
+                        string id = "B" + i.ToString();
+                        string name = "C" + i.ToString();
+                        string phone = "D" + i.ToString();
+                        var mess1 = worksheet.Range[id].Text.ToString();
+                        var mess2 = worksheet.Range[name].Text.ToString();
+                        var mess3 = worksheet.Range[phone].Text.ToString();
+
+                        try
+                        {
+                            Student student = new Student(mess1, mess2, "18TCLC-DT2", "IT", mess3, "url");
+                            lsvm.StudentCollection.Add(student);
+                        }
+                        catch (Exception ex)
+                        {
+                            await DisplayAlert("Notice", ex.Message, "OK");
+                        }
                     }
-                    catch(Exception ex)
-                    {
-                        await DisplayAlert("Notice", ex.Message, "OK");
-                    }
+                    this.BindingContext = lsvm;
+                    //MemoryStream stream1 = new MemoryStream();
+                    //workbook.SaveAs(stream1);
+
+                    //workbook.Close();
+                    //excelEngine.Dispose();
+
                 }
-                this.BindingContext = lsvm;
-                
-                //MemoryStream stream1 = new MemoryStream();
-                //workbook.SaveAs(stream1);
-
-                //workbook.Close();
-                //excelEngine.Dispose();
-
+            }
+            catch (Exception)
+            {
+                await DisplayAlert("Error", "Can't import this file", "OK");
             }
         }
 
