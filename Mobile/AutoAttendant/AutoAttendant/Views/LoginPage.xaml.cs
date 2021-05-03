@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using Acr.UserDialogs;
 using System.Security.Cryptography;
 using System.IO;
+using Xamarin.Essentials;
 
 namespace AutoAttendant.Views
 {
@@ -46,16 +47,39 @@ namespace AutoAttendant.Views
             //await Application.Current.MainPage.Navigation.PushAsync(new SignUpPage());
         }
 
-        public void HandleSchedule()
+        public async void HandleSchedule()
         {
-            using (StreamReader r = new StreamReader(@"D:\University\Year3rd\Semester2\PBL5\Report\data.json"))
+            try
             {
-                string json = r.ReadToEnd();
-                List<Schedule> items = JsonConvert.DeserializeObject<List<Schedule>>(json);
-                foreach(Schedule item in items)
+                var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
                 {
-                    DisplayAlert("Notice", item.Subject, "OK");
+                { DevicePlatform.iOS, new[] {"com.microsoft.xlsx"} },
+                { DevicePlatform.Android, new[] { "application/json" } },
+            });
+                var pickerResult = await FilePicker.PickAsync(new PickOptions
+                {
+                    FileTypes = customFileType,
+                    PickerTitle = "Pick an Excel file"
+                });
+
+                if (pickerResult != null)
+                {
+                    var resourcePath = pickerResult.FullPath.ToString();
+                    using (StreamReader r = new StreamReader(resourcePath))
+                    {
+                        string json = r.ReadToEnd();
+                        List<Schedule> items = JsonConvert.DeserializeObject<List<Schedule>>(json);
+                        foreach (Schedule item in items)
+                        {
+                            string message = String.Format("Class: {0} \nSubject: {1} \nTime Slot: {2}", item.Classes, item.Subject, item.TimeSlot);
+                            await DisplayAlert("Notice", message, "OK");
+                        }
+                    }
                 }
+            }
+            catch(Exception)
+            {
+                await DisplayAlert("Notice", "Fail", "OK");
             }
         }
         //Tesstaaa

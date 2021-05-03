@@ -6,11 +6,21 @@ namespace AutoAttendant.Models
 {
     public class Schedule
     {
+        private string classes;
         private string subject;
         private string timeSlot;
-        private string classs;
 
-
+        public string Classes
+        {
+            get
+            {
+                return this.classes;
+            }
+            set
+            {
+                this.classes = value;
+            }
+        }
         public string Subject
         {
             get
@@ -35,23 +45,12 @@ namespace AutoAttendant.Models
             }
         }
 
-        public string Classs
+       
+        public Schedule(string classes, string subject, string timeSlot)
         {
-            get
-            {
-                return this.classs;
-            }
-            set
-            {
-                this.classs = value;
-            }
-        }
-
-        public Schedule(string subject, string timeSlot, string classs)
-        {
+            this.Classes = classes;
             this.Subject = subject;
             this.TimeSlot = timeSlot;
-            this.Classs = classs;
         }
 
 
