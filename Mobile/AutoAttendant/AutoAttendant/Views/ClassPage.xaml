@@ -14,16 +14,14 @@
             </SearchBar>-->
             <StackLayout Orientation="Horizontal" Margin="10,0,0,0" x:Name="DatePickerLayout">
                 
-                <!--<Button Text="Date" x:Name="btnDatePicker" ContentLayout="Right" ImageSource="calendar25px"
-                        HorizontalOptions="Fill" BackgroundColor="#021135" 
-                        FontAttributes="Bold" TextTransform="None" FontSize="20"
-                        Margin="0,30,0,30"  TextColor="#FFF" BorderRadius="10"
-                        BorderColor="#FFF"/>-->
-                <Button Text="Add Class"  ContentLayout="Left" ImageSource="add"
+                <Button Text="My Classes"  ContentLayout="Left" ImageSource="add"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
                         TextTransform="None" FontSize="17"
                         Margin="0,20,0,20"  TextColor="#FFF" BorderRadius="10"
-                        BorderColor="#FFF" Clicked="ShowPopUpAddClass"/>
+                        BorderColor="#FFF" Clicked="ShowListClass"/>
+                <Picker IsEnabled="False" IsVisible="false" x:Name="PickerClass" SelectedIndexChanged="HandlePickerClass">
+
+                </Picker>
                 
             </StackLayout>
 

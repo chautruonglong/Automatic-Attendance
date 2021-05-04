@@ -47,41 +47,6 @@ namespace AutoAttendant.Views
             //await Application.Current.MainPage.Navigation.PushAsync(new SignUpPage());
         }
 
-        public async void HandleSchedule()
-        {
-            try
-            {
-                var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
-                {
-                { DevicePlatform.iOS, new[] {"com.microsoft.xlsx"} },
-                { DevicePlatform.Android, new[] { "application/json" } },
-            });
-                var pickerResult = await FilePicker.PickAsync(new PickOptions
-                {
-                    FileTypes = customFileType,
-                    PickerTitle = "Pick an Excel file"
-                });
-
-                if (pickerResult != null)
-                {
-                    var resourcePath = pickerResult.FullPath.ToString();
-                    using (StreamReader r = new StreamReader(resourcePath))
-                    {
-                        string json = r.ReadToEnd();
-                        List<Schedule> items = JsonConvert.DeserializeObject<List<Schedule>>(json);
-                        foreach (Schedule item in items)
-                        {
-                            string message = String.Format("Class: {0} \nSubject: {1} \nTime Slot: {2}", item.Classes, item.Subject, item.TimeSlot);
-                            await DisplayAlert("Notice", message, "OK");
-                        }
-                    }
-                }
-            }
-            catch(Exception)
-            {
-                await DisplayAlert("Notice", "Fail", "OK");
-            }
-        }
         //Tesstaaa
         [Obsolete]
         private async void LoginProcedure(object sender, EventArgs e)
@@ -111,15 +76,15 @@ namespace AutoAttendant.Views
                 User user = new User(Entry_user.Text, Entry_password.Text);
                 if (user.CheckLogin())
                 {
-                    HandleSchedule();
+                    //HandleSchedule();
                     await Navigation.PushAsync(new HomePage());
                 }
                 else
                 {
                     var httpService = new HttpService();
-                    string api_key = "3XPeaCNzXoWSD3WMpU7f1rfYx8AvQmTj";
-                    string url = "https://api.giphy.com/v1/gifs/random";
-                    string full_url = url + "?api_key=" + api_key + "&tag=cat";
+                    //string api_key = "3XPeaCNzXoWSD3WMpU7f1rfYx8AvQmTj";
+                    //string url = "https://api.giphy.com/v1/gifs/random";
+                    string full_url = "http://192.168.30.101:3000/cart/";
                     var result = await httpService.SendAsync(full_url, HttpMethod.Get);
                     await DisplayAlert("JSON", result, "OK");
 
