@@ -74,31 +74,6 @@ namespace AutoAttendant.Views
         {
             try
             {
-                //var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
-                //{
-                //    { DevicePlatform.iOS, new[] {"com.microsoft.xlsx"} },
-                //    { DevicePlatform.Android, new[] { "application/json" } },
-                //});
-
-                //var pickerResult = await FilePicker.PickAsync(new PickOptions
-                //{
-                //    FileTypes = customFileType,
-                //    PickerTitle = "Pick an Excel file"
-                //});
-
-                //if (pickerResult != null)
-                //{
-                //var resourcePath = pickerResult.FullPath.ToString();
-
-                //var resourcePath = "/storage/emulated/0/Android/data/com.companyname.autoattendant/cache/2203693cc04e0be7f4f024d5f9499e13/495b0c23a318409987d641309fb9543d/NinhKhanhDuy_CNTT_30042021.json";
-                //using (StreamReader r = new StreamReader(resourcePath))
-                //{
-                //    string json = r.ReadToEnd();
-                //    var listClass = JsonConvert.DeserializeObject<List<Schedule>>(json);
-                //    return listClass;+
-                //}
-                //}
-                //else return null;
                 var httpService = new HttpService();
                 string full_url = "http://192.168.30.102:3000/room/";
                 var result = await httpService.SendAsync(full_url, HttpMethod.Get);
@@ -115,7 +90,7 @@ namespace AutoAttendant.Views
         {
             try
             {
-                var listRoom = new ObservableCollection<Room>(await HandleRoom()); // list Schedule 
+                var listRoom = new ObservableCollection<Room>(await HandleRoom());
 
                 foreach (Room room in listRoom)
                 {
@@ -165,7 +140,6 @@ namespace AutoAttendant.Views
                 if (roomName != null)
                 {
                     
-
                 }
                 
             };

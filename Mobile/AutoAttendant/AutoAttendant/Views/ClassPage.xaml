@@ -41,9 +41,9 @@
                                             <TapGestureRecognizer Tapped="ClassClick"/>
                                         </Frame.GestureRecognizers>
                                         <StackLayout Orientation="Horizontal" Spacing="10">
-                                            <Label Text="{Binding Classes}" TextColor="#000" FontSize="16" WidthRequest="70" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold"/>
-                                            <Label Text="{Binding Subject}" TextColor="#000" FontSize="16" WidthRequest="160" VerticalTextAlignment="Center" IsVisible="True" FontAttributes="Bold"/>
-                                            <Label Text="{Binding TimeSlot}" TextColor="#000" FontSize="16" WidthRequest="30" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="True"/>
+                                            <Label Text="{Binding Classes}" TextColor="#000" FontSize="14" WidthRequest="70" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold"/>
+                                            <Label Text="{Binding Subject}" TextColor="#000" FontSize="14" WidthRequest="160" VerticalTextAlignment="Center" IsVisible="True" FontAttributes="Bold"/>
+                                            <Label Text="{Binding TimeSlot}" TextColor="#000" FontSize="14" WidthRequest="60" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="True"/>
                                         </StackLayout>
                                     </Frame>
                                 </StackLayout>

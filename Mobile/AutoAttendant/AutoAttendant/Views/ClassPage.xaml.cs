@@ -30,9 +30,49 @@ namespace AutoAttendant.Views
             ShowSchedule();
         }
 
-        private void ClassClick(object sender, EventArgs e)
+        private async void ClassClick(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new ClassTabbedPage());
+            try
+            {
+                string message = string.Empty;
+                Frame f = sender as Frame;
+                var fContent = f.Content; // Lấy Content của Frame
+                var myStacklayout = fContent.GetType(); // lấy kiểu của Content
+                if (myStacklayout == typeof(StackLayout)) // check kiểu có phải Stack Layout ko
+                {
+                    StackLayout fStacklayout = (StackLayout)fContent;
+                    var listChildren = fStacklayout.Children; // Lấy tập Children của StackLayout
+                    var firstLabel = listChildren[0];
+                    var secondLabel = listChildren[1];
+                    var thirdLabel = listChildren[2];
+                    if (firstLabel.GetType() == typeof(Label) && secondLabel.GetType() == typeof(Label) && thirdLabel.GetType() == typeof(Label))
+                    {
+                        Label ClassName = (Label)firstLabel;
+                        Label Subject = (Label)secondLabel;
+                        Label TimeSlot = (Label)thirdLabel;
+
+                        var itemSelected = lsvm.ScheduleCollection.Single(r => r.Classes == ClassName.Text && r.Subject == Subject.Text);
+                        var index = lsvm.ScheduleCollection.IndexOf(itemSelected);
+                        Schedule schedule = lsvm.ScheduleCollection[index];
+
+                        message = string.Format("Id Room: {0} \nClass: {1} \nSubject: {2} \nTime Slot: {3} \nState: {4}", schedule.IdRoom, schedule.Classes, schedule.Subject, schedule.TimeSlot, schedule.State);
+                        bool answer = await DisplayAlert("Room Info", message, "Join", "Cancel");
+                        if (answer)
+                        {
+                            await Navigation.PushAsync(new ClassTabbedPage());
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                
+            }
+            //Navigation.PushAsync(new ClassTabbedPage());
         }
 
 
@@ -81,6 +121,7 @@ namespace AutoAttendant.Views
             catch (Exception)
             {
                 await DisplayAlert("Notice", "Fail", "OK");
+                
                 return null;
             }
         }
