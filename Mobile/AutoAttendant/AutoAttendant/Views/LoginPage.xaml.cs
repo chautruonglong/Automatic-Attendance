@@ -26,16 +26,6 @@ namespace AutoAttendant.Views
             InitializeComponent();
         }
 
-        //protected override async void OnAppearing()
-        //{
-        //    //base.OnAppearing();
-        //    var httpService = new HttpService();
-        //    string api_key = "3XPeaCNzXoWSD3WMpU7f1rfYx8AvQmTj";
-        //    string url = "https://api.giphy.com/v1/gifs/random";
-        //    string full_url = url + "?api_key=" + api_key + "&tag=cat";
-        //    var result = await httpService.SendAsync(full_url, HttpMethod.Get);
-        //}
-
         private void ForgotPassword(object sender, EventArgs e)
         {
             Navigation.PushAsync(new ForgotPasswordPage());
@@ -51,32 +41,11 @@ namespace AutoAttendant.Views
         [Obsolete]
         private async void LoginProcedure(object sender, EventArgs e)
         {
-            // Test call API Gifphy
-            //try
-            //{
-            //    var httpService = new HttpService();
-            //    string url = Entry_user.Text;
-            //    string api_key = Entry_password.Text;
-            //    string full_url = url + "?api_key=" + api_key + "&tag=cat";
-            //    var result = await httpService.SendAsync(full_url, HttpMethod.Get);
-
-            //    await DisplayAlert("JSON", result, "OK");
-            //    UserDialogs.Instance.ShowLoading("Please wait...");
-            //    await Task.Delay(2000);
-            //    UserDialogs.Instance.HideLoading();
-            //    await Navigation.PushAsync(new HomePage());
-            //    //var json = JsonConvert.DeserializeObject<ObservableCollection<User>>(result);
-            //}
-            //catch(Exception)
-            //{
-            //    await DisplayAlert("ERROR", "No Internet connected", "OK");
-            //}
             try
             {
                 User user = new User(Entry_user.Text, Entry_password.Text);
                 if (user.CheckLogin())
                 {
-                    //HandleSchedule();
                     await Navigation.PushAsync(new HomePage());
                 }
                 else
@@ -84,7 +53,9 @@ namespace AutoAttendant.Views
                     var httpService = new HttpService();
                     //string api_key = "3XPeaCNzXoWSD3WMpU7f1rfYx8AvQmTj";
                     //string url = "https://api.giphy.com/v1/gifs/random";
-                    string full_url = "http://192.168.30.101:3000/cart/";
+                    //string full_url = "http://192.168.30.101:3000/cart/";
+
+                    string full_url = "http://" + Entry_Api.Text + ":3000/cart";
                     var result = await httpService.SendAsync(full_url, HttpMethod.Get);
                     await DisplayAlert("JSON", result, "OK");
 
@@ -93,6 +64,7 @@ namespace AutoAttendant.Views
                     UserDialogs.Instance.HideLoading();
                     await Navigation.PushAsync(new HomePage());
                 }
+
             }
             catch (Exception)
             {
@@ -105,12 +77,12 @@ namespace AutoAttendant.Views
             //    var httpService = new HttpService();
             //    string user = Entry_user.Text;
             //    string password = Entry_password.Text;
-            //    string url = " ";  // url of server
+            //    string full_url = "http://" + Entry_Api.Text + ":8000/login?" + "user=" + user + "&" + "password=" + password;
 
-            //    var result = await httpService.SendAsync(url, HttpMethod.Get); 
-            //    var user_json = JsonConvert.DeserializeObject<User>(result); // json response
+            //    var result = await httpService.SendAsync(url, HttpMethod.Post); 
+            //    var account = JsonConvert.DeserializeObject<User>(result); // json response
 
-            //    if (user_json.Username == user && user_json.Password == password)
+            //    if (account.Username == user && account.Password == password)
             //    {
             //        await Navigation.PushAsync(new HomePage());
             //    }
@@ -121,6 +93,11 @@ namespace AutoAttendant.Views
             //}
 
 
+        }
+
+        private void OpenApiEntry(object sender, EventArgs e)
+        {
+            Entry_Api.IsVisible = true;
         }
     }
 }

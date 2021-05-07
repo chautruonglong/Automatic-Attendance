@@ -8,7 +8,7 @@ namespace AutoAttendant.Models
     {
         private string id;
         private string name;
-        private string state;
+
         public string Id
         {
             get
@@ -33,14 +33,15 @@ namespace AutoAttendant.Models
             }
         }
 
-        public string State { get => state; set => state = value; }
+        public Room()
+        {
 
-        public Room(string id, string name,string state)
+        }
+
+        public Room(string id, string name)
         {
             this.Id = id;
             this.Name = name;
-            this.State = state;
-
         }
 
     }

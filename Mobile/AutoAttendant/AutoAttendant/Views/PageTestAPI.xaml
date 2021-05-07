@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:AutoAttendant"
+             x:Class="AutoAttendant.Views.PageTestAPI">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label  x:Name="Lb_user" Text="URL"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        FontSize="18"
+                        FontFamily=""
+                        FontAttributes="Bold"/>
+
+            <local:CustomEntry x:Name="Entry_url" TextColor="#FFF" 
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   VerticalOptions="Start"
+                                   Margin="0,0,0,20">
+            </local:CustomEntry>
+
+            <Label  x:Name="Lb_method" Text="Method"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        FontSize="18"
+                        FontAttributes="Bold"/>
+
+            <local:CustomEntry x:Name="Entry_method" IsPasswordFlag="True"
+                                   IsPassword="True" TextColor="#FFF"
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   Margin="0,0,0,5">
+            </local:CustomEntry>
+            <Button x:Name="Btn_API" Text="Test API"
+                        Clicked="HandleAPI" FontSize="16"
+                        BackgroundColor="#1832F6"
+                        TextColor="#FFF"
+                        FontAttributes="Bold"
+                        HeightRequest="40"
+                        BorderRadius="8"
+                        />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -43,13 +43,8 @@
                                             <TapGestureRecognizer Tapped="RoomClick"/>
                                         </Frame.GestureRecognizers>
                                         <StackLayout Orientation="Horizontal" Spacing="10">
-                                            <Label Text="{Binding Name}" TextColor="#000" FontSize="14" WidthRequest="100" VerticalTextAlignment="Center"
-                                                   HorizontalOptions="Start" FontAttributes="Bold"/>
-                                            <Label Text="{Binding State}" TextColor="#000" FontSize="14" WidthRequest="80" VerticalTextAlignment="Center"
-                                                   HorizontalOptions="Start" FontAttributes="Bold"/>
-                                            <!--<Label Text="{Binding Classes}" TextColor="#000" FontSize="16" WidthRequest="70" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold"/>
-                                            <Label Text="{Binding Subject}" TextColor="#000" FontSize="16" WidthRequest="160" VerticalTextAlignment="Center" IsVisible="True" FontAttributes="Bold"/>
-                                            <Label Text="{Binding TimeSlot}" TextColor="#000" FontSize="16" WidthRequest="30" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="True"/>-->
+                                            <Label Text="{Binding Name}" TextColor="#000" FontSize="16" WidthRequest="200" VerticalTextAlignment="Center"
+                                                   HorizontalOptions="StartAndExpand" FontAttributes="Bold"/>
                                             <Image Source="trash" WidthRequest="20" HeightRequest="20">
                                                 <Image.GestureRecognizers>
                                                     <TapGestureRecognizer Tapped="DeleteRoom"/>
