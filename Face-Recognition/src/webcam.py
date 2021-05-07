@@ -10,10 +10,10 @@ FACENET_MODEL = '../models/premodels/20180402-114759.pb'
 CLASSIFIER_MODEL = '../models/mymodels/1814.pkl'
 MTCNN_MODEL = '../models/premodels/align'
 HAARCASCADE_MODEL = '../models/premodels/haarcascade_frontalface_default.xml'
-THRESHOLD = 60
+THRESHOLD = 30
 GPU_MEM_FRACTION = 0.25
 FACE_SIZE = 160
-MIN_SIZE = 20
+MIN_SIZE = 160
 
 
 def main():
@@ -22,7 +22,7 @@ def main():
         sess = Session(config=ConfigProto(gpu_options=gpu_options, log_device_placement=False))
 
         with sess.as_default():
-            detector = HaarcascadeDetector(HAARCASCADE_MODEL, MIN_SIZE)
+            detector = MTCNNDetector(sess, MTCNN_MODEL, MIN_SIZE)
             encoder = FacenetEncoder(FACENET_MODEL, FACE_SIZE)
             identifier = FacenetIdentifier(None, CLASSIFIER_MODEL)
 

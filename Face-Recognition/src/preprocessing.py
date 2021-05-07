@@ -14,6 +14,7 @@ MTCNN_MODEL = '../models/premodels/align'
 FACE_SIZE = 160
 MARGIN = 32
 GPU_MEM_FRACTION = 0.25
+MIN_SIZE = 20
 
 
 def main():
@@ -28,7 +29,7 @@ def main():
         sess = Session(config=ConfigProto(gpu_options=gpu_options, log_device_placement=False))
 
         with sess.as_default():
-            detector = MTCNNDetector(sess, MTCNN_MODEL)
+            detector = MTCNNDetector(sess, MTCNN_MODEL, MIN_SIZE)
 
             total_images = 0
             successfully_images = 0
