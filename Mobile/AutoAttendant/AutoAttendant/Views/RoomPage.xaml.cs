@@ -1,10 +1,14 @@
 ﻿using Acr.UserDialogs;
 using AutoAttendant.Models;
+using AutoAttendant.Services;
 using AutoAttendant.ViewModel;
+using Newtonsoft.Json;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,12 +20,13 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RoomPage : ContentPage
     {
-        ListRoomViewModel lrvm = new ListRoomViewModel();
+         ListRoomViewModel lrvm = new ListRoomViewModel();
         public RoomPage()
         {
             InitializeComponent();
             HandleDatePicker();
             this.BindingContext = new ListRoomViewModel();
+            ShowRoom();
         }
 
 
@@ -65,7 +70,65 @@ namespace AutoAttendant.Views
             await PopupNavigation.PopAsync();
 
         }
+        public async Task<ObservableCollection<Room>> HandleRoom()
+        {
+            try
+            {
+                //var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+                //{
+                //    { DevicePlatform.iOS, new[] {"com.microsoft.xlsx"} },
+                //    { DevicePlatform.Android, new[] { "application/json" } },
+                //});
 
+                //var pickerResult = await FilePicker.PickAsync(new PickOptions
+                //{
+                //    FileTypes = customFileType,
+                //    PickerTitle = "Pick an Excel file"
+                //});
+
+                //if (pickerResult != null)
+                //{
+                //var resourcePath = pickerResult.FullPath.ToString();
+
+                //var resourcePath = "/storage/emulated/0/Android/data/com.companyname.autoattendant/cache/2203693cc04e0be7f4f024d5f9499e13/495b0c23a318409987d641309fb9543d/NinhKhanhDuy_CNTT_30042021.json";
+                //using (StreamReader r = new StreamReader(resourcePath))
+                //{
+                //    string json = r.ReadToEnd();
+                //    var listClass = JsonConvert.DeserializeObject<List<Schedule>>(json);
+                //    return listClass;
+                //}
+                //}
+                //else return null;
+                var httpService = new HttpService();
+                string full_url = "http://192.168.1.201:3000/room/";
+                var result = await httpService.SendAsync(full_url, HttpMethod.Get);
+                var listRoom = JsonConvert.DeserializeObject<ObservableCollection<Room>>(result);
+                return listRoom;
+            }
+            catch (Exception)
+            {
+                await DisplayAlert("Notice", "Fail", "OK");
+                return null;
+            }
+        }
+        public async void ShowRoom()
+        {
+            try
+            {
+                var listRoom = new ObservableCollection<Room>(await HandleRoom()); // list Schedule 
+
+                foreach (Room room in listRoom)
+                {
+                    lrvm.RoomCollection.Add(room);
+                }
+                this.BindingContext = lrvm;
+            }
+            catch (Exception)
+            {
+                await DisplayAlert("Error", "Can not get Room", "OK");
+            }
+
+        }
 
         [Obsolete]
         private async void ShowPopUpAddRoom(object sender, EventArgs e) // Show Popup and handle data from popup
@@ -83,7 +146,7 @@ namespace AutoAttendant.Views
                     roomName = roomName.ToUpper();
                     //message = roomName + " was added successfully";
 
-                    Room room = new Room("1", roomName);
+                    Room room = new Room("1", roomName,"Available");
                     lrvm.RoomCollection.Add(room);
                     this.BindingContext = lrvm;
 
