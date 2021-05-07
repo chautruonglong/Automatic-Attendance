@@ -95,12 +95,12 @@ namespace AutoAttendant.Views
                 //{
                 //    string json = r.ReadToEnd();
                 //    var listClass = JsonConvert.DeserializeObject<List<Schedule>>(json);
-                //    return listClass;
+                //    return listClass;+
                 //}
                 //}
                 //else return null;
                 var httpService = new HttpService();
-                string full_url = "http://192.168.1.201:3000/room/";
+                string full_url = "http://192.168.30.102:3000/room/";
                 var result = await httpService.SendAsync(full_url, HttpMethod.Get);
                 var listRoom = JsonConvert.DeserializeObject<ObservableCollection<Room>>(result);
                 return listRoom;
