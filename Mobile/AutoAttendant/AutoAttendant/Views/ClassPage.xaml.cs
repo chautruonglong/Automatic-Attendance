@@ -113,7 +113,7 @@ namespace AutoAttendant.Views
                 //}
                 //else return null;
                 var httpService = new HttpService();
-                string full_url = "http://192.168.30.102:3000/schedule/";
+                string full_url = "http://100.93.173.240:3000/schedule/";
                 var result = await httpService.SendAsync(full_url, HttpMethod.Get);
                 var listSchedule = JsonConvert.DeserializeObject<ObservableCollection<Schedule>>(result);
                 return listSchedule;

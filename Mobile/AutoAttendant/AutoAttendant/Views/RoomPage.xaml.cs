@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,8 +76,10 @@ namespace AutoAttendant.Views
             try
             {
                 var httpService = new HttpService();
-                string full_url = "http://192.168.30.102:3000/room/";
+                string full_url = "http://100.93.173.240:3000/room/";
                 var result = await httpService.SendAsync(full_url, HttpMethod.Get);
+                //WebClient wc = new WebClient();
+                //var result = wc.DownloadString(full_url);
                 var listRoom = JsonConvert.DeserializeObject<ObservableCollection<Room>>(result);
                 return listRoom;
             }

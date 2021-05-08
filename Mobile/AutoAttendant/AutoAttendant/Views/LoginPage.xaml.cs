@@ -15,6 +15,7 @@ using Acr.UserDialogs;
 using System.Security.Cryptography;
 using System.IO;
 using Xamarin.Essentials;
+using System.Net;
 
 namespace AutoAttendant.Views
 {
@@ -51,12 +52,9 @@ namespace AutoAttendant.Views
                 else
                 {
                     var httpService = new HttpService();
-                    //string api_key = "3XPeaCNzXoWSD3WMpU7f1rfYx8AvQmTj";
-                    //string url = "https://api.giphy.com/v1/gifs/random";
-                    //string full_url = "http://192.168.30.101:3000/cart/";
-
-                    string full_url = "http://" + Entry_Api.Text + ":3000/cart";
+                    string full_url = "http://100.93.173.240:3000/posts/";   
                     var result = await httpService.SendAsync(full_url, HttpMethod.Get);
+
                     await DisplayAlert("JSON", result, "OK");
 
                     UserDialogs.Instance.ShowLoading("Please wait...");
@@ -66,9 +64,9 @@ namespace AutoAttendant.Views
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await DisplayAlert("ERROR", "Login Fail", "Try Again");
+                await DisplayAlert("ERROR", ex.Message, "Try Again");
             }
 
             // Call API Login AutoAttendant here
