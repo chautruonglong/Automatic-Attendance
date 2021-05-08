@@ -8,7 +8,7 @@
         <StackLayout BackgroundColor="#021135">
             <Image
                 Source="temp.png"/>
-            <StackLayout Margin="30, 0, 30, 10 ">
+            <StackLayout Margin="30, 0, 30, 0 ">
                 <Label  x:Name="Lb_user" Text="E-mail or Username"
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 
@@ -71,23 +71,23 @@
                         <TapGestureRecognizer Tapped="SignUp" />
                     </Label.GestureRecognizers>
                 </Label>
-                
-            </StackLayout>
-
-            <StackLayout>
-                <Button x:Name="Btn_api"
-                        Clicked="OpenApiEntry" FontSize="10"
-                        BackgroundColor="#021135"
-                        TextColor="#FFF"
-                        HeightRequest="10"
-                        WidthRequest="30"
-                        BorderRadius="8"
-                        HorizontalOptions="End"
-                        />
                 <local:CustomEntry x:Name="Entry_Api" TextColor="#FFF" 
                                    HeightRequest="40" BackgroundColor="#022656"
                                    HorizontalOptions="Start" WidthRequest="80" IsVisible="False">
                 </local:CustomEntry>
+                
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Button x:Name="Btn_api"
+                        Clicked="OpenApiEntry" FontSize="10"
+                        BackgroundColor="#021135"
+                        HeightRequest="10"
+                        WidthRequest="30"
+                        BorderRadius="8"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"
+                        />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
