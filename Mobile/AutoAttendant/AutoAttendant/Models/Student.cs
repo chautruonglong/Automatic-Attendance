@@ -15,7 +15,7 @@ namespace AutoAttendant.Models
         private string faculty;
         private string phone;
         private string imageUrl;
-        private string state;
+        private bool state;
 
         public string Id
         {
@@ -90,7 +90,7 @@ namespace AutoAttendant.Models
             }
         }
 
-        public string State
+        public bool State
         {
             get
             {
@@ -108,7 +108,7 @@ namespace AutoAttendant.Models
 
         }
 
-        public Student(string id, string name, string classs, string faculty, string phone, string image, string state)
+        public Student(string id, string name, string classs, string faculty, string phone, string image, bool state)
         {
             this.Id = id;
             this.Name = name;

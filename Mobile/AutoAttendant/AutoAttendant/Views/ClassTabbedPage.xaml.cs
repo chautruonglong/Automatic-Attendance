@@ -14,8 +14,8 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ClassTabbedPage : TabbedPage
     {
-        public static ListStudentViewModel _lsvm = new ListStudentViewModel();
-        public static string nameClass;
+        public static ListStudentViewModel _lsvm = new ListStudentViewModel(); //static list Student de pass qua page list student
+        public static string nameClass; // static className de pass qua page list student de save vo db cua class
 
         public ClassTabbedPage(Classes classes)
         {

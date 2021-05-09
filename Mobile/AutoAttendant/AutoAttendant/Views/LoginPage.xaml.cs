@@ -30,7 +30,7 @@ namespace AutoAttendant.Views
         {
             InitializeComponent();
         }
-
+        
         private void ForgotPassword(object sender, EventArgs e)
         {
             Navigation.PushAsync(new ForgotPasswordPage());

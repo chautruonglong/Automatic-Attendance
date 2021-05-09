@@ -50,10 +50,10 @@
                                     </Frame.GestureRecognizers>
                                     <StackLayout Orientation="Horizontal" Spacing="10">
                                         <Label Text="{Binding Name}" TextColor="#000" FontSize="16" WidthRequest="200" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Classs}" TextColor="#000" FontSize="17" WidthRequest="105" VerticalTextAlignment="Center" IsVisible="False"/>
+                                        <Label Text="{Binding State}" TextColor="#000" FontSize="17" WidthRequest="105" VerticalTextAlignment="Center" IsVisible="True"/>
                                         <Label Text="7:50 AM" TextColor="#000" FontSize="17" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="False"/>
                                         <Image Source="checked25px" WidthRequest="20" HeightRequest="20" IsVisible="False"/>
-                                        <CheckBox IsChecked="False" Color="#9DFE65" VerticalOptions="Center" HeightRequest="25" IsVisible="True" CheckedChanged="OnCheckBoxCheckedChanged" x:Name="cbStatus"/>
+                                        <CheckBox IsChecked="{Binding State}" Color="#9DFE65" VerticalOptions="Center" HeightRequest="25" IsVisible="True" CheckedChanged="OnCheckBoxCheckedChanged" x:Name="cbStatus"/>
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>

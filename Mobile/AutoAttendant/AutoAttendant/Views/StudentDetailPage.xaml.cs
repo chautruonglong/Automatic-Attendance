@@ -28,19 +28,30 @@ namespace AutoAttendant.Views
             lb_Name.Text = student.Name;
             lb_Class.Text = student.Classs;
             lb_Time.Text = student.Faculty;
+            var x = student.State;
+            if (x)
+            {
+                btnAttendance.IsChecked = x;
+            }
+            else btnAbsent.IsChecked = !x;
             
         }
 
         private void SaveAndBack(object sender, EventArgs e)
         {
-            //cap nhat vo db
             
-            if(btnAttendance.IsChecked == true)
+            if(btnAttendance.IsChecked == true) 
             {
-               var stu=ListStudentPage.lsvm.StudentCollection.Single(r => r.Name == lb_Name.Text);
-               stu.State = "1";
+               var stu=ListStudentPage.lsvm.StudentCollection.Single(r => r.Name == lb_Name.Text); // chon student trong lsvm có name = lbName
+                stu.State = true ;
             }
-            Navigation.PushAsync(new ListStudentPage());
+            if(btnAbsent.IsChecked == true)
+            {
+                var stu = ListStudentPage.lsvm.StudentCollection.Single(r => r.Name == lb_Name.Text);
+                stu.State = false; ;
+            }
+            //Navigation.PushAsync(new ListStudentPage());
+            Navigation.PopAsync();
             
             
         }

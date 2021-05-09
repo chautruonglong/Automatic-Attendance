@@ -27,12 +27,20 @@ namespace AutoAttendant.Views
             DisplayAlert("NOtice", LoginPage._lsvm.ScheduleCollection.Count.ToString(), "OK");
             LoadStudenList();
         }
+
+        protected override void OnAppearing()
+        {
+            LoadStudenList();
+            base.OnAppearing();
+        }
         public void LoadStudenList()
         {
             if(lsvm.StudentCollection.Count>0)
             {
+                this.BindingContext = new ListStudentViewModel();
                 this.BindingContext = lsvm;
-                DisplayAlert("NOtice", lsvm.StudentCollection[0].State, "OK");
+                DisplayAlert("NOtice", lsvm.StudentCollection[0].State.ToString(), "OK");
+
             }
         }
 
@@ -126,7 +134,7 @@ namespace AutoAttendant.Views
 
                         try
                         {
-                            Student student = new Student(mess1, mess2, "18TCLC-DT2", "IT", mess3, "url", "0");
+                            Student student = new Student(mess1, mess2, "18TCLC-DT2", "IT", mess3, "url", false);
                             ClassPage.classes.StudentList1.Add(student);
                         }
                         catch (Exception ex)
