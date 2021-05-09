@@ -19,7 +19,7 @@ namespace AutoAttendant.Views
         public HomePage()
         {
             InitializeComponent();
-            Detail = new NavigationPage(new RoomPage());
+            Detail = new NavigationPage(new ClassPage());
             
         }
 
@@ -45,7 +45,7 @@ namespace AutoAttendant.Views
         private void HandleHome(object sender, EventArgs e)
         {
             //Navigation.PushAsync(new ClassPage());
-            Detail = new NavigationPage(new RoomPage());
+            Detail = new NavigationPage(new ClassPage());
             IsPresented = false;
         }
 
@@ -74,6 +74,12 @@ namespace AutoAttendant.Views
             }
             
 
+        }
+
+        private void HandleRoom(object sender, EventArgs e)
+        {
+            Detail = new NavigationPage(new RoomPage());
+            IsPresented = false;
         }
     }
 }

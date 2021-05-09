@@ -42,8 +42,8 @@
                 <Label x:Name="lb_Time" Text="9:00 AM" TextColor="#FFF" Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
 
                 <Label Text="Status" TextColor="#FFF" Grid.Row="3" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
-                <RadioButton Grid.Row="3" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" GroupName="status" Content="Attended" TextColor="#9DFE65"/>
-                <RadioButton Grid.Row="3" Grid.Column="2" HorizontalOptions="Start" VerticalOptions="Center" GroupName="status" Content="Absent" TextColor="#EC3108"/>
+                <RadioButton Grid.Row="3" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" GroupName="status" Content="Attended" TextColor="#9DFE65" x:Name="btnAttendance"/>
+                <RadioButton Grid.Row="3" Grid.Column="2" HorizontalOptions="Start" VerticalOptions="Center" GroupName="status" Content="Absent" TextColor="#EC3108" x:Name="btnAbsent" IsChecked="False"/>
 
             </Grid>
             <!--<ListView HeightRequest="80">
@@ -56,7 +56,7 @@
                 </ListView.ItemTemplate>
             </ListView>-->
             <Button x:Name="Btn_save" Text="Save"
-                        FontSize="16"
+                        FontSize="16" Clicked="SaveAndBack"
                         BackgroundColor="#1832F6"
                         TextColor="#FFF"
                         FontAttributes="Bold"

@@ -15,6 +15,7 @@ namespace AutoAttendant.Models
         private string faculty;
         private string phone;
         private string imageUrl;
+        private string state;
 
         public string Id
         {
@@ -89,12 +90,25 @@ namespace AutoAttendant.Models
             }
         }
 
+        public string State
+        {
+            get
+            {
+                return this.state;
+            }
+            set
+            {
+                this.state = value;
+            }
+        }
+
+
         public Student()
         {
 
         }
 
-        public Student(string id, string name, string classs, string faculty, string phone, string image)
+        public Student(string id, string name, string classs, string faculty, string phone, string image, string state)
         {
             this.Id = id;
             this.Name = name;
@@ -102,6 +116,7 @@ namespace AutoAttendant.Models
             this.Faculty = faculty;
             this.Phone = phone;
             this.ImageUrl = image;
+            this.State = state;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

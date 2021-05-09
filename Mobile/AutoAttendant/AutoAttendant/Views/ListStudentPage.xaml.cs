@@ -18,11 +18,22 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ListStudentPage : ContentPage
     {
-        ListStudentViewModel lsvm = new ListStudentViewModel();
+        public static ListStudentViewModel lsvm = new ListStudentViewModel();     /// Lưu ý coi chừng saiii\
+
         public ListStudentPage()
         {
             InitializeComponent();
             this.BindingContext = new ListStudentViewModel();
+            DisplayAlert("NOtice", LoginPage._lsvm.ScheduleCollection.Count.ToString(), "OK");
+            LoadStudenList();
+        }
+        public void LoadStudenList()
+        {
+            if(lsvm.StudentCollection.Count>0)
+            {
+                this.BindingContext = lsvm;
+                DisplayAlert("NOtice", lsvm.StudentCollection[0].State, "OK");
+            }
         }
 
         private void OnTapped(object sender, EventArgs e) // xu li khi nhan vao student
@@ -45,14 +56,13 @@ namespace AutoAttendant.Views
                     Label Name = (Label)firstLabel;
                     Label Class = (Label)secondLabel;
                     Label Time = (Label)thirdLabel;
-
+                    
                     var itemSelected = lsvm.StudentCollection.Single(r => r.Name == Name.Text);
                     var index = lsvm.StudentCollection.IndexOf(itemSelected);
                     Student std = lsvm.StudentCollection[index];
-
                     message = string.Format("Name: {0} \nClass: {1} \nTime: {2}", std.Id, std.Name, std.Phone);
                     DisplayAlert("Notice", message , "OK");
-                    Navigation.PushAsync(new StudentDetailPage(std));
+                    Navigation.PushAsync(new StudentDetailPage(std, lsvm));
                 }
             }
         }
@@ -116,14 +126,16 @@ namespace AutoAttendant.Views
 
                         try
                         {
-                            Student student = new Student(mess1, mess2, "18TCLC-DT2", "IT", mess3, "url");
-                            lsvm.StudentCollection.Add(student);
+                            Student student = new Student(mess1, mess2, "18TCLC-DT2", "IT", mess3, "url", "0");
+                            ClassPage.classes.StudentList1.Add(student);
                         }
                         catch (Exception ex)
                         {
                             await DisplayAlert("Notice", ex.Message, "OK");
                         }
                     }
+                    //ClassPage.classes.StudentList1.Add
+                    lsvm.StudentCollection = ClassPage.classes.StudentList1;
                     this.BindingContext = lsvm;
                     //MemoryStream stream1 = new MemoryStream();
                     //workbook.SaveAs(stream1);

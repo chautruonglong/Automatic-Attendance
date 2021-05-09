@@ -65,6 +65,17 @@
                         <Frame HeightRequest="25"
                                BackgroundColor="#1A1A1D">
                             <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="HandleRoom"/>
+                            </Frame.GestureRecognizers>
+                            <StackLayout Orientation="Horizontal" Padding="20,0" VerticalOptions="Center">
+                                <Image Source="exit25px" WidthRequest="25" HeightRequest="25" Margin="0,0,30,0"/>
+                                <Label Text="Rooms" TextColor="#FFF" FontSize="17" VerticalTextAlignment="Center"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <Frame HeightRequest="25"
+                               BackgroundColor="#1A1A1D">
+                            <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="HandleSetting"/>
                             </Frame.GestureRecognizers>
                             <StackLayout Orientation="Horizontal" Padding="20,0" VerticalOptions="Center">

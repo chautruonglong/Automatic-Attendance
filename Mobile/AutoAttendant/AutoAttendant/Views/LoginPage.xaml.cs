@@ -16,12 +16,16 @@ using System.Security.Cryptography;
 using System.IO;
 using Xamarin.Essentials;
 using System.Net;
+using AutoAttendant.ViewModel;
 
 namespace AutoAttendant.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
+        public static ListRoomViewModel _lrvm = new ListRoomViewModel();
+        public static ListScheduleViewModel _lsvm = new ListScheduleViewModel();
+        public static Lecture _lecture = new Lecture();
         public LoginPage()
         {
             InitializeComponent();
@@ -52,7 +56,7 @@ namespace AutoAttendant.Views
                 else
                 {
                     var httpService = new HttpService();
-                    string full_url = "http://100.93.173.240:3000/posts/";   
+                    string full_url = "http://192.168.0.101:3000/posts/";   
                     var result = await httpService.SendAsync(full_url, HttpMethod.Get);
 
                     await DisplayAlert("JSON", result, "OK");

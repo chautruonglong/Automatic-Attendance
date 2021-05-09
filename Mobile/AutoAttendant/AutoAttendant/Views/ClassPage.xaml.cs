@@ -21,7 +21,9 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ClassPage : ContentPage
     {
-        ListScheduleViewModel lsvm = new ListScheduleViewModel();
+        ListScheduleViewModel lsvm = LoginPage._lsvm;
+        public static ListClassViewModel _lcvm = new ListClassViewModel();
+        public static Classes classes = new Classes();
 
         public ClassPage()
         {
@@ -56,10 +58,11 @@ namespace AutoAttendant.Views
                         Schedule schedule = lsvm.ScheduleCollection[index];
 
                         message = string.Format("Id Room: {0} \nClass: {1} \nSubject: {2} \nTime Slot: {3} \nState: {4}", schedule.IdRoom, schedule.Classes, schedule.Subject, schedule.TimeSlot, schedule.State);
+                        classes.Name = schedule.Id;
                         bool answer = await DisplayAlert("Room Info", message, "Join", "Cancel");
                         if (answer)
                         {
-                            await Navigation.PushAsync(new ClassTabbedPage());
+                            await Navigation.PushAsync(new ClassTabbedPage(classes));
                         }
                         else
                         {
@@ -113,7 +116,7 @@ namespace AutoAttendant.Views
                 //}
                 //else return null;
                 var httpService = new HttpService();
-                string full_url = "http://100.93.173.240:3000/schedule/";
+                string full_url = "http://192.168.0.101:3000/schedule/";
                 var result = await httpService.SendAsync(full_url, HttpMethod.Get);
                 var listSchedule = JsonConvert.DeserializeObject<ObservableCollection<Schedule>>(result);
                 return listSchedule;

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoAttendant.Models;
+using AutoAttendant.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +14,15 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ClassTabbedPage : TabbedPage
     {
-        public ClassTabbedPage()
+        public static ListStudentViewModel _lsvm = new ListStudentViewModel();
+        public static string nameClass;
+
+        public ClassTabbedPage(Classes classes)
         {
             InitializeComponent();
+            _lsvm.StudentCollection = classes.StudentList1;
+            TabClass.Title = classes.Name;
+            nameClass = classes.Name;
         }
     }
 }
