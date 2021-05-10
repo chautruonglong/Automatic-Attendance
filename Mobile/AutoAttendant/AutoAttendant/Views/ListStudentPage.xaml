@@ -7,7 +7,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout BackgroundColor="#021135">
-            <StackLayout Orientation="Horizontal" Padding="5,15,0,0" VerticalOptions="Center">
+            <StackLayout Orientation="Horizontal" Padding="5,15,0,0" VerticalOptions="Center" Spacing="20">
                 <!--<Button x:Name="btnSortOption" Text="Class" ContentLayout="Right" ImageSource="sorting"  
                         HorizontalOptions="Fill" VerticalOptions="Center" BackgroundColor="#021135" 
                         FontAttributes="None" TextTransform="None" FontSize="16"
@@ -21,10 +21,15 @@
                     </Picker.Items>
                 </Picker>-->
                 <Button x:Name="btnTakeAttendance" Text="Take Attendance" ContentLayout="Right" ImageSource="attendance"  
-                        HorizontalOptions="CenterAndExpand" VerticalOptions="Center" BackgroundColor="#021135" 
+                        HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="#021135" 
                         FontAttributes="None" TextTransform="None" FontSize="15" HeightRequest="40"
                         BorderRadius="8" TextColor="#FFF" BorderWidth="1" BorderColor="#FFF"
                         Clicked="TakeAttendance"/>
+                <Button x:Name="btnSave" Text="Save" ContentLayout="Right" ImageSource="attendance"  
+                        HorizontalOptions="CenterAndExpand" VerticalOptions="Center" BackgroundColor="#021135" 
+                        FontAttributes="None" TextTransform="None" FontSize="15" HeightRequest="40"
+                        BorderRadius="8" TextColor="#FFF" BorderWidth="1" BorderColor="#FFF"
+                        Clicked="ClickSaveAndImport"/>
             </StackLayout>
             
             <StackLayout Orientation="Horizontal" Padding="5,0,0,0" VerticalOptions="Center">
@@ -55,7 +60,7 @@
                                     </Frame.GestureRecognizers>
                                     <StackLayout Orientation="Horizontal" Spacing="10">
                                         <Label Text="{Binding Name}" TextColor="#000" FontSize="16" WidthRequest="200" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold"/>
-                                        <Label Text="{Binding State}" TextColor="#000" FontSize="17" WidthRequest="105" VerticalTextAlignment="Center" IsVisible="True"/>
+                                        <Label Text="{Binding State}" TextColor="#000" FontSize="17" WidthRequest="105" VerticalTextAlignment="Center" IsVisible="False"/>
                                         <Label Text="7:50 AM" TextColor="#000" FontSize="17" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="False"/>
                                         <Image Source="checked25px" WidthRequest="20" HeightRequest="20" IsVisible="False"/>
                                         <CheckBox IsChecked="{Binding State}" Color="#9DFE65" VerticalOptions="Center" HeightRequest="25" IsVisible="True" x:Name="cbStatus"/>

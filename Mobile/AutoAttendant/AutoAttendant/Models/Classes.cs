@@ -8,6 +8,7 @@ namespace AutoAttendant.Models
     public class Classes
     {
         string name;
+        string state;
         ObservableCollection<Student> StudentList = new ObservableCollection<Student>();
 
         public string Name
@@ -23,15 +24,17 @@ namespace AutoAttendant.Models
         }
 
         public ObservableCollection<Student> StudentList1 { get => StudentList; set => StudentList = value; }
+        public string State { get => state; set => state = value; }
 
         public Classes()
         {
 
         }
 
-        public Classes(string name, ObservableCollection<Student> studentList)
+        public Classes(string name, string state, ObservableCollection<Student> studentList)
         {
             this.Name = name;
+            this.State = state;
             this.StudentList1 = studentList;
         }
     }

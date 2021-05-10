@@ -24,28 +24,35 @@ namespace AutoAttendant.Views
         ListScheduleViewModel lsvm = LoginPage._lsvm;
         public static ListClassViewModel _lcvm = new ListClassViewModel();
         public static Classes classes = new Classes();
-
+        public static int checkClearStd_ListPage = 0;
+        public static int first_id_in_list; // id dau tien cua list schedule
         public ClassPage()
         {
             InitializeComponent();
-            lsvm.ScheduleCollection.Clear(); // avoid add same schedule
             this.BindingContext = new ListScheduleViewModel();
             ShowSchedule();
+            
         }
 
-        protected override void OnAppearing()
+
+
+        protected override void OnAppearing() // goi khi back ve`
         {
-            LoadScheduleList();
+            ReLoadScheduleList();
             base.OnAppearing();
         }
 
-        public void LoadScheduleList()
+        public void ReLoadScheduleList()
         {
+            //SetColorById();
+            lsvm.ScheduleCollection= LoginPage._lsvm.ScheduleCollection;
             if (lsvm.ScheduleCollection.Count > 0)
             {
                 
                 this.BindingContext = new ListScheduleViewModel();
                 this.BindingContext = lsvm;
+                SetColorById();
+
             }
         }
 
@@ -64,27 +71,45 @@ namespace AutoAttendant.Views
                     var firstLabel = listChildren[0];
                     var secondLabel = listChildren[1];
                     var thirdLabel = listChildren[2];
+                    var forthLabel = listChildren[3];
                     if (firstLabel.GetType() == typeof(Label) && secondLabel.GetType() == typeof(Label) && thirdLabel.GetType() == typeof(Label))
                     {
                         Label ClassName = (Label)firstLabel;
                         Label Subject = (Label)secondLabel;
                         Label TimeSlot = (Label)thirdLabel;
-
-                        var itemSelected = lsvm.ScheduleCollection.Single(r => r.Classes == ClassName.Text && r.Subject == Subject.Text);
-                        var index = lsvm.ScheduleCollection.IndexOf(itemSelected);
-                        Schedule schedule = lsvm.ScheduleCollection[index];
-
-                        message = string.Format("Id Room: {0} \nClass: {1} \nSubject: {2} \nTime Slot: {3} \nState: {4}", schedule.IdRoom, schedule.Classes, schedule.Subject, schedule.TimeSlot, schedule.State);
-                        classes.Name = schedule.Id;
-                        bool answer = await DisplayAlert("Room Info", message, "Join", "Cancel");
-                        if (answer)
+                        Label LabelId = (Label)forthLabel;
+                        if(Convert.ToInt32(LabelId.Text) == first_id_in_list)
                         {
-                            await Navigation.PushAsync(new ClassTabbedPage(classes));
+                            var itemSelected = lsvm.ScheduleCollection.Single(r => r.Classes == ClassName.Text && r.Subject == Subject.Text);
+                            var index = lsvm.ScheduleCollection.IndexOf(itemSelected);
+                            Schedule schedule = lsvm.ScheduleCollection[index];
+
+                            message = string.Format("Id Room: {0} \nClass: {1} \nSubject: {2} \nTime Slot: {3} \nState: {4}", schedule.IdRoom, schedule.Classes, schedule.Subject, schedule.TimeSlot, schedule.State);
+                            bool answer = await DisplayAlert("Room Info", message, "Join", "Cancel");
+                            if (answer)
+                            {
+                                classes.Name = schedule.Classes;
+                                //classes.StudentList1.Clear();
+                                if(checkClearStd_ListPage == 1)
+                                {
+                                    classes.StudentList1.Clear();
+                                    checkClearStd_ListPage = 0;
+                                }
+                                await Navigation.PushAsync(new ClassTabbedPage(classes));
+                            }
+                            else
+                            {
+                                return;
+                            }
+
                         }
                         else
                         {
-                            return;
+                            await DisplayAlert("Notice","Your class must be finished!","OK");
                         }
+                        
+
+                        
                     }
                 }
             }
@@ -107,31 +132,7 @@ namespace AutoAttendant.Views
         {
             try
             {
-                //var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
-                //{
-                //    { DevicePlatform.iOS, new[] {"com.microsoft.xlsx"} },
-                //    { DevicePlatform.Android, new[] { "application/json" } },
-                //});
 
-                //var pickerResult = await FilePicker.PickAsync(new PickOptions
-                //{
-                //    FileTypes = customFileType,
-                //    PickerTitle = "Pick an Excel file"
-                //});
-
-                //if (pickerResult != null)
-                //{
-                    //var resourcePath = pickerResult.FullPath.ToString();
-
-                    //var resourcePath = "/storage/emulated/0/Android/data/com.companyname.autoattendant/cache/2203693cc04e0be7f4f024d5f9499e13/495b0c23a318409987d641309fb9543d/NinhKhanhDuy_CNTT_30042021.json";
-                    //using (StreamReader r = new StreamReader(resourcePath))
-                    //{
-                    //    string json = r.ReadToEnd();
-                    //    var listClass = JsonConvert.DeserializeObject<List<Schedule>>(json);
-                    //    return listClass;
-                    //}
-                //}
-                //else return null;
                 var httpService = new HttpService();
                 string full_url = "http://192.168.0.101:3000/schedule/";
                 var result = await httpService.SendAsync(full_url, HttpMethod.Get);
@@ -146,17 +147,46 @@ namespace AutoAttendant.Views
             }
         }
 
+
+        public void SetColorById()
+        {   
+            if (first_id_in_list!=-1) {
+                var item = LoginPage._lsvm.ScheduleCollection.Single(r => r.Id == first_id_in_list);
+                item.ColorState = "#ccc";
+                int index = LoginPage._lsvm.ScheduleCollection.IndexOf(item);
+                if (index > 0) { LoginPage._lsvm.ScheduleCollection[index - 1].ColorState = "#246CFE"; }
+                
+            }
+            else
+            {
+                var item = LoginPage._lsvm.ScheduleCollection[LoginPage._lsvm.ScheduleCollection.Count - 1];
+                item.ColorState = "#246CFE";
+            }
+
+
+
+
+        }
         public async void ShowSchedule()
         {
             try
-            {
-                var listSchedule = new ObservableCollection<Schedule>(await HandleSchedule()); // list Schedule 
+            {   if (LoginPage.checkCreateListSchedule == 0) {
+                    var listSchedule = new ObservableCollection<Schedule>(await HandleSchedule()); // list Schedule }
+                    first_id_in_list = Convert.ToInt32(listSchedule[0].Id);
 
-                foreach (Schedule schedule in listSchedule)
-                {
-                    lsvm.ScheduleCollection.Add(schedule);
+                    foreach (Schedule schedule in listSchedule)
+                    {
+                        LoginPage._lsvm.ScheduleCollection.Add(schedule);
+                    }
+                    LoginPage.checkCreateListSchedule = 1;
                 }
-                this.BindingContext = lsvm;
+
+
+
+
+                SetColorById();
+                lsvm.ScheduleCollection = LoginPage._lsvm.ScheduleCollection; // avoid add same schedule
+                this.BindingContext = lsvm; 
             }
             catch (Exception)
             {

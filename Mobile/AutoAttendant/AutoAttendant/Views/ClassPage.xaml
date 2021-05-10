@@ -38,7 +38,7 @@
                                             CornerRadius="10"
                                             Margin="10,0"
                                             HeightRequest="20"
-                                            BackgroundColor="#246CFE">
+                                            BackgroundColor="{Binding ColorState}">
                                         <Frame.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="ClassClick"/>
                                         </Frame.GestureRecognizers>
@@ -46,6 +46,7 @@
                                             <Label Text="{Binding Classes}" TextColor="#000" FontSize="14" WidthRequest="70" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold"/>
                                             <Label Text="{Binding Subject}" TextColor="#000" FontSize="14" WidthRequest="160" VerticalTextAlignment="Center" IsVisible="True" FontAttributes="Bold"/>
                                             <Label Text="{Binding State}" TextColor="#000" FontSize="14" WidthRequest="60" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="True"/>
+                                            <Label Text="{Binding Id}" TextColor="#000"></Label>
                                         </StackLayout>
                                     </Frame>
                                 </StackLayout>

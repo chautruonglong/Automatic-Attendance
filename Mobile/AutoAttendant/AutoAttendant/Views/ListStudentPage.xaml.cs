@@ -26,7 +26,7 @@ namespace AutoAttendant.Views
             InitializeComponent();
             this.BindingContext = new ListStudentViewModel(); // listview se binding theo object List Student View Model
             //DisplayAlert("NOtice", LoginPage._lsvm.ScheduleCollection.Count.ToString(), "OK");
-            ReLoadStudenList();
+            //ReLoadStudenList();
         }
 
         protected override void OnAppearing()
@@ -36,12 +36,11 @@ namespace AutoAttendant.Views
         }
         public void ReLoadStudenList() // 
         {
-            if(lsvm.StudentCollection.Count>0)
+            if (lsvm.StudentCollection.Count > 0)
             {
                 this.BindingContext = new ListStudentViewModel();
                 this.BindingContext = lsvm;
-                DisplayAlert("NOtice", lsvm.StudentCollection[0].State.ToString(), "OK");
-
+                //DisplayAlert("NOtice", lsvm.StudentCollection[0].State.ToString(), "OK");
             }
         }
 
@@ -65,12 +64,12 @@ namespace AutoAttendant.Views
                     Label Name = (Label)firstLabel;
                     Label Class = (Label)secondLabel;
                     Label Time = (Label)thirdLabel;
-                    
+
                     var itemSelected = lsvm.StudentCollection.Single(r => r.Name == Name.Text);
                     var index = lsvm.StudentCollection.IndexOf(itemSelected);
                     Student std = lsvm.StudentCollection[index];
                     message = string.Format("Name: {0} \nClass: {1} \nTime: {2}", std.Id, std.Name, std.Phone);
-                    DisplayAlert("Notice", message , "OK");
+                    DisplayAlert("Notice", message, "OK");
                     Navigation.PushAsync(new StudentDetailPage(std, lsvm));
                 }
             }
@@ -92,6 +91,7 @@ namespace AutoAttendant.Views
         //}
         async void ImportExcel(object sender, EventArgs e) // xu li import excel them student
         {
+
             try
             {
                 var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
@@ -123,8 +123,8 @@ namespace AutoAttendant.Views
 
                     //Access first worksheet from the workbook.
                     IWorksheet worksheet = workbook.Worksheets[0];
-                    var numberOfStudent = (worksheet.Rows.Count()- 3);
-                    for (int i = 8; i <=numberOfStudent; i++)
+                    var numberOfStudent = (worksheet.Rows.Count() - 3);
+                    for (int i = 8; i <= numberOfStudent; i++)
                     {
                         string id = "B" + i.ToString();
                         string name = "C" + i.ToString();
@@ -178,9 +178,9 @@ namespace AutoAttendant.Views
 
         private async void TakeAttendance(object sender, EventArgs e)
         {
-            if(lsvm.StudentCollection.Count <= 0)
+            if (lsvm.StudentCollection.Count <= 0)
             {
-                
+
                 await DisplayAlert("Notice", "No students in class. Import student list!", "OK");
             }
             else
@@ -195,6 +195,55 @@ namespace AutoAttendant.Views
                 }
 
                 UserDialogs.Instance.Toast("Done");
+            }
+        }
+
+        public void HandleAttendance()
+        {
+
+        }
+
+        private async void ClickSaveAndImport(object sender, EventArgs e)
+        {
+            string className;
+            string timeSlot;
+            string subject;
+            int attendanceCount = 0;
+
+            var schedule = LoginPage._lsvm.ScheduleCollection.Single(r => Convert.ToInt32(r.Id) == ClassPage.first_id_in_list);
+            int index = LoginPage._lsvm.ScheduleCollection.IndexOf(schedule);
+
+            
+            className = ClassPage.classes.Name;
+            timeSlot = schedule.TimeSlot;
+            subject = schedule.Subject;
+            foreach(Student std in lsvm.StudentCollection)
+            {
+                if(std.State == true)
+                {
+                    attendanceCount++;
+                }
+
+            }
+            
+           
+            var message = String.Format("Clss: {0}\n Subject: {1}\n Time Slot: {2}\n Attendance: {3}", className, timeSlot, subject, attendanceCount);
+            bool answer = await DisplayAlert("Class Info", message, "Save", "Cancel");
+            if (answer)
+            {
+                if (index < LoginPage._lsvm.ScheduleCollection.Count-1)
+                {
+                    ClassPage.first_id_in_list = Convert.ToInt32(LoginPage._lsvm.ScheduleCollection[index + 1].Id);
+                    ClassPage.checkClearStd_ListPage = 1;
+                    schedule.State = 1; //Label
+  
+                }
+                else ClassPage.first_id_in_list = -1;
+                await Navigation.PopAsync();
+            }
+            else
+            {
+                
             }
         }
     }
