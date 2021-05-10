@@ -13,27 +13,27 @@
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 
                         TextColor="#FFF"
-                        FontSize="18"
+                        FontSize="16"
                         FontFamily=""
                         FontAttributes="Bold"/>
 
                 <local:CustomEntry x:Name="Entry_user" TextColor="#FFF" 
-                                   HeightRequest="40" BackgroundColor="#022656"
+                                   HeightRequest="38" BackgroundColor="#022656"
                                    VerticalOptions="StartAndExpand"
-                                   Margin="0,0,0,20">
+                                   Margin="0,0,0,20" FontSize="15">
                 </local:CustomEntry>
 
                 <Label  x:Name="Lb_password" Text="Password"
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 
                         TextColor="#FFF"
-                        FontSize="18"
+                        FontSize="16"
                         FontAttributes="Bold"/>
 
                 <local:CustomEntry x:Name="Entry_password" IsPasswordFlag="True"
                                    IsPassword="True" TextColor="#FFF"
-                                   HeightRequest="40" BackgroundColor="#022656"
-                                   Margin="0,0,0,5">
+                                   HeightRequest="38" BackgroundColor="#022656"
+                                   Margin="0,0,0,5" FontSize="15">
                 </local:CustomEntry>
 
                 <Label x:Name="Lb_forgot" Text="Forgot Password?"

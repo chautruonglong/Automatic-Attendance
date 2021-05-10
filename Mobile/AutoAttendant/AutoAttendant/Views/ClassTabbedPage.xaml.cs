@@ -15,7 +15,7 @@ namespace AutoAttendant.Views
     public partial class ClassTabbedPage : TabbedPage
     {
         public static ListStudentViewModel _lsvm = new ListStudentViewModel(); //static list Student de pass qua page list student
-        public static string nameClass; // static className de pass qua page list student de save vo db cua class
+        public static string nameClass; // static nameClass de pass qua page list student de save vo db cua class
 
         public ClassTabbedPage(Classes classes)
         {

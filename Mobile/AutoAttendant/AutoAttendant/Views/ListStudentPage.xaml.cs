@@ -1,4 +1,5 @@
-﻿using AutoAttendant.Models;
+﻿using Acr.UserDialogs;
+using AutoAttendant.Models;
 using AutoAttendant.ViewModel;
 using Syncfusion.XlsIO;
 using System;
@@ -23,17 +24,17 @@ namespace AutoAttendant.Views
         public ListStudentPage()
         {
             InitializeComponent();
-            this.BindingContext = new ListStudentViewModel();
-            DisplayAlert("NOtice", LoginPage._lsvm.ScheduleCollection.Count.ToString(), "OK");
-            LoadStudenList();
+            this.BindingContext = new ListStudentViewModel(); // listview se binding theo object List Student View Model
+            //DisplayAlert("NOtice", LoginPage._lsvm.ScheduleCollection.Count.ToString(), "OK");
+            ReLoadStudenList();
         }
 
         protected override void OnAppearing()
         {
-            LoadStudenList();
+            ReLoadStudenList();
             base.OnAppearing();
         }
-        public void LoadStudenList()
+        public void ReLoadStudenList() // 
         {
             if(lsvm.StudentCollection.Count>0)
             {
@@ -75,20 +76,20 @@ namespace AutoAttendant.Views
             }
         }
 
-        private void OpenPicker(object sender, EventArgs e)
-        {
-            PickerSort.IsEnabled = true;
-            PickerSort.Focus();
-        }
+        //private void OpenPicker(object sender, EventArgs e)
+        //{
+        //    PickerSort.IsEnabled = true;
+        //    PickerSort.Focus();
+        //}
 
-        private void HandlePickerSort(object sender, EventArgs e) // xu li sort option
-        {
-            var index = PickerSort.SelectedIndex;
-            if(index != -1)
-            {
-                btnSortOption.Text = PickerSort.Items[index].ToString();
-            }
-        }
+        //private void HandlePickerSort(object sender, EventArgs e) // xu li sort option
+        //{
+        //    var index = PickerSort.SelectedIndex;
+        //    if(index != -1)
+        //    {
+        //        btnSortOption.Text = PickerSort.Items[index].ToString();
+        //    }
+        //}
         async void ImportExcel(object sender, EventArgs e) // xu li import excel them student
         {
             try
@@ -159,20 +160,42 @@ namespace AutoAttendant.Views
             }
         }
 
-        private void OnCheckBoxCheckedChanged(object sender, CheckedChangedEventArgs e)
-        {
-            string value = string.Empty;
-            CheckBox cbStatus = sender as CheckBox;
-            if (cbStatus.IsChecked == true)
-            {
-                btn_Excel.BackgroundColor = Color.FromHex("#246CFE");
-            }
-            else btn_Excel.BackgroundColor = Color.FromHex("#021135");
-        }
+        //private void OnCheckBoxCheckedChanged(object sender, CheckedChangedEventArgs e)
+        //{
+        //    string value = string.Empty;
+        //    CheckBox cbStatus = sender as CheckBox;
+        //    if (cbStatus.IsChecked == true)
+        //    {
+        //        btn_Excel.BackgroundColor = Color.FromHex("#246CFE");
+        //    }
+        //    else btn_Excel.BackgroundColor = Color.FromHex("#021135");
+        //}
 
         private void AddSingleStudent(object sender, EventArgs e) // xu li khi them tung student
         {
 
+        }
+
+        private async void TakeAttendance(object sender, EventArgs e)
+        {
+            if(lsvm.StudentCollection.Count <= 0)
+            {
+                
+                await DisplayAlert("Notice", "No students in class. Import student list!", "OK");
+            }
+            else
+            {
+                using (IProgressDialog progress = UserDialogs.Instance.Progress("Taking attendance...", null, null, true, MaskType.Gradient))
+                {
+                    for (int i = 0; i < 100; i++)
+                    {
+                        progress.PercentComplete = i;
+                        await Task.Delay(100);
+                    }
+                }
+
+                UserDialogs.Instance.Toast("Done");
+            }
         }
     }
 }

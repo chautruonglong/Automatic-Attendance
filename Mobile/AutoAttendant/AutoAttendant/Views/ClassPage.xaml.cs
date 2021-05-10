@@ -28,8 +28,25 @@ namespace AutoAttendant.Views
         public ClassPage()
         {
             InitializeComponent();
+            lsvm.ScheduleCollection.Clear(); // avoid add same schedule
             this.BindingContext = new ListScheduleViewModel();
             ShowSchedule();
+        }
+
+        protected override void OnAppearing()
+        {
+            LoadScheduleList();
+            base.OnAppearing();
+        }
+
+        public void LoadScheduleList()
+        {
+            if (lsvm.ScheduleCollection.Count > 0)
+            {
+                
+                this.BindingContext = new ListScheduleViewModel();
+                this.BindingContext = lsvm;
+            }
         }
 
         private async void ClassClick(object sender, EventArgs e)

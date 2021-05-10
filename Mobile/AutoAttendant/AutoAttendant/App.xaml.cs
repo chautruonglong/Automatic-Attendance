@@ -11,7 +11,7 @@ namespace AutoAttendant
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new LoginPage());
+            MainPage = new NavigationPage(new ListStudentPage());
         }
 
         protected override void OnStart()

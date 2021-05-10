@@ -76,24 +76,25 @@ namespace AutoAttendant.Views
             // Call API Login AutoAttendant here
             //try
             //{
-            //    var httpService = new HttpService();
-            //    string user = Entry_user.Text;
+            //    string base_URL = "http://IP:8000/user/login";
+            //    var httpService = new HttpClient();
+            //    string username = Entry_user.Text;
             //    string password = Entry_password.Text;
-            //    string full_url = "http://" + Entry_Api.Text + ":8000/login?" + "user=" + user + "&" + "password=" + password;
+            //    var user = new User(username, password);
 
-            //    var result = await httpService.SendAsync(url, HttpMethod.Post); 
-            //    var account = JsonConvert.DeserializeObject<User>(result); // json response
-
-            //    if (account.Username == user && account.Password == password)
+            //    string jsonData = JsonConvert.SerializeObject(user);
+            //    StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            //    HttpResponseMessage response = await httpService.PostAsync(base_URL, content); // post request to server and get respone
+            //    var jsonResponse = await response.Content.ReadAsStringAsync();
+            //    if () //check json response or response
             //    {
             //        await Navigation.PushAsync(new HomePage());
             //    }
             //}
             //catch (Exception)
             //{
-            //    await DisplayAlert("ERROR", "User or Password is not correct", "Try Again");
+            //    await DisplayAlert("ERROR", "Fail to register", "Try Again");
             //}
-
 
         }
 

@@ -6,7 +6,7 @@
             BarTextColor="#FFF"
             >
 
-    <local:ListStudentPage Title="Students" x:Name="TabClass">
+    <local:ListStudentPage x:Name="TabClass">
         
     </local:ListStudentPage>
     <local:Page1 Title="Attendance"></local:Page1>

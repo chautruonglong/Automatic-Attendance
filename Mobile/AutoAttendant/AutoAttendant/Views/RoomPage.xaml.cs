@@ -33,7 +33,7 @@ namespace AutoAttendant.Views
 
         private void RoomClick(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new ClassPage());
+            //Navigation.PushAsync(new ClassPage());
         }
 
         private void HandleDatePicker()
@@ -153,28 +153,28 @@ namespace AutoAttendant.Views
 
         private void DeleteRoom(object sender, EventArgs e)
         {
-            Image img = sender as Image;
-            var stackLayout = img.Parent;
-            var checkStack = stackLayout.GetType();
-            if (checkStack == typeof(StackLayout))
-            {
-                StackLayout container = (StackLayout)stackLayout;
-                var listChild = container.Children;
+            //Image img = sender as Image;
+            //var stackLayout = img.Parent;
+            //var checkStack = stackLayout.GetType();
+            //if (checkStack == typeof(StackLayout))
+            //{
+            //    StackLayout container = (StackLayout)stackLayout;
+            //    var listChild = container.Children;
 
-                var lb_room = listChild[0].GetType();
-                if (lb_room == typeof(Label))
-                {
-                    Label lb = (Label)listChild[0];
+            //    var lb_room = listChild[0].GetType();
+            //    if (lb_room == typeof(Label))
+            //    {
+            //        Label lb = (Label)listChild[0];
 
-                    var itemToRemove = lrvm.RoomCollection.Single(r => r.Name == lb.Text);
-                    lrvm.RoomCollection.Remove(itemToRemove);
-                }
-                else
-                {
-                    DisplayAlert("Fail", "Fail", "Try Again");
-                }
+            //        var itemToRemove = lrvm.RoomCollection.Single(r => r.Name == lb.Text);
+            //        lrvm.RoomCollection.Remove(itemToRemove);
+            //    }
+            //    else
+            //    {
+            //        DisplayAlert("Fail", "Fail", "Try Again");
+            //    }
                 
-            }
+            //}
         }
     }
 }

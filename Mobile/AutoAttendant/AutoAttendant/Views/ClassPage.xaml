@@ -12,13 +12,15 @@
             <!--<SearchBar Placeholder="Search" PlaceholderColor="#FFF" FontSize="16"  BackgroundColor="#021135" HeightRequest="40" TextColor="#FFF" CancelButtonColor="#FFF">
 
             </SearchBar>-->
-            <StackLayout Orientation="Horizontal" Margin="10,0,0,0" x:Name="DatePickerLayout">
+            <StackLayout Orientation="Horizontal" Margin="10,0,0,0" Padding="20,20,20,10" x:Name="DatePickerLayout" Spacing="10">
                 
-                <Button Text="My Classes"  ContentLayout="Left" ImageSource="add"
+                <!--<Button Text="My Classes"  ContentLayout="Left" ImageSource="add"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
                         TextTransform="None" FontSize="17"
                         Margin="0,20,0,20"  TextColor="#FFF" BorderRadius="10"
-                        BorderColor="#FFF" Clicked="ShowListClass"/>
+                        BorderColor="#FFF" Clicked="ShowListClass"/>-->
+                <Image Source="classroom.png"></Image>
+                <Label Text="My Classes" TextColor="#FFF" FontSize="17"></Label>
                 <!--<Picker IsEnabled="False" IsVisible="false" x:Name="PickerClass" SelectedIndexChanged="HandlePickerClass">
 
                 </Picker>-->

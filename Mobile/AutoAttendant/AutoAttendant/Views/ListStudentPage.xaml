@@ -7,8 +7,8 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout BackgroundColor="#021135">
-            <StackLayout Orientation="Horizontal" Padding="5,10,0,0" VerticalOptions="Center">
-                <Button x:Name="btnSortOption" Text="Class" ContentLayout="Right" ImageSource="sorting"  
+            <StackLayout Orientation="Horizontal" Padding="5,15,0,0" VerticalOptions="Center">
+                <!--<Button x:Name="btnSortOption" Text="Class" ContentLayout="Right" ImageSource="sorting"  
                         HorizontalOptions="Fill" VerticalOptions="Center" BackgroundColor="#021135" 
                         FontAttributes="None" TextTransform="None" FontSize="16"
                         BorderRadius="8" TextColor="#FFF"
@@ -19,7 +19,12 @@
                         <x:String>Name</x:String>
                         <x:String>Time</x:String>
                     </Picker.Items>
-                </Picker>
+                </Picker>-->
+                <Button x:Name="btnTakeAttendance" Text="Take Attendance" ContentLayout="Right" ImageSource="attendance"  
+                        HorizontalOptions="CenterAndExpand" VerticalOptions="Center" BackgroundColor="#021135" 
+                        FontAttributes="None" TextTransform="None" FontSize="15" HeightRequest="40"
+                        BorderRadius="8" TextColor="#FFF" BorderWidth="1" BorderColor="#FFF"
+                        Clicked="TakeAttendance"/>
             </StackLayout>
             
             <StackLayout Orientation="Horizontal" Padding="5,0,0,0" VerticalOptions="Center">
@@ -27,11 +32,11 @@
                 <Button Text="Add a student" x:Name="btn_AddStduent" ContentLayout="Left" ImageSource="add"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
                         TextTransform="None" FontSize="16"
-                        Margin="0,5,0,10"  TextColor="#FFF" BorderRadius="10"
+                        Margin="0,0,0,10"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" Clicked="AddSingleStudent"/>
                 <Button Text="Import Excel" x:Name="btn_Excel" ContentLayout="Left" ImageSource="excel"
                         HorizontalOptions="Fill" BackgroundColor="#021135" TextTransform="None" FontSize="16"
-                        Margin="40,5,0,10"  TextColor="#FFF" BorderRadius="10"
+                        Margin="40,0,0,10"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" Clicked="ImportExcel"/>
             </StackLayout>
             <ListView ItemsSource="{Binding StudentCollection}" RowHeight="80" HorizontalOptions="Center" x:Name="list_student">
@@ -53,7 +58,7 @@
                                         <Label Text="{Binding State}" TextColor="#000" FontSize="17" WidthRequest="105" VerticalTextAlignment="Center" IsVisible="True"/>
                                         <Label Text="7:50 AM" TextColor="#000" FontSize="17" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="False"/>
                                         <Image Source="checked25px" WidthRequest="20" HeightRequest="20" IsVisible="False"/>
-                                        <CheckBox IsChecked="{Binding State}" Color="#9DFE65" VerticalOptions="Center" HeightRequest="25" IsVisible="True" CheckedChanged="OnCheckBoxCheckedChanged" x:Name="cbStatus"/>
+                                        <CheckBox IsChecked="{Binding State}" Color="#9DFE65" VerticalOptions="Center" HeightRequest="25" IsVisible="True" x:Name="cbStatus"/>
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>
