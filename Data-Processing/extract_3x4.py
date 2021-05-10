@@ -4,7 +4,7 @@ import cv2
 INPUT_PATH = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Dataset-3x4/Cong-nghe-thong-tin/K18/'
 OUTPUT_PATH = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Main-Dataset/data/1814/'
 
-HAARCASADE_PATH = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Automatic-Attendance/Face-Recognition/premodels/haarcascade_frontalface_default.xml'
+HAARCASADE_PATH = '/home/chautruonglong/Desktop/Face-Recognition/models/premodels/haarcascade_frontalface_default.xml'
 
 MIN_ID = 102180153
 MAX_ID = 102180196
