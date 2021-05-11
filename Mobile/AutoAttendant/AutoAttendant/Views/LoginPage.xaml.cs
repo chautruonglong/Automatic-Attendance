@@ -23,7 +23,7 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        public static ListRoomViewModel _lrvm = new ListRoomViewModel();
+        public static ListRoomViewModel _lrvm = new ListRoomViewModel(); 
         public static ListScheduleViewModel _lsvm = new ListScheduleViewModel();
         public static int checkCreateListSchedule = 0;
         public static Lecture _lecture = new Lecture();

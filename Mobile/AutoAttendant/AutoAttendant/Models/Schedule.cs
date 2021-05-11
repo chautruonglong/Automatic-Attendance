@@ -13,7 +13,7 @@ namespace AutoAttendant.Models
         private string subject;
         private string timeSlot;
         private int state;
-        private string colorState = "#246CFE";
+        private string colorState = "#0E368B";
 
         public int Id
         {
