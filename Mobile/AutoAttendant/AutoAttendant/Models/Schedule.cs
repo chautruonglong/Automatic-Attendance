@@ -14,6 +14,7 @@ namespace AutoAttendant.Models
         private string timeSlot;
         private int state;
         private string colorState = "#0E368B";
+        private string stateString;
 
         public int Id
         {
@@ -96,8 +97,9 @@ namespace AutoAttendant.Models
         }
 
         public string ColorState { get => colorState; set => colorState = value; }
+        public string StateString { get => stateString; set => stateString = value; }
 
-        public Schedule(int id, string idTeacher, string idRoom, string classes, string subject, string timeSlot, int state)
+        public Schedule(int id, string idTeacher, string idRoom, string classes, string subject, string timeSlot, int state, string stateString)
         {
             this.Id = id;
             this.IdTeacher = idTeacher;
@@ -106,6 +108,7 @@ namespace AutoAttendant.Models
             this.Subject = subject;
             this.TimeSlot = timeSlot;
             this.State = state;
+            this.StateString = stateString;
         }
 
 

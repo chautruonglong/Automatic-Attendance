@@ -85,7 +85,7 @@ namespace AutoAttendant.Views
                             Schedule schedule = lsvm.ScheduleCollection[index]; // tìm dc schdule theo index
 
                             message = string.Format("Id Room: {0} \nClass: {1} \nSubject: {2} \nTime Slot: {3} \nState: {4}", schedule.IdRoom, schedule.Classes, schedule.Subject, schedule.TimeSlot, schedule.State);
-                            bool answer = await DisplayAlert("Room Info", message, "Join", "Cancel");
+                            bool answer = await DisplayAlert("Schedule Info", message, "Join", "Cancel");
                             if (answer)
                             {
                                 classes.Name = schedule.Classes; // gán cho biến static classes = class tương ứng của schedule 
@@ -152,21 +152,19 @@ namespace AutoAttendant.Views
         {   
             if (first_id_in_list!=-1) {
                 var item = LoginPage._lsvm.ScheduleCollection.Single(r => r.Id == first_id_in_list); // tìm nút schedule có Id = first id in list
-                item.ColorState = "#246CFE"; 
+                item.ColorState = "#246CFE"; // set color
                 int index = LoginPage._lsvm.ScheduleCollection.IndexOf(item); // lấy ra index của schedule vừa tìm dc
                 if (index > 0) { LoginPage._lsvm.ScheduleCollection[index - 1].ColorState = "#0E368B"; }
                 
             }
-            else
+            else // set gia tri cho last schedule
             {
                 var item = LoginPage._lsvm.ScheduleCollection[LoginPage._lsvm.ScheduleCollection.Count - 1];
                 item.ColorState = "#0E368B";
             }
-
-
-
-
         }
+
+
         public async void ShowSchedule()
         {
             try
@@ -176,7 +174,9 @@ namespace AutoAttendant.Views
 
                     foreach (Schedule schedule in listSchedule)  // duyet trong list schedule để thêm vào lsvm
                     {
+                        schedule.StateString = "0 / 0"; // change here
                         LoginPage._lsvm.ScheduleCollection.Add(schedule);
+                        
                     }
                     LoginPage.checkCreateListSchedule = 1;
                 }

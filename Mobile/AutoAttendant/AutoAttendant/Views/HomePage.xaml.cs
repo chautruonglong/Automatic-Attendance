@@ -30,7 +30,7 @@ namespace AutoAttendant.Views
             IsPresented = false;
         }
 
-        private void HandleSetting(object sender, EventArgs e)
+        private void HandleHistory(object sender, EventArgs e)
         {
             Detail = new NavigationPage(new TempClassPage());
             IsPresented = false;

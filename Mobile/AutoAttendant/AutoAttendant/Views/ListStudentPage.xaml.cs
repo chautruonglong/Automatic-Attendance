@@ -223,7 +223,6 @@ namespace AutoAttendant.Views
                 {
                     attendanceCount++;
                 }
-
             }
             
            
@@ -231,14 +230,18 @@ namespace AutoAttendant.Views
             bool answer = await DisplayAlert("Class Info", message, "Save", "Cancel");
             if (answer)
             {
-                if (index < LoginPage._lsvm.ScheduleCollection.Count-1) // nếu index của schedule vẫn còn nằm trong _lsvm
+                if (index < LoginPage._lsvm.ScheduleCollection.Count - 1) // nếu index của schedule vẫn còn nằm trong _lsvm
                 {
                     ClassPage.first_id_in_list = Convert.ToInt32(LoginPage._lsvm.ScheduleCollection[index + 1].Id); // gán first id in list = id của schedule tiếp theo
                     ClassPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
                     schedule.State = 1; // state = 1 là schdule này done
-  
+                    schedule.StateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
                 }
-                else ClassPage.first_id_in_list = -1; // nếu index vượt thì gán = -1 để ko làm gì khi back về
+                else { 
+                    ClassPage.first_id_in_list = -1; // nếu index vượt thì gán = -1 để ko làm gì khi back về
+                    schedule.State = 1;
+                    schedule.StateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
+                }
                 await Navigation.PopAsync();
             }
             else

@@ -27,7 +27,7 @@
                 
             </StackLayout>
 
-            <StackLayout Padding="20" HeightRequest="500">
+            <StackLayout Padding="10,20,10,20" HeightRequest="500">
                 <ListView ItemsSource="{Binding ScheduleCollection}" RowHeight="80" HorizontalOptions="Center">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -43,11 +43,14 @@
                                             <TapGestureRecognizer Tapped="ClassClick"/>
                                         </Frame.GestureRecognizers>
                                         <StackLayout Orientation="Horizontal" Spacing="10">
-                                            <Label Text="{Binding Classes}" TextColor="#000" FontSize="14" WidthRequest="140" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold"/>
-                                            <Label Text="{Binding Subject}" TextColor="#000" FontSize="14" WidthRequest="240" VerticalTextAlignment="Center" IsVisible="True" FontAttributes="Bold" HorizontalTextAlignment="Start"/>
+                                            <Label Text="{Binding Classes}" TextColor="#000" FontSize="14" WidthRequest="80" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold" Margin="-5,0,0,0"/>
+                                            <Label Text="{Binding Subject}" TextColor="#000" FontSize="14" WidthRequest="160" VerticalTextAlignment="Center" IsVisible="True" FontAttributes="Bold" HorizontalTextAlignment="Start"/>
                                             <Label Text="{Binding State}" TextColor="#000" FontSize="14" WidthRequest="60" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="False"/>
                                             <Label Text="{Binding Id}" TextColor="#000" IsVisible="False"></Label>
-                                            <Label Text="{Binding TimeSlot}" TextColor="#000" FontSize="14" WidthRequest="160" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" IsVisible="True" FontAttributes="Bold"></Label>
+                                            <Label Text="{Binding TimeSlot}" TextColor="#000" FontSize="14" WidthRequest="30" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" IsVisible="True" FontAttributes="Bold"></Label>
+                                            <Label Text="{Binding StateString}" TextColor="#000" FontSize="14" WidthRequest="70" VerticalTextAlignment="Center" HorizontalTextAlignment="End" IsVisible="True" FontAttributes="Bold"></Label>
+                                            <Image Source="attendance_Black" WidthRequest="20" HorizontalOptions="Start" Margin="-5,0,0,0"></Image>
+                                            
                                         </StackLayout>
                                     </Frame>
                                 </StackLayout>
