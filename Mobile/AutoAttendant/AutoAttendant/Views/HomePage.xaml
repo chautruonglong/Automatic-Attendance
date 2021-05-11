@@ -32,7 +32,7 @@
                             <TapGestureRecognizer Tapped="ChangeAvatar" />
                         </Label.GestureRecognizers>
                     </Label>-->
-                    <xct:AvatarView Text="NKD" HorizontalOptions="Center" VerticalOptions="Start" Size="120" x:Name="Avatar" Color="#CFDADF" Margin="0,30,0,0">
+                    <xct:AvatarView Text="NKD" HorizontalOptions="Center" VerticalOptions="Start" Size="100" x:Name="Avatar" Color="#CFDADF" Margin="0,30,0,0">
                         <xct:AvatarView.GestureRecognizers>
                             <TapGestureRecognizer Tapped="ChangeAvatar"/>
                         </xct:AvatarView.GestureRecognizers>
@@ -68,7 +68,7 @@
                                 <TapGestureRecognizer Tapped="HandleRoom"/>
                             </Frame.GestureRecognizers>
                             <StackLayout Orientation="Horizontal" Padding="20,0" VerticalOptions="Center">
-                                <Image Source="exit25px" WidthRequest="25" HeightRequest="25" Margin="0,0,30,0"/>
+                                <Image Source="room" WidthRequest="25" HeightRequest="25" Margin="0,0,30,0"/>
                                 <Label Text="Rooms" TextColor="#FFF" FontSize="17" VerticalTextAlignment="Center"/>
                             </StackLayout>
                         </Frame>

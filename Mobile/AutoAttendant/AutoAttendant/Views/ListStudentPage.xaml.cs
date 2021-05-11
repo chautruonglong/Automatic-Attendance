@@ -68,7 +68,7 @@ namespace AutoAttendant.Views
                     var itemSelected = lsvm.StudentCollection.Single(r => r.Name == Name.Text);
                     var index = lsvm.StudentCollection.IndexOf(itemSelected);
                     Student std = lsvm.StudentCollection[index];
-                    message = string.Format("Name: {0} \nClass: {1} \nTime: {2}", std.Id, std.Name, std.Phone);
+                    message = string.Format("Name: {0}\nClass: {1}\nTime: {2}", std.Id, std.Name, std.Phone);
                     DisplayAlert("Notice", message, "OK");
                     Navigation.PushAsync(new StudentDetailPage(std, lsvm));
                 }
@@ -227,7 +227,7 @@ namespace AutoAttendant.Views
             }
             
            
-            var message = String.Format("Clss: {0}\n Subject: {1}\n Time Slot: {2}\n Attendance: {3}", className, timeSlot, subject, attendanceCount);
+            var message = String.Format("Class: {0}\n Subject: {1}\nTime Slot: {2}\nAttendance: {3}", className, subject, timeSlot, attendanceCount);
             bool answer = await DisplayAlert("Class Info", message, "Save", "Cancel");
             if (answer)
             {

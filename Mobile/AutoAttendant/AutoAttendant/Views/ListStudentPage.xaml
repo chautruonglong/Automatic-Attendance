@@ -24,8 +24,8 @@
                         HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="#021135" 
                         FontAttributes="None" TextTransform="None" FontSize="15" HeightRequest="40"
                         BorderRadius="8" TextColor="#FFF" BorderWidth="1" BorderColor="#FFF"
-                        Clicked="TakeAttendance"/>
-                <Button x:Name="btnSave" Text="Save" ContentLayout="Right" ImageSource="attendance"  
+                        Clicked="TakeAttendance" Margin="10,0,0,0"/>
+                <Button x:Name="btnSave" Text="Save" ContentLayout="Right" ImageSource="checked"  
                         HorizontalOptions="CenterAndExpand" VerticalOptions="Center" BackgroundColor="#021135" 
                         FontAttributes="None" TextTransform="None" FontSize="15" HeightRequest="40"
                         BorderRadius="8" TextColor="#FFF" BorderWidth="1" BorderColor="#FFF"

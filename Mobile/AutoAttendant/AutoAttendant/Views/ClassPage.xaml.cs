@@ -152,15 +152,15 @@ namespace AutoAttendant.Views
         {   
             if (first_id_in_list!=-1) {
                 var item = LoginPage._lsvm.ScheduleCollection.Single(r => r.Id == first_id_in_list);
-                item.ColorState = "#ccc";
+                item.ColorState = "#246CFE";
                 int index = LoginPage._lsvm.ScheduleCollection.IndexOf(item);
-                if (index > 0) { LoginPage._lsvm.ScheduleCollection[index - 1].ColorState = "#246CFE"; }
+                if (index > 0) { LoginPage._lsvm.ScheduleCollection[index - 1].ColorState = "#0E368B"; }
                 
             }
             else
             {
                 var item = LoginPage._lsvm.ScheduleCollection[LoginPage._lsvm.ScheduleCollection.Count - 1];
-                item.ColorState = "#246CFE";
+                item.ColorState = "#0E368B";
             }
 
 
