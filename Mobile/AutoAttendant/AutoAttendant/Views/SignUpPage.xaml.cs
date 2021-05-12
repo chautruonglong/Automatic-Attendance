@@ -16,7 +16,6 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignUpPage : ContentPage
     {
-        string base_URL = "http://192.168.0.101:3000/account/";
         public SignUpPage()
         {
             InitializeComponent();
@@ -27,6 +26,7 @@ namespace AutoAttendant.Views
             Navigation.PopModalAsync();
         }
 
+        [Obsolete]
         private async void btnSignUP(object sender, EventArgs e)
         {
             try
@@ -38,7 +38,7 @@ namespace AutoAttendant.Views
 
                 string jsonData = JsonConvert.SerializeObject(user); // convert object => json
                 StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
+                var base_URL = HomePage.base_URL + "account";
                 HttpResponseMessage response = await httpService.PostAsync(base_URL, content); // post request to server and get respone
 
                 //fake waiting

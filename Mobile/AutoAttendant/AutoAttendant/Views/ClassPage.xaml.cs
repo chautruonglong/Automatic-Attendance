@@ -21,11 +21,14 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ClassPage : ContentPage
     {
-        ListScheduleViewModel lsvm = LoginPage._lsvm;
+        [Obsolete]
+        ListScheduleViewModel lsvm = HomePage._lsvm;
         public static ListClassViewModel _lcvm = new ListClassViewModel();
         public static Classes classes = new Classes();
         public static int checkClearStd_ListPage = 0; // = 0 thì khi vào lại lớp vẫn còn list student, = 1 thì clear
         public static int first_id_in_list; // id của schedule có thể join dc
+
+        [Obsolete]
         public ClassPage()
         {
             InitializeComponent();
@@ -34,18 +37,18 @@ namespace AutoAttendant.Views
             
         }
 
-
-
+        [Obsolete]
         protected override void OnAppearing() // goị trước khi screen page này xuất hiện
         {
             ReLoadScheduleList();
             base.OnAppearing();
         }
 
+        [Obsolete]
         public void ReLoadScheduleList()
         {
             //SetColorById();
-            lsvm.ScheduleCollection = LoginPage._lsvm.ScheduleCollection;
+            lsvm.ScheduleCollection = HomePage._lsvm.ScheduleCollection;
             if (lsvm.ScheduleCollection.Count > 0)
             {
                 
@@ -128,14 +131,16 @@ namespace AutoAttendant.Views
 
         }
 
+        [Obsolete]
         public async Task<ObservableCollection<Schedule>> HandleSchedule()
         {
             try
             {
 
                 var httpService = new HttpService();
-                string full_url = "http://192.168.0.101:3000/schedule/";
-                var result = await httpService.SendAsync(full_url, HttpMethod.Get);
+                var base_URL = HomePage.base_URL + "schedule";
+                //string full_url = "http://192.168.0.101:3000/schedule/";
+                var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 var listSchedule = JsonConvert.DeserializeObject<ObservableCollection<Schedule>>(result);
                 return listSchedule;
             }
@@ -147,45 +152,45 @@ namespace AutoAttendant.Views
             }
         }
 
-
+        [Obsolete]
         public void SetColorById()
         {   
             if (first_id_in_list!=-1) {
-                var item = LoginPage._lsvm.ScheduleCollection.Single(r => r.Id == first_id_in_list); // tìm nút schedule có Id = first id in list
+                var item = HomePage._lsvm.ScheduleCollection.Single(r => r.Id == first_id_in_list); // tìm nút schedule có Id = first id in list
                 item.ColorState = "#246CFE"; // set color
-                int index = LoginPage._lsvm.ScheduleCollection.IndexOf(item); // lấy ra index của schedule vừa tìm dc
-                if (index > 0) { LoginPage._lsvm.ScheduleCollection[index - 1].ColorState = "#0E368B"; }
+                int index = HomePage._lsvm.ScheduleCollection.IndexOf(item); // lấy ra index của schedule vừa tìm dc
+                if (index > 0) { HomePage._lsvm.ScheduleCollection[index - 1].ColorState = "#0E368B"; }
                 
             }
             else // set gia tri cho last schedule
             {
-                var item = LoginPage._lsvm.ScheduleCollection[LoginPage._lsvm.ScheduleCollection.Count - 1];
+                var item = HomePage._lsvm.ScheduleCollection[HomePage._lsvm.ScheduleCollection.Count - 1];
                 item.ColorState = "#0E368B";
             }
         }
 
-
+        [Obsolete]
         public async void ShowSchedule()
         {
             try
-            {   if (LoginPage.checkCreateListSchedule == 0) {
+            {   if (HomePage.checkCreateListSchedule == 0) {
                     var listSchedule = new ObservableCollection<Schedule>(await HandleSchedule()); // list Schedule trả về từ HandelSchedule
                     first_id_in_list = Convert.ToInt32(listSchedule[0].Id);
 
                     foreach (Schedule schedule in listSchedule)  // duyet trong list schedule để thêm vào lsvm
                     {
                         schedule.StateString = "0 / 0"; // change here
-                        LoginPage._lsvm.ScheduleCollection.Add(schedule);
+                        HomePage._lsvm.ScheduleCollection.Add(schedule);
                         
                     }
-                    LoginPage.checkCreateListSchedule = 1;
+                    HomePage.checkCreateListSchedule = 1;
                 }
 
 
 
 
                 SetColorById();
-                lsvm.ScheduleCollection = LoginPage._lsvm.ScheduleCollection; // gán lsvm bên Login cho lsvm của trang này -> avoid add same schedule
+                lsvm.ScheduleCollection = HomePage._lsvm.ScheduleCollection; // gán lsvm bên Login cho lsvm của trang này -> avoid add same schedule
                 this.BindingContext = lsvm; 
             }
             catch (Exception)

@@ -1,4 +1,6 @@
-﻿using Plugin.Media;
+﻿using AutoAttendant.Models;
+using AutoAttendant.ViewModel;
+using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,11 @@ namespace AutoAttendant.Views
     [Obsolete]
     public partial class HomePage : MasterDetailPage
     {
+        public static ListRoomViewModel _lrvm = new ListRoomViewModel();
+        public static ListScheduleViewModel _lsvm = new ListScheduleViewModel();
+        public static int checkCreateListSchedule = 0; //avoid repeat schedule from ShowSchedule()
+        public static Lecture _lecture = new Lecture();
+        public static string base_URL = "http://192.168.0.101:3000/";
         public HomePage()
         {
             InitializeComponent();

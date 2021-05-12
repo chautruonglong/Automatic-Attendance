@@ -25,7 +25,7 @@ namespace AutoAttendant.Views
         {
             InitializeComponent();
             this.BindingContext = new ListStudentViewModel(); // listview se binding theo object List Student View Model
-            //DisplayAlert("NOtice", LoginPage._lsvm.ScheduleCollection.Count.ToString(), "OK");
+            //DisplayAlert("NOtice", HomePage._lsvm.ScheduleCollection.Count.ToString(), "OK");
             //ReLoadStudenList();
         }
 
@@ -210,8 +210,8 @@ namespace AutoAttendant.Views
             string subject;
             int attendanceCount = 0;
 
-            var schedule = LoginPage._lsvm.ScheduleCollection.Single(r => Convert.ToInt32(r.Id) == ClassPage.first_id_in_list);
-            int index = LoginPage._lsvm.ScheduleCollection.IndexOf(schedule);
+            var schedule = HomePage._lsvm.ScheduleCollection.Single(r => Convert.ToInt32(r.Id) == ClassPage.first_id_in_list);
+            int index = HomePage._lsvm.ScheduleCollection.IndexOf(schedule);
 
             
             className = ClassPage.classes.Name;
@@ -230,9 +230,9 @@ namespace AutoAttendant.Views
             bool answer = await DisplayAlert("Class Info", message, "Save", "Cancel");
             if (answer)
             {
-                if (index < LoginPage._lsvm.ScheduleCollection.Count - 1) // nếu index của schedule vẫn còn nằm trong _lsvm
+                if (index < HomePage._lsvm.ScheduleCollection.Count - 1) // nếu index của schedule vẫn còn nằm trong _lsvm
                 {
-                    ClassPage.first_id_in_list = Convert.ToInt32(LoginPage._lsvm.ScheduleCollection[index + 1].Id); // gán first id in list = id của schedule tiếp theo
+                    ClassPage.first_id_in_list = Convert.ToInt32(HomePage._lsvm.ScheduleCollection[index + 1].Id); // gán first id in list = id của schedule tiếp theo
                     ClassPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
                     schedule.State = 1; // state = 1 là schdule này done
                     schedule.StateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
