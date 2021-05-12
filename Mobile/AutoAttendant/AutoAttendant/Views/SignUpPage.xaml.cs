@@ -32,14 +32,23 @@ namespace AutoAttendant.Views
             try
             {
                 var httpService = new HttpClient();
+                int idLecture = Convert.ToInt32(Entry_Id.Text);
                 string email = Entry_email.Text;
                 string password = Entry_password.Text;
-                var user = new UserTemp(email, password);
+                string name = Entry_name.Text;
 
-                string jsonData = JsonConvert.SerializeObject(user); // convert object => json
-                StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                var base_URL = HomePage.base_URL + "account";
-                HttpResponseMessage response = await httpService.PostAsync(base_URL, content); // post request to server and get respone
+                var user = new UserTempSignUp(idLecture, email, password); // register
+                var lecture = new Lecture(idLecture, name); //post lecture
+
+                string jsonUser = JsonConvert.SerializeObject(user); // convert object => json
+                StringContent contentUser = new StringContent(jsonUser, Encoding.UTF8, "application/json");
+                var baseUser_URL = HomePage.base_URL + "register";
+                HttpResponseMessage responseUser = await httpService.PostAsync(baseUser_URL, contentUser); // post request to server and get respone
+
+                string jsonLecture = JsonConvert.SerializeObject(lecture); // convert object => json
+                StringContent contentLecture = new StringContent(jsonLecture, Encoding.UTF8, "application/json");
+                var baseLecture_URL = HomePage.base_URL + "lecture";
+                HttpResponseMessage responseLecture = await httpService.PostAsync(baseLecture_URL, contentLecture);
 
                 //fake waiting
                 UserDialogs.Instance.ShowLoading("Creating account...");
@@ -47,7 +56,7 @@ namespace AutoAttendant.Views
                 UserDialogs.Instance.HideLoading();
                 UserDialogs.Instance.Toast("Your account was registered!");
 
-                if (response.IsSuccessStatusCode)
+                if (responseUser.IsSuccessStatusCode && responseLecture.IsSuccessStatusCode)
                 {
                     await Navigation.PopModalAsync();
                 }

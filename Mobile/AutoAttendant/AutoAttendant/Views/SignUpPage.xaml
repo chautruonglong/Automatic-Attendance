@@ -10,7 +10,7 @@
 
     <ContentPage.Content>
         <StackLayout BackgroundColor="#021135" Padding="0,20">
-            <StackLayout Orientation="Vertical" Margin="20,20,20,40">
+            <StackLayout Orientation="Vertical" Margin="20,20,20,10">
                 <Label Text="Sign up with" FontSize="16" TextColor="#FFF" FontAttributes="Bold"/>
                 <Button Text="Your Microsoft Account" ContentLayout="Left" ImageSource="microsoft25px"
                         BackgroundColor="#022656" HorizontalOptions="Start"
@@ -19,6 +19,21 @@
                         BorderColor="#FFF" WidthRequest="260" />
             </StackLayout>
             <StackLayout Orientation="Vertical" Margin="20">
+
+                <Label  x:Name="Lb_id" Text="ID"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        TextColor="#FFF"
+                        FontSize="18"
+                        FontFamily=""
+                        FontAttributes="Bold"/>
+
+                <local:CustomEntry x:Name="Entry_Id" TextColor="#FFF" 
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   VerticalOptions="StartAndExpand"
+                                   Margin="0,0,0,15">
+                </local:CustomEntry>
+                
                 <Label  x:Name="Lb_Name" Text="Name"
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 

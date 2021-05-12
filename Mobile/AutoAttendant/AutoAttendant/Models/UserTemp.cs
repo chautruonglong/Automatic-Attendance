@@ -6,31 +6,31 @@ namespace AutoAttendant.Models
 {
     public class UserTemp
     {
-        string email;
-        string password;
+        string _email;
+        string _password;
 
 
-        public string Email
+        public string email
         {
             get
             {
-                return this.email;
+                return this._email;
             }
             set
             {
-                this.email = value;
+                this._email = value;
             }
         }
 
-        public string Password
+        public string password
         {
             get
             {
-                return this.password;
+                return this._password;
             }
             set
             {
-                this.password = value;
+                this._password = value;
             }
         }
 
@@ -42,8 +42,8 @@ namespace AutoAttendant.Models
 
         public UserTemp(string Email, string Password)
         {
-            this.Email = Email;
-            this.Password = Password;
+            this.email = Email;
+            this.password = Password;
         }
     }
 }

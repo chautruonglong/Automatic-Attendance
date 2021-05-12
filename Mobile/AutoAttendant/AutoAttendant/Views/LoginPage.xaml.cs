@@ -47,24 +47,24 @@ namespace AutoAttendant.Views
         {
             try
             {
-                User user = new User(Entry_user.Text, Entry_password.Text);
-                if (user.CheckLogin())
-                {
-                    await Navigation.PushAsync(new HomePage());
-                }
-                else
-                {
-                    var httpService = new HttpClient();
-                    
-                    string jsonData = JsonConvert.SerializeObject(user);
-                    var base_URL = HomePage.base_URL + "login";
-                    StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await httpService.PostAsync(base_URL, content);
-                    UserDialogs.Instance.ShowLoading("Please wait...");
-                    await Task.Delay(2000);
-                    UserDialogs.Instance.HideLoading();
-                    await Navigation.PushAsync(new HomePage());
-                }
+                UserTemp userTemp = new UserTemp(Entry_user.Text, Entry_password.Text);
+                var httpService = new HttpClient();
+
+                string jsonData = JsonConvert.SerializeObject(userTemp);
+                var base_URL = HomePage.base_URL + "login";
+                StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await httpService.PostAsync(base_URL, content);
+                
+                var result = await response.Content.ReadAsStringAsync();
+
+                Data.Data.Instance.User = JsonConvert.DeserializeObject<User>(result);
+                User userMain = Data.Data.Instance.User;
+                
+                //await DisplayAlert("ERROR", userMain.name + "\n" + userMain.token, "Try Again");
+                UserDialogs.Instance.ShowLoading("Please wait...");
+                await Task.Delay(2000);
+                UserDialogs.Instance.HideLoading();
+                await Navigation.PushAsync(new HomePage());
 
             }
             catch (Exception ex)
