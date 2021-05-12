@@ -1,4 +1,5 @@
-﻿using AutoAttendant.Models;
+﻿using Acr.UserDialogs;
+using AutoAttendant.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignUpPage : ContentPage
     {
-        string base_URL = "http://IP:8000/user/register/";
+        string base_URL = "http://192.168.0.101:3000/account/";
         public SignUpPage()
         {
             InitializeComponent();
@@ -26,29 +27,40 @@ namespace AutoAttendant.Views
             Navigation.PopModalAsync();
         }
 
-        private void btnSignUP(object sender, EventArgs e)
+        private async void btnSignUP(object sender, EventArgs e)
         {
-            //try
-            //{
-            //    var httpService = new HttpClient();
-            //    string name = Entry_name.Text;
-            //    string username = Entry_user.Text;
-            //    string password = Entry_password.Text;  
-            //    var user = new User(username, password);
+            try
+            {
+                var httpService = new HttpClient();
+                string email = Entry_email.Text;
+                string password = Entry_password.Text;
+                var user = new UserTemp(email, password);
 
-            //    string jsonData = JsonConvert.SerializeObject(user);
-            //    StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            //    HttpResponseMessage response =  await httpService.PostAsync(base_URL, content); // post request to server and get respone
-            //    var jsonResponse = await response.Content.ReadAsStringAsync();
-            //    if () //check json response or response
-            //    {
-            //        await Navigation.PopModalAsync(); // back to login page
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //    await DisplayAlert("ERROR", "Fail to register", "Try Again");
-            //}
+                string jsonData = JsonConvert.SerializeObject(user); // convert object => json
+                StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await httpService.PostAsync(base_URL, content); // post request to server and get respone
+
+                //fake waiting
+                UserDialogs.Instance.ShowLoading("Creating account...");
+                await Task.Delay(2000);
+                UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.Toast("Your account was registered!");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await Navigation.PopModalAsync();
+                }
+                else
+                {
+                    await DisplayAlert("ERROR", "Fail to register", "Try Again");
+                }
+
+            }
+            catch (Exception)
+            {
+                await DisplayAlert("ERROR", "Fail to register", "Try Again");
+            }
         }
     }
 }

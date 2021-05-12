@@ -33,7 +33,7 @@
                                    Margin="0,0,0,15">
                 </local:CustomEntry>
 
-                <Label  x:Name="Lb_user" Text="E-mail or Username"
+                <Label  x:Name="Lb_email" Text="E-mail or Username"
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 
                         TextColor="#FFF"
@@ -41,7 +41,7 @@
                         FontFamily=""
                         FontAttributes="Bold"/>
 
-                <local:CustomEntry x:Name="Entry_usernam" TextColor="#FFF" 
+                <local:CustomEntry x:Name="Entry_email" TextColor="#FFF" 
                                    HeightRequest="40" BackgroundColor="#022656"
                                    VerticalOptions="StartAndExpand"
                                    Margin="0,0,0,15">
@@ -70,7 +70,7 @@
                        TextColor="#FFF"
                        FontSize="16"/>
 
-                    <Label x:Name="Btn_signup" Text="Login"
+                    <Label x:Name="btn_BackToLogin" Text="Login"
                        TextColor="#FFF"
                        TextTransform="None"
                        BackgroundColor="#021135"
