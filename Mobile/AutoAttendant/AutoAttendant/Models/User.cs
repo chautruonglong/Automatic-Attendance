@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AutoAttendant.Models
 {
-    class User
+    public class User
     {
         int _id;
         int _idLecture;

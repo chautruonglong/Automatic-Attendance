@@ -1,10 +1,13 @@
 ﻿using AutoAttendant.Models;
+using AutoAttendant.Services;
 using AutoAttendant.ViewModel;
+using Newtonsoft.Json;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,14 +25,28 @@ namespace AutoAttendant.Views
         public static ListScheduleViewModel _lsvm = new ListScheduleViewModel();
         public static int checkCreateListSchedule = 0; //avoid repeat schedule from ShowSchedule()
         //public static Lecture _lecture = new Lecture();
-        public static string base_URL = "http://192.168.0.101:3000/";
-        public HomePage()
+        public static string base_URL = "http://192.168.30.102:3000/";
+        public HomePage(User user)
         {
             InitializeComponent();
             Detail = new NavigationPage(new ClassPage());
+            GetLectureInfoById(user.idLecture);
             
         }
 
+        public async void GetLectureInfoById(int id) //lay theo id ben login truyền qua
+        {
+            var httpService = new HttpService();
+            var base_URL = HomePage.base_URL + "lecture/" + id.ToString();
+            var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
+            var lecture = JsonConvert.DeserializeObject<Lecture>(result);
+            Data.Data.Instance.Lecture = lecture;
+            Lb_LectureName.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(lecture.name.ToLower());
+            string avaText = "";
+            lecture.name.Split(' ').ToList().ForEach(i => avaText += i[0].ToString());
+            Avatar.Text = avaText;
+            Avatar.TextColor = Color.FromHex("#021135");;
+        }
 
         private void HandleTeacherProfile(object sender, EventArgs e)
         {

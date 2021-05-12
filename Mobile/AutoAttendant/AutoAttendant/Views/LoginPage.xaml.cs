@@ -50,21 +50,24 @@ namespace AutoAttendant.Views
                 UserTemp userTemp = new UserTemp(Entry_user.Text, Entry_password.Text);
                 var httpService = new HttpClient();
 
-                string jsonData = JsonConvert.SerializeObject(userTemp);
+                string jsonData = JsonConvert.SerializeObject(userTemp); // dung` user temp de convert json vì chỉ cần gửi email vs pass để login
                 var base_URL = HomePage.base_URL + "login";
                 StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await httpService.PostAsync(base_URL, content);
                 
                 var result = await response.Content.ReadAsStringAsync();
-
                 Data.Data.Instance.User = JsonConvert.DeserializeObject<User>(result);
                 User userMain = Data.Data.Instance.User;
-                
-                //await DisplayAlert("ERROR", userMain.name + "\n" + userMain.token, "Try Again");
-                UserDialogs.Instance.ShowLoading("Please wait...");
-                await Task.Delay(2000);
-                UserDialogs.Instance.HideLoading();
-                await Navigation.PushAsync(new HomePage());
+
+                if (response.IsSuccessStatusCode)
+                {
+                    UserDialogs.Instance.ShowLoading("Please wait...");
+                    await Task.Delay(2000);
+                    UserDialogs.Instance.HideLoading();
+                    await Navigation.PushAsync(new HomePage(userMain)); 
+                }
+                else await DisplayAlert("Error", "Login Fail", "Try Again");
+
 
             }
             catch (Exception ex)
