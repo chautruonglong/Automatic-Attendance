@@ -83,15 +83,15 @@ namespace AutoAttendant.Views
                         Label LabelId = (Label)forthLabel;
                         if(Convert.ToInt32(LabelId.Text) == first_id_in_list) // chỉ dc mở schedule có id đang = first id in list
                         {
-                            var itemSelected = lsvm.ScheduleCollection.Single(r => r.Classes == ClassName.Text && r.Subject == Subject.Text);
+                            var itemSelected = lsvm.ScheduleCollection.Single(r => r.idSubject == ClassName.Text && r.nameSubject == Subject.Text);
                             var index = lsvm.ScheduleCollection.IndexOf(itemSelected); // lấy index của schedule đó trong lsvm
                             Schedule schedule = lsvm.ScheduleCollection[index]; // tìm dc schdule theo index
 
-                            message = string.Format("Id Room: {0} \nClass: {1} \nSubject: {2} \nTime Slot: {3} \nState: {4}", schedule.IdRoom, schedule.Classes, schedule.Subject, schedule.TimeSlot, schedule.State);
+                            message = string.Format("Id Room: {0} \nClass: {1} \nSubject: {2} \nTime Slot: {3} \nState: {4}", schedule.idRoom, schedule.idSubject, schedule.nameSubject, schedule.timeSlot, schedule.state);
                             bool answer = await DisplayAlert("Schedule Info", message, "Join", "Cancel");
                             if (answer)
                             {
-                                classes.Name = schedule.Classes; // gán cho biến static classes = class tương ứng của schedule 
+                                classes.Name = schedule.idSubject; // gán cho biến static classes = class tương ứng của schedule 
                                 //classes.StudentList1.Clear();
                                 if(checkClearStd_ListPage == 1)
                                 {
@@ -156,16 +156,16 @@ namespace AutoAttendant.Views
         public void SetColorById()
         {   
             if (first_id_in_list!=-1) {
-                var item = HomePage._lsvm.ScheduleCollection.Single(r => r.Id == first_id_in_list); // tìm nút schedule có Id = first id in list
-                item.ColorState = "#246CFE"; // set color
+                var item = HomePage._lsvm.ScheduleCollection.Single(r => r.id == first_id_in_list); // tìm nút schedule có Id = first id in list
+                item.colorState = "#246CFE"; // set color
                 int index = HomePage._lsvm.ScheduleCollection.IndexOf(item); // lấy ra index của schedule vừa tìm dc
-                if (index > 0) { HomePage._lsvm.ScheduleCollection[index - 1].ColorState = "#0E368B"; }
+                if (index > 0) { HomePage._lsvm.ScheduleCollection[index - 1].colorState = "#0E368B"; }
                 
             }
             else // set gia tri cho last schedule
             {
                 var item = HomePage._lsvm.ScheduleCollection[HomePage._lsvm.ScheduleCollection.Count - 1];
-                item.ColorState = "#0E368B";
+                item.colorState = "#0E368B";
             }
         }
 
@@ -175,11 +175,11 @@ namespace AutoAttendant.Views
             try
             {   if (HomePage.checkCreateListSchedule == 0) {
                     var listSchedule = new ObservableCollection<Schedule>(await HandleSchedule()); // list Schedule trả về từ HandelSchedule
-                    first_id_in_list = Convert.ToInt32(listSchedule[0].Id);
+                    first_id_in_list = Convert.ToInt32(listSchedule[0].id);
 
                     foreach (Schedule schedule in listSchedule)  // duyet trong list schedule để thêm vào lsvm
                     {
-                        schedule.StateString = "0 / 0"; // change here
+                        schedule.stateString = "0 / 0"; // change here
                         HomePage._lsvm.ScheduleCollection.Add(schedule);
                         
                     }

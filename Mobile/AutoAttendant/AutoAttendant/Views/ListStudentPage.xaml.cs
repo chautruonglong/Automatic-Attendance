@@ -1,11 +1,13 @@
 ﻿using Acr.UserDialogs;
 using AutoAttendant.Models;
 using AutoAttendant.ViewModel;
+using Newtonsoft.Json;
 using Syncfusion.XlsIO;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -197,11 +199,22 @@ namespace AutoAttendant.Views
                 UserDialogs.Instance.Toast("Done");
             }
         }
-
         public void HandleAttendance()
         {
 
         }
+            public async void HandlePutStateSchedule(Schedule schedule)
+        {
+            var httpService = new HttpClient();
+            string jsonSchedule = JsonConvert.SerializeObject(schedule); // convert object => json
+            string colorState = "," + @"""colorState""";
+            int removeIndex = jsonSchedule.IndexOf(colorState);
+            jsonSchedule = jsonSchedule.Substring(0, removeIndex) + "}";
+            StringContent contentLecture = new StringContent(jsonSchedule, Encoding.UTF8, "application/json");
+            var baseLecture_URL = HomePage.base_URL + "schedule/" + schedule.id.ToString();
+            HttpResponseMessage responseLecture =  await httpService.PutAsync(baseLecture_URL, contentLecture);
+        }
+
 
         private async void ClickSaveAndImport(object sender, EventArgs e)
         {
@@ -210,13 +223,13 @@ namespace AutoAttendant.Views
             string subject;
             int attendanceCount = 0;
 
-            var schedule = HomePage._lsvm.ScheduleCollection.Single(r => Convert.ToInt32(r.Id) == ClassPage.first_id_in_list);
+            var schedule = HomePage._lsvm.ScheduleCollection.Single(r => Convert.ToInt32(r.id) == ClassPage.first_id_in_list);
             int index = HomePage._lsvm.ScheduleCollection.IndexOf(schedule);
 
             
             className = ClassPage.classes.Name;
-            timeSlot = schedule.TimeSlot;
-            subject = schedule.Subject;
+            timeSlot = schedule.timeSlot;
+            subject = schedule.nameSubject;
             foreach(Student std in lsvm.StudentCollection)
             {
                 if(std.State == true)
@@ -232,16 +245,21 @@ namespace AutoAttendant.Views
             {
                 if (index < HomePage._lsvm.ScheduleCollection.Count - 1) // nếu index của schedule vẫn còn nằm trong _lsvm
                 {
-                    ClassPage.first_id_in_list = Convert.ToInt32(HomePage._lsvm.ScheduleCollection[index + 1].Id); // gán first id in list = id của schedule tiếp theo
+                    ClassPage.first_id_in_list = Convert.ToInt32(HomePage._lsvm.ScheduleCollection[index + 1].id); // gán first id in list = id của schedule tiếp theo
                     ClassPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
-                    schedule.State = 1; // state = 1 là schdule này done
-                    schedule.StateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
+                    schedule.state = 1; // state = 1 là schdule này done
+                    schedule.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
+
+
                 }
                 else { 
                     ClassPage.first_id_in_list = -1; // nếu index vượt thì gán = -1 để ko làm gì khi back về
-                    schedule.State = 1;
-                    schedule.StateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
+                    schedule.state = 1;
+                    schedule.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
                 }
+
+                // Put to Server
+                HandlePutStateSchedule(schedule);
                 await Navigation.PopAsync();
             }
             else

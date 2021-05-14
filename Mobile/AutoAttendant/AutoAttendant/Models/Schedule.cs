@@ -6,110 +6,53 @@ namespace AutoAttendant.Models
 {
     public class Schedule
     {
-        private int id;
-        private string idTeacher;
-        private string idRoom;
-        private string classes;
-        private string subject;
-        private string timeSlot;
-        private int state;
-        private string colorState = "#0E368B";
-        private string stateString;
+        private int _id;
+        private string _idTeacher;
+        private string _idRoom;
+        private string _idSubject;
+        private string _nameSubject;
+        private string _timeSlot;
+        private int _state;
+        private DateTime _date;
+        private string _colorState = "#0E368B";
+        private string _stateString;
 
-        public int Id
+        public Schedule(int id, string idTeacher, string idRoom, string idSubject, string subject, string timeSlot, int state, DateTime date, string colorState, string stateString)
         {
-            get
-            {
-                return this.id;
-            }
-            set
-            {
-                this.id = value;
-            }
-        }
-        public string IdTeacher
-        {
-            get
-            {
-                return this.idTeacher;
-            }
-            set
-            {
-                this.idTeacher = value;
-            }
-        }
-        public string IdRoom
-        {
-            get
-            {
-                return this.idRoom;
-            }
-            set
-            {
-                this.idRoom = value;
-            }
-        }
-        public string Classes
-        {
-            get
-            {
-                return this.classes;
-            }
-            set
-            {
-                this.classes = value;
-            }
-        }
-        public string Subject
-        {
-            get
-            {
-                return this.subject;
-            }
-            set
-            {
-                this.subject = value;
-            }
+            _id = id;
+            _idTeacher = idTeacher;
+            _idRoom = idRoom;
+            _idSubject = idSubject;
+            _nameSubject = subject;
+            _timeSlot = timeSlot;
+            _state = state;
+            _date = date;
+            _stateString = stateString;
         }
 
-        public string TimeSlot
-        {
-            get
-            {
-                return this.timeSlot;
-            }
-            set
-            {
-                this.timeSlot = value;
-            }
-        }
+        public int id { get => _id; set => _id = value; }
+        public string idTeacher { get => _idTeacher; set => _idTeacher = value; }
+        public string idRoom { get => _idRoom; set => _idRoom = value; }
+        public string idSubject { get => _idSubject; set => _idSubject = value; }
+        public string nameSubject { get => _nameSubject; set => _nameSubject = value; }
+        public string timeSlot { get => _timeSlot; set => _timeSlot = value; }
+        public int state { get => _state; set => _state = value; }
+        public DateTime date { get => _date; set => _date = value; }
+        public string colorState { get => _colorState; set => _colorState = value; }
+        public string stateString { get => _stateString; set => _stateString = value; }
 
-        public int State
-        {
-            get
-            {
-                return this.state;
-            }
-            set
-            {
-                this.state = value;
-            }
-        }
-
-        public string ColorState { get => colorState; set => colorState = value; }
-        public string StateString { get => stateString; set => stateString = value; }
-
-        public Schedule(int id, string idTeacher, string idRoom, string classes, string subject, string timeSlot, int state, string stateString)
-        {
-            this.Id = id;
-            this.IdTeacher = idTeacher;
-            this.IdRoom = idRoom;
-            this.Classes = classes;
-            this.Subject = subject;
-            this.TimeSlot = timeSlot;
-            this.State = state;
-            this.StateString = stateString;
-        }
+        //public Schedule(int id, string idTeacher, string idRoom, string classes, string subject, string timeSlot, int state, string stateString, DateTime date)
+        //{
+        //    this.id = id;
+        //    this.IdTeacher = idTeacher;
+        //    this.IdRoom = idRoom;
+        //    this.Classes = classes;
+        //    this.Subject = subject;
+        //    this.TimeSlot = timeSlot;
+        //    this.State = state;
+        //    this.StateString = stateString;
+        //    this.Date = date;
+        //}
 
 
 

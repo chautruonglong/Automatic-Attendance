@@ -38,17 +38,17 @@
                                             CornerRadius="10"
                                             Margin="10,0"
                                             HeightRequest="20"
-                                            BackgroundColor="{Binding ColorState}">
+                                            BackgroundColor="{Binding colorState}">
                                         <Frame.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="ClassClick"/>
                                         </Frame.GestureRecognizers>
                                         <StackLayout Orientation="Horizontal" Spacing="10">
-                                            <Label Text="{Binding Classes}" TextColor="#000" FontSize="14" WidthRequest="80" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold" Margin="-5,0,0,0"/>
-                                            <Label Text="{Binding Subject}" TextColor="#000" FontSize="14" WidthRequest="160" VerticalTextAlignment="Center" IsVisible="True" FontAttributes="Bold" HorizontalTextAlignment="Start"/>
-                                            <Label Text="{Binding State}" TextColor="#000" FontSize="14" WidthRequest="60" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="True"/>
-                                            <Label Text="{Binding Id}" TextColor="#000" IsVisible="False"></Label>
-                                            <Label Text="{Binding TimeSlot}" TextColor="#000" FontSize="14" WidthRequest="30" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" IsVisible="True" FontAttributes="Bold"></Label>
-                                            <Label Text="{Binding StateString}" TextColor="#000" FontSize="14" WidthRequest="70" VerticalTextAlignment="Center" HorizontalTextAlignment="End" IsVisible="True" FontAttributes="Bold"></Label>
+                                            <Label Text="{Binding idSubject}" TextColor="#000" FontSize="14" WidthRequest="80" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold" Margin="-5,0,0,0"/>
+                                            <Label Text="{Binding nameSubject}" TextColor="#000" FontSize="14" WidthRequest="160" VerticalTextAlignment="Center" IsVisible="True" FontAttributes="Bold" HorizontalTextAlignment="Start"/>
+                                            <Label Text="{Binding state}" TextColor="#000" FontSize="14" WidthRequest="60" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="False"/>
+                                            <Label Text="{Binding id}" TextColor="#000" IsVisible="False"></Label>
+                                            <Label Text="{Binding timeSlot}" TextColor="#000" FontSize="14" WidthRequest="30" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" IsVisible="True" FontAttributes="Bold"></Label>
+                                            <Label Text="{Binding stateString}" TextColor="#000" FontSize="14" WidthRequest="70" VerticalTextAlignment="Center" HorizontalTextAlignment="End" IsVisible="True" FontAttributes="Bold"></Label>
                                             <Image Source="attendance_Black" WidthRequest="20" HorizontalOptions="Start" Margin="-5,0,0,0"></Image>
                                             
                                         </StackLayout>
