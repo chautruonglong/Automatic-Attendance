@@ -10,11 +10,12 @@ using Xamarin.Forms.Xaml;
 namespace AutoAttendant.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TeacherProfilePage : ContentPage
+    public partial class LectureProfilePage : ContentPage
     {
-        public TeacherProfilePage()
+        public LectureProfilePage()
         {
             InitializeComponent();
+            this.BindingContext = Data.Data.Instance.Lecture;
         }
     }
 }

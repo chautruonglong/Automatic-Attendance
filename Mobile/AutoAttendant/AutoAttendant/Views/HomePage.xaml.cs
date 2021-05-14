@@ -50,7 +50,7 @@ namespace AutoAttendant.Views
 
         private void HandleTeacherProfile(object sender, EventArgs e)
         {
-            Detail = new NavigationPage(new TeacherInfoPage());
+            Detail = new NavigationPage(new LectureProfilePage());
             IsPresented = false;
         }
 
@@ -62,6 +62,9 @@ namespace AutoAttendant.Views
 
         private void HandleLogOut(object sender, EventArgs e)
         {
+            checkCreateListSchedule = 0;
+            _lsvm.ScheduleCollection.Clear();
+            // truoc khi out thi` cap nhat lai vo DB
             Navigation.PopToRootAsync();
         }
 

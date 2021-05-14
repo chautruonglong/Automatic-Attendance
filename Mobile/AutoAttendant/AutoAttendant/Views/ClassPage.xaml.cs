@@ -138,7 +138,7 @@ namespace AutoAttendant.Views
             {
 
                 var httpService = new HttpService();
-                var base_URL = HomePage.base_URL + "schedule";
+                var base_URL = HomePage.base_URL + "schedule?idTeacher="+ Data.Data.Instance.User.idLecture.ToString();
                 //string full_url = "http://192.168.0.101:3000/schedule/";
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 var listSchedule = JsonConvert.DeserializeObject<ObservableCollection<Schedule>>(result);
