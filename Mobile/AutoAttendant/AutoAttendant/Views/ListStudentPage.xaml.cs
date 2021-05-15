@@ -203,7 +203,9 @@ namespace AutoAttendant.Views
         {
 
         }
-            public async void HandlePutStateSchedule(Schedule schedule)
+
+        [Obsolete]
+        public async void HandlePutStateSchedule(Schedule schedule) //update  schedule to server
         {
             var httpService = new HttpClient();
             string jsonSchedule = JsonConvert.SerializeObject(schedule); // convert object => json
@@ -215,7 +217,7 @@ namespace AutoAttendant.Views
             HttpResponseMessage responseLecture =  await httpService.PutAsync(baseLecture_URL, contentLecture);
         }
 
-
+        [Obsolete]
         private async void ClickSaveAndImport(object sender, EventArgs e)
         {
             string className;

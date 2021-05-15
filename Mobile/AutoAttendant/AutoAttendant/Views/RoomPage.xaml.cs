@@ -71,6 +71,8 @@ namespace AutoAttendant.Views
             await PopupNavigation.PopAsync();
 
         }
+
+        [Obsolete]
         public async Task<ObservableCollection<Room>> HandleRoom()
         {
             try
@@ -90,6 +92,8 @@ namespace AutoAttendant.Views
                 return null;
             }
         }
+
+        [Obsolete]
         public async void ShowRoom()
         {
             try

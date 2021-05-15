@@ -56,7 +56,7 @@ namespace AutoAttendant.Views
 
         private void HandleHistory(object sender, EventArgs e)
         {
-            Detail = new NavigationPage(new TempClassPage());
+            Detail = new NavigationPage(new HistoryPage());
             IsPresented = false;
         }
 

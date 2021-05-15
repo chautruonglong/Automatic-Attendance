@@ -52,6 +52,7 @@ namespace AutoAttendant.Views
 
                 string jsonData = JsonConvert.SerializeObject(userTemp); // dung` user temp de convert json vì chỉ cần gửi email vs pass để login
                 var base_URL = HomePage.base_URL + "login";
+                //var base_URL = "http://192.168.30.103:8000/auth/login/";
                 StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await httpService.PostAsync(base_URL, content);
                 

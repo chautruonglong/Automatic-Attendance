@@ -59,6 +59,7 @@ namespace AutoAttendant.Views
             }
         }
 
+        [Obsolete]
         private async void ClassClick(object sender, EventArgs e)
         {
             try
@@ -132,14 +133,15 @@ namespace AutoAttendant.Views
         }
 
         [Obsolete]
-        public async Task<ObservableCollection<Schedule>> HandleSchedule()
+        public async Task<ObservableCollection<Schedule>> HandleSchedule() //show schedule today
         {
             try
             {
 
                 var httpService = new HttpService();
-                var base_URL = HomePage.base_URL + "schedule?idTeacher="+ Data.Data.Instance.User.idLecture.ToString();
-                //string full_url = "http://192.168.0.101:3000/schedule/";
+                string date = JsonConvert.SerializeObject(DateTime.Today);
+                date = date.Substring(1, 19);
+                var base_URL = HomePage.base_URL + "schedule?idTeacher="+ Data.Data.Instance.User.idLecture.ToString() +"&date=" + date;
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 var listSchedule = JsonConvert.DeserializeObject<ObservableCollection<Schedule>>(result);
                 return listSchedule;
