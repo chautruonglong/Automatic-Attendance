@@ -4,10 +4,7 @@
              x:Class="AutoAttendant.Views.SettingPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Setting Page"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand"
-                FontSize="45"/>
+            <Button Text="Get Request with Token" Clicked="SendRequest"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

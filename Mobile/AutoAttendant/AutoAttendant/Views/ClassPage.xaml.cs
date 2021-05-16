@@ -58,7 +58,56 @@ namespace AutoAttendant.Views
 
             }
         }
+        public async void HandleSelectPopUp(string paraString, Schedule schedule)
+        {
+            switch (paraString)
+            {
+                case "Join":
+                    classes.Name = schedule.idSubject; // gán cho biến static classes = class tương ứng của schedule 
+                                                       //classes.StudentList1.Clear();
 
+                    if (checkClearStd_ListPage == 1)
+                    {   
+
+                        classes.StudentList1.Clear(); // clear list student khi join 1 schedule mới
+                        checkClearStd_ListPage = 0;
+                        
+                    }
+                    await Navigation.PushAsync(new ClassTabbedPage(classes));
+
+                    break;
+                case "Update":
+                    break;
+                case "Delete":
+                    int index = HomePage._lsvm.ScheduleCollection.IndexOf(schedule);
+                    if (index < HomePage._lsvm.ScheduleCollection.Count - 1) // nếu index của schedule vẫn còn nằm trong _lsvm
+                    {
+                        ClassPage.first_id_in_list = Convert.ToInt32(HomePage._lsvm.ScheduleCollection[index + 1].id); // gán first id in list = id của schedule tiếp theo
+                        ClassPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
+
+
+                    }
+                    else
+                    {
+                        ClassPage.first_id_in_list = -1; // nếu index vượt thì gán = -1 để ko làm gì khi back về
+                    }
+                    //Xoa trong DB
+                    var httpService = new HttpClient();
+                    var base_URL = HomePage.base_URL + "schedule/"+schedule.id.ToString();
+                    HttpResponseMessage response = await httpService.DeleteAsync(base_URL);
+
+                    //xoa trong list
+                    if (response.IsSuccessStatusCode)
+                    {
+                        HomePage._lsvm.ScheduleCollection.Remove(schedule);
+                        ReLoadScheduleList();
+                    }
+
+                    break;
+                default:
+                    return;
+            }
+        }
         [Obsolete]
         private async void ClassClick(object sender, EventArgs e)
         {
@@ -89,22 +138,40 @@ namespace AutoAttendant.Views
                             Schedule schedule = lsvm.ScheduleCollection[index]; // tìm dc schdule theo index
 
                             message = string.Format("Id Room: {0} \nClass: {1} \nSubject: {2} \nTime Slot: {3} \nState: {4}", schedule.idRoom, schedule.idSubject, schedule.nameSubject, schedule.timeSlot, schedule.state);
-                            bool answer = await DisplayAlert("Schedule Info", message, "Join", "Cancel");
-                            if (answer)
+                            //bool answer = await DisplayAlert("Schedule Info", message, "Join", "Cancel");
+                            //if (answer)
+                            //{
+                            //    classes.Name = schedule.idSubject; // gán cho biến static classes = class tương ứng của schedule 
+                            //    //classes.StudentList1.Clear();
+                            //    if(checkClearStd_ListPage == 1)
+                            //    {
+                            //        classes.StudentList1.Clear(); // clear list student khi join 1 schedule mới
+                            //        checkClearStd_ListPage = 0;
+                            //    }
+                            //    await Navigation.PushAsync(new ClassTabbedPage(classes));
+                            //}
+                            //else
+                            //{
+                            //    return;
+                            //}
+                            string roomName = String.Empty;
+                            var page = new PopUpAddClass(schedule);
+                            page.Action += async (sender1, stringparameter) =>
                             {
-                                classes.Name = schedule.idSubject; // gán cho biến static classes = class tương ứng của schedule 
-                                //classes.StudentList1.Clear();
-                                if(checkClearStd_ListPage == 1)
+                                HandleSelectPopUp(stringparameter, schedule);
+
+                            };
+
+                            page.Disappearing += (c, d) =>
+                            {
+                                if (roomName != null)
                                 {
-                                    classes.StudentList1.Clear(); // clear list student khi join 1 schedule mới
-                                    checkClearStd_ListPage = 0;
+
                                 }
-                                await Navigation.PushAsync(new ClassTabbedPage(classes));
-                            }
-                            else
-                            {
-                                return;
-                            }
+
+                            };
+
+                            await PopupNavigation.Instance.PushAsync(page);
 
                         }
                         else
@@ -144,6 +211,7 @@ namespace AutoAttendant.Views
                 var base_URL = HomePage.base_URL + "schedule?idTeacher="+ Data.Data.Instance.User.idLecture.ToString() +"&date=" + date;
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 var listSchedule = JsonConvert.DeserializeObject<ObservableCollection<Schedule>>(result);
+
                 return listSchedule;
             }
             catch (Exception)
@@ -296,5 +364,7 @@ namespace AutoAttendant.Views
         //        this.BindingContext = lsvm;
         //    }
         //}
+
+
     }
 }

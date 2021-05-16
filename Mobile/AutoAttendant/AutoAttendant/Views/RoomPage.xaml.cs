@@ -22,6 +22,8 @@ namespace AutoAttendant.Views
     public partial class RoomPage : ContentPage
     {
          ListRoomViewModel lrvm = new ListRoomViewModel();
+
+        [Obsolete]
         public RoomPage()
         {
             InitializeComponent();
@@ -29,7 +31,26 @@ namespace AutoAttendant.Views
             this.BindingContext = new ListRoomViewModel();
             ShowRoom();
         }
+        protected override void OnAppearing() // goị trước khi screen page này xuất hiện
+        {
+            ReLoadRoomList();
+            base.OnAppearing();
+        }
 
+        [Obsolete]
+        public void ReLoadRoomList()
+        {
+            //SetColorById();
+            //lsvm.ScheduleCollection = HomePage._lsvm.ScheduleCollection;
+            if (lrvm.RoomCollection.Count > 0)
+            {
+
+                this.BindingContext = new ListRoomViewModel();
+                this.BindingContext = lrvm;
+                //SetColorById();
+
+            }
+        }
 
         private void RoomClick(object sender, EventArgs e)
         {
@@ -73,7 +94,7 @@ namespace AutoAttendant.Views
         }
 
         [Obsolete]
-        public async Task<ObservableCollection<Room>> HandleRoom()
+        public  async Task<ObservableCollection<Room>> HandleRoom()
         {
             try
             {
@@ -98,12 +119,14 @@ namespace AutoAttendant.Views
         {
             try
             {
+                HomePage._lrvm.RoomCollection.Clear();
                 var listRoom = new ObservableCollection<Room>(await HandleRoom());
-
                 foreach (Room room in listRoom)
                 {
-                    lrvm.RoomCollection.Add(room);
+                    //lrvm.RoomCollection.Add(room);
+                    HomePage._lrvm.RoomCollection.Add(room);
                 }
+                lrvm.RoomCollection = HomePage._lrvm.RoomCollection;
                 this.BindingContext = lrvm;
             }
             catch (Exception)
@@ -131,6 +154,7 @@ namespace AutoAttendant.Views
 
                     Room room = new Room("1", roomName,"Available");
                     lrvm.RoomCollection.Add(room);
+                   // HomePage._lrvm.RoomCollection.Add
                     this.BindingContext = lrvm;
 
                     UserDialogs.Instance.Toast("Room " + roomName + " was added");
@@ -158,28 +182,28 @@ namespace AutoAttendant.Views
 
         private void DeleteRoom(object sender, EventArgs e)
         {
-            //Image img = sender as Image;
-            //var stackLayout = img.Parent;
-            //var checkStack = stackLayout.GetType();
-            //if (checkStack == typeof(StackLayout))
-            //{
-            //    StackLayout container = (StackLayout)stackLayout;
-            //    var listChild = container.Children;
+            Image img = sender as Image;
+            var stackLayout = img.Parent;
+            var checkStack = stackLayout.GetType();
+            if (checkStack == typeof(StackLayout))
+            {
+                StackLayout container = (StackLayout)stackLayout;
+                var listChild = container.Children;
 
-            //    var lb_room = listChild[0].GetType();
-            //    if (lb_room == typeof(Label))
-            //    {
-            //        Label lb = (Label)listChild[0];
+                var lb_room = listChild[0].GetType();
+                if (lb_room == typeof(Label))
+                {
+                    Label lb = (Label)listChild[0];
 
-            //        var itemToRemove = lrvm.RoomCollection.Single(r => r.Name == lb.Text);
-            //        lrvm.RoomCollection.Remove(itemToRemove);
-            //    }
-            //    else
-            //    {
-            //        DisplayAlert("Fail", "Fail", "Try Again");
-            //    }
-                
-            //}
+                    var itemToRemove = lrvm.RoomCollection.Single(r => r.Name == lb.Text);
+                    lrvm.RoomCollection.Remove(itemToRemove);
+                }
+                else
+                {
+                    DisplayAlert("Fail", "Fail", "Try Again");
+                }
+
+            }
         }
     }
 }

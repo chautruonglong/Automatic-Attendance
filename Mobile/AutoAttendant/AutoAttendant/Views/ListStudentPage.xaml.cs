@@ -217,6 +217,17 @@ namespace AutoAttendant.Views
             HttpResponseMessage responseLecture =  await httpService.PutAsync(baseLecture_URL, contentLecture);
         }
 
+        public async void HandlePutStateRoom(Schedule schedule) //update  schedule to server
+        {
+            var roomNow = HomePage._lrvm.RoomCollection.Single(r => r.Id == schedule.idRoom);
+            roomNow.State = "Available";
+            var httpService = new HttpClient();
+            string jsonRoom= JsonConvert.SerializeObject(roomNow); // convert object => json
+            StringContent contentLecture = new StringContent(jsonRoom, Encoding.UTF8, "application/json");
+            var baseLecture_URL = HomePage.base_URL + "room/" + roomNow.Id.ToString();
+            HttpResponseMessage responseLecture = await httpService.PutAsync(baseLecture_URL, contentLecture);
+        }
+
         [Obsolete]
         private async void ClickSaveAndImport(object sender, EventArgs e)
         {
@@ -261,7 +272,8 @@ namespace AutoAttendant.Views
                 }
 
                 // Put to Server
-                HandlePutStateSchedule(schedule);
+                HandlePutStateSchedule(schedule); //cap nhat state cua Schedule
+                HandlePutStateRoom(schedule);    //cap nhat state cua Schedule
                 await Navigation.PopAsync();
             }
             else

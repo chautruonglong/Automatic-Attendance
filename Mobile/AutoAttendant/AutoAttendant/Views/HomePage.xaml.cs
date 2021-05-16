@@ -6,6 +6,7 @@ using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -24,6 +25,8 @@ namespace AutoAttendant.Views
         public static ListRoomViewModel _lrvm = new ListRoomViewModel();
         public static ListScheduleViewModel _lsvm = new ListScheduleViewModel();
         public static int checkCreateListSchedule = 0; //avoid repeat schedule from ShowSchedule()
+        public static int checkCreateRoom = 0; //avoid repeat schedule from ShowSchedule()
+
         //public static Lecture _lecture = new Lecture();
         public static string base_URL = "http://192.168.30.102:3000/";
         public HomePage(User user)
@@ -31,7 +34,27 @@ namespace AutoAttendant.Views
             InitializeComponent();
             Detail = new NavigationPage(new ClassPage());
             GetLectureInfoById(user.idLecture);
-            
+            HandleRoom();
+        }
+
+
+        public async void HandleRoom()
+        {
+            try
+            {
+                var httpService = new HttpService();
+                var base_URL = HomePage.base_URL + "room";
+                //string full_url = "http://192.168.0.101:3000/room/";
+                var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
+                //WebClient wc = new WebClient();
+                //var result = wc.DownloadString(full_url);
+                var listRoom = JsonConvert.DeserializeObject<ObservableCollection<Room>>(result);
+                _lrvm.RoomCollection = listRoom;
+            }
+            catch (Exception)
+            {
+                await DisplayAlert("Notice", "Fail", "OK");
+            }
         }
 
         public async void GetLectureInfoById(int id) //lay theo id ben login truyền qua
@@ -78,26 +101,33 @@ namespace AutoAttendant.Views
 
         async void ChangeAvatar(object sender, EventArgs e)
         {
-            await CrossMedia.Current.Initialize();
-            if (!CrossMedia.Current.IsPickPhotoSupported)
+            try
+            {
+                await CrossMedia.Current.Initialize();
+                if (!CrossMedia.Current.IsPickPhotoSupported)
+                {
+                    await DisplayAlert("Notice", "Picking a photo is not supported", "OK");
+                    return;
+                }
+                var mediaOptions = new PickMediaOptions()
+                {
+                    PhotoSize = PhotoSize.Medium
+                };
+                var selectedFile = CrossMedia.Current.PickPhotoAsync(mediaOptions);
+                if (selectedFile == null)
+                {
+                    await DisplayAlert("Error", "Could not get the image from Gallery!", "OK");
+                    Avatar.Source = "DefaultAvatar.jpg";
+                }
+                //Avatar.Source = ImageSource.FromStream(() => selectedFile.GetStream());
+                else
+                {
+                    Avatar.Source = ImageSource.FromStream(() => selectedFile.Result.GetStream());
+                }
+            }
+            catch (Exception)
             {
                 await DisplayAlert("Notice", "Picking a photo is not supported", "OK");
-                return;
-            }
-            var mediaOptions = new PickMediaOptions()
-            {
-                PhotoSize = PhotoSize.Medium
-            };
-            var selectedFile = CrossMedia.Current.PickPhotoAsync(mediaOptions);
-            if (selectedFile == null)
-            {
-                await DisplayAlert ("Error", "Could not get the image from Gallery!", "OK");
-                Avatar.Source = "DefaultAvatar.jpg";
-            }
-            //Avatar.Source = ImageSource.FromStream(() => selectedFile.GetStream());
-            else
-            {
-                Avatar.Source = ImageSource.FromStream(() => selectedFile.Result.GetStream());
             }
             
 
@@ -106,6 +136,12 @@ namespace AutoAttendant.Views
         private void HandleRoom(object sender, EventArgs e)
         {
             Detail = new NavigationPage(new RoomPage());
+            IsPresented = false;
+        }
+
+        private void HandleSetting(object sender, EventArgs e)
+        {
+            Detail = new NavigationPage(new SettingPage());
             IsPresented = false;
         }
     }
