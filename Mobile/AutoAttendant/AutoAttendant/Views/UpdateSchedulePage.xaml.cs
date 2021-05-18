@@ -30,7 +30,7 @@ namespace AutoAttendant.Views
             PickerRoom.SelectedIndex = Convert.ToInt32(room.id) - 1;
         }
 
-        public void GetTimeSlot(ObservableCollection<Schedule> listSchedule)
+        public void GetTimeSlot(ObservableCollection<Schedule> listSchedule)  // hien thi tat ca time slot cua Room
         {
             usedTimeSlotLabel.Text = "|";
             foreach (Schedule schedule in listSchedule)
@@ -121,21 +121,74 @@ namespace AutoAttendant.Views
         [Obsolete]
         private async void SaveUpdatePopUp(object sender, EventArgs e)
         {
-            scheduleTemp.date = Convert.ToDateTime(lb_date.Text);
-            var room = HomePage._lrvm.RoomCollection.Single(r => r.name == btnSelectRoom.Text);
-            scheduleTemp.idRoom = room.id;
-            scheduleTemp.timeSlot = Entry_timeSlot1.Text + "," + Entry_timeSlot2.Text;
+            try
+            {
+                bool isValidInput = false;
 
-            var httpService = new HttpClient();
-            string jsonSchedule = JsonConvert.SerializeObject(scheduleTemp); // convert object => json
-            string colorState = "," + @"""colorState""";
-            int removeIndex = jsonSchedule.IndexOf(colorState);
-            jsonSchedule = jsonSchedule.Substring(0, removeIndex) + "}";
-            StringContent contentLecture = new StringContent(jsonSchedule, Encoding.UTF8, "application/json");
-            var baseLecture_URL = HomePage.base_URL + "schedule/" + scheduleTemp.id.ToString();
-            HttpResponseMessage responseLecture = await httpService.PutAsync(baseLecture_URL, contentLecture);
-            HomePage.checkUpdateSchedule = 1;
-            await Navigation.PopAsync();
+                var today = DateTime.Today;
+                if (Convert.ToDateTime(lb_date.Text).Date < today)
+                {
+                    await DisplayAlert("Notice", "You can not select previous days", "Try again");
+                }
+                else
+                {
+                    // get date
+                    scheduleTemp.date = Convert.ToDateTime(lb_date.Text);
+                }
+
+                var room = HomePage._lrvm.RoomCollection.Single(r => r.name == btnSelectRoom.Text);
+                //get id room
+                scheduleTemp.idRoom = room.id;
+
+                // get time slot
+                try
+                {
+                    //validate time slot input
+                    var start = Convert.ToInt32(Entry_timeSlot1.Text);
+                    var end = Convert.ToInt32(Entry_timeSlot2.Text);
+                    if (start > 10 || start <= 0 || end > 10  || end <= 0)
+                    {
+                        await DisplayAlert("Notice", "Time slot must be from 1 to 10!", "Try again");
+                    }
+                    else if (usedTimeSlotLabel.Text.Contains(start.ToString()) || usedTimeSlotLabel.Text.Contains(end.ToString()))
+                    {
+                        await DisplayAlert("Notice", "Time slot was registed by other lectures!", "Try again");
+                    }
+                    else
+                    {
+                        scheduleTemp.timeSlot = Entry_timeSlot1.Text + "," + Entry_timeSlot2.Text;
+                        isValidInput = true;
+                    }
+                }
+                catch (Exception)
+                {
+                    await DisplayAlert("Notice", "Time slot must be a number", "Try again");
+                }
+
+                if(isValidInput)
+                {
+                    var httpService = new HttpClient();
+                    string jsonSchedule = JsonConvert.SerializeObject(scheduleTemp); // convert object => json
+                    string colorState = "," + @"""colorState""";
+                    int removeIndex = jsonSchedule.IndexOf(colorState);
+                    jsonSchedule = jsonSchedule.Substring(0, removeIndex) + "}";
+
+                    StringContent contentSchedule = new StringContent(jsonSchedule, Encoding.UTF8, "application/json");
+                    var baseLecture_URL = HomePage.base_URL + "schedule/" + scheduleTemp.id.ToString();
+                    HttpResponseMessage responseSchedule = await httpService.PutAsync(baseLecture_URL, contentSchedule);
+                    if (responseSchedule.IsSuccessStatusCode)
+                    {
+                        HomePage.checkUpdateSchedule = 1;
+                        await Navigation.PopAsync();
+                    }
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                await DisplayAlert("Notice", ex.Message, "Try again");
+            }
+            
         }
     }
 }

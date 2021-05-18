@@ -23389,6 +23389,9 @@ namespace AutoAttendant.Droid
 			// aapt resource value: 0x7F0700AD
 			public const int user25px = 2131165357;
 			
+			// aapt resource value: 0x7F0700AE
+			public const int xls_export = 2131165358;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();

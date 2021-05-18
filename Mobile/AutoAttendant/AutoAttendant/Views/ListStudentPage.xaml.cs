@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Syncfusion.XlsIO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -112,8 +113,8 @@ namespace AutoAttendant.Views
                 {
                     //var stream = await pickerResult.OpenReadAsync();
                     //resultImg.Source = ImageSource.FromStream(() => stream);
-                    //var resourcePath = pickerResult.FullPath.ToString(); // lay ra path file
-                    //await DisplayAlert("Message", "Path" + resourcePath, "OK");
+                    var resourcePath = pickerResult.FullPath.ToString(); // lay ra path file
+                    await DisplayAlert("Message", "Path" + resourcePath, "OK");
 
                     ExcelEngine excelEngine = new ExcelEngine();
                     IApplication application = excelEngine.Excel;
@@ -245,7 +246,6 @@ namespace AutoAttendant.Views
                     attendanceCount++;
                 }
             }
-            
            
             var message = String.Format("Class: {0}\n Subject: {1}\nTime Slot: {2}\nAttendance: {3}", className, subject, timeSlot, attendanceCount);
             bool answer = await DisplayAlert("Class Info", message, "Save", "Cancel");
@@ -273,8 +273,59 @@ namespace AutoAttendant.Views
             }
             else
             {
-                
+                return;
             }
+        }
+
+        private void ExportExcel(object sender, EventArgs e)
+        {
+            ExportExcel();
+        }
+
+        public async void ExportExcel()
+        {
+            try
+            {
+                using (ExcelEngine excelEngine = new ExcelEngine())
+                {
+                    IApplication application = excelEngine.Excel;
+
+                    application.DefaultVersion = ExcelVersion.Excel2016;
+                    //Create a workbook with a worksheet
+                    IWorkbook workbook = excelEngine.Excel.Workbooks.Create(1);
+
+                    //Access first worksheet from the workbook instance.
+                    IWorksheet worksheet = workbook.Worksheets[0];
+
+                    worksheet.Range["A1:E1"].Merge();
+                    worksheet.Range["A1:E1"].Text = "Danh sách sinh viên";
+                    worksheet.Range["A2:E2"].Merge();
+                    //worksheet.Range["A2:E2"].Text = "Lớp: " + schedule.nameSubject + " (" + schedule.idSubject + " )";
+
+                    worksheet.Range["A4"].Text = "ID";
+                    worksheet.Range["B4"].Text = "Họ Tên";
+                    //worksheet.Range["C4"].Text = schedule.date.ToString();
+
+                    //for (int i = 4; i< listStudent.Count + 4; i++)
+                    //{
+
+                    //}
+
+                    MemoryStream stream = new MemoryStream();
+                    workbook.SaveAs(stream);
+
+
+                    workbook.Close();
+
+                    //Save the stream as a file in the device and invoke it for viewing
+                    await Xamarin.Forms.DependencyService.Get<ISave>().SaveAndView("TestExportExcel.xlsx", "application/msexcel", stream);
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "OK");
+            }
+           
         }
     }
 }
