@@ -9,15 +9,15 @@
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <StackLayout BackgroundColor="#021135" Padding="0,20">
-            <StackLayout Orientation="Vertical" Margin="20,20,20,10">
+        <ScrollView BackgroundColor="#021135" Padding="0,20">
+            <!--<StackLayout Orientation="Vertical" Margin="20,20,20,10">
                 <Label Text="Sign up with" FontSize="16" TextColor="#FFF" FontAttributes="Bold"/>
                 <Button Text="Your Microsoft Account" ContentLayout="Left" ImageSource="microsoft25px"
                         BackgroundColor="#022656" HorizontalOptions="Start"
                         FontAttributes="Bold" TextTransform="None" FontSize="16"
                         TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" WidthRequest="260" />
-            </StackLayout>
+            </StackLayout>-->
             <StackLayout Orientation="Vertical" Margin="20">
 
                 <Label  x:Name="Lb_id" Text="ID"
@@ -75,6 +75,34 @@
                                    >
                 </local:CustomEntry>
 
+                <Label  x:Name="Lb_phone" Text="Phone"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        TextColor="#FFF"
+                        FontSize="18"
+                        FontFamily=""
+                        FontAttributes="Bold"/>
+
+                <local:CustomEntry x:Name="Entry_phone" TextColor="#FFF" 
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   VerticalOptions="StartAndExpand"
+                                   Margin="0,0,0,15">
+                </local:CustomEntry>
+
+                <Label  x:Name="Lb_faculty" Text="Faculty"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        TextColor="#FFF"
+                        FontSize="18"
+                        FontFamily=""
+                        FontAttributes="Bold"/>
+
+                <local:CustomEntry x:Name="Entry_faculty" TextColor="#FFF" 
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   VerticalOptions="StartAndExpand"
+                                   Margin="0,0,0,15">
+                </local:CustomEntry>
+
                 <Button Text="Create account" BackgroundColor="#1832F6" TextTransform="None" FontAttributes="Bold"
                         FontSize="16" TextColor="#FFF" BorderRadius="8" Margin="0,30,0,0" Clicked="btnSignUP"  HeightRequest="40">
                  
@@ -99,6 +127,6 @@
 
                 </StackLayout>
             </StackLayout>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

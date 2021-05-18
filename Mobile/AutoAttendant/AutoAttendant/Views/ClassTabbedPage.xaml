@@ -9,5 +9,5 @@
     <local:ListStudentPage x:Name="TabClass">
         
     </local:ListStudentPage>
-    <local:Page1 Title="Attendance"></local:Page1>
+    <local:ChartPage Title="Attendance"></local:ChartPage>
 </TabbedPage>

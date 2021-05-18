@@ -257,8 +257,6 @@ namespace AutoAttendant.Views
                     ClassPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
                     schedule.state = 1; // state = 1 là schdule này done
                     schedule.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
-
-
                 }
                 else { 
                     ClassPage.first_id_in_list = -1; // nếu index vượt thì gán = -1 để ko làm gì khi back về
