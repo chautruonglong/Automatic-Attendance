@@ -43,9 +43,9 @@
                                             <TapGestureRecognizer Tapped="RoomClick"/>
                                         </Frame.GestureRecognizers>
                                         <StackLayout Orientation="Horizontal" Spacing="10">
-                                            <Label Text="{Binding Name}" TextColor="#000" FontSize="14" WidthRequest="100" VerticalTextAlignment="Center"
+                                            <Label Text="{Binding name}" TextColor="#000" FontSize="14" WidthRequest="100" VerticalTextAlignment="Center"
                                                    HorizontalOptions="Start" FontAttributes="Bold"/>
-                                            <Label Text="{Binding State}" TextColor="#000" FontSize="14" WidthRequest="80" VerticalTextAlignment="Center"
+                                            <Label Text="{Binding state}" TextColor="#000" FontSize="14" WidthRequest="80" VerticalTextAlignment="Center"
                                                    HorizontalOptions="StartAndExpand" FontAttributes="Bold"/>
                                             <!--<Label Text="{Binding Classes}" TextColor="#000" FontSize="16" WidthRequest="70" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold"/>
                                             <Label Text="{Binding Subject}" TextColor="#000" FontSize="16" WidthRequest="160" VerticalTextAlignment="Center" IsVisible="True" FontAttributes="Bold"/>

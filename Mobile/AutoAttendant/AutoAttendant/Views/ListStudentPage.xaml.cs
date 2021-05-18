@@ -148,12 +148,6 @@ namespace AutoAttendant.Views
                     //ClassPage.classes.StudentList1.Add
                     lsvm.StudentCollection = ClassPage.classes.StudentList1;
                     this.BindingContext = lsvm;
-                    //MemoryStream stream1 = new MemoryStream();
-                    //workbook.SaveAs(stream1);
-
-                    //workbook.Close();
-                    //excelEngine.Dispose();
-
                 }
             }
             catch (Exception)
@@ -217,14 +211,15 @@ namespace AutoAttendant.Views
             HttpResponseMessage responseLecture =  await httpService.PutAsync(baseLecture_URL, contentLecture);
         }
 
-        public async void HandlePutStateRoom(Schedule schedule) //update  schedule to server
+        [Obsolete]
+        public async void HandlePutStateRoom(Schedule schedule) //update room to server
         {
-            var roomNow = HomePage._lrvm.RoomCollection.Single(r => r.Id == schedule.idRoom);
-            roomNow.State = "Available";
+            var roomNow = HomePage._lrvm.RoomCollection.Single(r => r.id == schedule.idRoom);
+            roomNow.state = "Available";
             var httpService = new HttpClient();
             string jsonRoom= JsonConvert.SerializeObject(roomNow); // convert object => json
             StringContent contentLecture = new StringContent(jsonRoom, Encoding.UTF8, "application/json");
-            var baseLecture_URL = HomePage.base_URL + "room/" + roomNow.Id.ToString();
+            var baseLecture_URL = HomePage.base_URL + "room/" + roomNow.id.ToString();
             HttpResponseMessage responseLecture = await httpService.PutAsync(baseLecture_URL, contentLecture);
         }
 
@@ -273,7 +268,7 @@ namespace AutoAttendant.Views
 
                 // Put to Server
                 HandlePutStateSchedule(schedule); //cap nhat state cua Schedule
-                HandlePutStateRoom(schedule);    //cap nhat state cua Schedule
+                HandlePutStateRoom(schedule);    //cap nhat state cua Room
                 await Navigation.PopAsync();
             }
             else

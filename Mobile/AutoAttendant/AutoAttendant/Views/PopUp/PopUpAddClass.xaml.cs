@@ -14,10 +14,12 @@ namespace AutoAttendant.Views.PopUp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PopUpAddClass 
     {
+        public static Schedule scheduleTemp;
         public PopUpAddClass(Schedule schedule)
         {
             InitializeComponent();
             this.BindingContext = schedule;
+            scheduleTemp = schedule;
 
         }
 
@@ -39,6 +41,10 @@ namespace AutoAttendant.Views.PopUp
 
         private async void UpdateClass(object sender, EventArgs e)
         {
+            //Handle data from PopUpUpdateSchedule
+
+
+            // Call PopUp Update Class
             Action?.Invoke(this, "Update");
             await PopupNavigation.Instance.PopAsync();
         }

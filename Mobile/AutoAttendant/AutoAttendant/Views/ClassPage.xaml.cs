@@ -40,6 +40,11 @@ namespace AutoAttendant.Views
         [Obsolete]
         protected override void OnAppearing() // goị trước khi screen page này xuất hiện
         {
+            if(HomePage.checkUpdateSchedule == 1) //co Update xay ra thi khi back ve` phai goi lai API de load lai list schedule
+            {
+                lsvm.ScheduleCollection.Clear();
+                ShowSchedule();
+            }
             ReLoadScheduleList();
             base.OnAppearing();
         }
@@ -58,13 +63,14 @@ namespace AutoAttendant.Views
 
             }
         }
+
+        [Obsolete]
         public async void HandleSelectPopUp(string paraString, Schedule schedule)
         {
             switch (paraString)
             {
                 case "Join":
                     classes.Name = schedule.idSubject; // gán cho biến static classes = class tương ứng của schedule 
-                                                       //classes.StudentList1.Clear();
 
                     if (checkClearStd_ListPage == 1)
                     {   
@@ -74,37 +80,35 @@ namespace AutoAttendant.Views
                         
                     }
                     await Navigation.PushAsync(new ClassTabbedPage(classes));
-
                     break;
                 case "Update":
+                    await Navigation.PushAsync(new UpdateSchedulePage(schedule));
                     break;
                 case "Delete":
                     int index = HomePage._lsvm.ScheduleCollection.IndexOf(schedule);
                     if (index < HomePage._lsvm.ScheduleCollection.Count - 1) // nếu index của schedule vẫn còn nằm trong _lsvm
                     {
                         ClassPage.first_id_in_list = Convert.ToInt32(HomePage._lsvm.ScheduleCollection[index + 1].id); // gán first id in list = id của schedule tiếp theo
-                        ClassPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
-
-
+                        ClassPage.checkClearStd_ListPage = 1; // = 1 để khi back về chọn schedule mới sẽ clear list student cũ
                     }
                     else
                     {
                         ClassPage.first_id_in_list = -1; // nếu index vượt thì gán = -1 để ko làm gì khi back về
                     }
+
                     //Xoa trong DB
                     var httpService = new HttpClient();
                     var base_URL = HomePage.base_URL + "schedule/"+schedule.id.ToString();
                     HttpResponseMessage response = await httpService.DeleteAsync(base_URL);
 
-                    //xoa trong list
+                    //xoa DB xong -> xoa trong list
                     if (response.IsSuccessStatusCode)
                     {
                         HomePage._lsvm.ScheduleCollection.Remove(schedule);
                         ReLoadScheduleList();
                     }
-
                     break;
-                default:
+                default: //cancel
                     return;
             }
         }
@@ -155,6 +159,8 @@ namespace AutoAttendant.Views
                             //    return;
                             //}
                             string roomName = String.Empty;
+
+                            // Handle data from PopUpAddClass
                             var page = new PopUpAddClass(schedule);
                             page.Action += async (sender1, stringparameter) =>
                             {
@@ -162,25 +168,22 @@ namespace AutoAttendant.Views
 
                             };
 
-                            page.Disappearing += (c, d) =>
-                            {
-                                if (roomName != null)
-                                {
+                            //page.Disappearing += (c, d) =>
+                            //{
+                            //    if (roomName != null)
+                            //    {
 
-                                }
+                            //    }
+                            //};
 
-                            };
-
+                            // call PopUpAddClass
                             await PopupNavigation.Instance.PushAsync(page);
 
                         }
                         else
                         {
-                            await DisplayAlert("Notice","Your class must be finished!","OK");
+                            await DisplayAlert("Notice","Your current class must be finished!","OK");
                         }
-                        
-
-                        
                     }
                 }
             }
@@ -188,7 +191,6 @@ namespace AutoAttendant.Views
             {
                 
             }
-            //Navigation.PushAsync(new ClassTabbedPage());
         }
 
 
@@ -204,7 +206,6 @@ namespace AutoAttendant.Views
         {
             try
             {
-
                 var httpService = new HttpService();
                 string date = JsonConvert.SerializeObject(DateTime.Today);
                 date = date.Substring(1, 19);
@@ -212,6 +213,8 @@ namespace AutoAttendant.Views
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 var listSchedule = JsonConvert.DeserializeObject<ObservableCollection<Schedule>>(result);
 
+                // order by time slot
+                listSchedule = new ObservableCollection<Schedule>(listSchedule.OrderBy(r => r.timeSlot));
                 return listSchedule;
             }
             catch (Exception)
@@ -229,7 +232,9 @@ namespace AutoAttendant.Views
                 var item = HomePage._lsvm.ScheduleCollection.Single(r => r.id == first_id_in_list); // tìm nút schedule có Id = first id in list
                 item.colorState = "#246CFE"; // set color
                 int index = HomePage._lsvm.ScheduleCollection.IndexOf(item); // lấy ra index của schedule vừa tìm dc
-                if (index > 0) { HomePage._lsvm.ScheduleCollection[index - 1].colorState = "#0E368B"; }
+                if (index > 0) { 
+                    HomePage._lsvm.ScheduleCollection[index - 1].colorState = "#0E368B"; 
+                }
                 
             }
             else // set gia tri cho last schedule
@@ -243,24 +248,30 @@ namespace AutoAttendant.Views
         public async void ShowSchedule()
         {
             try
-            {   if (HomePage.checkCreateListSchedule == 0) {
+            {   if (HomePage.checkCreateListSchedule == 0 || HomePage.checkUpdateSchedule == 1) { 
                     var listSchedule = new ObservableCollection<Schedule>(await HandleSchedule()); // list Schedule trả về từ HandelSchedule
+
                     first_id_in_list = Convert.ToInt32(listSchedule[0].id);
 
                     foreach (Schedule schedule in listSchedule)  // duyet trong list schedule để thêm vào lsvm
                     {
+                        if(schedule.id == first_id_in_list) 
+                        {
+                            schedule.colorState = "#246CFE";  //luon gan' cho schedule dau tien trong list active
+                        }
                         schedule.stateString = "0 / 0"; // change here
                         HomePage._lsvm.ScheduleCollection.Add(schedule);
-                        
+
+
                     }
                     HomePage.checkCreateListSchedule = 1;
+                    HomePage.checkUpdateSchedule = 0;
                 }
 
-
-
-
                 SetColorById();
-                lsvm.ScheduleCollection = HomePage._lsvm.ScheduleCollection; // gán lsvm bên Login cho lsvm của trang này -> avoid add same schedule
+                
+
+                lsvm.ScheduleCollection = HomePage._lsvm.ScheduleCollection; // gán lsvm bên Home cho lsvm của trang này -> avoid add same schedule
                 this.BindingContext = lsvm; 
             }
             catch (Exception)

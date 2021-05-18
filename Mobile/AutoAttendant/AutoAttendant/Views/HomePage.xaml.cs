@@ -26,6 +26,7 @@ namespace AutoAttendant.Views
         public static ListScheduleViewModel _lsvm = new ListScheduleViewModel();
         public static int checkCreateListSchedule = 0; //avoid repeat schedule from ShowSchedule()
         public static int checkCreateRoom = 0; //avoid repeat schedule from ShowSchedule()
+        public static int checkUpdateSchedule = 0; // check load list schedule again after Update schedule
 
         //public static Lecture _lecture = new Lecture();
         public static string base_URL = "http://192.168.30.102:3000/";

@@ -195,7 +195,7 @@ namespace AutoAttendant.Views
                 {
                     Label lb = (Label)listChild[0];
 
-                    var itemToRemove = lrvm.RoomCollection.Single(r => r.Name == lb.Text);
+                    var itemToRemove = lrvm.RoomCollection.Single(r => r.name == lb.Text);
                     lrvm.RoomCollection.Remove(itemToRemove);
                 }
                 else

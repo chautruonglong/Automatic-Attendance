@@ -44,7 +44,7 @@
                         Margin="40,0,0,10"  TextColor="#FFF" BorderRadius="10"
                         BorderColor="#FFF" Clicked="ImportExcel"/>
             </StackLayout>
-            <ListView ItemsSource="{Binding StudentCollection}" RowHeight="80" HorizontalOptions="Center" x:Name="list_student">
+            <ListView ItemsSource="{Binding StudentCollection}" RowHeight="80" HorizontalOptions="Center"  x:Name="list_student">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

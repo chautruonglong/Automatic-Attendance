@@ -6,40 +6,40 @@ namespace AutoAttendant.Models
 {
     public class Room
     {
-        private string id;
-        private string name;
-        private string state;
-        public string Id
+        private string _id;
+        private string _name;
+        private string _state;
+        public string id
         {
             get
             {
-                return this.id;
+                return this._id;
             }
             set
             {
-                this.id = value;
+                this._id = value;
             }
         }
 
-        public string Name
+        public string name
         {
             get
             {
-                return this.name;
+                return this._name;
             }
             set
             {
-                this.name = value;
+                this._name = value;
             }
         }
 
-        public string State { get => state; set => state = value; }
+        public string state { get => _state; set => _state = value; }
 
         public Room(string id, string name,string state)
         {
-            this.Id = id;
-            this.Name = name;
-            this.State = state;
+            this.id = id;
+            this.name = name;
+            this.state = state;
 
         }
 
