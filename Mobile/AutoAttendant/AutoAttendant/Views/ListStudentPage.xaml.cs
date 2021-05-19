@@ -113,8 +113,8 @@ namespace AutoAttendant.Views
                 {
                     //var stream = await pickerResult.OpenReadAsync();
                     //resultImg.Source = ImageSource.FromStream(() => stream);
-                    var resourcePath = pickerResult.FullPath.ToString(); // lay ra path file
-                    await DisplayAlert("Message", "Path" + resourcePath, "OK");
+                    //var resourcePath = pickerResult.FullPath.ToString(); // lay ra path file
+                    //await DisplayAlert("Message", "Path" + resourcePath, "OK");
 
                     ExcelEngine excelEngine = new ExcelEngine();
                     IApplication application = excelEngine.Excel;
@@ -247,8 +247,9 @@ namespace AutoAttendant.Views
                 }
             }
            
-            var message = String.Format("Class: {0}\n Subject: {1}\nTime Slot: {2}\nAttendance: {3}", className, subject, timeSlot, attendanceCount);
-            bool answer = await DisplayAlert("Class Info", message, "Save", "Cancel");
+            var message = String.Format("Class: {0}\nSubject: {1}\nTime Slot: {2}\nAttendance: {3}", className, subject, timeSlot, attendanceCount);
+            await DisplayAlert("Class Info", message, "Continue");
+            bool answer = await DisplayAlert("Notice", "You will be return to home page after save this class", "OK", "Cancel");
             if (answer)
             {
                 if (index < HomePage._lsvm.ScheduleCollection.Count - 1) // nếu index của schedule vẫn còn nằm trong _lsvm
@@ -267,6 +268,7 @@ namespace AutoAttendant.Views
                 // Put to Server
                 HandlePutStateSchedule(schedule); //cap nhat state cua Schedule
                 HandlePutStateRoom(schedule);    //cap nhat state cua Room
+
                 await Navigation.PopAsync();
             }
             else
@@ -280,50 +282,70 @@ namespace AutoAttendant.Views
             ExportExcel();
         }
 
+        public void GetDataForPieChart()
+        {
+            int attendanceCount = 0;
+            foreach (Student std in lsvm.StudentCollection)
+            {
+                if (std.State == true)
+                {
+                    attendanceCount++;
+                }
+            }
+            ChartPage.attendances = attendanceCount;
+            ChartPage.absentees = ClassPage.classes.StudentList1.Count - attendanceCount;
+        }
+
         public async void ExportExcel()
         {
             try
             {
-                using (ExcelEngine excelEngine = new ExcelEngine())
-                {
-                    IApplication application = excelEngine.Excel;
+                //using (ExcelEngine excelEngine = new ExcelEngine())
+                //{
+                //    IApplication application = excelEngine.Excel;
 
-                    application.DefaultVersion = ExcelVersion.Excel2016;
-                    //Create a workbook with a worksheet
-                    IWorkbook workbook = excelEngine.Excel.Workbooks.Create(1);
+                //    application.DefaultVersion = ExcelVersion.Excel2016;
+                //    //Create a workbook with a worksheet
+                //    IWorkbook workbook = excelEngine.Excel.Workbooks.Create(1);
 
-                    //Access first worksheet from the workbook instance.
-                    IWorksheet worksheet = workbook.Worksheets[0];
+                //    //Access first worksheet from the workbook instance.
+                //    IWorksheet worksheet = workbook.Worksheets[0];
 
-                    worksheet.Range["A1:E1"].Merge();
-                    worksheet.Range["A1:E1"].Text = "Danh sách sinh viên";
-                    worksheet.Range["A2:E2"].Merge();
-                    //worksheet.Range["A2:E2"].Text = "Lớp: " + schedule.nameSubject + " (" + schedule.idSubject + " )";
+                //    worksheet.Range["A1:E1"].Merge();
+                //    worksheet.Range["A1:E1"].Text = "Danh sách sinh viên";
+                //    worksheet.Range["A2:E2"].Merge();
+                //    //worksheet.Range["A2:E2"].Text = "Lớp: " + schedule.nameSubject + " (" + schedule.idSubject + " )";
 
-                    worksheet.Range["A4"].Text = "ID";
-                    worksheet.Range["B4"].Text = "Họ Tên";
-                    //worksheet.Range["C4"].Text = schedule.date.ToString();
+                //    worksheet.Range["A4"].Text = "ID";
+                //    worksheet.Range["B4"].Text = "Họ Tên";
+                //    //worksheet.Range["C4"].Text = schedule.date.ToString();
 
-                    //for (int i = 4; i< listStudent.Count + 4; i++)
-                    //{
+                //    //for (int i = 4; i< listStudent.Count + 4; i++)
+                //    //{
 
-                    //}
+                //    //}
 
-                    MemoryStream stream = new MemoryStream();
-                    workbook.SaveAs(stream);
+                //    MemoryStream stream = new MemoryStream();
+                //    workbook.SaveAs(stream);
 
 
-                    workbook.Close();
+                //    workbook.Close();
 
-                    //Save the stream as a file in the device and invoke it for viewing
-                    await Xamarin.Forms.DependencyService.Get<ISave>().SaveAndView("TestExportExcel.xlsx", "application/msexcel", stream);
-                }
+                //    //Save the stream as a file in the device and invoke it for viewing
+                //    await Xamarin.Forms.DependencyService.Get<ISave>().SaveAndView("TestExportExcel.xlsx", "application/msexcel", stream);
+                //}
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Error", ex.Message, "OK");
             }
            
+        }
+
+        private void ToChartPage(object sender, EventArgs e)
+        {
+            GetDataForPieChart();
+            Navigation.PushAsync(new ChartPage());
         }
     }
 }

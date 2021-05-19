@@ -46,7 +46,14 @@ namespace AutoAttendant.Views
                 ShowSchedule();
             }
             ReLoadScheduleList();
+            ReloadPieChart();
             base.OnAppearing();
+        }
+
+        public void ReloadPieChart()
+        {
+            ChartPage.absentees = 0;
+            ChartPage.attendances = 0;
         }
 
         [Obsolete]
@@ -79,7 +86,7 @@ namespace AutoAttendant.Views
                         checkClearStd_ListPage = 0;
                         
                     }
-                    await Navigation.PushAsync(new ClassTabbedPage(classes));
+                    await Navigation.PushAsync(new ListStudentPage());
                     break;
                 case "Update":
                     await Navigation.PushAsync(new UpdateSchedulePage(schedule));
@@ -209,7 +216,7 @@ namespace AutoAttendant.Views
                 var httpService = new HttpService();
                 string date = JsonConvert.SerializeObject(DateTime.Today);
                 date = date.Substring(1, 19);
-                var base_URL = HomePage.base_URL + "schedule?idTeacher="+ Data.Data.Instance.User.idLecture.ToString() +"&date=" + date;
+                var base_URL = HomePage.base_URL + "schedule?idTeacher="+ Data.Data.Instance.User.idLecture.ToString() +"&date=" + date + "&state=0";
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 var listSchedule = JsonConvert.DeserializeObject<ObservableCollection<Schedule>>(result);
 
@@ -276,7 +283,7 @@ namespace AutoAttendant.Views
             }
             catch (Exception)
             {
-                await DisplayAlert("Error", "Can not get Schedule", "OK");
+                await DisplayAlert("Notice", "No schedule today!", "OK");
             }
             
         }

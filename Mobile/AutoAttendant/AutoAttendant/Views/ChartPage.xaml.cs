@@ -14,20 +14,23 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChartPage : ContentPage
     {
+        public static int attendances;
+        public static int absentees;
+
         private readonly ChartEntry[] entries = new[]
         {
-            new ChartEntry(38)
+            new ChartEntry(attendances)
             {
                 Label = "Attendances",
-                ValueLabel = "38",
+                ValueLabel = attendances.ToString(),
                 Color = SKColor.Parse("#1832F6"),
                 TextColor = SKColor.Parse("#FFF"),
                 ValueLabelColor = SKColor.Parse("#1832F6"),
             },
-            new ChartEntry(5)
+            new ChartEntry(absentees)
             {
                 Label = "Absentees",
-                ValueLabel = "5",
+                ValueLabel = absentees.ToString(),
                 Color = SKColor.Parse("#EC3108"),
                 TextColor = SKColor.Parse("#FFF"),
                 ValueLabelColor = SKColor.Parse("#EC3108"),           
