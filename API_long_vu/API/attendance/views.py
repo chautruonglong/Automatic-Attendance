@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .serializers import RoomSerializer
-from .models import  Room
+from .serializers import AttendanceSerializer
+from .models import  Attendance
 from rest_framework import permissions
 from .permissions import IsOwner
 
 
-class RoomListAPIView(ListCreateAPIView):
-    serializer_class = RoomSerializer
-    queryset = Room.objects.all()
+class AttendanceListAPIView(ListCreateAPIView):
+    serializer_class = AttendanceSerializer
+    queryset = Attendance.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
 
     def perform_create(self, serializer):
@@ -18,11 +18,11 @@ class RoomListAPIView(ListCreateAPIView):
         return self.queryset.filter(owner=self.request.user)
 
 
-class RoomDetailAPIView(RetrieveUpdateDestroyAPIView):
-    serializer_class = RoomSerializer
+class AttendanceDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = AttendanceSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwner,)
-    queryset = Room.objects.all()
-    lookup_field = "id_Room"
+    queryset = Attendance.objects.all()
+    lookup_field = "id_attendance"
 
     def get_queryset(self):
         return self.queryset.filter(owner=self.request.user)

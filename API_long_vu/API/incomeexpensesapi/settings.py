@@ -26,9 +26,10 @@ SECRET_KEY = '@6p-h7#oy4unyb4+(@i&3eq(knbkvjkeyv&@*8+a%f45b@mfm1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['198.211.99.20', 'localhost', '127.0.0.1','0.0.0.0','172.20.10.2','192.168.5.227']
+ALLOWED_HOSTS = ['198.211.99.20', 'localhost', '127.0.0.1'
+,'0.0.0.0','172.20.10.2','192.168.5.227','192.168.0.121', '192.168.1.100', '171.231.106.115','192.168.30.103']
 
-AUTH_USER_MODEL = 'authentication.User'
+AUTH_USER_MODEL = 'account.Account'
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,11 +44,15 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'drf_yasg',
-    'authentication',
-    'student',
+
+    'account',
+    'lecturer',
     'room',
+    'student',
+    'attendance',
     'subject',
-    'lecturer'
+    'process',
+    #'emdedding',
 ]
 
 SWAGGER_SETTINGS = {
@@ -101,25 +106,24 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'pbl5',
-#         'TABLES': 'student',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'HOST':'localhost',
-#         'PORT':'3306',
-#         'OPTIONS':{
-#             'init_command':"SET sql_mode = 'STRICT_TRANS_TABLES'",
-#         }
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'pbl5',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST':'localhost',
+        'PORT':'3306',
+        'OPTION':{
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        }
+    } 
+}
 
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'NON_FIELD_ERRORS_KEY': 'error',
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -175,4 +179,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'nguyenvu191000@gmail.com'
-EMAIL_HOST_PASSWORD = 'minatovu123'
+EMAIL_HOST_PASSWORD = 'minatovu1910'

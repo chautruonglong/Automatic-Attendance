@@ -6,4 +6,4 @@ class RoomSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=Room
-        fields=['id_room','zone','name']
+        fields=['id_room','state','name']

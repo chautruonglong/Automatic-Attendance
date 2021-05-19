@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="177d6dad-21e7-4401-bfc3-9a14dbf13189" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/authentication/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/migrations/0002_user_auth_provider.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/renderers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/serializers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/tests/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/tests/test_model.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/tests/test_setup.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/tests/test_views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/incomeexpensesapi/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/incomeexpensesapi/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/incomeexpensesapi/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/incomeexpensesapi/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lecturer/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/lecturer/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lecturer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/lecturer/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lecturer/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/lecturer/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lecturer/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/lecturer/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lecturer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/lecturer/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/room/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/room/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/room/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/room/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/room/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/room/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/room/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/room/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/student/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student/migrations/0002_auto_20210508_1236.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/student/migrations/0003_auto_20210510_1117.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/student/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/student/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/student/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/student/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/student/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/subject/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subject/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subject/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subject/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subject/migrations/0002_auto_20210510_1131.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subject/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subject/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subject/serializers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subject/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subject/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/subject/views.py" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1sYSVEq1J10dEVqbIXucvh2M4mw" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/Building-Material-Managements---Python-Django-main/Building-Material-Managements---Python-Django-main/QLVLXD" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="177d6dad-21e7-4401-bfc3-9a14dbf13189" name="Default Changelist" comment="" />
+      <created>1621048056592</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1621048056592</updated>
+      <workItem from="1621048057162" duration="29000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

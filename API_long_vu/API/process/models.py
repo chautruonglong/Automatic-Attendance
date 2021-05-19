@@ -1,12 +1,14 @@
 from django.db import models
+from subject.models import Subject
 from account.models import Account
 # Create your models here.
-class Room(models.Model):
+class Process(models.Model):
 
-    id_room = models.IntegerField(default=100000000, primary_key = True)
-    state = models.CharField(max_length=30,default='A')
-    name = models.CharField(max_length=30,null=False)
-
+    id_process = models.IntegerField(default=100000000, primary_key = True)
+    id_subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    status = models.BooleanField()
+    date = models.DateField(auto_now_add=True)
+    timeSlot = models.TimeField(auto_now=True)
     owner = models.ForeignKey(to=Account, on_delete=models.CASCADE)
     # date = models.DateField(null=False, blank=False)
     # created_at = models.DateTimeField(auto_now_add=True)

@@ -6,4 +6,4 @@ class LecturerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=Lecturer
-        fields=['id_lecturer','name','phone','age']
+        fields=['id_lecturer','name','age','phone']

@@ -33,10 +33,13 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('user/', include('authentication.urls')),
+    path('account/', include('account.urls')),
     path('student/',include('student.urls')),
     path('room/',include('room.urls')),
     path('lecturer/',include('lecturer.urls')),
+    path('attendance/',include('attendance.urls')),
+    path('process/',include('process.urls')),
+    path('subject/',include('subject.urls')),
 
 
     path('', schema_view.with_ui('swagger',

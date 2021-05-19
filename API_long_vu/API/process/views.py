@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .serializers import LecturerSerializer
-from .models import Lecturer
+from .serializers import ProcessSerializer
+from .models import Process
 from rest_framework import permissions
 from .permissions import IsOwner
 
 
-class LecturerListAPIView(ListCreateAPIView):
-    serializer_class = LecturerSerializer
-    queryset = Lecturer.objects.all()
+class ProcessListAPIView(ListCreateAPIView):
+    serializer_class = ProcessSerializer
+    queryset = Process.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
 
     def perform_create(self, serializer):
@@ -18,11 +18,11 @@ class LecturerListAPIView(ListCreateAPIView):
         return self.queryset.filter(owner=self.request.user)
 
 
-class LecturerDetailAPIView(RetrieveUpdateDestroyAPIView):
-    serializer_class = LecturerSerializer
+class ProcessDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = ProcessSerializer
     permission_classes = (permissions.IsAuthenticated, IsOwner,)
-    queryset = Lecturer.objects.all()
-    lookup_field = "id_lecturer"
+    queryset = Process.objects.all()
+    lookup_field = "id_process"
 
     def get_queryset(self):
         return self.queryset.filter(owner=self.request.user)
