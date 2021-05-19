@@ -35,7 +35,6 @@ namespace AutoAttendant.Views
             usedTimeSlotLabel.Text = "|";
             foreach (Schedule schedule in listSchedule)
             {
-
                 usedTimeSlotLabel.Text = usedTimeSlotLabel.Text + "   " + schedule.timeSlot + "   " + "|";
             }
         }

@@ -30,8 +30,20 @@ namespace AutoAttendant.Views
         public LoginPage()
         {
             InitializeComponent();
+            GetSavedAccount();
         }
-        
+        public void SaveAccountLogined()
+        {
+            Preferences.Set("email", Entry_user.Text);
+            Preferences.Set("password", Entry_password.Text);
+        }
+
+        public void GetSavedAccount()
+        {
+            Entry_user.Text = Preferences.Get("email", string.Empty);
+            Entry_password.Text = Preferences.Get("password", string.Empty);
+        }
+
         private void ForgotPassword(object sender, EventArgs e)
         {
             Navigation.PushAsync(new ForgotPasswordPage());
@@ -65,6 +77,7 @@ namespace AutoAttendant.Views
                     UserDialogs.Instance.ShowLoading("Please wait...");
                     await Task.Delay(2000);
                     UserDialogs.Instance.HideLoading();
+                    SaveAccountLogined(); // save user and password for next time
                     await Navigation.PushAsync(new HomePage(userMain)); 
                 }
                 else await DisplayAlert("Error", "Login Fail", "Try Again");
@@ -77,9 +90,10 @@ namespace AutoAttendant.Views
             }
         }
 
-        private void OpenApiEntry(object sender, EventArgs e)
+        private void OpenApiEntry(object sender, EventArgs e) 
         {
             Entry_Api.IsVisible = true;
         }
+
     }
 }
