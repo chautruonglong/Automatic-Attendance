@@ -7,9 +7,9 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout BackgroundColor="#021135">
-            <!--<SearchBar Placeholder="Search" PlaceholderColor="#FFF" FontSize="16"  BackgroundColor="#021135" HeightRequest="40" TextColor="#FFF" CancelButtonColor="#FFF">
+            <SearchBar Placeholder="Search" PlaceholderColor="#BFB5B5" FontSize="16"  BackgroundColor="#021135" HeightRequest="45" TextColor="#BFB5B5" CancelButtonColor="#BFB5B5" TextChanged="SearchRoom_TextChanged">
 
-            </SearchBar>-->
+            </SearchBar>
             <StackLayout Orientation="Horizontal" Margin="10,0,0,0" x:Name="DatePickerLayout" VerticalOptions="Center">
 
                 <Button Text="Date" x:Name="btnDatePicker" ContentLayout="Left" ImageSource="calendar"

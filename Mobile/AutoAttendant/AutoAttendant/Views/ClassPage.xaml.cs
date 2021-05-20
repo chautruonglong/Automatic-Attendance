@@ -220,7 +220,7 @@ namespace AutoAttendant.Views
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 var listSchedule = JsonConvert.DeserializeObject<ObservableCollection<Schedule>>(result);
 
-                // order by time slot
+                // order schedule by time slot
                 listSchedule = new ObservableCollection<Schedule>(listSchedule.OrderBy(r => r.timeSlot));
                 return listSchedule;
             }

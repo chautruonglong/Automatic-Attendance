@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AutoAttendant.Views.ListStudentPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="SearchItem" Icon="search25px.png" Priority="0" Clicked="ExportExcel"/>
-        <ToolbarItem Text="See the pie chart" Order="Secondary" Clicked="ToChartPage"></ToolbarItem>
+        <!--<ToolbarItem Name="SearchItem" Icon="search25px.png" Priority="0" Clicked="ExportExcel"/>-->
+        <ToolbarItem Text="Pie chart" Order="Secondary" Clicked="ToChartPage"></ToolbarItem>
+        <ToolbarItem Text="Copy list students" Order="Secondary"></ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout BackgroundColor="#021135">

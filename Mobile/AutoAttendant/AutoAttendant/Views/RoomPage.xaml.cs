@@ -21,7 +21,8 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RoomPage : ContentPage
     {
-         ListRoomViewModel lrvm = new ListRoomViewModel();
+        ListRoomViewModel lrvm = new ListRoomViewModel();
+        private static ObservableCollection<Room> listRoomTemp = new ObservableCollection<Room>(); // a copy from lrvm.RoomCollection
 
         [Obsolete]
         public RoomPage()
@@ -30,6 +31,7 @@ namespace AutoAttendant.Views
             HandleDatePicker();
             this.BindingContext = new ListRoomViewModel();
             ShowRoom();
+            listRoomTemp = lrvm.RoomCollection;
         }
         protected override void OnAppearing() // goị trước khi screen page này xuất hiện
         {
@@ -50,6 +52,16 @@ namespace AutoAttendant.Views
                 //SetColorById();
 
             }
+        }
+
+        public List<string> GetRoomNames()
+        {
+            List<string> roomNames = new List<string>();
+            foreach(Room room in lrvm.RoomCollection)
+            {
+                roomNames.Add(room.name);
+            }
+            return roomNames;
         }
 
         private void RoomClick(object sender, EventArgs e)
@@ -105,6 +117,9 @@ namespace AutoAttendant.Views
                 //WebClient wc = new WebClient();
                 //var result = wc.DownloadString(full_url);
                 var listRoom = JsonConvert.DeserializeObject<ObservableCollection<Room>>(result);
+
+                // order Room by name
+                listRoom= new ObservableCollection<Room>(listRoom.OrderBy(r => r.name));
                 return listRoom;
             }
             catch (Exception)
@@ -154,8 +169,8 @@ namespace AutoAttendant.Views
 
                     Room room = new Room("1", roomName,"Available");
                     lrvm.RoomCollection.Add(room);
-                   // HomePage._lrvm.RoomCollection.Add
-                    this.BindingContext = lrvm;
+                    // HomePage._lrvm.RoomCollection.Add
+                    //this.BindingContext = lrvm; // chu y
 
                     UserDialogs.Instance.Toast("Room " + roomName + " was added");
 
@@ -200,10 +215,63 @@ namespace AutoAttendant.Views
                 }
                 else
                 {
-                    DisplayAlert("Fail", "Fail", "Try Again");
+                    DisplayAlert("Notice", "Fail", "Try Again");
                 }
 
             }
+        }
+
+        private void SearchRoom_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                var listRoomNames = GetRoomNames();  //list string room names
+                
+
+                var searchRoom = e.NewTextValue; //text from search bar
+                if (string.IsNullOrWhiteSpace(searchRoom))
+                {
+                    searchRoom = string.Empty;
+                }
+
+                searchRoom = searchRoom.ToLowerInvariant();
+                var filterdRooms = listRoomNames.Where(r => r.ToLowerInvariant().Contains(searchRoom)).ToList(); // rooms have name contains text in search bar 
+                if (string.IsNullOrWhiteSpace(searchRoom))
+                {
+                    filterdRooms = listRoomNames;
+                }
+
+                foreach (var value in listRoomNames)
+                {
+                    if (!filterdRooms.Contains(value))  
+                    {
+                        var roomToRemove = lrvm.RoomCollection.Where(r => r.name == value).ToList();
+                        foreach(var item in roomToRemove)
+                        {
+                            lrvm.RoomCollection.Remove(item); //remove rooms that dont have name in filterdRoom
+                        }
+                    }
+                    //else if(!lrvm.RoomCollection.Intersect(lrvm.RoomCollection.Where(r => r.name == value).ToList()).Any()) //check cho else
+                    //{
+                    //    var listRoomRefresh = new List<String>();
+                    //    foreach(var room in lrvm.RoomCollection)
+                    //    {
+                    //        listRoomRefresh.Add(room.name);
+                    //    }
+                    //    if (!listRoomRefresh.Contains(value))
+                    //    {
+                    //        var roomToAdd = listRoomTemp.Single(r => r.name == value);
+                    //        lrvm.RoomCollection.Add(roomToAdd);
+                    //        this.BindingContext = lrvm;
+                    //    }
+                    //}
+                }
+            }
+            catch (Exception)
+            {
+                DisplayAlert("Fail", "Fail", "Try Again");
+            }
+            
         }
     }
 }

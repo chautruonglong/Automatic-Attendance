@@ -62,14 +62,14 @@ namespace AutoAttendant.Views
                 UserTemp userTemp = new UserTemp(Entry_user.Text, Entry_password.Text);
                 var httpService = new HttpClient();
 
-                string jsonData = JsonConvert.SerializeObject(userTemp); // dung` UserTemp để login vì chỉ cần email vs password
+                string jsonData = JsonConvert.SerializeObject(userTemp); // dung` UserTemp để post login vì chỉ cần email vs password
                 var base_URL = HomePage.base_URL + "login";
                 //var base_URL = "http://192.168.30.103:8000/auth/login/";
                 StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await httpService.PostAsync(base_URL, content);
                 
                 var result = await response.Content.ReadAsStringAsync();
-                Data.Data.Instance.User = JsonConvert.DeserializeObject<User>(result); // dùng User để nhận json về vì có chứa thêm token, idLecture
+                Data.Data.Instance.User = JsonConvert.DeserializeObject<User>(result); // dùng User để nhận json về vì có chứa thêm token, idLecture (static)
                 User userMain = Data.Data.Instance.User;
 
                 if (response.IsSuccessStatusCode)
@@ -78,7 +78,8 @@ namespace AutoAttendant.Views
                     await Task.Delay(2000);
                     UserDialogs.Instance.HideLoading();
                     SaveAccountLogined(); // save user and password for next time
-                    await Navigation.PushAsync(new HomePage(userMain)); 
+                    //await Navigation.PushAsync(new HomePage(userMain)); 
+                    await Navigation.PushAsync(new SignUpLecturerPage()); // sang page moi' de sign up thong tin lecturer
                 }
                 else await DisplayAlert("Error", "Login Fail", "Try Again");
 

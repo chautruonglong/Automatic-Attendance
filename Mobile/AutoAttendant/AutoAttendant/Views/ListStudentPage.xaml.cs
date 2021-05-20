@@ -1,7 +1,9 @@
 ﻿using Acr.UserDialogs;
 using AutoAttendant.Models;
 using AutoAttendant.ViewModel;
+using AutoAttendant.Views.PopUp;
 using Newtonsoft.Json;
+using Rg.Plugins.Popup.Services;
 using Syncfusion.XlsIO;
 using System;
 using System.Collections.Generic;
@@ -168,9 +170,25 @@ namespace AutoAttendant.Views
         //    else btn_Excel.BackgroundColor = Color.FromHex("#021135");
         //}
 
-        private void AddSingleStudent(object sender, EventArgs e) // xu li khi them tung student
+        private async void AddSingleStudent(object sender, EventArgs e) // xu li khi them tung student
         {
+            var page = new PopUpView();
+            page.Action += async (sender1, stringparameter) =>
+            {
 
+                if (stringparameter != null)
+                {
+                    
+
+                }
+                else
+                {
+                    await DisplayAlert("Notice", "Invalid Syntax", "OK");
+                    return;
+                }
+            };
+
+            await PopupNavigation.Instance.PushAsync(page);
         }
 
         private async void TakeAttendance(object sender, EventArgs e)
@@ -225,7 +243,7 @@ namespace AutoAttendant.Views
         }
 
         [Obsolete]
-        private async void ClickSaveAndImport(object sender, EventArgs e)
+        private async void ClickSaveAndImport(object sender, EventArgs e) // phai luu ve DB
         {
             string className;
             string timeSlot;

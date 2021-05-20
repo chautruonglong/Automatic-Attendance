@@ -50,7 +50,6 @@ namespace AutoAttendant.Views
                 var stu = ListStudentPage.lsvm.StudentCollection.Single(r => r.Name == lb_Name.Text);
                 stu.State = false; ;
             }
-            //Navigation.PushAsync(new ListStudentPage());
             Navigation.PopAsync();
             
             
