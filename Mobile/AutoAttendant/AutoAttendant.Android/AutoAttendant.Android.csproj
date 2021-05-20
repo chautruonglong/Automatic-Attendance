@@ -61,6 +61,12 @@
     <PackageReference Include="Acr.UserDialogs">
       <Version>7.1.0.483</Version>
     </PackageReference>
+    <PackageReference Include="Com.Airbnb.Android.Lottie">
+      <Version>3.6.1</Version>
+    </PackageReference>
+    <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie">
+      <Version>4.0.9</Version>
+    </PackageReference>
     <PackageReference Include="Microcharts.Forms">
       <Version>0.9.5.9</Version>
     </PackageReference>
@@ -90,6 +96,7 @@
     <Compile Include="SaveAndroid.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\face.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />

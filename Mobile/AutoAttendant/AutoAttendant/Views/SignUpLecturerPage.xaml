@@ -1,10 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:AutoAttendant"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:AutoAttendant" xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
              x:Class="AutoAttendant.Views.SignUpLecturerPage">
     <ContentPage.Content>
         <ScrollView BackgroundColor="#021135" Padding="0,20">
+
             <StackLayout Orientation="Vertical" Margin="20">
+
+                <StackLayout>
+                    <lottie:AnimationView x:Name="animation" Animation="face.json" AutoPlay="True" RepeatCount="1"
+                    WidthRequest="300" HeightRequest="300" HorizontalOptions="FillAndExpand" />
+                </StackLayout>
                 <Label  x:Name="Lb_idLecturer" Text="ID"
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 

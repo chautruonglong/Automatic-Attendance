@@ -6,7 +6,7 @@ namespace AutoAttendant.Models
 {
     public class User
     {
-        int _id;
+        int _id; // sẽ bỏ cái ni
         int _idLecture; // sẽ bỏ cái ni
         string _email;
         string _password;
