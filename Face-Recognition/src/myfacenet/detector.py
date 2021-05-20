@@ -24,7 +24,6 @@ class HaarcascadeDetector:
 
 
 class MTCNNDetector:
-    _GPU_MEM_FRACTION = 0.3
     _THRESHOLDS = [0.6, 0.7, 0.7]
     _FACTOR = 0.709
 
