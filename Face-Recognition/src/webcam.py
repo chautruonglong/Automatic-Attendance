@@ -6,8 +6,8 @@ from cv2 import rectangle, putText, FONT_HERSHEY_COMPLEX_SMALL, flip
 from cv2 import VideoCapture, imshow, namedWindow, WINDOW_NORMAL
 from cv2 import waitKey, destroyAllWindows
 
-FACENET_MODEL = '../models/premodels/20180402-114759.pb'
-CLASSIFIER_MODEL = '../models/mymodels/1814_140_1.pkl'
+FACENET_MODEL = '../models/premodels/128/20170512-110547.pb'
+CLASSIFIER_MODEL = '../models/mymodels/1814_140s_128d_knn_small.pkl'
 MTCNN_MODEL = '../models/premodels/align'
 HAARCASCADE_MODEL = '../models/premodels/haarcascade_frontalface_default.xml'
 THRESHOLD = 30

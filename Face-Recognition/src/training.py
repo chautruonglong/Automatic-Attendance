@@ -1,17 +1,22 @@
 from math import ceil
-from numpy import zeros
+from numpy import zeros, array, float32
 from pickle import dump
 from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
 from facenet.src.facenet import get_dataset, get_image_paths_and_labels, load_data
 from src.myfacenet.encoder import FacenetEncoder
 from tensorflow import Graph, Session, GPUOptions, ConfigProto
+from faiss import IndexFlatL2, IndexIDMap, write_index
 
-FACENET_MODEL = '../models/premodels/20180402-114759.pb'
-OUTPUT_CLASSIFIER = '../models/mymodels/1814_140_1.pkl'
+OUTPUT_SVM_CLASSIFIER = '../models/mymodels/1814_140s_512d_svm_big.pkl'
+OUTPUT_KNN_CLASSIFIER = '../models/mymodels/1814_140s_512d_knn_big.pkl'
+OUTPUT_FAISS_INDEXING = '../models/mymodels/1814_140s_512d_fai_big.ind'
+
+FACENET_MODEL = '../models/premodels/512/20180402-114759.pb'
 INPUT_DATASET = '../dataset/processed/'
 BATCH_SIZE = 200
 FACE_SIZE = 140
-GPU_MEM_FRACTION = 0.25
+GPU_MEM_FRACTION = 0.4
 
 
 def main():
@@ -29,6 +34,7 @@ def main():
             encoder = FacenetEncoder(FACENET_MODEL, FACE_SIZE)
             embedding_size = encoder.get_num_features()
 
+            print(f'Embedding size: {embedding_size}')
             print('Calculating features for images')
 
             nrof_images = len(img_paths)
@@ -48,17 +54,33 @@ def main():
 
                 embedding_array[str_index:end_index, :] = encoder.encode_training(sess, faces)
 
-            print('Training classifier model')
+            student_ids = [data.name for data in dataset]
 
-            id_students = [data.name for data in dataset]
+            print(f'Exporting svm classifier model: {OUTPUT_SVM_CLASSIFIER}')
 
-            classifier = SVC(kernel='rbf', probability=True)
-            classifier.fit(embedding_array, labels)
+            svm_classifier = SVC(kernel='rbf', probability=True)
+            svm_classifier.fit(embedding_array, labels)
+            with open(OUTPUT_SVM_CLASSIFIER, 'wb') as file:
+                dump((svm_classifier, student_ids), file)
 
-            print('Exporting classifier model file')
+            print(f'Exporting knn classifier model: {OUTPUT_KNN_CLASSIFIER}')
 
-            with open(OUTPUT_CLASSIFIER, 'wb') as file:
-                dump((classifier, id_students), file)
+            knn_classifier = KNeighborsClassifier(n_neighbors=20, metric='cosine')
+            knn_classifier.fit(embedding_array, labels)
+            with open(OUTPUT_KNN_CLASSIFIER, 'wb') as file:
+                dump((knn_classifier, student_ids), file)
+
+            print(f'Exporting faiss indexing file: {OUTPUT_FAISS_INDEXING}')
+
+            labels = array(labels)
+            student_ids = array(student_ids, dtype=int)
+            for i in range(len(student_ids)):
+                labels[labels == i] = student_ids[i]
+
+            embedding_index = IndexFlatL2(embedding_size)
+            embedding_index = IndexIDMap(embedding_index)
+            embedding_index.add_with_ids(array(embedding_array, dtype=float32), array(labels))
+            write_index(embedding_index, OUTPUT_FAISS_INDEXING)
 
 
 if __name__ == '__main__':

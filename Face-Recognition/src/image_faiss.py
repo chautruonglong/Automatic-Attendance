@@ -9,10 +9,10 @@ from cv2 import rectangle, putText, FONT_HERSHEY_COMPLEX_SMALL
 from cv2 import imread, imshow, namedWindow, WINDOW_NORMAL
 from cv2 import waitKey, destroyAllWindows, imwrite
 
-FACENET_MODEL = 'models/premodels/20180402-114759.pb'
+FACENET_MODEL = 'models/premodels/512/20180402-114759.pb'
 INDEXING_MODEL = 'models/mymodels/1814_140.index'
 MTCNN_MODEL = 'models/premodels/align'
-HAARCASCADE_MODEL = 'models/premodels/haarcascade_frontalface_default.xml'
+HAARCASCADE_MODEL = 'models/premodels/haarcascade/haarcascade_frontalface_default.xml'
 THRESHOLD = 0.5
 GPU_MEM_FRACTION = 0.25
 FACE_SIZE = 140

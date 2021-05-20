@@ -1,6 +1,5 @@
 from os import makedirs
 from os.path import exists, split
-
 from src.myfacenet.detector import MTCNNDetector
 from facenet.src.facenet import get_dataset, to_rgb
 from numpy import asarray, vstack, argmax, sum, power, squeeze, zeros, int32
@@ -13,7 +12,7 @@ INPUT_DATASET = '../dataset/raw/'
 OUTPUT_DATASET = '../dataset/processed/'
 MTCNN_MODEL = '../models/premodels/align'
 FACE_SIZE = 140
-MARGIN = 32
+MARGIN = 20
 GPU_MEM_FRACTION = 0.3
 MIN_SIZE = 20
 
@@ -90,7 +89,7 @@ def main():
 
                                 cropped = img[bb[1]:bb[3], bb[0]:bb[2], :]
                                 scaled = imresize(cropped, (FACE_SIZE, FACE_SIZE))
-                                scaled = GaussianBlur(scaled, (5, 5), 0)
+                                scaled = GaussianBlur(scaled, (3, 3), 0)
 
                                 successfully_images += 1
                                 imsave(output_file_dir, scaled)

@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 from os.path import isfile
 from sys import argv
-from myfacenet.detector import MTCNNDetector
+from myfacenet.detector import MTCNNDetector, HaarcascadeDetector
 from myfacenet.encoder import FacenetEncoder
 from myfacenet.identifier import FacenetIdentifier
 from tensorflow import Graph, Session, ConfigProto, GPUOptions
@@ -9,11 +9,11 @@ from cv2 import rectangle, putText, FONT_HERSHEY_COMPLEX_SMALL
 from cv2 import VideoCapture, imshow, namedWindow, WINDOW_NORMAL
 from cv2 import waitKey, destroyAllWindows
 
-FACENET_MODEL = 'models/premodels/20180402-114759.pb'
-CLASSIFIER_MODEL = 'models/mymodels/1814_140_1.pkl'
+FACENET_MODEL = 'models/premodels/128/20170512-110547.pb'
+CLASSIFIER_MODEL = 'models/mymodels/1814_140s_128d_svm_small.pkl'
 MTCNN_MODEL = 'models/premodels/align'
-HAARCASCADE_MODEL = 'models/premodels/haarcascade_frontalface_default.xml'
-THRESHOLD = 30
+HAARCASCADE_MODEL = 'models/premodels/haarcascade/haarcascade_frontalface_default.xml'
+THRESHOLD = 0
 GPU_MEM_FRACTION = 0.3
 FACE_SIZE = 140
 MIN_SIZE = 20
@@ -26,7 +26,8 @@ def main(args):
             sess = Session(config=ConfigProto(gpu_options=gpu_options, log_device_placement=False))
 
             with sess.as_default():
-                detector = MTCNNDetector(sess, MTCNN_MODEL, MIN_SIZE)
+                # detector = MTCNNDetector(sess, MTCNN_MODEL, MIN_SIZE)
+                detector = HaarcascadeDetector(HAARCASCADE_MODEL, MIN_SIZE)
                 encoder = FacenetEncoder(FACENET_MODEL, FACE_SIZE)
                 identifier = FacenetIdentifier(None, CLASSIFIER_MODEL)
 

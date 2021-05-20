@@ -29,7 +29,7 @@ class FacenetEncoder:
 
     def encode_face(self, sess, face):
         scaled = resize(face, (self._face_size, self._face_size), interpolation=INTER_LANCZOS4)
-        scaled = GaussianBlur(scaled, (5, 5), 0)
+        scaled = GaussianBlur(scaled, (3, 3), 0)
         scaled = prewhiten(scaled)
         scaled_reshape = scaled.reshape(-1, self._face_size, self._face_size, 3)
 
@@ -38,5 +38,5 @@ class FacenetEncoder:
             self._phase_train_placeholder: False
         }
 
-        face_embeddings = sess.run(self._embeddings, feed_dict)
-        return face_embeddings
+        face_embedding = sess.run(self._embeddings, feed_dict)
+        return face_embedding

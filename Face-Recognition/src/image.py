@@ -7,16 +7,16 @@ from myfacenet.identifier import FacenetIdentifier
 from tensorflow import Graph, Session, ConfigProto, GPUOptions
 from cv2 import rectangle, putText, FONT_HERSHEY_COMPLEX_SMALL
 from cv2 import imread, imshow, namedWindow, WINDOW_NORMAL
-from cv2 import waitKey, destroyAllWindows, imwrite
+from cv2 import waitKey, destroyAllWindows, imwrite, getTextSize
 
-FACENET_MODEL = 'models/premodels/20180402-114759.pb'
-CLASSIFIER_MODEL = 'models/mymodels/1814_140_1.pkl'
+FACENET_MODEL = 'models/premodels/128/20170512-110547.pb'
+CLASSIFIER_MODEL = 'models/mymodels/1814_140s_128d_svm_big.pkl'
 MTCNN_MODEL = 'models/premodels/align'
-HAARCASCADE_MODEL = 'models/premodels/haarcascade_frontalface_default.xml'
+HAARCASCADE_MODEL = 'models/premodels/haarcascade/haarcascade_frontalface_default.xml'
 THRESHOLD = 0
 GPU_MEM_FRACTION = 0.3
 FACE_SIZE = 140
-MIN_SIZE = 20
+MIN_SIZE = 50
 
 
 def main(args):
@@ -62,40 +62,22 @@ def main(args):
                 if waitKey(0) & 0xFF == ord('q'):
                     destroyAllWindows()
 
+                imwrite(f'output/class.png', img)
+
     else:
         print('File does not exits')
 
 
-def put_face_label(frame, x1, y1, x2, y2, id_student, confidence):
-    rectangle(
-        img=frame,
-        pt1=(x1, y1),
-        pt2=(x2, y2),
-        color=(0, 255, 0),
-        thickness=2
-    )
+def put_face_label(frame, x1, y1, x2, y2, student_id, confidence, margin=10):
+    rectangle(img=frame, pt1=(x1, y1), pt2=(x2, y2), color=(0, 255, 0), thickness=2)
 
-    putText(
-        img=frame,
-        text=id_student,
-        org=(x1, y2 + 20),
-        fontFace=FONT_HERSHEY_COMPLEX_SMALL,
-        fontScale=1,
-        color=(255, 255, 255),
-        thickness=1,
-        lineType=2
-    )
+    (w, h), _ = getTextSize(text=str(student_id), fontFace=FONT_HERSHEY_COMPLEX_SMALL, fontScale=0.8, thickness=1)
+    rectangle(img=frame, pt1=(x1, y2 + margin), pt2=(x1 + w, y2 + margin - h), color=(0, 255, 0), thickness=-1)
+    putText(img=frame, text=str(student_id), org=(x1, y2 + margin), fontFace=FONT_HERSHEY_COMPLEX_SMALL, fontScale=0.8, color=(255, 255, 255), thickness=1)
 
-    putText(
-        img=frame,
-        text=str(confidence),
-        org=(x1, y2 + 40),
-        fontFace=FONT_HERSHEY_COMPLEX_SMALL,
-        fontScale=1,
-        color=(255, 255, 255),
-        thickness=1,
-        lineType=2
-    )
+    (w, h), _ = getTextSize(text=str(confidence), fontFace=FONT_HERSHEY_COMPLEX_SMALL, fontScale=0.8, thickness=1)
+    rectangle(img=frame, pt1=(x1, y2 + 2 * margin), pt2=(x1 + w, y2 + 2 * margin - h), color=(0, 255, 0), thickness=-1)
+    putText(img=frame, text=str(confidence), org=(x1, y2 + 2 * margin), fontFace=FONT_HERSHEY_COMPLEX_SMALL, fontScale=0.8, color=(255, 255, 255), thickness=1)
 
 
 def parse_args(argv):
