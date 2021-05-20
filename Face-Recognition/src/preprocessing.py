@@ -7,13 +7,14 @@ from numpy import asarray, vstack, argmax, sum, power, squeeze, zeros, int32
 from numpy import maximum, minimum
 from scipy.misc import imresize, imsave, imread
 from tensorflow import Graph, Session, ConfigProto, GPUOptions
+from cv2 import GaussianBlur
 
 INPUT_DATASET = '../dataset/raw/'
 OUTPUT_DATASET = '../dataset/processed/'
 MTCNN_MODEL = '../models/premodels/align'
-FACE_SIZE = 160
+FACE_SIZE = 140
 MARGIN = 32
-GPU_MEM_FRACTION = 0.25
+GPU_MEM_FRACTION = 0.3
 MIN_SIZE = 20
 
 
@@ -81,12 +82,16 @@ def main():
                             for index, det in enumerate(det_arr):
                                 det = squeeze(det)
                                 bb = zeros(4, dtype=int32)
+
                                 bb[0] = maximum(det[0] - MARGIN / 2, 0)
                                 bb[1] = maximum(det[1] - MARGIN / 2, 0)
                                 bb[2] = minimum(det[2] + MARGIN / 2, img_size[1])
                                 bb[3] = minimum(det[3] + MARGIN / 2, img_size[0])
+
                                 cropped = img[bb[1]:bb[3], bb[0]:bb[2], :]
                                 scaled = imresize(cropped, (FACE_SIZE, FACE_SIZE))
+                                scaled = GaussianBlur(scaled, (5, 5), 0)
+
                                 successfully_images += 1
                                 imsave(output_file_dir, scaled)
                         else:

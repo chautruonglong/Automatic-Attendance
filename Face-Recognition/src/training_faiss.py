@@ -1,17 +1,16 @@
 from math import ceil
-from numpy import zeros
-from pickle import dump
-from sklearn.svm import SVC
+from numpy import zeros, array, float32
 from facenet.src.facenet import get_dataset, get_image_paths_and_labels, load_data
 from src.myfacenet.encoder import FacenetEncoder
 from tensorflow import Graph, Session, GPUOptions, ConfigProto
+from faiss import IndexFlatL2, IndexIDMap, write_index
 
 FACENET_MODEL = '../models/premodels/20180402-114759.pb'
-OUTPUT_CLASSIFIER = '../models/mymodels/1814_140_1.pkl'
+OUTPUT_INDEX = '../models/mymodels/1814_140_1.index'
 INPUT_DATASET = '../dataset/processed/'
 BATCH_SIZE = 200
 FACE_SIZE = 140
-GPU_MEM_FRACTION = 0.25
+GPU_MEM_FRACTION = 0.3
 
 
 def main():
@@ -22,6 +21,7 @@ def main():
         with sess.as_default():
             dataset = get_dataset(INPUT_DATASET)
             img_paths, labels = get_image_paths_and_labels(dataset)
+            id_students = [data.name for data in dataset]
 
             print(f'Found {len(dataset)} people')
             print(f'Found {len(img_paths)} images')
@@ -48,17 +48,20 @@ def main():
 
                 embedding_array[str_index:end_index, :] = encoder.encode_training(sess, faces)
 
-            print('Training classifier model')
+            print('Indexing for all embeddings')
 
-            id_students = [data.name for data in dataset]
+            labels = array(labels)
+            id_students = array(id_students, dtype=int)
+            for i in range(len(id_students)):
+                labels[labels == i] = id_students[i]
 
-            classifier = SVC(kernel='rbf', probability=True)
-            classifier.fit(embedding_array, labels)
+            embedding_index = IndexFlatL2(embedding_size)
+            embedding_index = IndexIDMap(embedding_index)
+            embedding_index.add_with_ids(array(embedding_array, dtype=float32), array(labels))
 
-            print('Exporting classifier model file')
+            print('Exporting embeddings index file')
 
-            with open(OUTPUT_CLASSIFIER, 'wb') as file:
-                dump((classifier, id_students), file)
+            write_index(embedding_index, OUTPUT_INDEX)
 
 
 if __name__ == '__main__':

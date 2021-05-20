@@ -1,6 +1,6 @@
 from tensorflow import get_default_graph
 from facenet.src.facenet import load_model, prewhiten
-from cv2 import resize, INTER_LANCZOS4
+from cv2 import resize, INTER_LANCZOS4, GaussianBlur
 
 
 class FacenetEncoder:
@@ -13,7 +13,7 @@ class FacenetEncoder:
         self._images_placeholder = get_default_graph().get_tensor_by_name("input:0")
         self._phase_train_placeholder = get_default_graph().get_tensor_by_name("phase_train:0")
         self._embeddings = get_default_graph().get_tensor_by_name("embeddings:0")
-        self._num_features = self._embeddings.get_shape()[1]
+        self._num_features = int(self._embeddings.get_shape()[1])
 
     def get_num_features(self):
         return self._num_features
@@ -29,6 +29,7 @@ class FacenetEncoder:
 
     def encode_face(self, sess, face):
         scaled = resize(face, (self._face_size, self._face_size), interpolation=INTER_LANCZOS4)
+        scaled = GaussianBlur(scaled, (5, 5), 0)
         scaled = prewhiten(scaled)
         scaled_reshape = scaled.reshape(-1, self._face_size, self._face_size, 3)
 

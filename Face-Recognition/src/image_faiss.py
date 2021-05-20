@@ -3,18 +3,18 @@ from os.path import isfile
 from sys import argv
 from myfacenet.detector import MTCNNDetector
 from myfacenet.encoder import FacenetEncoder
-from myfacenet.identifier import FacenetIdentifier
+from myfacenet.indentifier_faiss import FaissIdentifier
 from tensorflow import Graph, Session, ConfigProto, GPUOptions
 from cv2 import rectangle, putText, FONT_HERSHEY_COMPLEX_SMALL
 from cv2 import imread, imshow, namedWindow, WINDOW_NORMAL
 from cv2 import waitKey, destroyAllWindows, imwrite
 
 FACENET_MODEL = 'models/premodels/20180402-114759.pb'
-CLASSIFIER_MODEL = 'models/mymodels/1814_140_1.pkl'
+INDEXING_MODEL = 'models/mymodels/1814_140.index'
 MTCNN_MODEL = 'models/premodels/align'
 HAARCASCADE_MODEL = 'models/premodels/haarcascade_frontalface_default.xml'
-THRESHOLD = 0
-GPU_MEM_FRACTION = 0.3
+THRESHOLD = 0.5
+GPU_MEM_FRACTION = 0.25
 FACE_SIZE = 140
 MIN_SIZE = 20
 
@@ -28,11 +28,12 @@ def main(args):
             with sess.as_default():
                 detector = MTCNNDetector(sess, MTCNN_MODEL, MIN_SIZE)
                 encoder = FacenetEncoder(FACENET_MODEL, FACE_SIZE)
-                identifier = FacenetIdentifier(None, CLASSIFIER_MODEL)
+                identifier = FaissIdentifier(None, INDEXING_MODEL)
 
                 namedWindow('image', WINDOW_NORMAL)
 
                 img = imread(args.image)
+
                 faces = detector.detect(img)
 
                 count = 0
@@ -46,16 +47,15 @@ def main(args):
                     count += 1
 
                     face_embedding = encoder.encode_face(sess, img[y1:y2, x1:x2])
-                    id_student, confidence = identifier.identify(face_embedding)
-                    confidence *= 100
-                    confidence = round(confidence, 1)
+                    distance, student_id = identifier.identify(face_embedding)
+                    distance = round(distance, 2)
 
-                    if confidence > THRESHOLD:
-                        put_face_label(img, x1, y1, x2, y2, id_student, confidence)
+                    if distance < THRESHOLD:
+                        put_face_label(img, x1, y1, x2, y2, student_id, distance)
                     else:
-                        put_face_label(img, x1, y1, x2, y2, 'Unknown', '')
+                        put_face_label(img, x1, y1, x2, y2, 'Unknown', 'Nan')
 
-                    print(f'Id: {id_student}, confidence: {confidence}')
+                    print(f'Id: {student_id}, confidence: {distance}')
 
                 imshow('image', img)
 
@@ -66,7 +66,7 @@ def main(args):
         print('File does not exits')
 
 
-def put_face_label(frame, x1, y1, x2, y2, id_student, confidence):
+def put_face_label(frame, x1, y1, x2, y2, student_id, distance):
     rectangle(
         img=frame,
         pt1=(x1, y1),
@@ -77,7 +77,7 @@ def put_face_label(frame, x1, y1, x2, y2, id_student, confidence):
 
     putText(
         img=frame,
-        text=id_student,
+        text=str(student_id),
         org=(x1, y2 + 20),
         fontFace=FONT_HERSHEY_COMPLEX_SMALL,
         fontScale=1,
@@ -88,7 +88,7 @@ def put_face_label(frame, x1, y1, x2, y2, id_student, confidence):
 
     putText(
         img=frame,
-        text=str(confidence),
+        text=str(distance),
         org=(x1, y2 + 40),
         fontFace=FONT_HERSHEY_COMPLEX_SMALL,
         fontScale=1,
