@@ -10,7 +10,7 @@
     <MasterDetailPage.Master>
         <ContentPage Padding="10" BackgroundColor="#1A1A1D" Title="Master" >
             <ContentPage.Content>
-                <StackLayout Margin="5,30,5,5">
+                <StackLayout Margin="5,20,5,5">
                     
                     <!--<Frame CornerRadius="80" 
                            HeightRequest="160"
@@ -32,7 +32,7 @@
                             <TapGestureRecognizer Tapped="ChangeAvatar" />
                         </Label.GestureRecognizers>
                     </Label>-->
-                    <xct:AvatarView x:Name="Avatar" HorizontalOptions="Center" VerticalOptions="Start" Size="100" Color="#CFDADF" Margin="0,30,0,0">
+                    <xct:AvatarView x:Name="Avatar" HorizontalOptions="Center" VerticalOptions="Start" Size="80" Color="#CFDADF" Margin="0,30,0,0">
                         <xct:AvatarView.GestureRecognizers>
                             <TapGestureRecognizer Tapped="ChangeAvatar"/>
                         </xct:AvatarView.GestureRecognizers>

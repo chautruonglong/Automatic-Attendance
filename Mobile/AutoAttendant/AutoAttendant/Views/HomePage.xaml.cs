@@ -29,12 +29,12 @@ namespace AutoAttendant.Views
         public static int checkUpdateSchedule = 0; // check load list schedule again after Update schedule
 
         //public static Lecture _lecture = new Lecture();
-        public static string base_URL = "http://192.168.30.102:3000/";
-        public HomePage(User user)
+        public static string base_URL = "http://192.168.30.104:8000";
+        public HomePage()
         {
             InitializeComponent();
             Detail = new NavigationPage(new ClassPage());
-            GetLectureInfoById(user.idLecture);
+            GetLectureInfoById(Data.Data.Instance.Lecture.id_lecturer);
             HandleRoom();
         }
 
@@ -58,7 +58,7 @@ namespace AutoAttendant.Views
             }
         }
 
-        public async void GetLectureInfoById(int id) //lay theo id ben login truyền qua
+        public async void GetLectureInfoById(string id) //lay theo id ben login truyền qua
         {
             var httpService = new HttpService();
             var base_URL = HomePage.base_URL + "lecture/" + id.ToString();

@@ -20,7 +20,7 @@
         <Frame CornerRadius="15"   
                BackgroundColor="#3D3C40" Padding="10">
 
-            <StackLayout Orientation="Vertical" HeightRequest="350" WidthRequest="350" BackgroundColor="#3D3C40" Padding="20,10,10,10">
+            <StackLayout Orientation="Vertical" HeightRequest="350" WidthRequest="320" BackgroundColor="#3D3C40" Padding="20,10,20,10">
                 <!--<Button ImageSource="closewindow30px"  
                                     BackgroundColor="#3D3C40" 
                                     FontAttributes="Bold" TextTransform="None"
@@ -82,7 +82,7 @@
                     </Label>
                 </StackLayout>
                 
-                <StackLayout Orientation="Horizontal" Margin="0,10,0,0">
+                <StackLayout Orientation="Horizontal" Margin="-10,10,0,0">
                     <Button Text="Join"  HeightRequest="40" WidthRequest="80"
                                     HorizontalOptions="End" FontSize="15"
                                     IsVisible="True" Background="#6562FC" BorderRadius="8"

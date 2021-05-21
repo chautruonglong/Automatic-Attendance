@@ -6,24 +6,27 @@ namespace AutoAttendant.Models
 {
     public class Lecture
     {
-        private int _id;
+        private string _id_lecturer;
         private string _name; 
-        private string _age;
+        private int _age;
         private string _phone;
         private string _faculty;
 
 
 
 
-        public Lecture(int id, string name)
+        public Lecture(string idLecture, string name, int age, string phone, string faculty)
         {
-            this.id = id;
-            this.name = name;
+            this._id_lecturer = idLecture;
+            this._name = name;
+            this._age = age;
+            this._phone = phone;
+            this._faculty = faculty;
         }
 
-        public int id { get => _id; set => _id = value; }
+        public string id_lecturer { get => _id_lecturer; set => _id_lecturer = value; }
         public string name { get => _name; set => _name = value; }
-        public string age { get => _age; set => _age = value; }
+        public int age { get => _age; set => _age = value; }
         public string phone { get => _phone; set => _phone = value; }
         public string faculty { get => _faculty; set => _faculty = value; }
     }

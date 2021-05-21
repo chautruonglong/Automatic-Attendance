@@ -34,19 +34,6 @@
                                    Margin="0,0,0,15">
                 </local:CustomEntry>
                 
-                <Label  x:Name="Lb_Name" Text="Name"
-                        VerticalOptions="Center" 
-                        HorizontalOptions="Start" 
-                        TextColor="#FFF"
-                        FontSize="18"
-                        FontFamily=""
-                        FontAttributes="Bold"/>
-
-                <local:CustomEntry x:Name="Entry_name" TextColor="#FFF" 
-                                   HeightRequest="40" BackgroundColor="#022656"
-                                   VerticalOptions="StartAndExpand"
-                                   Margin="0,0,0,15">
-                </local:CustomEntry>
 
                 <Label  x:Name="Lb_email" Text="E-mail or Username"
                         VerticalOptions="Center" 
@@ -75,33 +62,6 @@
                                    >
                 </local:CustomEntry>
 
-                <Label  x:Name="Lb_phone" Text="Phone"
-                        VerticalOptions="Center" 
-                        HorizontalOptions="Start" 
-                        TextColor="#FFF"
-                        FontSize="18"
-                        FontFamily=""
-                        FontAttributes="Bold"/>
-
-                <local:CustomEntry x:Name="Entry_phone" TextColor="#FFF"  
-                                   HeightRequest="40" BackgroundColor="#022656"
-                                   VerticalOptions="StartAndExpand"
-                                   Margin="0,0,0,15">
-                </local:CustomEntry>
-
-                <Label  x:Name="Lb_faculty" Text="Faculty"
-                        VerticalOptions="Center" 
-                        HorizontalOptions="Start" 
-                        TextColor="#FFF"
-                        FontSize="18"
-                        FontFamily=""
-                        FontAttributes="Bold"/>
-
-                <local:CustomEntry x:Name="Entry_faculty" TextColor="#FFF" 
-                                   HeightRequest="40" BackgroundColor="#022656"
-                                   VerticalOptions="StartAndExpand"
-                                   Margin="0,0,0,15">
-                </local:CustomEntry>
 
                 <Button Text="Create account" BackgroundColor="#1832F6" TextTransform="None" FontAttributes="Bold"
                         FontSize="16" TextColor="#FFF" BorderRadius="8" Margin="0,30,0,0" Clicked="btnSignUP"  HeightRequest="40">

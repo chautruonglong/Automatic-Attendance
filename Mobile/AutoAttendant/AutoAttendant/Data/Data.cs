@@ -16,9 +16,13 @@ namespace AutoAttendant.Data
         }
         private User user;
         private Lecture lecture;
+        private List<Lecture> currentListLecturer;
+        private List<User> currentListUser;
 
         public User User { get => user; set => user = value; }
         public Lecture Lecture { get => lecture; set => lecture = value; }
+        public List<Lecture> CurrentListLecturer { get => currentListLecturer; set => currentListLecturer = value; }
+        public List<User> CurrentListUser { get => currentListUser; set => currentListUser = value; }
 
         private Data()
         {
