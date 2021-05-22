@@ -53,7 +53,7 @@ namespace AutoAttendant.Views
             HttpResponseMessage response = await httpService.GetAsync(base_URL);
             var content = await response.Content.ReadAsStringAsync();
             Data.Data.Instance.CurrentListLecturer = JsonConvert.DeserializeObject<List<Lecture>>(content);
-            var x1 = JsonConvert.DeserializeObject<List<Lecture>>(content);
+            //var x1 = JsonConvert.DeserializeObject<List<Lecture>>(content);
         }
 
         public void GetSavedAccount()
@@ -69,7 +69,7 @@ namespace AutoAttendant.Views
 
         private void SignUp(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new SignUpPage());
+            Navigation.PushAsync(new SignUpPage());
         }
 
         public void ToHomePageOrSignUp()

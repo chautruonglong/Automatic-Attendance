@@ -16,7 +16,7 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignUpPage : ContentPage
     {
-        public static User SignUpResponse;
+        public static User SignUpResponse; // get data(email,id_lecturer) response after sign up
         public SignUpPage()
         {
             InitializeComponent();
@@ -57,13 +57,13 @@ namespace AutoAttendant.Views
 
                 //fake waiting
                 UserDialogs.Instance.ShowLoading("Creating account...");
-                await Task.Delay(2000);
+                await Task.Delay(1000);
                 UserDialogs.Instance.HideLoading();
                 UserDialogs.Instance.Toast("Your account was registered!");
 
                 if (responseUser.IsSuccessStatusCode) //&& responseLecture.IsSuccessStatusCode)
                 {
-                    await Navigation.PopModalAsync();
+                    await Navigation.PopAsync();
                 }
                 else
                 {

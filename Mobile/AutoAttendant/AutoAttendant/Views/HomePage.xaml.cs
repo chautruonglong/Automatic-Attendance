@@ -44,8 +44,7 @@ namespace AutoAttendant.Views
             try
             {
                 var httpService = new HttpService();
-                var base_URL = HomePage.base_URL + "room";
-                //string full_url = "http://192.168.0.101:3000/room/";
+                var base_URL = HomePage.base_URL + "/room/";
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 //WebClient wc = new WebClient();
                 //var result = wc.DownloadString(full_url);
@@ -58,10 +57,10 @@ namespace AutoAttendant.Views
             }
         }
 
-        public async void GetLectureInfoById(string id) //lay theo id ben login truyền qua
+        public async void GetLectureInfoById(string id) //lay theo id ben login truyền qua, set up cho profile 
         {
             var httpService = new HttpService();
-            var base_URL = HomePage.base_URL + "lecture/" + id.ToString();
+            var base_URL = HomePage.base_URL + "/lecturer/" + id.ToString();
             var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
             var lecture = JsonConvert.DeserializeObject<Lecture>(result);
             Data.Data.Instance.Lecture = lecture;

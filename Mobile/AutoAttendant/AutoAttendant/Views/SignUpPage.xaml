@@ -2,14 +2,21 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:AutoAttendant"
              x:Class="AutoAttendant.Views.SignUpPage"
-             >
+             NavigationPage.HasNavigationBar="True">
     
     <ContentPage.ToolbarItems>
-        <ToolbarItem Priority="0" />
+        <ToolbarItem Text="" Priority="5" />
+        <ToolbarItem Text="" Priority="5" />
+        <ToolbarItem Text="" Priority="5" />
+        <ToolbarItem Text="" Priority="5" />
+        <ToolbarItem Text="" Priority="5" />
+        <ToolbarItem Text="" Priority="5" />
+
+        <ToolbarItem Text="Sign Up" Priority="1" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <ScrollView BackgroundColor="#021135" Padding="0,20">
+        <StackLayout BackgroundColor="#021135" Padding="0,20">
             <!--<StackLayout Orientation="Vertical" Margin="20,20,20,10">
                 <Label Text="Sign up with" FontSize="16" TextColor="#FFF" FontAttributes="Bold"/>
                 <Button Text="Your Microsoft Account" ContentLayout="Left" ImageSource="microsoft25px"
@@ -20,11 +27,13 @@
             </StackLayout>-->
             <StackLayout Orientation="Vertical" Margin="20">
 
+                <Label Text="Your account info" FontSize="20" TextTransform="Uppercase" TextColor="#FFF" HorizontalOptions="Center" FontAttributes="Bold" Margin="0,20,0,30"/>
+                
                 <Label  x:Name="Lb_id" Text="ID"
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 
                         TextColor="#FFF"
-                        FontSize="18"
+                        FontSize="17"
                         FontFamily=""
                         FontAttributes="Bold"/>
 
@@ -35,11 +44,11 @@
                 </local:CustomEntry>
                 
 
-                <Label  x:Name="Lb_email" Text="E-mail or Username"
+                <Label  x:Name="Lb_email" Text="E-mail"
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 
                         TextColor="#FFF"
-                        FontSize="18"
+                        FontSize="17"
                         FontFamily=""
                         FontAttributes="Bold"/>
 
@@ -53,7 +62,7 @@
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 
                         TextColor="#FFF"
-                        FontSize="18"
+                        FontSize="17"
                         FontAttributes="Bold"/>
 
                 <local:CustomEntry x:Name="Entry_password" IsPasswordFlag="True"
@@ -87,6 +96,6 @@
 
                 </StackLayout>
             </StackLayout>
-        </ScrollView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
