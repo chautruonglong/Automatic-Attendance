@@ -25,9 +25,9 @@ namespace AutoAttendant.Views
         public static ListRoomViewModel _lrvm = new ListRoomViewModel();
         public static ListScheduleViewModel _lsvm = new ListScheduleViewModel();
         public static ListSubjectViewModel _lsjvm = new ListSubjectViewModel();
-        public static int checkCreateListSchedule = 0; //avoid repeat schedule from ShowSchedule()
+        public static int checkCreateListSubject = 0; //avoid repeat subject from ShowSubject()
         public static int checkCreateRoom = 0; //avoid repeat schedule from ShowSchedule()
-        public static int checkUpdateSchedule = 0; // check load list schedule again after Update schedule
+        public static int checkUpdateSubject = 0; // check load list subject again after update subject
 
         //public static Lecture _lecture = new Lecture();
         public static string base_URL = "http://192.168.30.102:3000";
@@ -87,7 +87,7 @@ namespace AutoAttendant.Views
 
         private void HandleLogOut(object sender, EventArgs e)
         {
-            checkCreateListSchedule = 0;
+            checkCreateListSubject = 0;
             //_lsvm.ScheduleCollection.Clear();
             HomePage._lsjvm.SubjectCollection.Clear();
             // truoc khi out thi` cap nhat lai vo DB

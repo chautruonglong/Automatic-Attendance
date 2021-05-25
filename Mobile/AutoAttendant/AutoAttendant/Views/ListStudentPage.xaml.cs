@@ -147,7 +147,7 @@ namespace AutoAttendant.Views
                             try
                             {
                                 Student student = new Student(mess1, mess2, "18TCLC-DT2", "IT", mess3, "url", false);
-                                ClassPage.classes.StudentList1.Add(student);
+                                SubjectPage.classes.StudentList1.Add(student);
                             }
                             catch (Exception ex)
                             {
@@ -155,7 +155,7 @@ namespace AutoAttendant.Views
                             }
                         }
                         //ClassPage.classes.StudentList1.Add
-                        lsvm.StudentCollection = ClassPage.classes.StudentList1;
+                        lsvm.StudentCollection = SubjectPage.classes.StudentList1;
                         this.BindingContext = lsvm;
                     }
                     else //co roi` thi block
@@ -202,19 +202,27 @@ namespace AutoAttendant.Views
 
         private async void TakeAttendance(object sender, EventArgs e)
         {
-            PostRawListStudent();
-            ReLoadStudenList();
+            try
+            {
+                if(lsvm.StudentCollection.Count <= 0)
+                {
+                    await DisplayAlert("Notice", "No students in class. Import student list!", "OK");
+                }
+                else
+                {
+                    PostRawListStudent();
+                    ReLoadStudenList();
+                }
+            }
+            catch(Exception ex)
+            {
+                await DisplayAlert("Notice", ex.Message, "OK");
+            }
         }
 
         public void paintLoading()
         {
-
-            if (lsvm.StudentCollection.Count <= 0)
-            {
-
-                DisplayAlert("Notice", "No students in class. Import student list!", "OK");
-            }
-            else
+            try
             {
                 using (IProgressDialog progress = UserDialogs.Instance.Progress("Taking attendance...", null, null, true, MaskType.Gradient))
                 {
@@ -227,43 +235,53 @@ namespace AutoAttendant.Views
                 }
                 UserDialogs.Instance.Toast("Done");
             }
+            catch (Exception ex)
+            {
+                DisplayAlert("Notice",ex.Message ,"OK");
+            }
         }
 
         public async void PostRawListStudent()
         {
-
-            List<String> list_id = new List<string>();  // list to post to server
-            foreach (Student std in ClassPage.classes.StudentList1)
+            try
             {
-                list_id.Add(std.Id.Trim());
-            }
-            ListID listId = new ListID("10232602020181", list_id);
-            var httpService = new HttpClient();
-            string jsonListId = JsonConvert.SerializeObject(listId);
-            StringContent contentAttendance = new StringContent(jsonListId, Encoding.UTF8, "application/json");
-            var baseAttendance_URL = @"http://192.168.30.104:9000/mobile/";
-
-            CheckSquence++;
-
-            if (CheckSquence == 1)
-            {
-                var thread = new Thread(paintLoading);
-                thread.Start();
-                HttpResponseMessage responseAttendance = await httpService.PostAsync(baseAttendance_URL, contentAttendance);
-                var result = await responseAttendance.Content.ReadAsStringAsync();
-                thread.Abort();
-                listAttendance = JsonConvert.DeserializeObject<ObservableCollection<Attendance>>(result);
-                foreach (Attendance atd in listAttendance)
+                List<String> list_id = new List<string>();  // list to post to server
+                foreach (Student std in ClassPage.classes.StudentList1)
                 {
-                    if (atd.state == true)
-                    {
-                        var student = lsvm.StudentCollection.Single(r => r.Id.Trim().Equals(atd.student_id.Trim()));
-                        student.State = true;
-                    }
+                    list_id.Add(std.Id.Trim());
                 }
-                UserDialogs.Instance.Toast("Done");
-            }
+                ListID listId = new ListID("10232602020181", list_id);
+                var httpService = new HttpClient();
+                string jsonListId = JsonConvert.SerializeObject(listId);
+                StringContent contentAttendance = new StringContent(jsonListId, Encoding.UTF8, "application/json");
+                var baseAttendance_URL = @"http://192.168.30.104:9000/mobile/";
 
+                CheckSquence++;
+
+                if (CheckSquence == 1)
+                {
+                    var thread = new Thread(paintLoading);
+                    thread.Start();
+                    HttpResponseMessage responseAttendance = await httpService.PostAsync(baseAttendance_URL, contentAttendance);
+                    var result = await responseAttendance.Content.ReadAsStringAsync();
+                    thread.Abort();
+
+                    listAttendance = JsonConvert.DeserializeObject<ObservableCollection<Attendance>>(result);
+                    foreach (Attendance atd in listAttendance)
+                    {
+                        if (atd.state == true)
+                        {
+                            var student = lsvm.StudentCollection.Single(r => r.Id.Trim().Equals(atd.student_id.Trim()));
+                            student.State = true;
+                        }
+                    }
+                    UserDialogs.Instance.Toast("Done");
+                }
+            }
+            catch (Exception)
+            {
+                await DisplayAlert("Notice", "No students in class. Import student list!", "OK");
+            }
         }
 
         public void HandleAttendance()
@@ -294,6 +312,60 @@ namespace AutoAttendant.Views
             StringContent contentLecture = new StringContent(jsonRoom, Encoding.UTF8, "application/json");
             var baseLecture_URL = HomePage.base_URL + "room/" + roomNow.id.ToString();
             HttpResponseMessage responseLecture = await httpService.PutAsync(baseLecture_URL, contentLecture);
+        }
+
+        [Obsolete]
+        private async void ClickSaveToEndClass(object sender, EventArgs e)
+        {
+            string id_subject;
+            string name_subject;
+            string timeSlot;
+            int attendanceCount = 0;
+
+            var subject = HomePage._lsjvm.SubjectCollection.Single(r => r.id_subject == SubjectPage.enableSubJectId);
+            int index = HomePage._lsjvm.SubjectCollection.IndexOf(subject);
+
+            id_subject = subject.id_subject;
+            timeSlot = subject.timeSlot;
+            name_subject = subject.name;
+            foreach (Student std in lsvm.StudentCollection)
+            {
+                if (std.State == true)
+                {
+                    attendanceCount++;
+                }
+            }
+            var message = String.Format("Class: {0}\nSubject: {1}\nTime Slot: {2}\nAttendance: {3}", id_subject, name_subject, timeSlot, attendanceCount);
+            await DisplayAlert("Class Info", message, "Continue");
+            bool answer = await DisplayAlert("Notice", "You will be return to home page after save this class", "OK", "Cancel");
+            if (answer)
+            {
+                if (index < HomePage._lsjvm.SubjectCollection.Count - 1) // nếu index của schedule vẫn còn nằm trong _lsjvm
+                {
+                    SubjectPage.enableSubJectId = HomePage._lsjvm.SubjectCollection[index + 1].id_subject; // gán enableSubjectID = id của subject tiếp theo
+                    subject.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
+                    SubjectPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
+                    //process.state = 1; // state = 1 là process,subject này done
+                }
+                else
+                {
+                    SubjectPage.enableSubJectId = "-1"; // nếu index vượt thì gán = -1 để ko làm gì khi back về
+                    //process.state = 1; / tiep tuc thay doi state cho process = 1;
+                    subject.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
+                }
+
+                // Put to Server
+                //HandlePutStateSchedule(schedule); //cap nhat state cua Schedule
+                //HandlePutStateRoom(schedule);    //cap nhat state cua Room
+
+                await Navigation.PopAsync();
+            }
+            else
+            {
+                return;
+            }
+
+
         }
 
         [Obsolete]
@@ -419,5 +491,7 @@ namespace AutoAttendant.Views
             GetDataForPieChart();
             Navigation.PushAsync(new ChartPage());
         }
+
+        
     }
 }

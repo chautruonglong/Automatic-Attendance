@@ -189,7 +189,7 @@ namespace AutoAttendant.Views
                     HttpResponseMessage responseSchedule = await httpService.PutAsync(baseLecture_URL, contentSchedule);
                     if (responseSchedule.IsSuccessStatusCode)
                     {
-                        HomePage.checkUpdateSchedule = 1;
+                        HomePage.checkUpdateSubject = 1;
                         await Navigation.PopAsync();
                     }
                 }

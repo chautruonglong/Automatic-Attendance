@@ -31,7 +31,7 @@
                         HorizontalOptions="CenterAndExpand" VerticalOptions="Center" BackgroundColor="#021135" 
                         FontAttributes="None" TextTransform="None" FontSize="15" HeightRequest="40"
                         BorderRadius="8" TextColor="#FFF" BorderWidth="1" BorderColor="#FFF"
-                        Clicked="ClickSaveAndImport"/>
+                        Clicked="ClickSaveToEndClass"/>
             </StackLayout>
             
             <StackLayout Orientation="Horizontal" Padding="5,0,0,0" VerticalOptions="Center">

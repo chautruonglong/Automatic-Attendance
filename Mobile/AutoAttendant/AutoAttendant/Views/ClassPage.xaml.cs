@@ -40,7 +40,7 @@ namespace AutoAttendant.Views
         [Obsolete]
         protected override void OnAppearing() // goị trước khi screen page này xuất hiện
         {
-            if(HomePage.checkUpdateSchedule == 1) //co Update xay ra thi khi back ve` phai goi lai API de load lai list schedule
+            if(HomePage.checkUpdateSubject == 1) //co Update xay ra thi khi back ve` phai goi lai API de load lai list schedule
             {
                 lsvm.ScheduleCollection.Clear();
                 ShowSchedule();
@@ -67,6 +67,7 @@ namespace AutoAttendant.Views
                 this.BindingContext = new ListScheduleViewModel();
                 this.BindingContext = lsvm;
                 SetColorById();
+                
 
             }
         }
@@ -81,7 +82,6 @@ namespace AutoAttendant.Views
 
                     if (checkClearStd_ListPage == 1)
                     {   
-
                         classes.StudentList1.Clear(); // clear list student khi join 1 schedule mới
                         checkClearStd_ListPage = 0;
                         
@@ -257,7 +257,7 @@ namespace AutoAttendant.Views
         public async void ShowSchedule()
         {
             try
-            {   if (HomePage.checkCreateListSchedule == 0 || HomePage.checkUpdateSchedule == 1) { 
+            {   if (HomePage.checkCreateListSubject == 0 || HomePage.checkUpdateSubject == 1) { 
                     var listSchedule = new ObservableCollection<Schedule>(await HandleSchedule()); // list Schedule trả về từ HandelSchedule
 
                     first_id_in_list = Convert.ToInt32(listSchedule[0].id);
@@ -273,8 +273,8 @@ namespace AutoAttendant.Views
 
 
                     }
-                    HomePage.checkCreateListSchedule = 1;
-                    HomePage.checkUpdateSchedule = 0;
+                    HomePage.checkCreateListSubject = 1;
+                    HomePage.checkUpdateSubject = 0;
                 }
 
                 SetColorById();
