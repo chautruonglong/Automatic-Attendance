@@ -32,6 +32,7 @@ namespace AutoAttendant.Views
             InitializeComponent();
             GetSavedAccount();
         }
+        #region Save Lastest Login
         public void SaveAccountLogined()
         {
             Preferences.Set("email", Entry_user.Text);
@@ -43,16 +44,7 @@ namespace AutoAttendant.Views
             Entry_user.Text = Preferences.Get("email", string.Empty);
             Entry_password.Text = Preferences.Get("password", string.Empty);
         }
-
-        private void ForgotPassword(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new ForgotPasswordPage());
-        }
-
-        private void SignUp(object sender, EventArgs e)
-        {
-            Navigation.PushModalAsync(new SignUpPage());
-        }
+        #endregion
 
         [Obsolete]
         private async void LoginProcedure(object sender, EventArgs e)
@@ -81,13 +73,21 @@ namespace AutoAttendant.Views
                     //await Navigation.PushAsync(new SignUpLecturerPage()); // sang page moi' de sign up thong tin lecturer
                 }
                 else await DisplayAlert("Error", "Login Fail", "Try Again");
-
-
             }
             catch (Exception ex)
             {
                 await DisplayAlert("ERROR", ex.Message, "Try Again");
             }
+        }
+
+        private void ForgotPassword(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new ForgotPasswordPage());
+        }
+
+        private void SignUp(object sender, EventArgs e)
+        {
+            Navigation.PushModalAsync(new SignUpPage());
         }
 
         private void OpenApiEntry(object sender, EventArgs e) 

@@ -30,12 +30,10 @@ namespace AutoAttendant.Views
         int CheckSquence = 0;
         int TimeCount = 5;
 
-        public ListStudentPage()  // nhớ check clear list Student của ClassPage.classes
+        public ListStudentPage()
         {
             InitializeComponent();
             this.BindingContext = new ListStudentViewModel(); // listview se binding theo object List Student View Model
-            //DisplayAlert("NOtice", HomePage._lsvm.ScheduleCollection.Count.ToString(), "OK");
-            //ReLoadStudenList();
         }
 
         protected override void OnAppearing()
@@ -43,61 +41,16 @@ namespace AutoAttendant.Views
             ReLoadStudenList();
             base.OnAppearing();
         }
-        public void ReLoadStudenList() // 
+        public void ReLoadStudenList() 
         {
             if (lsvm.StudentCollection.Count > 0)
             {
                 this.BindingContext = new ListStudentViewModel();
                 this.BindingContext = lsvm;
-                //DisplayAlert("NOtice", lsvm.StudentCollection[0].State.ToString(), "OK");
             }
         }
 
-        private void OnTapped(object sender, EventArgs e) // xu li khi nhan vao student
-        {
-            string message = string.Empty;
-            Frame f = sender as Frame;
-            var fContent = f.Content; // Lấy Content của Frame
-            var myStacklayout = fContent.GetType(); // lấy kiểu của Content
-            if (myStacklayout == typeof(StackLayout)) // check kiểu có phải Stack Layout ko
-            {
-                StackLayout fStacklayout = (StackLayout)fContent;
-                var listChildren = fStacklayout.Children; // Lấy tập Children của StackLayout
-                var firstLabel = listChildren[0];
-                var secondLabel = listChildren[1];
-                var thirdLabel = listChildren[2];
-
-                //var isLabel = firstLabel.GetType(); // check kiểu của child đầu tiên
-                if (firstLabel.GetType() == typeof(Label) && secondLabel.GetType() == typeof(Label) && thirdLabel.GetType() == typeof(Label))
-                {
-                    Label Name = (Label)firstLabel;
-                    Label Class = (Label)secondLabel;
-                    Label Time = (Label)thirdLabel;
-
-                    var itemSelected = lsvm.StudentCollection.Single(r => r.Name == Name.Text);
-                    var index = lsvm.StudentCollection.IndexOf(itemSelected);
-                    Student std = lsvm.StudentCollection[index];
-                    message = string.Format("Name: {0}\nClass: {1}\nTime: {2}", std.Id, std.Name, std.Phone);
-                    DisplayAlert("Notice", message, "OK");
-                    Navigation.PushAsync(new StudentDetailPage(std, lsvm));
-                }
-            }
-        }
-
-        //private void OpenPicker(object sender, EventArgs e)
-        //{
-        //    PickerSort.IsEnabled = true;
-        //    PickerSort.Focus();
-        //}
-
-        //private void HandlePickerSort(object sender, EventArgs e) // xu li sort option
-        //{
-        //    var index = PickerSort.SelectedIndex;
-        //    if(index != -1)
-        //    {
-        //        btnSortOption.Text = PickerSort.Items[index].ToString();
-        //    }
-        //}
+        #region Functions Add for List Students
         async void ImportExcel(object sender, EventArgs e) // xu li import excel them student
         {
 
@@ -170,17 +123,6 @@ namespace AutoAttendant.Views
             }
         }
 
-        //private void OnCheckBoxCheckedChanged(object sender, CheckedChangedEventArgs e)
-        //{
-        //    string value = string.Empty;
-        //    CheckBox cbStatus = sender as CheckBox;
-        //    if (cbStatus.IsChecked == true)
-        //    {
-        //        btn_Excel.BackgroundColor = Color.FromHex("#246CFE");
-        //    }
-        //    else btn_Excel.BackgroundColor = Color.FromHex("#021135");
-        //}
-
         private async void AddSingleStudent(object sender, EventArgs e) // xu li khi them tung student
         {
             var page = new PopUpView();
@@ -199,7 +141,40 @@ namespace AutoAttendant.Views
             };
             await PopupNavigation.Instance.PushAsync(page);
         }
+#endregion
 
+        private void OnTapped(object sender, EventArgs e) // xu li khi nhan vao student
+        {
+            string message = string.Empty;
+            Frame f = sender as Frame;
+            var fContent = f.Content; // Lấy Content của Frame
+            var myStacklayout = fContent.GetType(); // lấy kiểu của Content
+            if (myStacklayout == typeof(StackLayout)) // check kiểu có phải Stack Layout ko
+            {
+                StackLayout fStacklayout = (StackLayout)fContent;
+                var listChildren = fStacklayout.Children; // Lấy tập Children của StackLayout
+                var firstLabel = listChildren[0];
+                var secondLabel = listChildren[1];
+                var thirdLabel = listChildren[2];
+
+                //var isLabel = firstLabel.GetType(); // check kiểu của child đầu tiên
+                if (firstLabel.GetType() == typeof(Label) && secondLabel.GetType() == typeof(Label) && thirdLabel.GetType() == typeof(Label))
+                {
+                    Label Name = (Label)firstLabel;
+                    Label Class = (Label)secondLabel;
+                    Label Time = (Label)thirdLabel;
+
+                    var itemSelected = lsvm.StudentCollection.Single(r => r.Name == Name.Text);
+                    var index = lsvm.StudentCollection.IndexOf(itemSelected);
+                    Student std = lsvm.StudentCollection[index];
+                    message = string.Format("Name: {0}\nClass: {1}\nTime: {2}", std.Id, std.Name, std.Phone);
+                    DisplayAlert("Notice", message, "OK");
+                    Navigation.PushAsync(new StudentDetailPage(std, lsvm));
+                }
+            }
+        }
+
+        #region Handle Attendances Functions()
         private async void TakeAttendance(object sender, EventArgs e)
         {
             try
@@ -288,7 +263,9 @@ namespace AutoAttendant.Views
         {
 
         }
+        #endregion
 
+        #region Functions for Save Click
         [Obsolete]
         public async void HandlePutStateSchedule(Schedule schedule) //update  schedule to server
         {
@@ -364,62 +341,8 @@ namespace AutoAttendant.Views
             {
                 return;
             }
-
-
         }
-
-        [Obsolete]
-        private async void ClickSaveAndImport(object sender, EventArgs e) // phai luu ve DB
-        {
-            string className;
-            string timeSlot;
-            string subject;
-            int attendanceCount = 0;
-
-            var schedule = HomePage._lsvm.ScheduleCollection.Single(r => Convert.ToInt32(r.id) == ClassPage.first_id_in_list);
-            int index = HomePage._lsvm.ScheduleCollection.IndexOf(schedule);
-
-            
-            className = ClassPage.classes.Name;
-            timeSlot = schedule.timeSlot;
-            subject = schedule.nameSubject;
-            foreach(Student std in lsvm.StudentCollection)
-            {
-                if(std.State == true)
-                {
-                    attendanceCount++;
-                }
-            }
-           
-            var message = String.Format("Class: {0}\nSubject: {1}\nTime Slot: {2}\nAttendance: {3}", className, subject, timeSlot, attendanceCount);
-            await DisplayAlert("Class Info", message, "Continue");
-            bool answer = await DisplayAlert("Notice", "You will be return to home page after save this class", "OK", "Cancel");
-            if (answer)
-            {
-                if (index < HomePage._lsvm.ScheduleCollection.Count - 1) // nếu index của schedule vẫn còn nằm trong _lsvm
-                {
-                    ClassPage.first_id_in_list = Convert.ToInt32(HomePage._lsvm.ScheduleCollection[index + 1].id); // gán first id in list = id của schedule tiếp theo
-                    ClassPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
-                    schedule.state = 1; // state = 1 là schdule này done
-                    schedule.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
-                }
-                else { 
-                    ClassPage.first_id_in_list = -1; // nếu index vượt thì gán = -1 để ko làm gì khi back về
-                    schedule.state = 1;
-                    schedule.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
-                }
-
-                // Put to Server
-                HandlePutStateSchedule(schedule); //cap nhat state cua Schedule
-                HandlePutStateRoom(schedule);    //cap nhat state cua Room
-
-                await Navigation.PopAsync();
-            }
-            else
-            {
-                return;
-            }
-        }
+        #endregion
 
         private void ExportExcel(object sender, EventArgs e)
         {
@@ -438,6 +361,67 @@ namespace AutoAttendant.Views
             }
             ChartPage.attendances = attendanceCount;
             ChartPage.absentees = ClassPage.classes.StudentList1.Count - attendanceCount;
+        }
+
+
+        private void ToChartPage(object sender, EventArgs e)
+        {
+            GetDataForPieChart();
+            Navigation.PushAsync(new ChartPage());
+        }
+
+        [Obsolete]
+        private async void ClickSaveAndImport(object sender, EventArgs e) // phai luu ve DB
+        {
+            string className;
+            string timeSlot;
+            string subject;
+            int attendanceCount = 0;
+
+            var schedule = HomePage._lsvm.ScheduleCollection.Single(r => Convert.ToInt32(r.id) == ClassPage.first_id_in_list);
+            int index = HomePage._lsvm.ScheduleCollection.IndexOf(schedule);
+
+
+            className = ClassPage.classes.Name;
+            timeSlot = schedule.timeSlot;
+            subject = schedule.nameSubject;
+            foreach (Student std in lsvm.StudentCollection)
+            {
+                if (std.State == true)
+                {
+                    attendanceCount++;
+                }
+            }
+
+            var message = String.Format("Class: {0}\nSubject: {1}\nTime Slot: {2}\nAttendance: {3}", className, subject, timeSlot, attendanceCount);
+            await DisplayAlert("Class Info", message, "Continue");
+            bool answer = await DisplayAlert("Notice", "You will be return to home page after save this class", "OK", "Cancel");
+            if (answer)
+            {
+                if (index < HomePage._lsvm.ScheduleCollection.Count - 1) // nếu index của schedule vẫn còn nằm trong _lsvm
+                {
+                    ClassPage.first_id_in_list = Convert.ToInt32(HomePage._lsvm.ScheduleCollection[index + 1].id); // gán first id in list = id của schedule tiếp theo
+                    ClassPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
+                    schedule.state = 1; // state = 1 là schdule này done
+                    schedule.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
+                }
+                else
+                {
+                    ClassPage.first_id_in_list = -1; // nếu index vượt thì gán = -1 để ko làm gì khi back về
+                    schedule.state = 1;
+                    schedule.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
+                }
+
+                // Put to Server
+                HandlePutStateSchedule(schedule); //cap nhat state cua Schedule
+                HandlePutStateRoom(schedule);    //cap nhat state cua Room
+
+                await Navigation.PopAsync();
+            }
+            else
+            {
+                return;
+            }
         }
 
         public async void ExportExcel()
@@ -483,15 +467,34 @@ namespace AutoAttendant.Views
             {
                 await DisplayAlert("Error", ex.Message, "OK");
             }
-           
         }
 
-        private void ToChartPage(object sender, EventArgs e)
-        {
-            GetDataForPieChart();
-            Navigation.PushAsync(new ChartPage());
-        }
+        //private void OnCheckBoxCheckedChanged(object sender, CheckedChangedEventArgs e)
+        //{
+        //    string value = string.Empty;
+        //    CheckBox cbStatus = sender as CheckBox;
+        //    if (cbStatus.IsChecked == true)
+        //    {
+        //        btn_Excel.BackgroundColor = Color.FromHex("#246CFE");
+        //    }
+        //    else btn_Excel.BackgroundColor = Color.FromHex("#021135");
+        //}
 
-        
+        //private void OpenPicker(object sender, EventArgs e)
+        //{
+        //    PickerSort.IsEnabled = true;
+        //    PickerSort.Focus();
+        //}
+
+        //private void HandlePickerSort(object sender, EventArgs e) // xu li sort option
+        //{
+        //    var index = PickerSort.SelectedIndex;
+        //    if(index != -1)
+        //    {
+        //        btnSortOption.Text = PickerSort.Items[index].ToString();
+        //    }
+        //}
+
+
     }
 }

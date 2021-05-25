@@ -12,10 +12,10 @@ using Xamarin.Forms.Xaml;
 namespace AutoAttendant.Views.PopUp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PopUpAddClass 
+    public partial class PopUpSubjectOption
     {
         public static Subject subjectTemp;
-        public PopUpAddClass(Subject subject)
+        public PopUpSubjectOption(Subject subject)
         {
             InitializeComponent();
             this.BindingContext = subject;
@@ -23,14 +23,13 @@ namespace AutoAttendant.Views.PopUp
 
         }
 
-        
+
 
         public EventHandler<string> Action;
 
         [Obsolete]
         private async void JoinClass(object sender, EventArgs e)
         {
-            //string roomName = Entry_class.Text;
             Action?.Invoke(this, "Join");
             await PopupNavigation.Instance.PopAsync();
         }

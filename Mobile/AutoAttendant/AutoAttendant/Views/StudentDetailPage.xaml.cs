@@ -19,7 +19,6 @@ namespace AutoAttendant.Views
         {
             InitializeComponent();
             ShowStudentInfo(student);
-            
         }
 
         public void ShowStudentInfo(Student student)

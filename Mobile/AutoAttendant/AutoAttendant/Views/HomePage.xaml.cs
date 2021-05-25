@@ -39,7 +39,6 @@ namespace AutoAttendant.Views
             HandleRoom();
         }
 
-
         public async void HandleRoom()
         {
             try
@@ -73,34 +72,7 @@ namespace AutoAttendant.Views
             Avatar.TextColor = Color.FromHex("#021135");;
         }
 
-        private void HandleTeacherProfile(object sender, EventArgs e)
-        {
-            Detail = new NavigationPage(new LectureProfilePage());
-            IsPresented = false;
-        }
 
-        private void HandleHistory(object sender, EventArgs e)
-        {
-            Detail = new NavigationPage(new HistoryPage());
-            IsPresented = false;
-        }
-
-        private void HandleLogOut(object sender, EventArgs e)
-        {
-            checkCreateListSubject = 0;
-            //_lsvm.ScheduleCollection.Clear();
-            HomePage._lsjvm.SubjectCollection.Clear();
-            // truoc khi out thi` cap nhat lai vo DB
-            Navigation.PopToRootAsync();
-        }
-
-
-        private void HandleHome(object sender, EventArgs e)
-        {
-            //Navigation.PushAsync(new ClassPage());
-            Detail = new NavigationPage(new SubjectPage());
-            IsPresented = false;
-        }
 
         async void ChangeAvatar(object sender, EventArgs e)
         {
@@ -136,6 +108,26 @@ namespace AutoAttendant.Views
 
         }
 
+        #region Functions Handle Nav Bar
+        private void HandleHome(object sender, EventArgs e)
+        {
+            //Navigation.PushAsync(new ClassPage());
+            Detail = new NavigationPage(new SubjectPage());
+            IsPresented = false;
+        }
+
+        private void HandleTeacherProfile(object sender, EventArgs e)
+        {
+            Detail = new NavigationPage(new LectureProfilePage());
+            IsPresented = false;
+        }
+
+        private void HandleHistory(object sender, EventArgs e)
+        {
+            Detail = new NavigationPage(new HistoryPage());
+            IsPresented = false;
+        }
+
         private void HandleRoom(object sender, EventArgs e)
         {
             Detail = new NavigationPage(new RoomPage());
@@ -147,5 +139,14 @@ namespace AutoAttendant.Views
             Detail = new NavigationPage(new SettingPage());
             IsPresented = false;
         }
+        private void HandleLogOut(object sender, EventArgs e)
+        {
+            checkCreateListSubject = 0;
+            //_lsvm.ScheduleCollection.Clear();
+            HomePage._lsjvm.SubjectCollection.Clear();
+            // truoc khi out thi` cap nhat lai vo DB
+            Navigation.PopToRootAsync();
+        }
+        #endregion
     }
 }

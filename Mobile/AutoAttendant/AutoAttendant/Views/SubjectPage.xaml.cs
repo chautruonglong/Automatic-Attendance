@@ -34,7 +34,7 @@ namespace AutoAttendant.Views
             InitializeComponent();
             ShowSubject();
         }
-
+        #region ReloadFunction()
         [Obsolete]
         protected override void OnAppearing() // goị trước khi screen page này xuất hiện
         {
@@ -59,7 +59,9 @@ namespace AutoAttendant.Views
             ChartPage.absentees = 0;
             ChartPage.attendances = 0;
         }
+        #endregion
 
+        #region Main Function - Manage Subjects + Process
         public async Task<List<Process>> HandleProcess(string idSub) //Get process (theo list)
         {
             try
@@ -102,6 +104,7 @@ namespace AutoAttendant.Views
                     step++;
                 }
             }
+            await DisplayAlert("Notice", "No subject today!", "OK");
             return null;
         }
 
@@ -123,7 +126,6 @@ namespace AutoAttendant.Views
             catch (Exception)
             {
                 await DisplayAlert("Notice", "Fail", "OK");
-
                 return null;
             }
         }
@@ -139,12 +141,11 @@ namespace AutoAttendant.Views
                     enableSubJectId = await GetEnableSubJectId(listSubject);
                     if(enableSubJectId == null)
                     {
-                        await DisplayAlert("Notice", "No subject today!", "OK");
+                        return;
                     }
 
                     foreach (Subject subject in listSubject)  // duyet trong list subject để thêm vào lsjvm
                     {
-                        
                          if (enableSubJectId !=null)
                          {
                             if (subject.id_subject == enableSubJectId)
@@ -168,7 +169,6 @@ namespace AutoAttendant.Views
                 await DisplayAlert("Notice", "No subject today!", "OK");
             }
         }
-
         [Obsolete]
         public void SetColorById()
         {
@@ -188,8 +188,9 @@ namespace AutoAttendant.Views
                 item.colorState = "#0E368B";
             }
         }
+        #endregion
 
-        #region Các hàm xử lí cho SubjectClick
+        #region Handle Functions for SubjectClick
         public async void HandleSelectPopUp(string paraString, Subject subject)
         {
             switch (paraString)
@@ -239,7 +240,7 @@ namespace AutoAttendant.Views
                             var index = HomePage._lsjvm.SubjectCollection.IndexOf(itemSelected); // lấy index của subject đó trong lsvm
                             Subject subject = HomePage._lsjvm.SubjectCollection[index]; // tìm dc schdule theo index
 
-                            var page = new PopUpAddClass(subject);
+                            var page = new PopUpSubjectOption(subject);
                             page.Action += async (sender1, stringparameter) =>
                             {
                                 HandleSelectPopUp(stringparameter, subject);
