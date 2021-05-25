@@ -35,7 +35,7 @@ namespace AutoAttendant.Views
             {
                 var httpService = new HttpService();
                 //var base_URL = HomePage.base_URL + "schedule?idTeacher=" + Data.Data.Instance.User.idLecture.ToString() + "&date=" + date;
-                var base_URL = HomePage.base_URL + "schedule?idTeacher=" + Data.Data.Instance.Lecture.id_lecturer.ToString() + "&date=" + date;
+                var base_URL = HomePage.base_URL + "/schedule?idTeacher=" + Data.Data.Instance.Lecture.id.ToString() + "&date=" + date;
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 var listSchedule = JsonConvert.DeserializeObject<ObservableCollection<Schedule>>(result);
                 return listSchedule;

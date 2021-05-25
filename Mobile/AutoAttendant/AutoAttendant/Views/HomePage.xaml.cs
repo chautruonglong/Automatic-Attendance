@@ -24,17 +24,18 @@ namespace AutoAttendant.Views
     {
         public static ListRoomViewModel _lrvm = new ListRoomViewModel();
         public static ListScheduleViewModel _lsvm = new ListScheduleViewModel();
+        public static ListSubjectViewModel _lsjvm = new ListSubjectViewModel();
         public static int checkCreateListSchedule = 0; //avoid repeat schedule from ShowSchedule()
         public static int checkCreateRoom = 0; //avoid repeat schedule from ShowSchedule()
         public static int checkUpdateSchedule = 0; // check load list schedule again after Update schedule
 
         //public static Lecture _lecture = new Lecture();
-        public static string base_URL = "http://192.168.30.104:8000";
+        public static string base_URL = "http://192.168.30.102:3000";
         public HomePage()
         {
             InitializeComponent();
-            Detail = new NavigationPage(new ClassPage());
-            GetLectureInfoById(Data.Data.Instance.Lecture.id_lecturer);
+            Detail = new NavigationPage(new SubjectPage());
+            GetLectureInfoById(Data.Data.Instance.User.idLecture.ToString());
             HandleRoom();
         }
 
@@ -60,7 +61,8 @@ namespace AutoAttendant.Views
         public async void GetLectureInfoById(string id) //lay theo id ben login truyền qua, set up cho profile 
         {
             var httpService = new HttpService();
-            var base_URL = HomePage.base_URL + "/lecturer/" + id.ToString();
+            var base_URL = HomePage.base_URL + "/lecture/" + id;
+            var x = HomePage.base_URL + "/lecture/" + id;
             var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
             var lecture = JsonConvert.DeserializeObject<Lecture>(result);
             Data.Data.Instance.Lecture = lecture;
@@ -86,7 +88,8 @@ namespace AutoAttendant.Views
         private void HandleLogOut(object sender, EventArgs e)
         {
             checkCreateListSchedule = 0;
-            _lsvm.ScheduleCollection.Clear();
+            //_lsvm.ScheduleCollection.Clear();
+            HomePage._lsjvm.SubjectCollection.Clear();
             // truoc khi out thi` cap nhat lai vo DB
             Navigation.PopToRootAsync();
         }
@@ -95,7 +98,7 @@ namespace AutoAttendant.Views
         private void HandleHome(object sender, EventArgs e)
         {
             //Navigation.PushAsync(new ClassPage());
-            Detail = new NavigationPage(new ClassPage());
+            Detail = new NavigationPage(new SubjectPage());
             IsPresented = false;
         }
 

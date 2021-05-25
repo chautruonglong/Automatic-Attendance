@@ -6,81 +6,23 @@ namespace AutoAttendant.Models
 {
     public class Attendance
     {
-        private string idStudent;
-        private string idSubject;
-        private bool state;
-        private string faceImg;
-        private DateTime time;
+        private string _student_id;
+        private bool _state;
+        private string _face_3x4;
+        private string _face_cam;
 
-        public string IdStudent
+        public Attendance(string student_id, bool state, string face_3x4, string face_cam)
         {
-            get
-            {
-                return this.idStudent;
-            }
-            set
-            {
-                this.idStudent = value;
-            }
-        }
-        public string IdSubject
-        {
-            get
-            {
-                return this.idSubject;
-            }
-            set
-            {
-                this.idSubject = value;
-            }
-        }
-        public bool State
-        {
-            get
-            {
-                return this.state;
-            }
-            set
-            {
-                this.state = value;
-            }
-        }
-        public string FaceImg
-        {
-            get
-            {
-                return this.faceImg;
-            }
-            set
-            {
-                this.faceImg = value;
-            }
-        }
-        public DateTime Time
-        {
-            get
-            {
-                return this.time;
-            }
-            set
-            {
-                this.time = value;
-            }
+            _student_id = student_id;
+            _state = state;
+            _face_3x4 = face_3x4;
+            _face_cam = face_cam;
         }
 
-        public Attendance()
-        {
-
-        }
-
-        public Attendance(string idStudent, string idSubject, bool state, string faceImg, DateTime time)
-        {
-            this.IdStudent = idStudent;
-            this.IdSubject = idSubject;
-            this.State = state;
-            this.FaceImg = faceImg;
-            this.Time = time;
-        }
+        public string student_id { get => _student_id; set => _student_id = value; }
+        public bool state { get => _state; set => _state = value; }
+        public string face_3x4 { get => _face_3x4; set => _face_3x4 = value; }
+        public string face_cam { get => _face_cam; set => _face_cam = value; }
     }
 
     

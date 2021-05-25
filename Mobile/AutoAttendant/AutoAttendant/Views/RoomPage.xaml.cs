@@ -111,8 +111,7 @@ namespace AutoAttendant.Views
             try
             {
                 var httpService = new HttpService();
-                var base_URL = HomePage.base_URL + "room";
-                //string full_url = "http://192.168.0.101:3000/room/";
+                var base_URL = HomePage.base_URL + "/room";
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 //WebClient wc = new WebClient();
                 //var result = wc.DownloadString(full_url);

@@ -168,12 +168,12 @@ namespace AutoAttendant.Views
                             string roomName = String.Empty;
 
                             // Handle data from PopUpAddClass
-                            var page = new PopUpAddClass(schedule);
-                            page.Action += async (sender1, stringparameter) =>
-                            {
-                                HandleSelectPopUp(stringparameter, schedule);
+                            //var page = new PopUpAddClass(schedule);
+                            //page.Action += async (sender1, stringparameter) =>
+                            //{
+                            //    HandleSelectPopUp(stringparameter, schedule);
 
-                            };
+                            //};
 
                             //page.Disappearing += (c, d) =>
                             //{
@@ -184,7 +184,7 @@ namespace AutoAttendant.Views
                             //};
 
                             // call PopUpAddClass
-                            await PopupNavigation.Instance.PushAsync(page);
+                           // await PopupNavigation.Instance.PushAsync(page);
 
                         }
                         else
@@ -216,7 +216,7 @@ namespace AutoAttendant.Views
                 var httpService = new HttpService();
                 string date = JsonConvert.SerializeObject(DateTime.Today);
                 date = date.Substring(1, 19);
-                var base_URL = HomePage.base_URL + "/schedule?idTeacher="+ Data.Data.Instance.Lecture.id_lecturer.ToString() +"&date=" + date + "&state=0";
+                var base_URL = HomePage.base_URL + "/schedule?idTeacher="+ Data.Data.Instance.Lecture.id.ToString() +"&date=" + date + "&state=0";
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 var listSchedule = JsonConvert.DeserializeObject<ObservableCollection<Schedule>>(result);
 
@@ -231,6 +231,8 @@ namespace AutoAttendant.Views
                 return null;
             }
         }
+
+         
 
         [Obsolete]
         public void SetColorById()

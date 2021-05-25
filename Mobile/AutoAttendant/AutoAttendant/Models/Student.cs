@@ -140,7 +140,6 @@ namespace AutoAttendant.Models
         //        new Student("102180194" , "Nguyen Vu" , "18TCLC-DT2" , "102180194@sv1.dut.udn.vn" , "3333333" ,"vu.png"),
 
 
-
         //    };
         //}
 

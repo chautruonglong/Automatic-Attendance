@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -25,8 +26,11 @@ namespace AutoAttendant.Views
     public partial class ListStudentPage : ContentPage
     {
         public static ListStudentViewModel lsvm = new ListStudentViewModel();     /// Lưu ý coi chừng saiii\
+        public static ObservableCollection<Attendance> listAttendance = new ObservableCollection<Attendance>();
+        int CheckSquence = 0;
+        int TimeCount = 5;
 
-        public ListStudentPage()
+        public ListStudentPage()  // nhớ check clear list Student của ClassPage.classes
         {
             InitializeComponent();
             this.BindingContext = new ListStudentViewModel(); // listview se binding theo object List Student View Model
@@ -113,44 +117,51 @@ namespace AutoAttendant.Views
 
                 if (pickerResult != null)
                 {
-                    //var stream = await pickerResult.OpenReadAsync();
-                    //resultImg.Source = ImageSource.FromStream(() => stream);
-                    //var resourcePath = pickerResult.FullPath.ToString(); // lay ra path file
-                    //await DisplayAlert("Message", "Path" + resourcePath, "OK");
-
-                    ExcelEngine excelEngine = new ExcelEngine();
-                    IApplication application = excelEngine.Excel;
-                    application.DefaultVersion = ExcelVersion.Excel2016;
-                    var fileStream = await pickerResult.OpenReadAsync();
-
-                    //Open the workbook
-                    IWorkbook workbook = application.Workbooks.Open(fileStream);
-
-                    //Access first worksheet from the workbook.
-                    IWorksheet worksheet = workbook.Worksheets[0];
-                    var numberOfStudent = (worksheet.Rows.Count() - 3);
-                    for (int i = 8; i <= numberOfStudent; i++)
+                    if (lsvm.StudentCollection.Count == 0) // chua co ds thi` import
                     {
-                        string id = "B" + i.ToString();
-                        string name = "C" + i.ToString();
-                        string phone = "D" + i.ToString();
-                        var mess1 = worksheet.Range[id].Text.ToString();
-                        var mess2 = worksheet.Range[name].Text.ToString();
-                        var mess3 = worksheet.Range[phone].Text.ToString();
+                        //var stream = await pickerResult.OpenReadAsync();
+                        //resultImg.Source = ImageSource.FromStream(() => stream);
+                        //var resourcePath = pickerResult.FullPath.ToString(); // lay ra path file
+                        //await DisplayAlert("Message", "Path" + resourcePath, "OK");
 
-                        try
+                        ExcelEngine excelEngine = new ExcelEngine();
+                        IApplication application = excelEngine.Excel;
+                        application.DefaultVersion = ExcelVersion.Excel2016;
+                        var fileStream = await pickerResult.OpenReadAsync();
+
+                        //Open the workbook
+                        IWorkbook workbook = application.Workbooks.Open(fileStream);
+
+                        //Access first worksheet from the workbook.
+                        IWorksheet worksheet = workbook.Worksheets[0];
+                        var numberOfStudent = (worksheet.Rows.Count() - 3);
+                        for (int i = 8; i <= numberOfStudent; i++)
                         {
-                            Student student = new Student(mess1, mess2, "18TCLC-DT2", "IT", mess3, "url", false);
-                            ClassPage.classes.StudentList1.Add(student);
+                            string id = "B" + i.ToString();
+                            string name = "C" + i.ToString();
+                            string phone = "D" + i.ToString();
+                            var mess1 = worksheet.Range[id].Text.ToString();
+                            var mess2 = worksheet.Range[name].Text.ToString();
+                            var mess3 = worksheet.Range[phone].Text.ToString();
+
+                            try
+                            {
+                                Student student = new Student(mess1, mess2, "18TCLC-DT2", "IT", mess3, "url", false);
+                                ClassPage.classes.StudentList1.Add(student);
+                            }
+                            catch (Exception ex)
+                            {
+                                await DisplayAlert("Notice", ex.Message, "OK");
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            await DisplayAlert("Notice", ex.Message, "OK");
-                        }
+                        //ClassPage.classes.StudentList1.Add
+                        lsvm.StudentCollection = ClassPage.classes.StudentList1;
+                        this.BindingContext = lsvm;
                     }
-                    //ClassPage.classes.StudentList1.Add
-                    lsvm.StudentCollection = ClassPage.classes.StudentList1;
-                    this.BindingContext = lsvm;
+                    else //co roi` thi block
+                    {
+                        await DisplayAlert("Notice", "Just import only 1 file", "OK");
+                    }
                 }
             }
             catch (Exception)
@@ -179,7 +190,6 @@ namespace AutoAttendant.Views
                 if (stringparameter != null)
                 {
                     
-
                 }
                 else
                 {
@@ -187,16 +197,22 @@ namespace AutoAttendant.Views
                     return;
                 }
             };
-
             await PopupNavigation.Instance.PushAsync(page);
         }
 
         private async void TakeAttendance(object sender, EventArgs e)
         {
+            PostRawListStudent();
+            ReLoadStudenList();
+        }
+
+        public void paintLoading()
+        {
+
             if (lsvm.StudentCollection.Count <= 0)
             {
 
-                await DisplayAlert("Notice", "No students in class. Import student list!", "OK");
+                DisplayAlert("Notice", "No students in class. Import student list!", "OK");
             }
             else
             {
@@ -205,13 +221,51 @@ namespace AutoAttendant.Views
                     for (int i = 0; i < 100; i++)
                     {
                         progress.PercentComplete = i;
-                        await Task.Delay(100);
+                        //Task.Delay(2000);
+                        Thread.Sleep(TimeCount * 1000 / 100);
                     }
                 }
-
                 UserDialogs.Instance.Toast("Done");
             }
         }
+
+        public async void PostRawListStudent()
+        {
+
+            List<String> list_id = new List<string>();  // list to post to server
+            foreach (Student std in ClassPage.classes.StudentList1)
+            {
+                list_id.Add(std.Id.Trim());
+            }
+            ListID listId = new ListID("10232602020181", list_id);
+            var httpService = new HttpClient();
+            string jsonListId = JsonConvert.SerializeObject(listId);
+            StringContent contentAttendance = new StringContent(jsonListId, Encoding.UTF8, "application/json");
+            var baseAttendance_URL = @"http://192.168.30.104:9000/mobile/";
+
+            CheckSquence++;
+
+            if (CheckSquence == 1)
+            {
+                var thread = new Thread(paintLoading);
+                thread.Start();
+                HttpResponseMessage responseAttendance = await httpService.PostAsync(baseAttendance_URL, contentAttendance);
+                var result = await responseAttendance.Content.ReadAsStringAsync();
+                thread.Abort();
+                listAttendance = JsonConvert.DeserializeObject<ObservableCollection<Attendance>>(result);
+                foreach (Attendance atd in listAttendance)
+                {
+                    if (atd.state == true)
+                    {
+                        var student = lsvm.StudentCollection.Single(r => r.Id.Trim().Equals(atd.student_id.Trim()));
+                        student.State = true;
+                    }
+                }
+                UserDialogs.Instance.Toast("Done");
+            }
+
+        }
+
         public void HandleAttendance()
         {
 

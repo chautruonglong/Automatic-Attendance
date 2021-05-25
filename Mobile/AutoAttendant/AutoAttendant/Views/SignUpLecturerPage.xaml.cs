@@ -27,7 +27,7 @@ namespace AutoAttendant.Views
         public void GetLectureInfo()
         {
             //var base_URL = HomePage.base_URL + "lecture?idTeacher=" + Data.Data.Instance.User.idLecture.ToString();
-            var base_URL = HomePage.base_URL + "lecture?idTeacher=" + Data.Data.Instance.Lecture.id_lecturer.ToString();
+            var base_URL = HomePage.base_URL + "lecture?idTeacher=" + Data.Data.Instance.Lecture.id.ToString();
         }
 
 
@@ -51,7 +51,7 @@ namespace AutoAttendant.Views
                 httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
                 //Post new lecture
-                var lecture = new Lecture(idLecture, name, age, phone, faculty);
+                var lecture = new Lecture(Convert.ToInt32(idLecture), name);
                 string jsonLecture = JsonConvert.SerializeObject(lecture); // convert object => json
                 StringContent contentLecture = new StringContent(jsonLecture, Encoding.UTF8, "application/json");
                 var basePostLecture_URL = HomePage.base_URL + "/lecturer/";

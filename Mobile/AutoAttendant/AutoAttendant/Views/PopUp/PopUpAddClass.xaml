@@ -36,7 +36,7 @@
                                        FontSize="15" FontAttributes="Bold"
                                        VerticalOptions="Center" WidthRequest="100">
                     </Label>
-                    <Label Text="{Binding idSubject}" TextColor="#F5F5F5" 
+                    <Label Text="{Binding id_subject}" TextColor="#F5F5F5" 
                                        FontSize="15" FontAttributes="Bold"
                                        VerticalOptions="Center" WidthRequest="200" HorizontalTextAlignment="Start">
                     </Label>
@@ -46,7 +46,7 @@
                                        FontSize="15" FontAttributes="Bold"
                                        VerticalOptions="Center" WidthRequest="100">
                     </Label>
-                    <Label Text="{Binding nameSubject}" TextColor="#F5F5F5" 
+                    <Label Text="{Binding name}" TextColor="#F5F5F5" 
                                        FontSize="15" FontAttributes="Bold"
                                        VerticalOptions="Center" WidthRequest="200" HorizontalTextAlignment="Start">
                     </Label>
@@ -56,17 +56,17 @@
                                        FontSize="15" FontAttributes="Bold"
                                        VerticalOptions="Center" WidthRequest="100">
                     </Label>
-                    <Label Text="{Binding idRoom}" TextColor="#F5F5F5" 
+                    <Label Text="{Binding id_room}" TextColor="#F5F5F5" 
                                        FontSize="15" FontAttributes="Bold"
                                        VerticalOptions="Center" WidthRequest="200" HorizontalTextAlignment="Start">
                     </Label>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" Margin="0,0,0,20">
-                    <Label Text="Date" TextColor="#F5F5F5" 
+                    <Label Text="Day" TextColor="#F5F5F5" 
                                        FontSize="15" FontAttributes="Bold"
                                        VerticalOptions="Center" WidthRequest="100">
                     </Label>
-                    <Label Text="{Binding date}" TextColor="#F5F5F5" 
+                    <Label Text="{Binding day}" TextColor="#F5F5F5" 
                                        FontSize="15" FontAttributes="Bold"
                                        VerticalOptions="Center" WidthRequest="200" HorizontalTextAlignment="Start">
                     </Label>

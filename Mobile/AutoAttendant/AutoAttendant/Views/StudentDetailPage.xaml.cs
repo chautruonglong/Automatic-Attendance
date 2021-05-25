@@ -28,13 +28,15 @@ namespace AutoAttendant.Views
             lb_Name.Text = student.Name;
             lb_Class.Text = student.Classs;
             lb_Time.Text = student.Faculty;
+            //Attendance atd = ListStudentPage.listAttendance.Single(r => r.student_id.Equals("102180171"));
+            //Avatar.Source = atd.face_3x4;
             var x = student.State;
             if (x)
             {
                 btnAttendance.IsChecked = x;
             }
             else btnAbsent.IsChecked = !x;
-            
+
         }
 
         private void SaveAndBack(object sender, EventArgs e)

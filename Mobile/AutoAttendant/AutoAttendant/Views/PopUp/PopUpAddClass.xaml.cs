@@ -14,14 +14,16 @@ namespace AutoAttendant.Views.PopUp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PopUpAddClass 
     {
-        public static Schedule scheduleTemp;
-        public PopUpAddClass(Schedule schedule)
+        public static Subject subjectTemp;
+        public PopUpAddClass(Subject subject)
         {
             InitializeComponent();
-            this.BindingContext = schedule;
-            scheduleTemp = schedule;
+            this.BindingContext = subject;
+            subjectTemp = subject;
 
         }
+
+        
 
         public EventHandler<string> Action;
 

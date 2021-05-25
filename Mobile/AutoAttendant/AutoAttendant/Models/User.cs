@@ -27,27 +27,27 @@ namespace AutoAttendant.Models
     public class User
     {
         //int _id; // sẽ bỏ cái ni
-        //int _idLecture; // sẽ bỏ cái ni
+        int _idLecture; // sẽ bỏ cái ni
         string _email;
         string _password;
-        string _id_lecturer;
+        //string _id_lecturer;
         Tokens _tokens;
-        Data _data;
+        //Data _data;
 
-        public User(string email, string password)
+        public User(int idLecture, string email, string password)
         {
-            //_idLecture = idLecture;
+            _idLecture = idLecture;
             _email = email;
             _password = password;
         }
 
         //public int id { get => _id; set => _id = value; }
-        //public int idLecture { get => _idLecture; set => _idLecture = value; }
+        public int idLecture { get => _idLecture; set => _idLecture = value; }
         public string email { get => _email; set => _email = value; }
         public string password { get => _password; set => _password = value; }
         public Tokens tokens { get => _tokens; set => _tokens = value; }
-        public string id_lecturer { get => _id_lecturer; set => _id_lecturer = value; }
-        public Data data { get => _data; set => _data = value; }
+        //public string id_lecturer { get => _id_lecturer; set => _id_lecturer = value; }
+        //public Data data { get => _data; set => _data = value; }
     }
 
     
