@@ -84,7 +84,7 @@ namespace AutoAttendant.Views
                     {   
                         classes.StudentList1.Clear(); // clear list student khi join 1 schedule mới
                         checkClearStd_ListPage = 0;
-                        
+                        // Create process when click Join
                     }
                     await Navigation.PushAsync(new ListStudentPage());
                     break;

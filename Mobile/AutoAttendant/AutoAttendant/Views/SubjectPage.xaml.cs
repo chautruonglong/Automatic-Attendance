@@ -27,7 +27,6 @@ namespace AutoAttendant.Views
         public static int checkClearStd_ListPage = 0; // = 0 thì khi vào lại lớp vẫn còn list student, = 1 thì clear
         public static int first_id_in_list; // id của shedule có thể join dc
         public static string enableSubJectId ; //id của subject có thể join dc
-
         [Obsolete]
         public SubjectPage()
         {
@@ -69,6 +68,7 @@ namespace AutoAttendant.Views
                 var httpService = new HttpService();
                 string date = JsonConvert.SerializeObject(DateTime.Today);
                 date = date.Substring(1, 19);
+                date = date.Replace("00:00:00", "12:00:00");
                 var base_URL = HomePage.base_URL + "/process?id_subject="+ idSub +"&date=" + date;
                 var result = await httpService.SendAsync(base_URL,HttpMethod.Get);
                 //if (result != null)
@@ -202,6 +202,23 @@ namespace AutoAttendant.Views
                     {
                         classes.StudentList1.Clear(); // clear list student khi join 1 subject mới
                         checkClearStd_ListPage = 0;
+                    }
+
+                    int status = 0;
+                    var date = DateTime.Now.Date.ToString().Substring(0, 19);
+                    var time = DateTime.Now.TimeOfDay.ToString().Substring(0, 8);
+
+
+                    var list_process_CheckCreate = await HandleProcess(classes.Name);
+                    if (list_process_CheckCreate.Count==0)
+                    {
+                        var process = new Process(classes.Name, status, Convert.ToDateTime(date), time);
+
+                        var httpService = new HttpClient();
+                        string jsonProcess = JsonConvert.SerializeObject(process);
+                        StringContent contentProcess = new StringContent(jsonProcess, Encoding.UTF8, "application/json");
+                        var baseProcess_URL = HomePage.base_URL + "/process";
+                        await httpService.PostAsync(baseProcess_URL, contentProcess);
                     }
                     await Navigation.PushAsync(new ListStudentPage());
                     break;

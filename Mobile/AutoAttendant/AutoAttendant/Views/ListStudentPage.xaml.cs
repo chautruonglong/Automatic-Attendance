@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using AutoAttendant.Models;
+using AutoAttendant.Services;
 using AutoAttendant.ViewModel;
 using AutoAttendant.Views.PopUp;
 using Newtonsoft.Json;
@@ -291,6 +292,40 @@ namespace AutoAttendant.Views
             HttpResponseMessage responseLecture = await httpService.PutAsync(baseLecture_URL, contentLecture);
         }
 
+        public async void HandlePutStateProcess()
+        {
+            //int status = 1;
+            //var date = DateTime.Now.Date.ToString().Substring(0, 19);
+            //var time = DateTime.Now.TimeOfDay.ToString().Substring(0, 8);
+
+            try
+            {
+                var httpService = new HttpService();
+                string date = JsonConvert.SerializeObject(DateTime.Today);
+                date = date.Substring(1, 19);
+                date = date.Replace("00:00:00", "12:00:00");
+                var base_URL = HomePage.base_URL + "/process?id_subject=" + SubjectPage.classes.Name + "&date=" + date;
+                var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
+
+                var process = JsonConvert.DeserializeObject<List<Process>>(result);
+                if(process.Count == 1)
+                {
+                    var getProcess = process[0];
+                    getProcess.status = 1;
+                    var httpClient = new HttpClient();
+                    string jsonProcess = JsonConvert.SerializeObject(getProcess);
+                    StringContent contentProcess = new StringContent(jsonProcess, Encoding.UTF8, "application/json");
+                    var baseProcess_URL = HomePage.base_URL + "/process/" + getProcess.id.ToString();
+                    await httpClient.PutAsync(baseProcess_URL, contentProcess);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Notice", "Fail in HandleProcess \n" + ex.Message, "OK");
+            }
+        }
+
         [Obsolete]
         private async void ClickSaveToEndClass(object sender, EventArgs e)
         {
@@ -317,7 +352,7 @@ namespace AutoAttendant.Views
             bool answer = await DisplayAlert("Notice", "You will be return to home page after save this class", "OK", "Cancel");
             if (answer)
             {
-                if (index < HomePage._lsjvm.SubjectCollection.Count - 1) // nếu index của schedule vẫn còn nằm trong _lsjvm
+                if (index < HomePage._lsjvm.SubjectCollection.Count - 1) // nếu index của subject vẫn còn nằm trong _lsjvm
                 {
                     SubjectPage.enableSubJectId = HomePage._lsjvm.SubjectCollection[index + 1].id_subject; // gán enableSubjectID = id của subject tiếp theo
                     subject.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
@@ -332,6 +367,7 @@ namespace AutoAttendant.Views
                 }
 
                 // Put to Server
+                HandlePutStateProcess();
                 //HandlePutStateSchedule(schedule); //cap nhat state cua Schedule
                 //HandlePutStateRoom(schedule);    //cap nhat state cua Room
 
