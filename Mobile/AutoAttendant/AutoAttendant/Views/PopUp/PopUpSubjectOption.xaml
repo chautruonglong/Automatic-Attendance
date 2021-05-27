@@ -36,7 +36,7 @@
                                        FontSize="15" FontAttributes="Bold"
                                        VerticalOptions="Center" WidthRequest="100">
                     </Label>
-                    <Label Text="{Binding id_subject}" TextColor="#F5F5F5" 
+                    <Label Text="{Binding subject_id}" TextColor="#F5F5F5" 
                                        FontSize="15" FontAttributes="Bold"
                                        VerticalOptions="Center" WidthRequest="200" HorizontalTextAlignment="Start">
                     </Label>
@@ -56,7 +56,7 @@
                                        FontSize="15" FontAttributes="Bold"
                                        VerticalOptions="Center" WidthRequest="100">
                     </Label>
-                    <Label Text="{Binding id_room}" TextColor="#F5F5F5" 
+                    <Label Text="{Binding room_id}" TextColor="#F5F5F5" 
                                        FontSize="15" FontAttributes="Bold"
                                        VerticalOptions="Center" WidthRequest="200" HorizontalTextAlignment="Start">
                     </Label>
@@ -76,7 +76,7 @@
                                        FontSize="15" FontAttributes="Bold"
                                        VerticalOptions="Center" WidthRequest="100">
                     </Label>
-                    <Label Text="{Binding timeSlot}" TextColor="#F5F5F5" 
+                    <Label Text="{Binding time_slot}" TextColor="#F5F5F5" 
                                        FontSize="15" FontAttributes="Bold"
                                        VerticalOptions="Center" WidthRequest="100">
                     </Label>

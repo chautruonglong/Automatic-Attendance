@@ -30,7 +30,7 @@ namespace AutoAttendant.Views
             {
                 var httpService = new HttpClient();
                 
-                string accessToken = Data.Data.Instance.User.tokens.access;
+                string accessToken = "";
                 var base_URL = HomePage.base_URL + "users";
 
                 //Declare Token with request

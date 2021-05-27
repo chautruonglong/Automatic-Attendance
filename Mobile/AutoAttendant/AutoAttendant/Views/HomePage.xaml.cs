@@ -28,15 +28,18 @@ namespace AutoAttendant.Views
         public static int checkCreateListSubject = 0; //avoid repeat subject from ShowSubject()
         public static int checkCreateRoom = 0; //avoid repeat schedule from ShowSchedule()
         public static int checkUpdateSubject = 0; // check load list subject again after update subject
+        public static string api_key;
+        public static string lecturer_id;
 
         //public static Lecture _lecture = new Lecture();
         public static string base_URL = "http://192.168.30.102:3000";
+        //public static string base_URL = "http://192.168.30.104:8000";
         public HomePage()
         {
             InitializeComponent();
             Detail = new NavigationPage(new SubjectPage());
             GetLectureInfoById(Data.Data.Instance.User.idLecture.ToString());
-            HandleRoom();
+            //HandleRoom();
         }
 
         public async void HandleRoom()

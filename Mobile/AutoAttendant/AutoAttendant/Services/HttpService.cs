@@ -20,7 +20,7 @@ namespace AutoAttendant.Services
                 var response = await client.SendAsync(request);
 
 
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                if (response.IsSuccessStatusCode)
                 {
                     var body = await response.Content.ReadAsStringAsync();
                     //Read body as Json

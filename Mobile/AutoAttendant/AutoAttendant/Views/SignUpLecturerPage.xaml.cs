@@ -43,18 +43,31 @@ namespace AutoAttendant.Views
                 string phone = Entry_phone.Text;
                 string faculty = Entry_faculty.Text;
 
-                
+
 
                 //Declare Token
-                var accessToken = Data.Data.Instance.User.tokens.access; //get token
+                var accessToken = ""; //get token
                 httpService.DefaultRequestHeaders.Accept.Clear();
                 httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                
+                //var api_key = User.api_key;
+                //httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Authorization", api_key);
+
+
+                //HttpClient httpClient = new HttpClient();
+                //HttpRequestMessage request = new HttpRequestMessage();
+                //request.RequestUri = "Your_get_URI";
+                //request.Method = HttpMethod.Get;
+                //request.Headers.Add("api_key", "1234");
+                //HttpResponseMessage response = await httpClient.SendAsync(request);
+                //var responseString = await response.Content.ReadAsStringAsync();
+                //var statusCode = response.StatusCode;
 
                 //Post new lecture
                 var lecture = new Lecture(Convert.ToInt32(idLecture), name);
                 string jsonLecture = JsonConvert.SerializeObject(lecture); // convert object => json
                 StringContent contentLecture = new StringContent(jsonLecture, Encoding.UTF8, "application/json");
-                var basePostLecture_URL = HomePage.base_URL + "/lecturer/";
+                var basePostLecture_URL = @"http://42.114.97.127:8000/lecturer/detail/";
                 HttpResponseMessage responseLecture = await httpService.PostAsync(basePostLecture_URL, contentLecture);
                 var result = await responseLecture.Content.ReadAsStringAsync();
                 Data.Data.Instance.Lecture = JsonConvert.DeserializeObject<Lecture>(result); // gan cho static Lecture thong tin Lecture vua dang ki de dung` cho toan bo chtrinh

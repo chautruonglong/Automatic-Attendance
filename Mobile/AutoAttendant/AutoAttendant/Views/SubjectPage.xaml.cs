@@ -90,14 +90,14 @@ namespace AutoAttendant.Views
             int step = 0;
             while (step < listSubject.Count)
             {
-                List<Process>  list_process = await HandleProcess(listSubject[step].id_subject); // list_process max count = 1 for each subject
+                List<Process>  list_process = await HandleProcess(listSubject[step].subject_id); // list_process max count = 1 for each subject
                 if (list_process.Count == 0)
                 {
-                    return listSubject[step].id_subject;
+                    return listSubject[step].subject_id;
                 }
                 else if (list_process.Count > 0 && list_process[0].status == 0)
                 {
-                    return listSubject[step].id_subject;
+                    return listSubject[step].subject_id;
                 }
                 else if (list_process.Count > 0 && list_process[0].status == 1)
                 {
@@ -114,13 +114,13 @@ namespace AutoAttendant.Views
             try
             {
                 var httpService = new HttpService();
-                
+                var x = DateTime.Now.DayOfWeek;
                 var base_URL = HomePage.base_URL + "/subject?id_lecturer="+ Data.Data.Instance.User.idLecture.ToString() + "&day=" + DateTime.Now.DayOfWeek.ToString();
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 var listSubject = JsonConvert.DeserializeObject<ObservableCollection<Subject>>(result);
 
                 // order list subject by time slot
-                listSubject = new ObservableCollection<Subject>(listSubject.OrderBy(r => r.timeSlot));
+                listSubject = new ObservableCollection<Subject>(listSubject.OrderBy(r => r.time_slot));
                 return listSubject;
             }
             catch (Exception)
@@ -148,7 +148,7 @@ namespace AutoAttendant.Views
                     {
                          if (enableSubJectId !=null)
                          {
-                            if (subject.id_subject == enableSubJectId)
+                            if (subject.subject_id == enableSubJectId)
                             {
                                 subject.colorState = "#246CFE";  //luon gan' cho subject dau tien trong list active
                             }
@@ -174,7 +174,7 @@ namespace AutoAttendant.Views
         {
             if (enableSubJectId != "-1")
             {
-                var item = HomePage._lsjvm.SubjectCollection.Single(r => r.id_subject == enableSubJectId); // tìm subject có Id = enableSubjectID
+                var item = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == enableSubJectId); // tìm subject có Id = enableSubjectID
                 item.colorState = "#246CFE"; // set color
                 int index = HomePage._lsjvm.SubjectCollection.IndexOf(item); // lấy ra index của subject vừa tìm dc
                 if (index > 0)
@@ -196,7 +196,7 @@ namespace AutoAttendant.Views
             switch (paraString)
             {
                 case "Join":
-                    classes.Name = subject.id_subject; // gán cho biến static classes = class tương ứng của subject 
+                    classes.Name = subject.subject_id; // gán cho biến static classes = class tương ứng của subject 
 
                     if (checkClearStd_ListPage == 1)
                     {
@@ -253,7 +253,7 @@ namespace AutoAttendant.Views
                         Label LabelId = (Label)forthLabel;
                         if (ClassName.Text == enableSubJectId) // chỉ dc mở subject có id đang = first id in list
                         {
-                            var itemSelected = HomePage._lsjvm.SubjectCollection.Single(r => r.id_subject == ClassName.Text && r.name == Subject.Text);
+                            var itemSelected = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == ClassName.Text && r.name == Subject.Text);
                             var index = HomePage._lsjvm.SubjectCollection.IndexOf(itemSelected); // lấy index của subject đó trong lsvm
                             Subject subject = HomePage._lsjvm.SubjectCollection[index]; // tìm dc schdule theo index
 

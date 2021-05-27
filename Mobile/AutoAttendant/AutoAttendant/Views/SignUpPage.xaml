@@ -29,7 +29,7 @@
 
                 <Label Text="Your account info" FontSize="20" TextTransform="Uppercase" TextColor="#FFF" HorizontalOptions="Center" FontAttributes="Bold" Margin="0,20,0,30"/>
                 
-                <Label  x:Name="Lb_id" Text="ID"
+                <!--<Label  x:Name="Lb_id" Text="ID"
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 
                         TextColor="#FFF"
@@ -41,14 +41,14 @@
                                    HeightRequest="40" BackgroundColor="#022656"
                                    VerticalOptions="StartAndExpand"
                                    Margin="0,0,0,15">
-                </local:CustomEntry>
+                </local:CustomEntry>-->
                 
 
                 <Label  x:Name="Lb_email" Text="E-mail"
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 
                         TextColor="#FFF"
-                        FontSize="17"
+                        FontSize="16"
                         FontFamily=""
                         FontAttributes="Bold"/>
 
@@ -62,13 +62,27 @@
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 
                         TextColor="#FFF"
-                        FontSize="17"
+                        FontSize="16"
                         FontAttributes="Bold"/>
 
                 <local:CustomEntry x:Name="Entry_password" IsPasswordFlag="True"
-                                   IsPassword="True" TextColor="#FFF"
+                                   IsPassword="True" TextColor="#FFF" Margin="0,0,0,15"
                                    HeightRequest="40" BackgroundColor="#022656"
                                    >
+                </local:CustomEntry>
+
+                <Label  x:Name="Lb_confirm" Text="Confirm password"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        TextColor="#FFF"
+                        FontSize="16"
+                        FontFamily=""
+                        FontAttributes="Bold"/>
+
+                <local:CustomEntry x:Name="Entry_confirm" TextColor="#FFF" 
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   VerticalOptions="StartAndExpand"
+                                   Margin="0,0,0,15">
                 </local:CustomEntry>
 
 
@@ -76,7 +90,7 @@
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 
                         TextColor="#FFF"
-                        FontSize="18"
+                        FontSize="16"
                         FontFamily=""
                         FontAttributes="Bold"/>
 
@@ -86,29 +100,29 @@
                                    Margin="0,0,0,15">
                 </local:CustomEntry>
 
-                <Label  x:Name="Lb_age" Text="Age"
+                <Label  x:Name="Lb_phone" Text="Phone"
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 
                         TextColor="#FFF"
-                        FontSize="18"
+                        FontSize="16"
                         FontFamily=""
                         FontAttributes="Bold"/>
 
-                <local:CustomEntry x:Name="Entry_age" TextColor="#FFF" 
+                <local:CustomEntry x:Name="Entry_phone" TextColor="#FFF" 
                                    HeightRequest="40" BackgroundColor="#022656"
                                    VerticalOptions="StartAndExpand"
                                    Margin="0,0,0,15">
                 </local:CustomEntry>
 
-                <Label  x:Name="Lb_phone" Text="Phone"
+                <Label  x:Name="Lb_degree" Text="Degree"
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 
                         TextColor="#FFF"
-                        FontSize="18"
+                        FontSize="16"
                         FontFamily=""
                         FontAttributes="Bold"/>
 
-                <local:CustomEntry x:Name="Entry_phone" TextColor="#FFF" 
+                <local:CustomEntry x:Name="Entry_degree" TextColor="#FFF" 
                                    HeightRequest="40" BackgroundColor="#022656"
                                    VerticalOptions="StartAndExpand"
                                    Margin="0,0,0,15">

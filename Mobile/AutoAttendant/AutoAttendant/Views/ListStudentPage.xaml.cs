@@ -304,7 +304,7 @@ namespace AutoAttendant.Views
                 string date = JsonConvert.SerializeObject(DateTime.Today);
                 date = date.Substring(1, 19);
                 date = date.Replace("00:00:00", "12:00:00");
-                var base_URL = HomePage.base_URL + "/process?id_subject=" + SubjectPage.classes.Name + "&date=" + date;
+                var base_URL = HomePage.base_URL + "/process?subject_id=" + SubjectPage.classes.Name + "&date=" + date;
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
 
                 var process = JsonConvert.DeserializeObject<List<Process>>(result);
@@ -329,16 +329,16 @@ namespace AutoAttendant.Views
         [Obsolete]
         private async void ClickSaveToEndClass(object sender, EventArgs e)
         {
-            string id_subject;
+            string subject_id;
             string name_subject;
             string timeSlot;
             int attendanceCount = 0;
 
-            var subject = HomePage._lsjvm.SubjectCollection.Single(r => r.id_subject == SubjectPage.enableSubJectId);
+            var subject = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == SubjectPage.enableSubJectId);
             int index = HomePage._lsjvm.SubjectCollection.IndexOf(subject);
 
-            id_subject = subject.id_subject;
-            timeSlot = subject.timeSlot;
+            subject_id = subject.subject_id;
+            timeSlot = subject.time_slot;
             name_subject = subject.name;
             foreach (Student std in lsvm.StudentCollection)
             {
@@ -347,14 +347,14 @@ namespace AutoAttendant.Views
                     attendanceCount++;
                 }
             }
-            var message = String.Format("Class: {0}\nSubject: {1}\nTime Slot: {2}\nAttendance: {3}", id_subject, name_subject, timeSlot, attendanceCount);
+            var message = String.Format("Class: {0}\nSubject: {1}\nTime Slot: {2}\nAttendance: {3}", subject_id, name_subject, timeSlot, attendanceCount);
             await DisplayAlert("Class Info", message, "Continue");
             bool answer = await DisplayAlert("Notice", "You will be return to home page after save this class", "OK", "Cancel");
             if (answer)
             {
                 if (index < HomePage._lsjvm.SubjectCollection.Count - 1) // nếu index của subject vẫn còn nằm trong _lsjvm
                 {
-                    SubjectPage.enableSubJectId = HomePage._lsjvm.SubjectCollection[index + 1].id_subject; // gán enableSubjectID = id của subject tiếp theo
+                    SubjectPage.enableSubJectId = HomePage._lsjvm.SubjectCollection[index + 1].subject_id; // gán enableSubjectID = id của subject tiếp theo
                     subject.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
                     SubjectPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
                     //process.state = 1; // state = 1 là process,subject này done
@@ -396,7 +396,7 @@ namespace AutoAttendant.Views
                 }
             }
             ChartPage.attendances = attendanceCount;
-            ChartPage.absentees = ClassPage.classes.StudentList1.Count - attendanceCount;
+            ChartPage.absentees = SubjectPage.classes.StudentList1.Count - attendanceCount;
         }
 
 

@@ -52,16 +52,22 @@ namespace AutoAttendant.Views
             try
             {
                 UserTemp userTemp = new UserTemp(Entry_user.Text, Entry_password.Text);
+                //UserTemp userTemp = new UserTemp(Entry_user.Text, HashPW.HashPassword(Entry_password.Text));
                 var httpService = new HttpClient();
 
                 string jsonData = JsonConvert.SerializeObject(userTemp); // dung` UserTemp để post login vì chỉ cần email vs password
                 var base_URL = HomePage.base_URL + "/login";
+                //var base_URL = HomePage.base_URL + "/account/login/";
+                //var base_URL = @"http://42.114.97.127:8000/account/login/";
                 StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await httpService.PostAsync(base_URL, content);
                 
                 var result = await response.Content.ReadAsStringAsync();
                 Data.Data.Instance.User = JsonConvert.DeserializeObject<User>(result); // dùng User để nhận json về vì có chứa thêm token, idLecture (static)
-                User userMain = Data.Data.Instance.User;
+                //UserNui userNui = JsonConvert.DeserializeObject<UserNui>(result);
+                //HomePage.lecturer_id = userNui.lecturer_id;
+                //HomePage.api_key = userNui.authorization;
+
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -70,7 +76,6 @@ namespace AutoAttendant.Views
                     UserDialogs.Instance.HideLoading();
                     SaveAccountLogined(); // save user and password for next time
                     await Navigation.PushAsync(new HomePage()); 
-                    //await Navigation.PushAsync(new SignUpLecturerPage()); // sang page moi' de sign up thong tin lecturer
                 }
                 else await DisplayAlert("Error", "Login Fail", "Try Again");
             }
