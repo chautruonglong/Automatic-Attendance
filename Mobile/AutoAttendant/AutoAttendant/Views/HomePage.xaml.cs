@@ -32,14 +32,15 @@ namespace AutoAttendant.Views
         public static string lecturer_id;
 
         //public static Lecture _lecture = new Lecture();
-        public static string base_URL = "http://192.168.30.102:3000";
+        //public static string base_URL = "http://192.168.30.102:3000";
         //public static string base_URL = "http://192.168.30.104:8000";
+        public static string base_URL;
         public HomePage()
         {
             InitializeComponent();
             Detail = new NavigationPage(new SubjectPage());
             GetLectureInfoById(Data.Data.Instance.User.idLecture.ToString());
-            //HandleRoom();
+            HandleRoom();
         }
 
         public async void HandleRoom()
@@ -49,14 +50,12 @@ namespace AutoAttendant.Views
                 var httpService = new HttpService();
                 var base_URL = HomePage.base_URL + "/room/";
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
-                //WebClient wc = new WebClient();
-                //var result = wc.DownloadString(full_url);
                 var listRoom = JsonConvert.DeserializeObject<ObservableCollection<Room>>(result);
                 _lrvm.RoomCollection = listRoom;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await DisplayAlert("Notice", "Fail", "OK");
+                await DisplayAlert("ERROR", ex.Message , "OK");
             }
         }
 
@@ -74,7 +73,6 @@ namespace AutoAttendant.Views
             Avatar.Text = avaText;
             Avatar.TextColor = Color.FromHex("#021135");;
         }
-
 
 
         async void ChangeAvatar(object sender, EventArgs e)

@@ -15,11 +15,13 @@ namespace AutoAttendant.Data
             get { if (_Instance == null) _Instance = new Data(); return _Instance; }
         }
         private User user;
+        private UserNui userNui;
         private Lecture lecture;
         private List<Lecture> currentListLecturer;
         private List<User> currentListUser;
 
         public User User { get => user; set => user = value; }
+        public UserNui UserNui { get => userNui; set => userNui = value; }
         public Lecture Lecture { get => lecture; set => lecture = value; }
         public List<Lecture> CurrentListLecturer { get => currentListLecturer; set => currentListLecturer = value; }
         public List<User> CurrentListUser { get => currentListUser; set => currentListUser = value; }

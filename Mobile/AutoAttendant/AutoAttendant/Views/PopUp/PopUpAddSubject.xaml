@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage  xmlns:pages="http://rotorgames.com" xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:AutoAttendant"
+                  x:Class="AutoAttendant.Views.PopUp.PopUpAddSubject">
+
+    <pages:PopupPage.Animation>
+        <pages:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+
+    </pages:PopupPage.Animation>
+
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+        <Frame CornerRadius="15"   
+               BackgroundColor="#3D3C40" Padding="10">
+
+            <StackLayout Orientation="Vertical" HeightRequest="330" WidthRequest="330" BackgroundColor="#3D3C40" Padding="20,10,10,0">
+
+                <Label Text="Add your subject" FontSize="18" FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    TextColor="#FFF" Margin="0,0,0,10">
+
+                </Label>
+                <StackLayout Margin="0,0,0,20">
+
+                    <StackLayout Orientation="Horizontal" Margin="0,0,0,10" x:Name="DatePickerLayout">
+                        <Label Text="Day" TextColor="#F5F5F5" 
+                               FontSize="15" FontAttributes="Bold"
+                               VerticalOptions="Center" WidthRequest="90">
+                        </Label>
+                        <Label x:Name="lb_date" Text="15/05/2021" TextColor="#F5F5F5" 
+                               FontSize="15" FontAttributes="Bold"
+                               VerticalOptions="Center" WidthRequest="150">
+                        </Label>
+                        <Button x:Name="btnDatePicker" ImageSource="calendar"
+                                HorizontalOptions="Center" WidthRequest="40" HeightRequest="40"
+                                Margin="0" BackgroundColor="#3D3C40"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" Margin="0,0,0,0" >
+                        <Label Text="Room" TextColor="#F5F5F5" 
+                               FontSize="15" FontAttributes="Bold"
+                               VerticalOptions="Center" WidthRequest="80">
+                        </Label>
+                        <Button x:Name="btnSelectRoom" ImageSource="sortdown25px" Text="E101" ContentLayout="Right"
+                                HorizontalOptions="Fill" VerticalOptions="Center" BackgroundColor="#3D3C40" FontSize="15"
+                                TextColor="#FFF" Clicked="OpenPicker" CornerRadius="8"/>
+                        <Picker IsEnabled="False" IsVisible="false" x:Name="PickerRoom" SelectedIndexChanged="HandlePickerRoom">
+                            <Picker.Items>
+
+                            </Picker.Items>
+                        </Picker>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" Margin="0,0,0,10" >
+                        <Label Text="Time Slot" TextColor="#F5F5F5" 
+                               FontSize="15" FontAttributes="Bold"
+                               VerticalOptions="Center" WidthRequest="90">
+                        </Label>
+                        <local:CustomEntry x:Name="Entry_timeSlot1" TextColor="#FFF" FontSize="15"  
+                                               HeightRequest="50" Margin="0,0,20,0" WidthRequest="20"
+                                               VerticalOptions="Center" HorizontalOptions="Fill" Placeholder="0" PlaceholderColor="#FFF" MaxLength="2">
+
+                        </local:CustomEntry>
+                        <Label Text=":" TextColor="#F5F5F5" 
+                               FontSize="15" FontAttributes="Bold"
+                               VerticalOptions="Center" WidthRequest="20">
+                        </Label>
+                        <local:CustomEntry x:Name="Entry_timeSlot2" TextColor="#FFF" FontSize="15"  
+                                               HeightRequest="50" Margin="0,0,10,0" WidthRequest="20"
+                                               VerticalOptions="Center" Placeholder="0" PlaceholderColor="#FFF" MaxLength="2">
+
+                        </local:CustomEntry>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" Margin="0,0,0,30">
+                        <Label Text="Used - Time slot:" TextColor="#F5F5F5" 
+                               FontSize="14" FontAttributes="Bold"
+                               VerticalOptions="Center" WidthRequest="150">
+                        </Label>
+                        <Label Text="" TextColor="#F5F5F5" 
+                               FontSize="15" FontAttributes="Bold"
+                               VerticalOptions="Center" WidthRequest="200" x:Name="usedTimeSlotLabel">
+                        </Label>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="30">
+                        <Button Text="Save"  HeightRequest="40" WidthRequest="100"
+                                    HorizontalOptions="Center" 
+                                    IsVisible="True" Background="#6562FC" BorderRadius="8"
+                                    TextColor="#FFF" FontAttributes="Bold" Clicked="SaveNewSubject">
+                        </Button>
+
+                        <Button Text="Cancel"  HeightRequest="40" WidthRequest="100"
+                                    HorizontalOptions="Center" 
+                                    IsVisible="True" Background="#6562FC" BorderRadius="8"
+                                    TextColor="#FFF" FontAttributes="Bold" Clicked="CancelAddSubjectPopup">
+                        </Button>
+                    </StackLayout>
+
+                </StackLayout>
+
+            </StackLayout>
+        </Frame>
+    </StackLayout>
+</pages:PopupPage>

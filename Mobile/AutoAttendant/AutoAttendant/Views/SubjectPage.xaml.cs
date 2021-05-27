@@ -278,5 +278,19 @@ namespace AutoAttendant.Views
             }
         }
         #endregion
+
+        private async void AddSubjectClicked(object sender, EventArgs e)
+        {
+            var page = new PopUpAddSubject();
+            page.Action += async (sender1, stringparameter) =>
+            {
+                if(stringparameter == "Add")
+                {
+                    await DisplayAlert("Notice", "Add Succesfully!", "OK");
+                }
+
+            };
+            await PopupNavigation.Instance.PushAsync(page);
+        }
     }
 }

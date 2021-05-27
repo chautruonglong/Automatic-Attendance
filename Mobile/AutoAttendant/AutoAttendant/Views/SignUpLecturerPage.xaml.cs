@@ -49,8 +49,9 @@ namespace AutoAttendant.Views
                 var accessToken = ""; //get token
                 httpService.DefaultRequestHeaders.Accept.Clear();
                 httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-                
+
                 //var api_key = User.api_key;
+                //httpService.DefaultRequestHeaders.Accept.Add("authorization", api_key);
                 //httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Authorization", api_key);
 
 

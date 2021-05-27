@@ -51,6 +51,7 @@ namespace AutoAttendant.Views
         {
             try
             {
+                HomePage.base_URL = "http://" + Entry_Api.Text;
                 UserTemp userTemp = new UserTemp(Entry_user.Text, Entry_password.Text);
                 //UserTemp userTemp = new UserTemp(Entry_user.Text, HashPW.HashPassword(Entry_password.Text));
                 var httpService = new HttpClient();

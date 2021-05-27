@@ -71,9 +71,9 @@
                         <TapGestureRecognizer Tapped="SignUp" />
                     </Label.GestureRecognizers>
                 </Label>
-                <local:CustomEntry x:Name="Entry_Api" TextColor="#FFF" 
+                <local:CustomEntry x:Name="Entry_Api" TextColor="#FFF" Text="192.168.30.102:3000"
                                    HeightRequest="40" BackgroundColor="#022656"
-                                   HorizontalOptions="Start" WidthRequest="80" IsVisible="False">
+                                   HorizontalOptions="Start" WidthRequest="80" IsVisible="False" Margin="10,0,0,0">
                 </local:CustomEntry>
                 
             </StackLayout>
@@ -81,7 +81,7 @@
             <StackLayout Orientation="Horizontal">
                 <Button x:Name="Btn_api"
                         Clicked="OpenApiEntry" FontSize="10"
-                        BackgroundColor="#021135"
+                        BackgroundColor="#FFF"
                         HeightRequest="10"
                         WidthRequest="30"
                         BorderRadius="8"

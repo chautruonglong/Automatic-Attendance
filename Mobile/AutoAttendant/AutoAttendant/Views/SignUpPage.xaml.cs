@@ -65,8 +65,7 @@ namespace AutoAttendant.Views
                     else
                     {
                         var result = await responseSignUp.Content.ReadAsStringAsync();
-                        await DisplayAlert("ERROR11", result, "Try Again");
-                        //await DisplayAlert("ERROR11", responseSignUp.Content.ReadAsStringAsync().ToString(), "Try Again");
+                        await DisplayAlert("ERROR", result, "Try Again");
                     }
                 }
 
@@ -102,7 +101,7 @@ namespace AutoAttendant.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("ERROR",ex.Message , "Try Again");
+                await DisplayAlert("ERROR", ex.Message , "Try Again");
             }
         }
     }
