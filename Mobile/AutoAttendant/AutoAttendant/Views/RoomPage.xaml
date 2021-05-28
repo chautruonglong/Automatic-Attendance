@@ -10,9 +10,9 @@
             <SearchBar Placeholder="Search" PlaceholderColor="#BFB5B5" FontSize="16"  BackgroundColor="#021135" HeightRequest="45" TextColor="#BFB5B5" CancelButtonColor="#BFB5B5" TextChanged="SearchRoom_TextChanged" Margin="0,0,0,20">
 
             </SearchBar>
-            <!--<StackLayout Orientation="Horizontal" Margin="10,0,0,0" x:Name="DatePickerLayout" VerticalOptions="Center">
+            <StackLayout Orientation="Horizontal" Margin="10,0,0,0" x:Name="DatePickerLayout" VerticalOptions="Center">
 
-                <Button Text="Date" x:Name="btnDatePicker" ContentLayout="Left" ImageSource="calendar"
+                <!--<Button Text="Date" x:Name="btnDatePicker" ContentLayout="Left" ImageSource="calendar"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
                         TextTransform="None" FontSize="16"
                         Margin="0,10,0,10"  TextColor="#FFF" BorderRadius="10"
@@ -22,8 +22,11 @@
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
                         TextTransform="None" FontSize="16"
                         Margin="100,10,0,10"  TextColor="#FFF" BorderRadius="10"
-                        BorderColor="#FFF"/>
-            </StackLayout>-->
+                        BorderColor="#FFF"/>-->
+               
+      
+            </StackLayout>
+            
 
             <StackLayout Padding="20,0" HeightRequest="500">
                 <Label x:Name="lb_date" Text="Today" FontSize="15" FontAttributes="Bold" TextColor="#FFF"/>

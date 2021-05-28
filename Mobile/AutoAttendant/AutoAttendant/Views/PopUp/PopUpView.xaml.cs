@@ -1,4 +1,6 @@
-﻿using Rg.Plugins.Popup.Services;
+﻿using AutoAttendant.Models;
+using Newtonsoft.Json;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +27,9 @@ namespace AutoAttendant.Views
         private async void AddRoom(object sender, EventArgs e)
         {
             string roomName = Entry_room.Text;
-            Action?.Invoke(this, roomName);
+            Room room = new Room("1", "x202", "Availeble");
+            var jsonRoom = JsonConvert.SerializeObject(room);
+            Action?.Invoke(this, jsonRoom);
             await PopupNavigation.Instance.PopAsync();
         }
 

@@ -82,13 +82,13 @@
                     </Label>
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal" Margin="-10,10,0,0">
-                    <Button Text="Join"  HeightRequest="40" WidthRequest="80"
-                                    HorizontalOptions="End" FontSize="15"
+                <StackLayout Orientation="Horizontal" Margin="-10,10,0,0" HorizontalOptions="Center" Spacing="20">
+                    <Button Text="Join"  HeightRequest="40" WidthRequest="90"
+                                    HorizontalOptions="Center" FontSize="15"
                                     IsVisible="True" Background="#6562FC" BorderRadius="8"
                                     Clicked="JoinClass" TextColor="#FFF" FontAttributes="Bold">
                     </Button>
-                    <Button Text="Update"  HeightRequest="40" WidthRequest="80"
+                    <!--<Button Text="Update"  HeightRequest="40" WidthRequest="80"
                                     HorizontalOptions="End" FontSize="15"
                                     IsVisible="True" Background="#6562FC" BorderRadius="8"
                                     Clicked="UpdateClass" TextColor="#FFF" FontAttributes="Bold">
@@ -97,9 +97,9 @@
                                     HorizontalOptions="End" FontSize="15"
                                     IsVisible="True" Background="#6562FC" BorderRadius="8"
                                     Clicked="DeleteClass" TextColor="#FFF" FontAttributes="Bold">
-                    </Button>
-                    <Button Text="Cancle"  HeightRequest="40" WidthRequest="80"
-                                    HorizontalOptions="End" FontSize="15"
+                    </Button>-->
+                    <Button Text="Cancle"  HeightRequest="40" WidthRequest="90"
+                                    HorizontalOptions="Center" FontSize="15"
                                     IsVisible="True" Background="#6562FC" BorderRadius="8"
                                     Clicked="CancleClass" TextColor="#FFF" FontAttributes="Bold">
                     </Button>

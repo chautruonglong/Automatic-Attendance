@@ -86,7 +86,7 @@ namespace AutoAttendant.Views
                         checkClearStd_ListPage = 0;
                         // Create process when click Join
                     }
-                    await Navigation.PushAsync(new ListStudentPage());
+                    //await Navigation.PushAsync(new ListStudentPage());
                     break;
                 case "Update":
                     await Navigation.PushAsync(new UpdateSchedulePage(schedule));

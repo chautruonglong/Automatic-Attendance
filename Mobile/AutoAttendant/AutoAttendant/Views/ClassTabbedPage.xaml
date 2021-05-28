@@ -6,8 +6,8 @@
             BarTextColor="#FFF"
             >
 
-    <local:ListStudentPage x:Name="TabClass">
+    <!--<local:ListStudentPage x:Name="TabClass">
         
     </local:ListStudentPage>
-    <local:ChartPage Title="Attendance"></local:ChartPage>
+    <local:ChartPage Title="Attendance"></local:ChartPage>-->
 </TabbedPage>

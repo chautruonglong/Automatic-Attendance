@@ -71,13 +71,9 @@ namespace AutoAttendant.Views
                 date = date.Replace("00:00:00", "12:00:00");
                 var base_URL = HomePage.base_URL + "/process?id_subject="+ idSub +"&date=" + date;
                 var result = await httpService.SendAsync(base_URL,HttpMethod.Get);
-                //if (result != null)
-                //{
-                    //var  process = new Process(-1, "-1", -1, DateTime.Now, "-1");
-                    var process = JsonConvert.DeserializeObject<List<Process>>(result);
-                    return process;
-                //}
-                //else return null;
+                var process = JsonConvert.DeserializeObject<List<Process>>(result);
+                return process;
+
             }
             catch (Exception ex)
             {
@@ -220,7 +216,7 @@ namespace AutoAttendant.Views
                         var baseProcess_URL = HomePage.base_URL + "/process";
                         await httpService.PostAsync(baseProcess_URL, contentProcess);
                     }
-                    await Navigation.PushAsync(new ListStudentPage());
+                    await Navigation.PushAsync(new ListStudentPage(subject));
                     break;
                 default: //cancel
                     return;
@@ -258,10 +254,9 @@ namespace AutoAttendant.Views
                             Subject subject = HomePage._lsjvm.SubjectCollection[index]; // tìm dc schdule theo index
 
                             var page = new PopUpSubjectOption(subject);
-                            page.Action += async (sender1, stringparameter) =>
+                            page.Action += (sender1, stringparameter) =>
                             {
                                 HandleSelectPopUp(stringparameter, subject);
-
                             };
                             await PopupNavigation.Instance.PushAsync(page);
                         }
@@ -279,14 +274,15 @@ namespace AutoAttendant.Views
         }
         #endregion
 
+        [Obsolete]
         private async void AddSubjectClicked(object sender, EventArgs e)
         {
             var page = new PopUpAddSubject();
-            page.Action += async (sender1, stringparameter) =>
+            page.Action += (sender1, stringparameter) =>
             {
-                if(stringparameter == "Add")
+                if(stringparameter.Equals("Add succesfully"))
                 {
-                    await DisplayAlert("Notice", "Add Succesfully!", "OK");
+                    //Reload list subject
                 }
 
             };

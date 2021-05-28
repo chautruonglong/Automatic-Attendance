@@ -27,14 +27,18 @@ namespace AutoAttendant.Views
     public partial class ListStudentPage : ContentPage
     {
         public static ListStudentViewModel lsvm = new ListStudentViewModel();     /// Lưu ý coi chừng saiii\
+        public static ListStudentNuiViewModel lsnvm = new ListStudentNuiViewModel();
         public static ObservableCollection<Attendance> listAttendance = new ObservableCollection<Attendance>();
         int CheckSquence = 0;
         int TimeCount = 5;
 
-        public ListStudentPage()
+        public ListStudentPage(Subject subject)
         {
             InitializeComponent();
             this.BindingContext = new ListStudentViewModel(); // listview se binding theo object List Student View Model
+
+            //this.BindingContext = new ListStudentNuiViewModel();
+            //ShowStudentList(subject.subject_id) //goi student list xuong'
         }
 
         protected override void OnAppearing()
@@ -51,17 +55,52 @@ namespace AutoAttendant.Views
             }
         }
 
+
         #region Functions Add for List Students
+
+        [Obsolete]
+        public async void ShowStudentList(string subject_id)
+        {
+            var listStudent = new ObservableCollection<StudentNui>(await HandleStudentList(subject_id)); // list Subject trả về từ HandelSubject
+
+            foreach (StudentNui studentNui in listStudent)  // duyet trong listStudent để thêm vào lsvm
+            {
+                lsnvm.StudentCollection.Add(studentNui);
+            }
+            this.BindingContext = lsnvm;
+        }
+
+        [Obsolete]
+        public async Task<ObservableCollection<StudentNui>> HandleStudentList(string subject_id) //show list subject today
+        {
+            try
+            {
+                var httpService = new HttpService();
+                var base_URL = HomePage.base_URL + "/student/list/" + subject_id + "/";
+                var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
+                var listStudent = JsonConvert.DeserializeObject<ObservableCollection<StudentNui>>(result);
+
+                // order list student by name
+                listStudent = new ObservableCollection<StudentNui>(listStudent.OrderBy(r => r.name));
+                return listStudent;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("ERROR", ex.Message, "OK");
+                return null;
+            }
+        }
+
         async void ImportExcel(object sender, EventArgs e) // xu li import excel them student
         {
 
             try
             {
                 var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
-            {
-                { DevicePlatform.iOS, new[] {"com.microsoft.xlsx"} },
-                { DevicePlatform.Android, new[] { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" } },
-            });
+                {
+                    { DevicePlatform.iOS, new[] {"com.microsoft.xlsx"} },
+                    { DevicePlatform.Android, new[] { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" } },
+                });
                 var pickerResult = await FilePicker.PickAsync(new PickOptions
                 {
                     //FileTypes = FilePickerFileType.Images,
@@ -169,7 +208,7 @@ namespace AutoAttendant.Views
                     var index = lsvm.StudentCollection.IndexOf(itemSelected);
                     Student std = lsvm.StudentCollection[index];
                     message = string.Format("Name: {0}\nClass: {1}\nTime: {2}", std.Id, std.Name, std.Phone);
-                    DisplayAlert("Notice", message, "OK");
+                    //DisplayAlert("Notice", message, "OK");
                     Navigation.PushAsync(new StudentDetailPage(std, lsvm));
                 }
             }
@@ -276,7 +315,7 @@ namespace AutoAttendant.Views
             int removeIndex = jsonSchedule.IndexOf(colorState);
             jsonSchedule = jsonSchedule.Substring(0, removeIndex) + "}";
             StringContent contentLecture = new StringContent(jsonSchedule, Encoding.UTF8, "application/json");
-            var baseLecture_URL = HomePage.base_URL + "schedule/" + schedule.id.ToString();
+            var baseLecture_URL = HomePage.base_URL + "/schedule/" + schedule.id.ToString();
             HttpResponseMessage responseLecture =  await httpService.PutAsync(baseLecture_URL, contentLecture);
         }
 
@@ -288,10 +327,11 @@ namespace AutoAttendant.Views
             var httpService = new HttpClient();
             string jsonRoom= JsonConvert.SerializeObject(roomNow); // convert object => json
             StringContent contentLecture = new StringContent(jsonRoom, Encoding.UTF8, "application/json");
-            var baseLecture_URL = HomePage.base_URL + "room/" + roomNow.id.ToString();
+            var baseLecture_URL = HomePage.base_URL + "/room/" + roomNow.id.ToString();
             HttpResponseMessage responseLecture = await httpService.PutAsync(baseLecture_URL, contentLecture);
         }
 
+        [Obsolete]
         public async void HandlePutStateProcess()
         {
             //int status = 1;
@@ -318,7 +358,6 @@ namespace AutoAttendant.Views
                     var baseProcess_URL = HomePage.base_URL + "/process/" + getProcess.id.ToString();
                     await httpClient.PutAsync(baseProcess_URL, contentProcess);
                 }
-                
             }
             catch (Exception ex)
             {
@@ -380,10 +419,7 @@ namespace AutoAttendant.Views
         }
         #endregion
 
-        private void ExportExcel(object sender, EventArgs e)
-        {
-            ExportExcel();
-        }
+        #region ChartPage()
 
         public void GetDataForPieChart()
         {
@@ -405,6 +441,7 @@ namespace AutoAttendant.Views
             GetDataForPieChart();
             Navigation.PushAsync(new ChartPage());
         }
+        #endregion
 
         [Obsolete]
         private async void ClickSaveAndImport(object sender, EventArgs e) // phai luu ve DB
@@ -458,6 +495,12 @@ namespace AutoAttendant.Views
             {
                 return;
             }
+        }
+
+        #region ExportExcel
+        private void ExportExcel(object sender, EventArgs e)
+        {
+            ExportExcel();
         }
 
         public async void ExportExcel()
@@ -530,7 +573,6 @@ namespace AutoAttendant.Views
         //        btnSortOption.Text = PickerSort.Items[index].ToString();
         //    }
         //}
-
-
+        #endregion
     }
 }

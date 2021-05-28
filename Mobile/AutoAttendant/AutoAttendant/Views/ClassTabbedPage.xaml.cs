@@ -20,9 +20,9 @@ namespace AutoAttendant.Views
         public ClassTabbedPage(Classes classes)
         {
             InitializeComponent();
-            _lsvm.StudentCollection = classes.StudentList1;
-            TabClass.Title = classes.Name;
-            nameClass = classes.Name;
+            //_lsvm.StudentCollection = classes.StudentList1;
+            //TabClass.Title = classes.Name;
+            //nameClass = classes.Name;
         }
     }
 }

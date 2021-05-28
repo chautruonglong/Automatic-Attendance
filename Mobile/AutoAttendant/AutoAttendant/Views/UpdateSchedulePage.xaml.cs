@@ -1,6 +1,7 @@
 ﻿using AutoAttendant.Models;
 using AutoAttendant.Services;
 using Newtonsoft.Json;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -118,7 +119,7 @@ namespace AutoAttendant.Views
         [Obsolete]
         private async void CancelUpdatePopup(object sender, EventArgs e)
         {
-            //await PopupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
         }
 
         [Obsolete]

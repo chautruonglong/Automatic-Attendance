@@ -37,7 +37,7 @@
                 </local:CustomEntry>
 
                 <Label x:Name="Lb_forgot" Text="Forgot Password?"
-                       TextColor="#FFF"
+                       TextColor="#FFF" HorizontalOptions="Start"
                        Margin="0, 5, 0, 20">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="ForgotPassword" />
@@ -71,7 +71,7 @@
                         <TapGestureRecognizer Tapped="SignUp" />
                     </Label.GestureRecognizers>
                 </Label>
-                <local:CustomEntry x:Name="Entry_Api" TextColor="#FFF" Text="192.168.30.102:3000"
+                <local:CustomEntry x:Name="Entry_Api" TextColor="#FFF" Text="192.168.30.103:3000"
                                    HeightRequest="40" BackgroundColor="#022656"
                                    HorizontalOptions="Start" WidthRequest="80" IsVisible="False" Margin="10,0,0,0">
                 </local:CustomEntry>
