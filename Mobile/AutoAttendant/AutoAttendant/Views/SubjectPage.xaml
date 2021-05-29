@@ -45,8 +45,8 @@
                                             <Label Text="{Binding name}" TextColor="#000" FontSize="13" WidthRequest="200" VerticalTextAlignment="Center" IsVisible="True" FontAttributes="Bold" HorizontalTextAlignment="Start"/>
                                             <!--<Label Text="{Binding state}" TextColor="#000" FontSize="5" WidthRequest="5" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="False"/>-->
                                             <!--<Label Text="{Binding id}" TextColor="#000" WidthRequest="5" IsVisible="False"></Label>-->
-                                            <Label Text="{Binding time_slot}" TextColor="#000" FontSize="13" WidthRequest="200" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" IsVisible="True" FontAttributes="Bold"></Label>
-                                            <Label Text="{Binding stateString}" TextColor="#000" FontSize="13" WidthRequest="70" VerticalTextAlignment="Center" HorizontalTextAlignment="End" IsVisible="True" FontAttributes="Bold"></Label>
+                                            <Label Text="{Binding time_slot}" TextColor="#000" FontSize="13" WidthRequest="100" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" IsVisible="True" FontAttributes="Bold"></Label>
+                                            <Label Text="{Binding day}" TextColor="#000" FontSize="13" WidthRequest="70" VerticalTextAlignment="Center" HorizontalTextAlignment="End" IsVisible="True" FontAttributes="Bold"></Label>
                                             <Image Source="attendance_Black" WidthRequest="20" HorizontalOptions="Start" Margin="-5,0,0,0"></Image>
 
                                         </StackLayout>

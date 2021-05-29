@@ -11,6 +11,9 @@ namespace AutoAttendant.Models
         string _phone;
         string _birth;
         string _img_3x4;
+        bool _state = false;
+        string _confidence = "";
+        string _img_attendance;
 
         public StudentNui(string student_id, string name, string phone, string birth, string img_3x4)
         {
@@ -25,6 +28,9 @@ namespace AutoAttendant.Models
         public string name { get => _name; set => _name = value; }
         public string phone { get => _phone; set => _phone = value; }
         public string birth { get => _birth; set => _birth = value; }
-        public string img_3x4 { get => img_3x4; set => img_3x4 = value; }
+        public string img_3x4 { get => _img_3x4; set => _img_3x4 = value; }
+        public bool state { get => _state; set => _state = value; }
+        public string confidence { get => _confidence; set => _confidence = value; }
+        public string img_attendance { get => _img_attendance; set => _img_attendance = value; }
     }
 }

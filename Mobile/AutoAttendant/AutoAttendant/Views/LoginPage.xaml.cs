@@ -52,22 +52,23 @@ namespace AutoAttendant.Views
             try
             {
                 HomePage.base_URL = "http://" + Entry_Api.Text;
-                UserTemp userTemp = new UserTemp(Entry_user.Text, Entry_password.Text);
-                //UserTemp userTemp = new UserTemp(Entry_user.Text, HashPW.HashPassword(Entry_password.Text));
+                //UserTemp userTemp = new UserTemp(Entry_user.Text, Entry_password.Text);
+                UserTemp userTemp = new UserTemp(Entry_user.Text, HashPW.HashPassword(Entry_password.Text));
                 var httpService = new HttpClient();
 
                 string jsonData = JsonConvert.SerializeObject(userTemp); // dung` UserTemp để post login vì chỉ cần email vs password
-                var base_URL = HomePage.base_URL + "/login";
-                //var base_URL = HomePage.base_URL + "/account/login/";
-                //var base_URL = @"http://42.114.97.127:8000/account/login/";
+                //var base_URL = HomePage.base_URL + "/login";
+                var base_URL = HomePage.base_URL + "/account/login/";
+
                 StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await httpService.PostAsync(base_URL, content);
                 
                 var result = await response.Content.ReadAsStringAsync();
-                Data.Data.Instance.User = JsonConvert.DeserializeObject<User>(result); // dùng User để nhận json về vì có chứa thêm token, idLecture (static)
-                //UserNui userNui = JsonConvert.DeserializeObject<UserNui>(result);
-                //HomePage.lecturer_id = userNui.lecturer_id;
-                //HomePage.api_key = userNui.authorization;
+                //Data.Data.Instance.User = JsonConvert.DeserializeObject<User>(result); // dùng User để nhận json về vì có chứa thêm token, idLecture (static)
+                Data.Data.Instance.UserNui = JsonConvert.DeserializeObject<UserNui>(result);
+                UserNui userNui = JsonConvert.DeserializeObject<UserNui>(result);
+                HomePage.lecturer_id = userNui.lecturer_id;
+                HomePage.api_key = userNui.authorization;
 
 
                 if (response.IsSuccessStatusCode)

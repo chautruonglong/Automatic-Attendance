@@ -39,8 +39,8 @@ namespace AutoAttendant.Views
         {
             InitializeComponent();
             Detail = new NavigationPage(new SubjectPage());
-            GetLectureInfoById(Data.Data.Instance.User.idLecture.ToString());
-            HandleRoom();
+            GetLectureInfoById(Data.Data.Instance.UserNui.lecturer_id.ToString());
+            //HandleRoom();
         }
 
         public async void HandleRoom()
@@ -61,17 +61,27 @@ namespace AutoAttendant.Views
 
         public async void GetLectureInfoById(string id) //lay theo id ben login truyền qua, set up cho profile 
         {
-            var httpService = new HttpService();
-            var base_URL = HomePage.base_URL + "/lecture/" + id;
-            var x = HomePage.base_URL + "/lecture/" + id;
-            var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
-            var lecture = JsonConvert.DeserializeObject<Lecture>(result);
-            Data.Data.Instance.Lecture = lecture;
-            Lb_LectureName.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(lecture.name.ToLower());
-            string avaText = "";
-            lecture.name.Split(' ').ToList().ForEach(i => avaText += i[0].ToString());
-            Avatar.Text = avaText;
-            Avatar.TextColor = Color.FromHex("#021135");;
+            try
+            {
+                var httpService = new HttpService();
+
+                var base_URL = HomePage.base_URL + "/lecturer/detail/" + id + "/";
+                //DisplayAlert("ERROR", base_URL, "OK");
+
+                var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
+                var lecture = JsonConvert.DeserializeObject<Lecture>(result);
+                Data.Data.Instance.Lecture = lecture;
+                Lb_LectureName.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(lecture.name.ToLower());
+                string avaText = "";
+                lecture.name.Split(' ').ToList().ForEach(i => avaText += i[0].ToString());
+                Avatar.Text = avaText;
+                Avatar.TextColor = Color.FromHex("#021135");
+            }
+            catch(Exception ex)
+            {
+                await DisplayAlert("Notice", ex.Message, "OK");
+            }
+            
         }
 
 

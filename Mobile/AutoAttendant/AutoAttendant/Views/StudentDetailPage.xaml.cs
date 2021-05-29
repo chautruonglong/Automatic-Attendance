@@ -15,26 +15,36 @@ namespace AutoAttendant.Views
     public partial class StudentDetailPage : ContentPage
     {
        
-        public StudentDetailPage(Student student, ListStudentViewModel lsvm )
+        public StudentDetailPage(StudentNui student, ListStudentViewModel lsvm )
         {
             InitializeComponent();
             ShowStudentInfo(student);
         }
 
-        public void ShowStudentInfo(Student student)
+        public void ShowStudentInfo(StudentNui student)
         {
-            //Bo sung them student.ID
-            lb_Name.Text = student.Name;
-            lb_Class.Text = student.Classs;
-            lb_Time.Text = student.Faculty;
-            //Attendance atd = ListStudentPage.listAttendance.Single(r => r.student_id.Equals("102180171"));
-            //Avatar.Source = atd.face_3x4;
-            var x = student.State;
-            if (x)
+            try
             {
-                btnAttendance.IsChecked = x;
+                //Bo sung them student.ID
+                lb_Name.Text = student.name;
+                lb_Class.Text = student.birth;
+                lb_Time.Text = student.phone;
+                //Attendance atd = ListStudentPage.listAttendance.Single(r => r.student_id.Equals("102180171"));
+                Avatar.Source = student.img_3x4;
+                AvatarAttendance.Source = student.img_attendance;
+                var x = student.state;
+                if (x)
+                {
+                    btnAttendance.IsChecked = x;
+                }
+                else btnAbsent.IsChecked = !x;
             }
-            else btnAbsent.IsChecked = !x;
+            catch(Exception ex)
+            {
+                DisplayAlert("ERROR", ex.Message, "OK");
+            }
+
+
 
         }
 

@@ -65,13 +65,13 @@ namespace AutoAttendant.Views
                 //var statusCode = response.StatusCode;
 
                 //Post new lecture
-                var lecture = new Lecture(Convert.ToInt32(idLecture), name);
-                string jsonLecture = JsonConvert.SerializeObject(lecture); // convert object => json
-                StringContent contentLecture = new StringContent(jsonLecture, Encoding.UTF8, "application/json");
-                var basePostLecture_URL = @"http://42.114.97.127:8000/lecturer/detail/";
-                HttpResponseMessage responseLecture = await httpService.PostAsync(basePostLecture_URL, contentLecture);
-                var result = await responseLecture.Content.ReadAsStringAsync();
-                Data.Data.Instance.Lecture = JsonConvert.DeserializeObject<Lecture>(result); // gan cho static Lecture thong tin Lecture vua dang ki de dung` cho toan bo chtrinh
+                //var lecture = new Lecture(Convert.ToInt32(idLecture), name);
+                //string jsonLecture = JsonConvert.SerializeObject(lecture); // convert object => json
+                //StringContent contentLecture = new StringContent(jsonLecture, Encoding.UTF8, "application/json");
+                //var basePostLecture_URL = @"http://42.114.97.127:8000/lecturer/detail/";
+                //HttpResponseMessage responseLecture = await httpService.PostAsync(basePostLecture_URL, contentLecture);
+                //var result = await responseLecture.Content.ReadAsStringAsync();
+                //Data.Data.Instance.Lecture = JsonConvert.DeserializeObject<Lecture>(result); // gan cho static Lecture thong tin Lecture vua dang ki de dung` cho toan bo chtrinh
 
                 //Get Lecture posted recently
                 //var baseGetLecture_URL = HomePage.base_URL + "lecture?idTeacher=" + Data.Data.Instance.User.idLecture.ToString();
@@ -85,15 +85,15 @@ namespace AutoAttendant.Views
                 //UserDialogs.Instance.HideLoading();
                 
 
-                if (responseLecture.IsSuccessStatusCode)
-                {
-                    UserDialogs.Instance.Toast("Your account was registered!");
-                    await Navigation.PushAsync(new HomePage()); 
-                }
-                else
-                {
-                    await DisplayAlert("ERROR", "Fail to register", "Try Again");
-                }
+                //if (responseLecture.IsSuccessStatusCode)
+                //{
+                //    UserDialogs.Instance.Toast("Your account was registered!");
+                //    await Navigation.PushAsync(new HomePage()); 
+                //}
+                //else
+                //{
+                //    await DisplayAlert("ERROR", "Fail to register", "Try Again");
+                //}
 
 
 

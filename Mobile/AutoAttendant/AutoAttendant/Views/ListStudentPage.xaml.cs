@@ -30,15 +30,16 @@ namespace AutoAttendant.Views
         public static ListStudentNuiViewModel lsnvm = new ListStudentNuiViewModel();
         public static ObservableCollection<Attendance> listAttendance = new ObservableCollection<Attendance>();
         int CheckSquence = 0;
-        int TimeCount = 5;
+        int TimeCount =20;
 
+        [Obsolete]
         public ListStudentPage(Subject subject)
         {
             InitializeComponent();
-            this.BindingContext = new ListStudentViewModel(); // listview se binding theo object List Student View Model
+            //this.BindingContext = new ListStudentViewModel(); // listview se binding theo object List Student View Model
 
-            //this.BindingContext = new ListStudentNuiViewModel();
-            //ShowStudentList(subject.subject_id) //goi student list xuong'
+            this.BindingContext = new ListStudentNuiViewModel();
+            ShowStudentList(subject.subject_id); //goi student list xuong'
         }
 
         protected override void OnAppearing()
@@ -48,10 +49,10 @@ namespace AutoAttendant.Views
         }
         public void ReLoadStudenList() 
         {
-            if (lsvm.StudentCollection.Count > 0)
+            if (lsnvm.StudentCollection.Count > 0)
             {
-                this.BindingContext = new ListStudentViewModel();
-                this.BindingContext = lsvm;
+                this.BindingContext = new ListStudentNuiViewModel();
+                this.BindingContext = lsnvm;
             }
         }
 
@@ -61,13 +62,24 @@ namespace AutoAttendant.Views
         [Obsolete]
         public async void ShowStudentList(string subject_id)
         {
-            var listStudent = new ObservableCollection<StudentNui>(await HandleStudentList(subject_id)); // list Subject trả về từ HandelSubject
-
-            foreach (StudentNui studentNui in listStudent)  // duyet trong listStudent để thêm vào lsvm
+            try
             {
-                lsnvm.StudentCollection.Add(studentNui);
+                var listStudent = new ObservableCollection<StudentNui>(await HandleStudentList(subject_id)); // list Subject trả về từ HandelSubject
+
+                if(listStudent.Count > 0)
+                {
+                    foreach (StudentNui studentNui in listStudent)  // duyet trong listStudent để thêm vào lsvm
+                    {
+                        lsnvm.StudentCollection.Add(studentNui);
+                    }
+                    this.BindingContext = lsnvm;
+                }
             }
-            this.BindingContext = lsnvm;
+            catch (Exception ex)
+            {
+                await DisplayAlert("ERROR", ex.Message, "OK");
+            }
+            
         }
 
         [Obsolete]
@@ -185,48 +197,88 @@ namespace AutoAttendant.Views
 
         private void OnTapped(object sender, EventArgs e) // xu li khi nhan vao student
         {
-            string message = string.Empty;
-            Frame f = sender as Frame;
-            var fContent = f.Content; // Lấy Content của Frame
-            var myStacklayout = fContent.GetType(); // lấy kiểu của Content
-            if (myStacklayout == typeof(StackLayout)) // check kiểu có phải Stack Layout ko
+            try
             {
-                StackLayout fStacklayout = (StackLayout)fContent;
-                var listChildren = fStacklayout.Children; // Lấy tập Children của StackLayout
-                var firstLabel = listChildren[0];
-                var secondLabel = listChildren[1];
-                var thirdLabel = listChildren[2];
-
-                //var isLabel = firstLabel.GetType(); // check kiểu của child đầu tiên
-                if (firstLabel.GetType() == typeof(Label) && secondLabel.GetType() == typeof(Label) && thirdLabel.GetType() == typeof(Label))
+                string message = string.Empty;
+                Frame f = sender as Frame;
+                var fContent = f.Content; // Lấy Content của Frame
+                var myStacklayout = fContent.GetType(); // lấy kiểu của Content
+                if (myStacklayout == typeof(StackLayout)) // check kiểu có phải Stack Layout ko
                 {
-                    Label Name = (Label)firstLabel;
-                    Label Class = (Label)secondLabel;
-                    Label Time = (Label)thirdLabel;
+                    StackLayout fStacklayout = (StackLayout)fContent;
+                    var listChildren = fStacklayout.Children; // Lấy tập Children của StackLayout
+                    var firstLabel = listChildren[0];
+                    var secondLabel = listChildren[1];
+                    var thirdLabel = listChildren[2];
 
-                    var itemSelected = lsvm.StudentCollection.Single(r => r.Name == Name.Text);
-                    var index = lsvm.StudentCollection.IndexOf(itemSelected);
-                    Student std = lsvm.StudentCollection[index];
-                    message = string.Format("Name: {0}\nClass: {1}\nTime: {2}", std.Id, std.Name, std.Phone);
-                    //DisplayAlert("Notice", message, "OK");
-                    Navigation.PushAsync(new StudentDetailPage(std, lsvm));
+                    //var isLabel = firstLabel.GetType(); // check kiểu của child đầu tiên
+                    if (firstLabel.GetType() == typeof(Label) && secondLabel.GetType() == typeof(Label) && thirdLabel.GetType() == typeof(Label))
+                    {
+                        Label Name = (Label)firstLabel;
+                        Label Class = (Label)secondLabel;
+                        Label Time = (Label)thirdLabel;
+
+                        var itemSelected = lsnvm.StudentCollection.Single(r => r.name.Equals(Name.Text.Trim()));
+                        var index = lsnvm.StudentCollection.IndexOf(itemSelected);
+                        StudentNui std = lsnvm.StudentCollection[index];
+                        //message = string.Format("Name: {0}\nClass: {1}\nTime: {2}", std.Id, std.Name, std.Phone);
+                        //DisplayAlert("Notice", message, "OK");
+                        Navigation.PushAsync(new StudentDetailPage(std, lsvm));
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                DisplayAlert("ERROR", ex.Message, "OK");
+            }
+            
         }
-
+        public static string process_id_atd;
         #region Handle Attendances Functions()
+        [Obsolete]
         private async void TakeAttendance(object sender, EventArgs e)
         {
             try
             {
-                if(lsvm.StudentCollection.Count <= 0)
+                if(lsnvm.StudentCollection.Count <= 0)
                 {
                     await DisplayAlert("Notice", "No students in class. Import student list!", "OK");
                 }
                 else
                 {
-                    PostRawListStudent();
-                    ReLoadStudenList();
+                    var thread = new Thread(paintLoading);
+                    thread.Start();
+                    var httpClient = new HttpClient();
+                    var base1_URL = HomePage.base_URL + "/attendance/process/create/" + SubjectPage.classes.Name + "/";
+                    var result1 = await httpClient.GetAsync(base1_URL);
+                    var responseProcess = await result1.Content.ReadAsStringAsync();
+                    var process = JsonConvert.DeserializeObject<Process>(responseProcess);
+                    process_id_atd = process.process_id;
+                    if (process.process_id!="")
+                    {
+                        var httpService = new HttpService();
+                        var base2_URL = HomePage.base_URL + "/attendance/list/" + process.process_id + "/";
+                        var result2 = await httpService.SendAsync(base2_URL, HttpMethod.Get);
+
+                        thread.Abort();
+
+
+                        var attendanceList =  JsonConvert.DeserializeObject<List<AttendanceNui>>(result2);
+                        foreach(AttendanceNui atd in attendanceList)
+                        {
+                            var checkAttendance = lsnvm.StudentCollection.Single(r => r.student_id == atd.id && atd.type.Equals("known"));
+                            checkAttendance.state = true;
+                            checkAttendance.confidence = atd.confidence + "%";
+                            checkAttendance.img_attendance = atd.img_face;
+                        }
+                        ReLoadStudenList();
+                    }
+
+                    //PostRawListStudent();
+                    //ReLoadStudenList();
+                    //var base2_URL = HomePage.base_URL + "/attendance/list/" + process.id + "/";
+                    //var result2 = await httpClient.GetAsync(base2_URL);
+                    //var responseProcess = await result2.Content.ReadAsStringAsync();
                 }
             }
             catch(Exception ex)
@@ -252,7 +304,9 @@ namespace AutoAttendant.Views
             }
             catch (Exception ex)
             {
-                DisplayAlert("Notice",ex.Message ,"OK");
+               /* Device.BeginInvokeOnMainThread(() => {
+                    DisplayAlert("Notice", ex.Message, "OK");
+                });*/
             }
         }
 
@@ -351,11 +405,11 @@ namespace AutoAttendant.Views
                 if(process.Count == 1)
                 {
                     var getProcess = process[0];
-                    getProcess.status = 1;
+                    getProcess.status = true;
                     var httpClient = new HttpClient();
                     string jsonProcess = JsonConvert.SerializeObject(getProcess);
                     StringContent contentProcess = new StringContent(jsonProcess, Encoding.UTF8, "application/json");
-                    var baseProcess_URL = HomePage.base_URL + "/process/" + getProcess.id.ToString();
+                    var baseProcess_URL = HomePage.base_URL + "/process/" + getProcess.process_id.ToString();
                     await httpClient.PutAsync(baseProcess_URL, contentProcess);
                 }
             }

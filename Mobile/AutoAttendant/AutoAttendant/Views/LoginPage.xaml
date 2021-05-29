@@ -71,7 +71,7 @@
                         <TapGestureRecognizer Tapped="SignUp" />
                     </Label.GestureRecognizers>
                 </Label>
-                <local:CustomEntry x:Name="Entry_Api" TextColor="#FFF" Text="192.168.30.103:3000"
+                <local:CustomEntry x:Name="Entry_Api" TextColor="#FFF" Text="192.168.30.104:8000"
                                    HeightRequest="40" BackgroundColor="#022656"
                                    HorizontalOptions="Start" WidthRequest="80" IsVisible="False" Margin="10,0,0,0">
                 </local:CustomEntry>
