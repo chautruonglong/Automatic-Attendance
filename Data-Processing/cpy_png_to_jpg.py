@@ -1,3 +1,4 @@
+import cv2
 import os
 
 PATH = '/home/chautruonglong/Desktop/Face-Recognition/dataset/raw/'
@@ -9,6 +10,8 @@ for name in names:
     files = os.listdir(path)
     
     for file in files:
-        c = file.count('r')
-        if c == 1:
-            os.remove(path + file)
+        f_name, ext = file.split('.')
+        
+        img = cv2.imread(path + file)
+        cv2.imwrite(path + f_name + '_j.jpg', img)
+        print(f'Saving ' + path + f_name + '_j.jpg')

@@ -16,13 +16,13 @@ for name in names:
         w, h, z = img.shape
         
         count = 0
-        for i in range(1, 20, 2):
-            new_w = int(w * i / 10)
-            new_h = int(h * i / 10)
+        for i in range(16, 21, 1):
+            new_w = int(w * i / 10) + np.random.randint(-5, 20)
+            new_h = int(h * i / 10) + np.random.randint(-5, 20)
             
             if new_w >= 15 and new_h >= 15:
                 new_img = cv2.resize(img, (new_w, new_h))
-                new_file = PATH + name + '/' + file_name + '_r_' + str(count) + '.jpg'
+                new_file = PATH + name + '/' + file_name + '_r_' + str(count) + '.png'
                 cv2.imwrite(new_file, new_img)
                 print(f'Saving {new_file}')
                 count += 1
@@ -33,7 +33,7 @@ for name in names:
             
             if new_w >= 15 and new_h >= 15:
                 new_img = cv2.resize(img, (new_w, new_h))
-                new_file = PATH + name + '/' + file_name + '_r_' + str(count) + '.jpg'
+                new_file = PATH + name + '/' + file_name + '_r_' + str(count) + '.png'
                 cv2.imwrite(new_file, new_img)
                 print(f'Saving {new_file}')
                 count += 1

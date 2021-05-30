@@ -3,12 +3,12 @@ import cv2
 
 INPUT_PATH = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Main-Dataset/raw/h264-fixed/1814/'
 OUTPUT_PATH = '/media/chautruonglong/Data/University/Nam-3/Ky-2/PBL5-ky-thuat-may-tinh/Main-project/Main-Dataset/data/1814/'
-HAARCASADE_PATH = '/home/chautruonglong/Desktop/Face-Recognition/models/premodels/haarcascade_frontalface_default.xml'
+HAARCASADE_PATH = '/home/chautruonglong/Desktop/Face-Recognition/models/premodels/haarcascade/haarcascade_frontalface_default.xml'
 
 detector = cv2.CascadeClassifier(HAARCASADE_PATH)
 
 files = os.listdir(INPUT_PATH)
-# files = ['102180171.h264']
+
 for file in files:
     try: 
         name, ext = file.split('.')
@@ -30,8 +30,8 @@ for file in files:
                     
                     for x, y, w, h in faces:
                         new_img = frame[y:y + h, x:x + w]
-                        cv2.imwrite(f'{path}/{name}_{count}.jpg', new_img)
-                        print(f'Saving {path}/{name}_{count}.jpg')
+                        cv2.imwrite(f'{path}/{name}_{count}.png', new_img)
+                        print(f'Saving {path}/{name}_{count}.png')
                         count += 1 
                     
                     del frame
