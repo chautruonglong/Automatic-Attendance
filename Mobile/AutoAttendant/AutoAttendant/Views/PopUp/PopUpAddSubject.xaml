@@ -21,7 +21,7 @@
         <Frame CornerRadius="15"   
                BackgroundColor="#3D3C40" Padding="10">
 
-            <StackLayout Orientation="Vertical" HeightRequest="420" WidthRequest="340" BackgroundColor="#3D3C40" Padding="20,10,10,0">
+            <StackLayout Orientation="Vertical" HeightRequest="500" WidthRequest="340" BackgroundColor="#3D3C40" Padding="20,10,10,0">
 
                 <Label Text="Add your subject" FontSize="18" FontAttributes="Bold"
                                     HorizontalTextAlignment="Center"
@@ -65,7 +65,7 @@
                                 TextColor="#FFF" Clicked="OpenPicker" CornerRadius="8"/>
                         <Picker IsEnabled="False" IsVisible="false" x:Name="PickerRoom" SelectedIndexChanged="HandlePickerRoom">
                             <Picker.Items>
-
+                                
                             </Picker.Items>
                         </Picker>
                     </StackLayout>
@@ -88,23 +88,38 @@
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal" Margin="0,0,0,10" >
-                        <Label Text="Time Slot" TextColor="#F5F5F5" 
+                        <Label Text="Time Start" TextColor="#F5F5F5" 
                                FontSize="15" FontAttributes="Bold"
                                VerticalOptions="Center" WidthRequest="90">
                         </Label>
-                        <local:CustomEntry x:Name="Entry_timeSlot1" TextColor="#FFF" FontSize="15"  
-                                               HeightRequest="50" Margin="0,0,20,0" WidthRequest="20"
-                                               VerticalOptions="Center" HorizontalOptions="Fill" Placeholder="0" PlaceholderColor="#FFF" MaxLength="2">
+                        <Button x:Name="btnSelectTime" ImageSource="sortdown25px" Text="7:00" ContentLayout="Right"
+                                HorizontalOptions="Fill" VerticalOptions="Center" BackgroundColor="#3D3C40" FontSize="15"
+                                TextColor="#FFF" Clicked="OpenPickerTime" CornerRadius="8"/>
+                        <Picker IsEnabled="True" IsVisible="True" x:Name="PickerTime" SelectedIndexChanged="HandlePickerTime">
+                            <Picker.Items>
+                                <x:String>07:00</x:String>
+                                <x:String>08:00</x:String>
+                                <x:String>09:00</x:String>
+                                <x:String>10:00</x:String>
+                                <x:String>11:00</x:String>
+                                <x:String>12:30</x:String>
+                                <x:String>13:30</x:String>
+                                <x:String>14:30</x:String>
+                                <x:String>15:30</x:String>
+                                <x:String>16:30</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </StackLayout>
 
-                        </local:CustomEntry>
-                        <Label Text=":" TextColor="#F5F5F5" 
-                               FontSize="15" FontAttributes="Bold"
-                               VerticalOptions="Center" WidthRequest="20">
+                    <StackLayout Orientation="Horizontal" Margin="0,0,0,20">
+                        <Label Text="Periods:" TextColor="#F5F5F5" 
+                               FontSize="14" FontAttributes="Bold"
+                               VerticalOptions="Center" WidthRequest="150">
                         </Label>
-                        <local:CustomEntry x:Name="Entry_timeSlot2" TextColor="#FFF" FontSize="15"  
-                                               HeightRequest="50" Margin="0,0,10,0" WidthRequest="20"
-                                               VerticalOptions="Center" Placeholder="0" PlaceholderColor="#FFF" MaxLength="2">
-
+                        <local:CustomEntry x:Name="Entry_period" TextColor="#FFF" FontSize="15"  
+                                           HeightRequest="50" Margin="0,0,20,0" WidthRequest="200"
+                                           VerticalOptions="Center" HorizontalOptions="Fill" Placeholder="Periods"
+                                           PlaceholderColor="#FFF">
                         </local:CustomEntry>
                     </StackLayout>
 

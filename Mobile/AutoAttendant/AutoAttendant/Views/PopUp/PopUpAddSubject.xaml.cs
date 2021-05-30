@@ -2,11 +2,13 @@
 using AutoAttendant.Services;
 using Newtonsoft.Json;
 using Rg.Plugins.Popup.Services;
+using Syncfusion.XlsIO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -63,30 +65,47 @@ namespace AutoAttendant.Views.PopUp
                 if (index != -1)
                 {
                     btnSelectRoom.Text = PickerRoom.Items[index].ToString();
-                    var room = HomePage._lrvm.RoomCollection.Single(r => r.name == btnSelectRoom.Text);
-
-                    var httpService = new HttpService();
+                    var room = HomePage._lrvm.RoomCollection.Single(r => r.room_id == btnSelectRoom.Text);
                     var day = lb_date.Text;
-                    var base_URL = HomePage.base_URL + "/subject?room_id=" + room.id + "&day=" + day;
-                    var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
-                    var listSubjectInRoom = JsonConvert.DeserializeObject<ObservableCollection<Subject>>(result);
 
-                    GetTimeSlot(listSubjectInRoom);
+                    var httpService = new HttpClient();
+                    var api_key = Data.Data.Instance.UserNui.authorization;
+                    httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+                    var base_URL = HomePage.base_URL + "/subject/time_slot/list/" + room.room_id + "/" + day + "/";
+                    var result = await httpService.GetAsync(base_URL);
+                    var contentListTimeSlot = await result.Content.ReadAsStringAsync();
+                    var listTimslottInRoom = JsonConvert.DeserializeObject<List<String>>(contentListTimeSlot);
+
+                    GetTimeSlot(listTimslottInRoom);
                 }
             }
             catch(Exception ex)
             {
                 await DisplayAlert("Notice", ex.Message, "OK");
             }
-            
         }
 
-        public void GetTimeSlot(ObservableCollection<Subject> listSubject)
+        public void GetTimeSlot(List<String> listTimeSlot)
         {
             usedTimeSlotLabel.Text = "|";
-            foreach (Subject subject in listSubject)
+            List<TimeSpan> listTimeSingle = new List<TimeSpan>();
+            foreach (string timeSlot in listTimeSlot)
+            { 
+                TimeSpan a=Convert.ToDateTime(timeSlot.Substring(0,5)).TimeOfDay;
+                TimeSpan b = Convert.ToDateTime(timeSlot.Substring(5, 5)).TimeOfDay;
+                listTimeSingle.Add(a);
+                listTimeSingle.Add(b);
+            }
+
+            var ArrayTimeSingle = listTimeSingle.ToArray();
+            for (int i = 0; i < listTimeSlot.Count() - 1; i++)
             {
-                usedTimeSlotLabel.Text = usedTimeSlotLabel.Text + "   " + subject.time_slot + "   " + "|";
+                TimeSpan x = ArrayTimeSingle[2 * (i + 1)] - ArrayTimeSingle[2 * i + 1];
+                
+            }
+            foreach (string timeSlot  in listTimeSlot)
+            {
+                usedTimeSlotLabel.Text = usedTimeSlotLabel.Text + "   " + timeSlot + "   " + "|";
             }
         }
 
@@ -104,7 +123,7 @@ namespace AutoAttendant.Views.PopUp
                 var listRoom = HomePage._lrvm.RoomCollection;
                 foreach (Room room in listRoom)
                 {
-                    PickerRoom.Items.Add(room.name);
+                    PickerRoom.Items.Add(room.room_id);
                 }
             }
             catch (Exception ex)
@@ -118,41 +137,26 @@ namespace AutoAttendant.Views.PopUp
         {
             try
             {
-                string day = lb_date.Text;
-                string room_id = "21";
-                string time_slot = "19:30-20:30";
-                string name = Entry_subjectName.Text;
-                string id_lecturer = Data.Data.Instance.User.idLecture.ToString();
 
-                //Declare Api-Key
-
-                //var api_key = Data.Data.Instance.UserNui.authorization;
-                //httpService.DefaultRequestHeaders.Accept.Add("authorization", api_key);
-                //httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-
-                var httpService = new HttpClient();
-                var base_SubjectURL = HomePage.base_URL + "/subject/create/";
-                var base_StudentListURL = HomePage.base_URL + "/student/list/create/";
-
-                //Post list student from Excel
-                var listStudent = new List<StudentNui>();
-                string jsonListStudent = JsonConvert.SerializeObject(listStudent);
-                StringContent contentListStudent = new StringContent(jsonListStudent, Encoding.UTF8, "application/json");
-                HttpResponseMessage responseListStudent = await httpService.PostAsync(base_SubjectURL, contentListStudent);
-
-                //Post new Subject
-                var newSubject = new Subject("", id_lecturer, room_id, name, time_slot, day);
-                string jsonNewSubject = JsonConvert.SerializeObject(newSubject);
-                StringContent contentSubject = new StringContent(jsonNewSubject, Encoding.UTF8, "application/json");
-                HttpResponseMessage responseNewSubject = await httpService.PostAsync(base_StudentListURL, contentSubject);
+       
+                ListStd.room_id =btnSelectRoom.Text;
+                ListStd.lecturer_id = Data.Data.Instance.Lecture.id;
+                //
+                TimeSpan timeBegin = Convert.ToDateTime(btnSelectTime.Text).TimeOfDay;
+                var x = Convert.ToInt32(Entry_period.Text) - 1;
+                TimeSpan period;
+                if (Convert.ToDateTime(x+":00").TimeOfDay+ timeBegin > TimeSpan.Parse("12:00"))
+                {
+                    period = Convert.ToDateTime(x + ":30").TimeOfDay;
+                } 
+                else {  period = Convert.ToDateTime(x + ":50").TimeOfDay; }
+                TimeSpan timeEnd = Convert.ToDateTime(btnSelectTime.Text).TimeOfDay+ period;
+                ListStd.time_slot =timeBegin.ToString(@"hh\:mm") + "-"+ timeEnd.ToString(@"hh\:mm");
+                //
+                ListStd.day =lb_date.Text;
+                SendListStdToServer(ListStd);
 
                 //Back to Subject Page after Post to server
-                if(responseListStudent.IsSuccessStatusCode && responseNewSubject.IsSuccessStatusCode)
-                {
-                    Action?.Invoke(this, "Add succesfully");
-                    await PopupNavigation.Instance.PopAsync();
-                }
-
             }
             catch(Exception ex)
             {
@@ -161,6 +165,34 @@ namespace AutoAttendant.Views.PopUp
             
         }
 
+        [Obsolete]
+        public async void SendListStdToServer(ListStd listStd)
+        {
+            try
+            {
+                var httpService = new HttpClient();
+                var api_key = Data.Data.Instance.UserNui.authorization;
+                httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+                string jsonListId = JsonConvert.SerializeObject(listStd);
+                StringContent contentStdList = new StringContent(jsonListId, Encoding.UTF8, "application/json");
+                var baseStdList_URL = HomePage.base_URL +"/subject/create/";
+                HttpResponseMessage response = await httpService.PostAsync(baseStdList_URL, contentStdList);
+                var message = await response.Content.ReadAsStringAsync();
+                await DisplayAlert("Error ", message, "OK");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Action?.Invoke(this, "Add succesfully");
+                    await PopupNavigation.Instance.PopAsync();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error ", "Fail in SendListoServer /n" + ex.Message, "OK");
+            }
+        }
+        public  static ListStd ListStd = new ListStd();
         private async void ImportExcel(object sender, EventArgs e)
         {
             try
@@ -168,7 +200,10 @@ namespace AutoAttendant.Views.PopUp
                 var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
                 {
                     { DevicePlatform.iOS, new[] {"com.microsoft.xlsx"} },
-                    { DevicePlatform.Android, new[] { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" } },
+                    { DevicePlatform.Android, new[] { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
+                      //DevicePlatform.Android, new[] { "application/vnd.ms-excel" }
+
+                    },
                 });
                 var pickerResult = await FilePicker.PickAsync(new PickOptions
                 {
@@ -178,9 +213,53 @@ namespace AutoAttendant.Views.PopUp
 
                 if (pickerResult != null)
                 {
-                    var stream = await pickerResult.OpenReadAsync();
-                    var fileName = pickerResult.FileName; // lay ra path file
-                    lb_ExcelFile.Text = fileName;
+                    ExcelEngine excelEngine = new ExcelEngine();
+                    IApplication application = excelEngine.Excel;
+                    application.DefaultVersion = ExcelVersion.Excel2016;
+                    var fileStream = await pickerResult.OpenReadAsync();
+
+                    //Open the workbook
+                    IWorkbook workbook = application.Workbooks.Open(fileStream);
+
+                    //Access first worksheet from the workbook.
+                    IWorksheet worksheet = workbook.Worksheets[0];
+                    var numberOfStudent = (worksheet.Rows.Count() - 3);
+                    var inforSubject = worksheet.Range["A5"].Text.Trim();
+                    var lastindexOfNameSub = inforSubject.IndexOf("(");
+                    var name_sub = inforSubject.Substring(5, lastindexOfNameSub - 5 - 1);
+                    var id_sub = inforSubject.Substring(lastindexOfNameSub + 1, inforSubject.Count() - 2 - lastindexOfNameSub).Trim();
+                    var x = worksheet.Range["B8"].Text.ToString();
+                    List<StudentNui> StdNui_list = new List<StudentNui>();
+                    for (int i = 8; i <= numberOfStudent; i++)
+                    {
+                        string id = "B" + i.ToString();
+                        string name = "C" + i.ToString();
+                        string class_name = "D" + i.ToString();
+                        string phone = "E" + i.ToString();
+                        string birth = "F" + i.ToString();
+                        var std_id = worksheet.Range[id].Text.ToString().Trim();
+                        var std_name = worksheet.Range[name].Text.ToString().Trim();
+                        var std_class_name = worksheet.Range[class_name].Text.ToString().Trim();
+                        var std_phone = worksheet.Range[phone].Text.ToString().Trim();
+                        var std_birth = worksheet.Range[birth].DateTime;
+                        var birthday=String.Format("{0:dd-MM-yyyy}", std_birth);
+
+                        try
+                        {
+                            StudentNui std_nui = new StudentNui(std_id, std_name, std_class_name, std_phone, birthday, "");
+                            StdNui_list.Add(std_nui);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            await DisplayAlert("Notice", ex.Message, "OK");
+                        }
+                    }
+                    ListStd.name = name_sub;
+                    ListStd.subject_id = id_sub;
+                    ListStd.students = StdNui_list;
+
+
                 }
             }
             catch(Exception ex)
@@ -198,6 +277,17 @@ namespace AutoAttendant.Views.PopUp
         private async void CancelAddSubjectPopup(object sender, EventArgs e)
         {
             await PopupNavigation.PopAsync();
+        }
+
+        private void OpenPickerTime(object sender, EventArgs e)
+        {
+            PickerTime.IsEnabled = true;
+            PickerTime.Focus();
+        }
+
+        private void HandlePickerTime(object sender, EventArgs e)
+        {
+
         }
     }
 }

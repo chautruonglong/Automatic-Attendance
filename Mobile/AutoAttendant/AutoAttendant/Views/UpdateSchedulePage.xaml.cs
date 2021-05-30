@@ -27,8 +27,8 @@ namespace AutoAttendant.Views
             scheduleTemp = schedule;
             HandleDatePicker(schedule);
             GetRoomForUpdateSchedule();
-            var room = HomePage._lrvm.RoomCollection.Single(r => r.id == schedule.idRoom);
-            PickerRoom.SelectedIndex = Convert.ToInt32(room.id) - 1;
+            var room = HomePage._lrvm.RoomCollection.Single(r => r.room_id == schedule.idRoom);
+            PickerRoom.SelectedIndex = Convert.ToInt32(room.room_id) - 1;
         }
 
         public void GetTimeSlot(ObservableCollection<Schedule> listSchedule)  // hien thi tat ca time slot cua Room
@@ -80,7 +80,7 @@ namespace AutoAttendant.Views
                 var listRoom = HomePage._lrvm.RoomCollection;
                 foreach (Room room in listRoom)
                 {
-                    PickerRoom.Items.Add(room.name);
+                    PickerRoom.Items.Add(room.room_id);
                 }
             }
             catch (Exception)
@@ -96,13 +96,13 @@ namespace AutoAttendant.Views
             if (index != -1)
             {
                 btnSelectRoom.Text = PickerRoom.Items[index].ToString();
-                var room = HomePage._lrvm.RoomCollection.Single(r => r.name == btnSelectRoom.Text);
+                var room = HomePage._lrvm.RoomCollection.Single(r => r.room_id == btnSelectRoom.Text);
 
                 var httpService = new HttpService();
                 DateTime dateTime = Convert.ToDateTime(lb_date.Text);
                 string date = JsonConvert.SerializeObject(dateTime);
                 date = date.Replace("\"", "");
-                var base_URL = HomePage.base_URL + "schedule?&idRoom=" + room.id + "&date=" + date;
+                var base_URL = HomePage.base_URL + "schedule?&idRoom=" + room.room_id + "&date=" + date;
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 var listSchedule = JsonConvert.DeserializeObject<ObservableCollection<Schedule>>(result);
 
@@ -143,9 +143,9 @@ namespace AutoAttendant.Views
                     isValidDate = true;
                 }
 
-                var room = HomePage._lrvm.RoomCollection.Single(r => r.name == btnSelectRoom.Text);
+                var room = HomePage._lrvm.RoomCollection.Single(r => r.room_id == btnSelectRoom.Text);
                 //get id room
-                scheduleTemp.idRoom = room.id;
+                scheduleTemp.idRoom = room.room_id;
 
                 // get time slot
                 try

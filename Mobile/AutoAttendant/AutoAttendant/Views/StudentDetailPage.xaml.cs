@@ -15,7 +15,7 @@ namespace AutoAttendant.Views
     public partial class StudentDetailPage : ContentPage
     {
        
-        public StudentDetailPage(StudentNui student, ListStudentViewModel lsvm )
+        public StudentDetailPage(StudentNui student)
         {
             InitializeComponent();
             ShowStudentInfo(student);
@@ -43,27 +43,28 @@ namespace AutoAttendant.Views
             {
                 DisplayAlert("ERROR", ex.Message, "OK");
             }
-
-
-
         }
 
         private void SaveAndBack(object sender, EventArgs e)
         {
-            
-            if(btnAttendance.IsChecked == true) 
+            try
             {
-               var stu=ListStudentPage.lsvm.StudentCollection.Single(r => r.Name == lb_Name.Text); // chon student trong lsvm có name = lbName
-               stu.State = true ;
+                if (btnAttendance.IsChecked == true)
+                {
+                    var stu = ListStudentPage.lsvm.StudentCollection.Single(r => r.Name == lb_Name.Text); // chon student trong lsvm có name = lbName
+                    stu.State = true;
+                }
+                if (btnAbsent.IsChecked == true)
+                {
+                    var stu = ListStudentPage.lsvm.StudentCollection.Single(r => r.Name == lb_Name.Text);
+                    stu.State = false; ;
+                }
+                Navigation.PopAsync();
             }
-            if(btnAbsent.IsChecked == true)
+            catch(Exception ex)
             {
-                var stu = ListStudentPage.lsvm.StudentCollection.Single(r => r.Name == lb_Name.Text);
-                stu.State = false; ;
-            }
-            Navigation.PopAsync();
-            
-            
+                DisplayAlert("ERROR", ex.Message, "OK");
+            } 
         }
     }
 }

@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -87,10 +88,18 @@ namespace AutoAttendant.Views
         {
             try
             {
-                var httpService = new HttpService();
+                //var httpService = new HttpService();
+                //var base_URL = HomePage.base_URL + "/student/list/" + subject_id + "/";
+                //var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
+                //var listStudent = JsonConvert.DeserializeObject<ObservableCollection<StudentNui>>(result);
+
+                var httpService = new HttpClient();
+                var api_key = Data.Data.Instance.UserNui.authorization;
+                httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
                 var base_URL = HomePage.base_URL + "/student/list/" + subject_id + "/";
-                var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
-                var listStudent = JsonConvert.DeserializeObject<ObservableCollection<StudentNui>>(result);
+                var result = await httpService.GetAsync(base_URL);
+                var jsonStdList = await result.Content.ReadAsStringAsync();
+                var listStudent = JsonConvert.DeserializeObject<ObservableCollection<StudentNui>>(jsonStdList);
 
                 // order list student by name
                 listStudent = new ObservableCollection<StudentNui>(listStudent.OrderBy(r => r.name));
@@ -223,7 +232,7 @@ namespace AutoAttendant.Views
                         StudentNui std = lsnvm.StudentCollection[index];
                         //message = string.Format("Name: {0}\nClass: {1}\nTime: {2}", std.Id, std.Name, std.Phone);
                         //DisplayAlert("Notice", message, "OK");
-                        Navigation.PushAsync(new StudentDetailPage(std, lsvm));
+                        Navigation.PushAsync(new StudentDetailPage(std));
                     }
                 }
             }
@@ -236,7 +245,7 @@ namespace AutoAttendant.Views
         public static string process_id_atd;
         #region Handle Attendances Functions()
         [Obsolete]
-        private async void TakeAttendance(object sender, EventArgs e)
+        private async void TakeAttendance(object sender, EventArgs e) //create process and request to server to open camera
         {
             try
             {
@@ -248,7 +257,12 @@ namespace AutoAttendant.Views
                 {
                     var thread = new Thread(paintLoading);
                     thread.Start();
+
+                    //Declare api_key
                     var httpClient = new HttpClient();
+                    var api_key = Data.Data.Instance.UserNui.authorization;
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+
                     var base1_URL = HomePage.base_URL + "/attendance/process/create/" + SubjectPage.classes.Name + "/";
                     var result1 = await httpClient.GetAsync(base1_URL);
                     var responseProcess = await result1.Content.ReadAsStringAsync();
@@ -256,20 +270,29 @@ namespace AutoAttendant.Views
                     process_id_atd = process.process_id;
                     if (process.process_id!="")
                     {
-                        var httpService = new HttpService();
+                        var httpService2 = new HttpClient();
+                        var api_key2 = Data.Data.Instance.UserNui.authorization;
+                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key2);
                         var base2_URL = HomePage.base_URL + "/attendance/list/" + process.process_id + "/";
-                        var result2 = await httpService.SendAsync(base2_URL, HttpMethod.Get);
+                        var result2 = await httpService2.GetAsync(base2_URL);
+                        var contentAttendance = await result2.Content.ReadAsStringAsync();
+
 
                         thread.Abort();
 
 
-                        var attendanceList =  JsonConvert.DeserializeObject<List<AttendanceNui>>(result2);
+                        var attendanceList =  JsonConvert.DeserializeObject<List<AttendanceNui>>(contentAttendance);
                         foreach(AttendanceNui atd in attendanceList)
-                        {
-                            var checkAttendance = lsnvm.StudentCollection.Single(r => r.student_id == atd.id && atd.type.Equals("known"));
-                            checkAttendance.state = true;
-                            checkAttendance.confidence = atd.confidence + "%";
-                            checkAttendance.img_attendance = atd.img_face;
+                        {   
+                            try
+                            {
+                                var checkAttendance = lsnvm.StudentCollection.Single(r => r.student_id.Trim().Equals(atd.id.Trim()) && atd.type.Equals("known"));
+                                checkAttendance.state = true;
+                                checkAttendance.confidence = atd.confidence + "%";
+                                checkAttendance.img_attendance = atd.img_face;
+                            }
+                            catch(Exception exc) { }
+
                         }
                         ReLoadStudenList();
                     }
@@ -376,12 +399,12 @@ namespace AutoAttendant.Views
         [Obsolete]
         public async void HandlePutStateRoom(Schedule schedule) //update room to server
         {
-            var roomNow = HomePage._lrvm.RoomCollection.Single(r => r.id == schedule.idRoom);
+            var roomNow = HomePage._lrvm.RoomCollection.Single(r => r.room_id == schedule.idRoom);
             roomNow.state = "Available";
             var httpService = new HttpClient();
             string jsonRoom= JsonConvert.SerializeObject(roomNow); // convert object => json
             StringContent contentLecture = new StringContent(jsonRoom, Encoding.UTF8, "application/json");
-            var baseLecture_URL = HomePage.base_URL + "/room/" + roomNow.id.ToString();
+            var baseLecture_URL = HomePage.base_URL + "/room/" + roomNow.room_id.ToString();
             HttpResponseMessage responseLecture = await httpService.PutAsync(baseLecture_URL, contentLecture);
         }
 

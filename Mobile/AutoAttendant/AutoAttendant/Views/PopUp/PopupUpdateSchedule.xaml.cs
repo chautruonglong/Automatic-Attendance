@@ -28,8 +28,8 @@ namespace AutoAttendant.Views.PopUp
             HandleDatePicker(schedule);
             GetRoomForUpdateSchedule();
             scheduleTemp = schedule;
-            var room = HomePage._lrvm.RoomCollection.Single(r => r.id ==schedule.idRoom);
-            PickerRoom.SelectedIndex =Convert.ToInt32( room.id) - 1;
+            var room = HomePage._lrvm.RoomCollection.Single(r => r.room_id == schedule.idRoom);
+            PickerRoom.SelectedIndex =Convert.ToInt32(room.room_id) - 1;
         }
 
         public EventHandler<string> Action;
@@ -88,7 +88,7 @@ namespace AutoAttendant.Views.PopUp
                 var listRoom = HomePage._lrvm.RoomCollection;
                 foreach(Room room in listRoom)
                 {
-                    PickerRoom.Items.Add(room.name);
+                    PickerRoom.Items.Add(room.room_id);
                 }
             }
             catch (Exception)
@@ -104,13 +104,13 @@ namespace AutoAttendant.Views.PopUp
             if (index != -1)
             {
                 btnSelectRoom.Text = PickerRoom.Items[index].ToString();
-                var room = HomePage._lrvm.RoomCollection.Single(r => r.name == btnSelectRoom.Text);
+                var room = HomePage._lrvm.RoomCollection.Single(r => r.room_id == btnSelectRoom.Text);
                 
                 var httpService = new HttpService();
                 DateTime dateTime = Convert.ToDateTime(lb_date.Text);
                 string date = JsonConvert.SerializeObject( dateTime);
                 date=date.Replace("\"", "");
-                var base_URL = HomePage.base_URL + "schedule?idSubject=" + scheduleTemp.idSubject + "&idRoom=" + room.id + "&date=" + date;
+                var base_URL = HomePage.base_URL + "schedule?idSubject=" + scheduleTemp.idSubject + "&idRoom=" + room.room_id + "&date=" + date;
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 var listSchedule = JsonConvert.DeserializeObject<ObservableCollection<Schedule>>(result);
 
@@ -136,8 +136,8 @@ namespace AutoAttendant.Views.PopUp
             //Action?.Invoke(this, "");
             //await PopupNavigation.Instance.PopAsync();
             scheduleTemp.date = Convert.ToDateTime(lb_date.Text);
-            var room = HomePage._lrvm.RoomCollection.Single(r => r.name == btnSelectRoom.Text);
-            scheduleTemp.idRoom = room.id;
+            var room = HomePage._lrvm.RoomCollection.Single(r => r.room_id == btnSelectRoom.Text);
+            scheduleTemp.idRoom = room.room_id;
             scheduleTemp.timeSlot = Entry_timeSlot1.Text + "," + Entry_timeSlot2.Text;
 
             var httpService = new HttpClient();

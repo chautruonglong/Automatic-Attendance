@@ -62,6 +62,7 @@ namespace AutoAttendant.Views
         #endregion
 
         #region Main Function - Manage Subjects + Process
+        [Obsolete]
         public async Task<List<Process>> HandleProcess(string idSub) //Get process (theo list)
         {
             try
@@ -83,6 +84,8 @@ namespace AutoAttendant.Views
                 return null;
             }
         }
+
+        [Obsolete]
         public async Task<string> GetEnableSubJectId(ObservableCollection<Subject> listSubject) 
         {   
             int step = 0;
@@ -108,16 +111,16 @@ namespace AutoAttendant.Views
             try
             {
                 //var httpService = new HttpService();
+                //httpService.DefaultRequestHeaders.Accept.Add()
                 var httpService = new HttpClient();
                 var api_key = Data.Data.Instance.UserNui.authorization;
-                //httpService.DefaultRequestHeaders.Accept.Add()
                 httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-                var x = DateTime.Now.DayOfWeek;
+                //var x = DateTime.Now.DayOfWeek;
                 //var base_URL = HomePage.base_URL + "/subject?id_lecturer="+ Data.Data.Instance.User.idLecture.ToString() + "&day=" + DateTime.Now.DayOfWeek.ToString();
-                var base_URL = HomePage.base_URL + "/subject/list/" + Data.Data.Instance.UserNui.lecturer_id.ToString() + "/Friday/";
+                var base_URL = HomePage.base_URL + "/subject/list/" + Data.Data.Instance.UserNui.lecturer_id.ToString() + "/" + "Sunday" + "/";
                 var result = await httpService.GetAsync(base_URL);
-                var result1 = await result.Content.ReadAsStringAsync();
-                var listSubject = JsonConvert.DeserializeObject<ObservableCollection<Subject>>(result1);
+                var jsonSubject = await result.Content.ReadAsStringAsync();
+                var listSubject = JsonConvert.DeserializeObject<ObservableCollection<Subject>>(jsonSubject);
 
                 // order list subject by time slot
                 listSubject = new ObservableCollection<Subject>(listSubject.OrderBy(r => r.time_slot));
@@ -301,9 +304,8 @@ namespace AutoAttendant.Views
             {
                 if(stringparameter.Equals("Add succesfully"))
                 {
-                    //Reload list subject
+                    
                 }
-
             };
             await PopupNavigation.Instance.PushAsync(page);
         }

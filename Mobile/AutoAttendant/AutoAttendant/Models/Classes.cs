@@ -10,6 +10,7 @@ namespace AutoAttendant.Models
         string name;
         string state;
         ObservableCollection<Student> StudentList = new ObservableCollection<Student>();
+        ObservableCollection<StudentNui> _StudentNuiList = new ObservableCollection<StudentNui>();
 
         public string Name
         {
@@ -25,6 +26,7 @@ namespace AutoAttendant.Models
 
         public ObservableCollection<Student> StudentList1 { get => StudentList; set => StudentList = value; }
         public string State { get => state; set => state = value; }
+        public ObservableCollection<StudentNui> StudentNuiList { get => StudentNuiList; set => StudentNuiList = value; }
 
         public Classes()
         {

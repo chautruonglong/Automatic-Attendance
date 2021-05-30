@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,17 +41,21 @@ namespace AutoAttendant.Views
             InitializeComponent();
             Detail = new NavigationPage(new SubjectPage());
             GetLectureInfoById(Data.Data.Instance.UserNui.lecturer_id.ToString());
-            //HandleRoom();
+            HandleRoom();
         }
 
         public async void HandleRoom()
         {
             try
             {
-                var httpService = new HttpService();
-                var base_URL = HomePage.base_URL + "/room/";
-                var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
-                var listRoom = JsonConvert.DeserializeObject<ObservableCollection<Room>>(result);
+                var httpService = new HttpClient();
+                var api_key = Data.Data.Instance.UserNui.authorization;
+                httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+                //var httpService = new HttpService();
+                var base_URL = HomePage.base_URL + "/room/list/";
+                var result = await httpService.GetAsync(base_URL);
+                var responseRoom = await result.Content.ReadAsStringAsync();
+                var listRoom = JsonConvert.DeserializeObject<ObservableCollection<Room>>(responseRoom);
                 _lrvm.RoomCollection = listRoom;
             }
             catch (Exception ex)
@@ -63,17 +68,23 @@ namespace AutoAttendant.Views
         {
             try
             {
-                var httpService = new HttpService();
+                //var httpService = new HttpService();
+                //var base_URL = HomePage.base_URL + "/lecturer/detail/" + id + "/";
+                //var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
+                //var lecture = JsonConvert.DeserializeObject<Lecture>(result);
 
+                var httpService = new HttpClient();
+                var api_key = Data.Data.Instance.UserNui.authorization;
+                httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
                 var base_URL = HomePage.base_URL + "/lecturer/detail/" + id + "/";
-                //DisplayAlert("ERROR", base_URL, "OK");
+                var result = await httpService.GetAsync(base_URL);
+                var jsonLecturer = await result.Content.ReadAsStringAsync();
+                var lecturer = JsonConvert.DeserializeObject<Lecture>(jsonLecturer);
 
-                var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
-                var lecture = JsonConvert.DeserializeObject<Lecture>(result);
-                Data.Data.Instance.Lecture = lecture;
-                Lb_LectureName.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(lecture.name.ToLower());
+                Data.Data.Instance.Lecture = lecturer;
+                Lb_LectureName.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(lecturer.name.ToLower());
                 string avaText = "";
-                lecture.name.Split(' ').ToList().ForEach(i => avaText += i[0].ToString());
+                lecturer.name.Split(' ').ToList().ForEach(i => avaText += i[0].ToString());
                 Avatar.Text = avaText;
                 Avatar.TextColor = Color.FromHex("#021135");
             }
@@ -81,9 +92,7 @@ namespace AutoAttendant.Views
             {
                 await DisplayAlert("Notice", ex.Message, "OK");
             }
-            
         }
-
 
         async void ChangeAvatar(object sender, EventArgs e)
         {

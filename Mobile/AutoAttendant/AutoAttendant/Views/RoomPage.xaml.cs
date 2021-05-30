@@ -43,15 +43,10 @@ namespace AutoAttendant.Views
         [Obsolete]
         public void ReLoadRoomList()
         {
-            //SetColorById();
-            //lsvm.ScheduleCollection = HomePage._lsvm.ScheduleCollection;
             if (lrvm.RoomCollection.Count > 0)
             {
-
                 this.BindingContext = new ListRoomViewModel();
                 this.BindingContext = lrvm;
-                //SetColorById();
-
             }
         }
 
@@ -63,12 +58,10 @@ namespace AutoAttendant.Views
                 var httpService = new HttpService();
                 var base_URL = HomePage.base_URL + "/room";
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
-                //WebClient wc = new WebClient();
-                //var result = wc.DownloadString(full_url);
                 var listRoom = JsonConvert.DeserializeObject<ObservableCollection<Room>>(result);
 
                 // order Room by name
-                listRoom= new ObservableCollection<Room>(listRoom.OrderBy(r => r.name));
+                listRoom= new ObservableCollection<Room>(listRoom.OrderBy(r => r.room_id));
                 return listRoom;
             }
             catch (Exception)
@@ -130,7 +123,7 @@ namespace AutoAttendant.Views
                 var listRoom = new ObservableCollection<Room>(await HandleRoom());
                 foreach (Room room in listRoom)
                 {
-                    List<string> listTimeSlot = await Handle_TimeSlot_Of_a_Room(Convert.ToInt32(room.id));
+                    List<string> listTimeSlot = await Handle_TimeSlot_Of_a_Room(Convert.ToInt32(room.room_id));
                     room.state = SetState_For_EachRoom(listTimeSlot);
                     HomePage._lrvm.RoomCollection.Add(room);
                 }
@@ -144,43 +137,45 @@ namespace AutoAttendant.Views
             }
         }
 
+        #region Search Click
         private void SearchRoom_TextChanged(object sender, TextChangedEventArgs e)
         {
-            try
-            {
-                var listRoomAll = listRoomTemp;
+        //    try
+        //    {
+        //        var listRoomAll = listRoomTemp;
 
-                var searchRoom = e.NewTextValue; //text from search bar
-                if (string.IsNullOrWhiteSpace(searchRoom))
-                {
-                    searchRoom = string.Empty;
-                }
+        //        var searchRoom = e.NewTextValue; //text from search bar
+        //        if (string.IsNullOrWhiteSpace(searchRoom))
+        //        {
+        //            searchRoom = string.Empty;
+        //        }
 
-                searchRoom = searchRoom.ToLowerInvariant();
-                var filterdRooms = listRoomAll.Where(r => r.name.ToLowerInvariant().Contains(searchRoom)).ToList(); // rooms have name contains text in search bar 
-                if (string.IsNullOrWhiteSpace(searchRoom))
-                {
-                    filterdRooms = listRoomAll.ToList();
-                }
+        //        searchRoom = searchRoom.ToLowerInvariant();
+        //        var filterdRooms = listRoomAll.Where(r => r.name.ToLowerInvariant().Contains(searchRoom)).ToList(); // rooms have name contains text in search bar 
+        //        if (string.IsNullOrWhiteSpace(searchRoom))
+        //        {
+        //            filterdRooms = listRoomAll.ToList();
+        //        }
 
-                foreach (var room in listRoomAll)
-                {
-                    if (!filterdRooms.Contains(room))
-                    {
-                        lrvm.RoomCollection.Remove(room); //remove rooms that dont have name in filterdRoom
-                    }
-                    else if (!lrvm.RoomCollection.Contains(room))
-                    {
-                        lrvm.RoomCollection.Add(room);
-                        lrvm.RoomCollection.OrderBy(r => r.name);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                DisplayAlert("Fail", "Fail", "Try Again");
-            }
+        //        foreach (var room in listRoomAll)
+        //        {
+        //            if (!filterdRooms.Contains(room))
+        //            {
+        //                lrvm.RoomCollection.Remove(room); //remove rooms that dont have name in filterdRoom
+        //            }
+        //            else if (!lrvm.RoomCollection.Contains(room))
+        //            {
+        //                lrvm.RoomCollection.Add(room);
+        //                lrvm.RoomCollection.OrderBy(r => r.name);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        DisplayAlert("Fail", "Fail", "Try Again");
+        //    }
         }
+        #endregion
 
         #region Temp
         //private void HandleDatePicker()
