@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoAttendant.Views.UnknownPage">
+    <ContentPage.Content>
+        
+        <StackLayout Orientation="Horizontal" BackgroundColor="#021135" Spacing="20">
+            <ListView x:Name="list_Unknown" RowHeight="80" HorizontalOptions="Center">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Spacing="10" VerticalOptions="Center" x:Name="Container">
+                                <Frame CornerRadius="50" 
+                                       HeightRequest="100"
+                                       WidthRequest="100"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Padding="0"
+                                       IsClippedToBounds="True" Margin="0,0,0,10">
+
+                                    <Image x:Name="Avatar"
+                                           Source="{Binding room_id}" 
+                                           HorizontalOptions="FillAndExpand"
+                                           VerticalOptions="Center"
+                                           Aspect="AspectFill"/>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <ListView x:Name="list_3x4" ItemsSource="{Binding RoomCollection}" RowHeight="80" HorizontalOptions="Center">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Spacing="10" VerticalOptions="Center" x:Name="Container">
+                                <Frame CornerRadius="50" 
+                                       HeightRequest="100"
+                                       WidthRequest="100"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Padding="0"
+                                       IsClippedToBounds="True" Margin="0,0,0,10">
+
+                                    <Image x:Name="Avatar"
+                                           Source="{Binding room_id}" 
+                                           HorizontalOptions="FillAndExpand"
+                                           VerticalOptions="Center"
+                                           Aspect="AspectFill"/>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

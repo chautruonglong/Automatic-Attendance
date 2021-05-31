@@ -49,7 +49,8 @@ namespace AutoAttendant.Views
                     var userSignUp = new UserSignUp(name, phone, faculty, email, HashPW.HashPassword(password));
                     string jsonUserSignUp = JsonConvert.SerializeObject(userSignUp);
                     StringContent contentUserSignUp = new StringContent(jsonUserSignUp, Encoding.UTF8, "application/json");
-                    var baseSignUp_URL = @"http://192.168.30.104:8000/account/signup/";
+                    //var baseSignUp_URL = @"http://192.168.30.103:8000/account/signup/";
+                    var baseSignUp_URL = HomePage.base_URL +  "/account/signup/";
                     HttpResponseMessage responseSignUp = await httpService.PostAsync(baseSignUp_URL, contentUserSignUp);
 
                     //fake waiting

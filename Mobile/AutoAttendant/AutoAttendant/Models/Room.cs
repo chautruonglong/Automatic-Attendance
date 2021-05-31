@@ -24,7 +24,7 @@ namespace AutoAttendant.Models
 
         public string state { get => _state; set => _state = value; }
 
-        public Room(string id, string name,string state)
+        public Room(string id, string state)
         {
             this._room_id = id;
         }

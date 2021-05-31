@@ -100,6 +100,7 @@ namespace AutoAttendant.Views
         private void OpenApiEntry(object sender, EventArgs e) 
         {
             Entry_Api.IsVisible = true;
+            HomePage.base_URL = "http://" + Entry_Api.Text;
         }
 
     }

@@ -27,7 +27,7 @@ namespace AutoAttendant.Views
         private async void AddRoom(object sender, EventArgs e)
         {
             string roomName = Entry_room.Text;
-            Room room = new Room("1", "x202", "Availeble");
+            Room room = new Room("1", "x202");
             var jsonRoom = JsonConvert.SerializeObject(room);
             Action?.Invoke(this, jsonRoom);
             await PopupNavigation.Instance.PopAsync();

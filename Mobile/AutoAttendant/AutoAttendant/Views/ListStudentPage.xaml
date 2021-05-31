@@ -5,7 +5,7 @@
     <ContentPage.ToolbarItems>
         <!--<ToolbarItem Name="SearchItem" Icon="search25px.png" Priority="0" Clicked="ExportExcel"/>-->
         <ToolbarItem Text="Pie chart" Order="Secondary" Clicked="ToChartPage"></ToolbarItem>
-        <ToolbarItem Text="Copy list students" Order="Secondary"></ToolbarItem>
+        <!--<ToolbarItem Text="Copy list students" Order="Secondary"></ToolbarItem>-->
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout BackgroundColor="#021135">

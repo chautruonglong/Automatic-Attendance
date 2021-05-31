@@ -31,7 +31,6 @@ namespace AutoAttendant.Views
         public static ListStudentNuiViewModel lsnvm = new ListStudentNuiViewModel();
         public static ObservableCollection<Attendance> listAttendance = new ObservableCollection<Attendance>();
         int CheckSquence = 0;
-        int TimeCount =20;
 
         [Obsolete]
         public ListStudentPage(Subject subject)
@@ -277,9 +276,7 @@ namespace AutoAttendant.Views
                         var result2 = await httpService2.GetAsync(base2_URL);
                         var contentAttendance = await result2.Content.ReadAsStringAsync();
 
-
                         thread.Abort();
-
 
                         var attendanceList =  JsonConvert.DeserializeObject<List<AttendanceNui>>(contentAttendance);
                         foreach(AttendanceNui atd in attendanceList)
@@ -291,7 +288,9 @@ namespace AutoAttendant.Views
                                 checkAttendance.confidence = atd.confidence + "%";
                                 checkAttendance.img_attendance = atd.img_face;
                             }
-                            catch(Exception exc) { }
+                            catch(Exception) {
+
+                            }
 
                         }
                         ReLoadStudenList();
@@ -309,23 +308,25 @@ namespace AutoAttendant.Views
                 await DisplayAlert("Notice", ex.Message, "OK");
             }
         }
-
+        int TimeCount = 20;
         public void paintLoading()
         {
             try
             {
                 using (IProgressDialog progress = UserDialogs.Instance.Progress("Taking attendance...", null, null, true, MaskType.Gradient))
                 {
-                    for (int i = 0; i < 100; i++)
+                    int i = 0;
+                    while(true)
                     {
-                        progress.PercentComplete = i;
+                        progress.PercentComplete = i++;
                         //Task.Delay(2000);
-                        Thread.Sleep(TimeCount * 1000 / 100);
+                        // Thread.Sleep(TimeCount * 1000 / 100);
+                        Thread.Sleep(130);
                     }
                 }
                 UserDialogs.Instance.Toast("Done");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                /* Device.BeginInvokeOnMainThread(() => {
                     DisplayAlert("Notice", ex.Message, "OK");
@@ -428,7 +429,7 @@ namespace AutoAttendant.Views
                 if(process.Count == 1)
                 {
                     var getProcess = process[0];
-                    getProcess.status = true;
+                    getProcess.state = true;
                     var httpClient = new HttpClient();
                     string jsonProcess = JsonConvert.SerializeObject(getProcess);
                     StringContent contentProcess = new StringContent(jsonProcess, Encoding.UTF8, "application/json");
@@ -484,7 +485,6 @@ namespace AutoAttendant.Views
 
                 // Put to Server
                 HandlePutStateProcess();
-                //HandlePutStateSchedule(schedule); //cap nhat state cua Schedule
                 //HandlePutStateRoom(schedule);    //cap nhat state cua Room
 
                 await Navigation.PopAsync();

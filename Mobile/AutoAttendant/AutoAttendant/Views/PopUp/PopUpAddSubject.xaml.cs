@@ -154,6 +154,14 @@ namespace AutoAttendant.Views.PopUp
                 ListStd.time_slot =timeBegin.ToString(@"hh\:mm") + "-"+ timeEnd.ToString(@"hh\:mm");
                 //
                 ListStd.day =lb_date.Text;
+                if (ListStd.day.Equals(DateTime.Now.DayOfWeek.ToString()))
+                {
+                    var subject = new Subject(ListStd.subject_id, ListStd.lecturer_id, ListStd.room_id, ListStd.name, ListStd.time_slot, ListStd.day);
+                    HomePage._lsjvm.SubjectCollection.Add(subject);
+
+                }
+                var listtemp= HomePage._lsjvm.SubjectCollection.OrderBy(r => TimeSpan.Parse(r.time_slot.Substring(0, 5)));
+                HomePage._lsjvm.SubjectCollection = new ObservableCollection<Subject>(listtemp);
                 SendListStdToServer(ListStd);
 
                 //Back to Subject Page after Post to server
@@ -246,7 +254,7 @@ namespace AutoAttendant.Views.PopUp
 
                         try
                         {
-                            StudentNui std_nui = new StudentNui(std_id, std_name, std_class_name, std_phone, birthday, "");
+                            StudentNui std_nui = new StudentNui(std_id, std_name, std_phone, std_class_name, birthday, "");
                             StdNui_list.Add(std_nui);
 
                         }
@@ -285,9 +293,20 @@ namespace AutoAttendant.Views.PopUp
             PickerTime.Focus();
         }
 
-        private void HandlePickerTime(object sender, EventArgs e)
+        private async void HandlePickerTime(object sender, EventArgs e)
         {
-
+            try
+            {
+                var index = PickerTime.SelectedIndex;
+                if (index != -1)
+                {
+                    btnSelectTime.Text = PickerTime.Items[index].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Notice", ex.Message, "OK");
+            }
         }
     }
 }

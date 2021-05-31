@@ -38,13 +38,13 @@ namespace AutoAttendant.Views
         [Obsolete]
         protected override void OnAppearing() // goị trước khi screen page này xuất hiện
         {
-            //ReLoadScheduleList();
-            //ReloadPieChart();
+            ReLoadSubjectList();
+            ReloadPieChart();
             base.OnAppearing();
         }
 
         [Obsolete]
-        public void ReLoadScheduleList()
+        public void ReLoadSubjectList()
         {
             if (HomePage._lsjvm.SubjectCollection.Count > 0)
             {
@@ -53,6 +53,36 @@ namespace AutoAttendant.Views
                 this.BindingContext = HomePage._lsjvm;
             }
         }
+
+        [Obsolete]
+        public async void LoadSubjectListForActionAdd(ObservableCollection<Subject> listSubject)
+        {
+
+            enableSubJectId = await GetEnableSubJectId(listSubject);
+            var itemEn = listSubject.Single(r => r.subject_id == enableSubJectId);
+            if (TimeSpan.Parse(itemEn.time_slot.Substring(6,5)) <= DateTime.Now.TimeOfDay)
+            {
+                //nableSubJectId=
+            }
+
+            foreach (Subject subject in listSubject)  // duyet trong list subject để thêm vào lsjvm
+            {
+                if (!enableSubJectId.Equals("-1"))
+                {
+                    if (subject.subject_id == enableSubJectId)
+                    {
+                        subject.colorState = "#246CFE";  //luon gan' cho subject dau tien trong list active
+                    }
+                }
+                subject.stateString = "0 / 0";
+                HomePage._lsjvm.SubjectCollection.Add(subject);
+            }
+            //enableSubJectId = HomePage._lsjvm.SubjectCollection[0].subject_id;
+            //HomePage._lsjvm.SubjectCollection[0].colorState = "#246CFE";
+            HomePage.checkCreateListSubject = 1;
+        }
+
+
 
         public void ReloadPieChart()
         {
@@ -68,13 +98,15 @@ namespace AutoAttendant.Views
             try
             {
 
-                var httpService = new HttpService();
+                var httpService = new HttpClient();
+                var api_key = Data.Data.Instance.UserNui.authorization;
+                httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
                 string date = JsonConvert.SerializeObject(DateTime.Today);
-                date = date.Substring(1, 19);
-                date = date.Replace("00:00:00", "12:00:00");
-                var base_URL = HomePage.base_URL + "/process?id_subject="+ idSub +"&date=" + date;
-                var result = await httpService.SendAsync(base_URL,HttpMethod.Get);
-                var process = JsonConvert.DeserializeObject<List<Process>>(result);
+                date = String.Format("{0:yyyy-MM-dd}", date).Substring(1,10);
+                var base_URL = HomePage.base_URL + "/attendance/history/list/" + idSub +"/" + date + "/";
+                var result = await httpService.GetAsync(base_URL);
+                var contentProcess = await result.Content.ReadAsStringAsync();
+                var process = JsonConvert.DeserializeObject<List<Process>>(contentProcess);
                 return process;
 
             }
@@ -96,13 +128,13 @@ namespace AutoAttendant.Views
                 {
                     return listSubject[step].subject_id;
                 }
-                else if (list_process.Count > 0 && list_process[0].status == true)
+                else if (list_process.Count > 0 && list_process[0].state == true)
                 {
                     step++;
                 }
             }
             await DisplayAlert("Notice", "No subject today!", "OK");
-            return null;
+            return "-1";
         }
 
         [Obsolete]
@@ -115,20 +147,18 @@ namespace AutoAttendant.Views
                 var httpService = new HttpClient();
                 var api_key = Data.Data.Instance.UserNui.authorization;
                 httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-                //var x = DateTime.Now.DayOfWeek;
-                //var base_URL = HomePage.base_URL + "/subject?id_lecturer="+ Data.Data.Instance.User.idLecture.ToString() + "&day=" + DateTime.Now.DayOfWeek.ToString();
-                var base_URL = HomePage.base_URL + "/subject/list/" + Data.Data.Instance.UserNui.lecturer_id.ToString() + "/" + "Sunday" + "/";
+                var base_URL = HomePage.base_URL + "/subject/list/" + Data.Data.Instance.UserNui.lecturer_id.ToString() + "/" + "Monday" + "/";
                 var result = await httpService.GetAsync(base_URL);
                 var jsonSubject = await result.Content.ReadAsStringAsync();
                 var listSubject = JsonConvert.DeserializeObject<ObservableCollection<Subject>>(jsonSubject);
 
                 // order list subject by time slot
-                listSubject = new ObservableCollection<Subject>(listSubject.OrderBy(r => r.time_slot));
+                listSubject = new ObservableCollection<Subject>(listSubject.OrderBy(r => TimeSpan.Parse(r.time_slot.Substring(0,5))));
                 return listSubject;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await DisplayAlert("Notice", "Fail", "OK");
+                await DisplayAlert("Notice", ex.Message, "OK");
                 return null;
             }
         }
@@ -138,32 +168,28 @@ namespace AutoAttendant.Views
         {
             try
             {
-                if (HomePage.checkCreateListSubject == 0 || HomePage.checkUpdateSubject == 1)
+
+                if (HomePage.checkCreateListSubject == 0)
                 {
                     var listSubject = new ObservableCollection<Subject>(await HandleSubject()); // list Subject trả về từ HandelSubject
 
-                    //enableSubJectId = await GetEnableSubJectId(listSubject);
-                    //if(enableSubJectId == null)
-                    //{
-                    //    return;
-                    //}
+                    enableSubJectId = await GetEnableSubJectId(listSubject);
 
                     foreach (Subject subject in listSubject)  // duyet trong list subject để thêm vào lsjvm
                     {
-                         //if (enableSubJectId !=null)
-                         //{
-                            //if (subject.subject_id == enableSubJectId)
-                          //  {
-                                //subject.colorState = "#246CFE";  //luon gan' cho subject dau tien trong list active
-                           // }
-                         //}
+                        if (!enableSubJectId.Equals("-1"))
+                        {
+                            if (subject.subject_id == enableSubJectId)
+                            {
+                                subject.colorState = "#246CFE";  //luon gan' cho subject dau tien trong list active
+                            }
+                        }
                         subject.stateString = "0 / 0"; 
                         HomePage._lsjvm.SubjectCollection.Add(subject);
                     }
-                    enableSubJectId = HomePage._lsjvm.SubjectCollection[0].subject_id;
-                    HomePage._lsjvm.SubjectCollection[0].colorState = "#246CFE";
+                    //enableSubJectId = HomePage._lsjvm.SubjectCollection[0].subject_id;
+                    //HomePage._lsjvm.SubjectCollection[0].colorState = "#246CFE";
                     HomePage.checkCreateListSubject = 1;
-                    HomePage.checkUpdateSubject = 0;
                 }
 
                 //SetColorById();
@@ -172,9 +198,9 @@ namespace AutoAttendant.Views
                 this.BindingContext = new ListSubjectViewModel();
                 this.BindingContext = HomePage._lsjvm;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await DisplayAlert("Notice", "No subject today!", "OK");
+                await DisplayAlert("Notice", "Fall in Show Subject /n" + ex.Message, "OK");
             }
         }
         [Obsolete]
@@ -215,25 +241,22 @@ namespace AutoAttendant.Views
                             classes.StudentList1.Clear(); // clear list student khi join 1 subject mới
                             checkClearStd_ListPage = 0;
                         }
-
-                        //int status = 0;
-                        //var date = DateTime.Now.Date.ToString().Substring(0, 19);
-                        //var time = DateTime.Now.TimeOfDay.ToString().Substring(0, 8);
-
-
-                        //var list_process_CheckCreate = await HandleProcess(classes.Name);
-                        //if (list_process_CheckCreate.Count == 0)
-                        //{
-                        //    var process = new Process(classes.Name, status, Convert.ToDateTime(date), time);
-
-                        //    var httpService = new HttpClient();
-                        //    string jsonProcess = JsonConvert.SerializeObject(process);
-                        //    StringContent contentProcess = new StringContent(jsonProcess, Encoding.UTF8, "application/json");
-                        //    var baseProcess_URL = HomePage.base_URL + "/process";
-                        //    await httpService.PostAsync(baseProcess_URL, contentProcess);
-                        //}
                         await Navigation.PushAsync(new ListStudentPage(subject));
                         break;
+
+                    case "View":
+                        var x1 = subject;
+                        classes.Name = subject.subject_id; // gán cho biến static classes = class tương ứng của subject 
+
+                        if (checkClearStd_ListPage == 1)
+                        {
+                            classes.StudentList1.Clear(); // clear list student khi join 1 subject mới
+                            checkClearStd_ListPage = 0;
+                        }
+                        await Navigation.PushAsync(new ListStudentPage(subject));
+                        break;
+
+
                     default: //cancel
                         return;
                 }
@@ -269,7 +292,7 @@ namespace AutoAttendant.Views
                         Label Subject = (Label)secondLabel;
                         Label TimeSlot = (Label)thirdLabel;
                         Label LabelId = (Label)forthLabel;
-                        if (ClassName.Text == enableSubJectId) // chỉ dc mở subject có id đang = first id in list
+                        if (ClassName.Text == enableSubJectId) // chỉ dc mở subject có id đang = enableId
                         {
                             var itemSelected = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == ClassName.Text && r.name == Subject.Text);
                             var index = HomePage._lsjvm.SubjectCollection.IndexOf(itemSelected); // lấy index của subject đó trong lsvm
@@ -282,10 +305,25 @@ namespace AutoAttendant.Views
                             };
                             await PopupNavigation.Instance.PushAsync(page);
                         }
-                        else
+                        else if (ClassName.Text != enableSubJectId)
                         {
-                            await DisplayAlert("Notice", "Your current class must be finished!", "OK");
+                            var itemClicked = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == ClassName.Text);
+                            var itemEnable = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == enableSubJectId);
+                            if (HomePage._lsjvm.SubjectCollection.IndexOf(itemClicked) < HomePage._lsjvm.SubjectCollection.IndexOf(itemEnable) || enableSubJectId=="-1")
+                            {
+                                var page = new PopUpViewPreviousSubject(itemClicked);
+                                page.Action += (sender1, stringparameter) =>
+                                {
+                                    HandleSelectPopUp(stringparameter, itemClicked);
+                                };
+                                await PopupNavigation.Instance.PushAsync(page);
+                            }
+                            else
+                            {
+                                await DisplayAlert("Notice", "Your current class must be finished!", "OK");
+                            }
                         }
+                       
                     }
                 }
             }
@@ -304,7 +342,7 @@ namespace AutoAttendant.Views
             {
                 if(stringparameter.Equals("Add succesfully"))
                 {
-                    
+                    ReLoadSubjectList();
                 }
             };
             await PopupNavigation.Instance.PushAsync(page);

@@ -64,9 +64,9 @@ namespace AutoAttendant.Views
                 listRoom= new ObservableCollection<Room>(listRoom.OrderBy(r => r.room_id));
                 return listRoom;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await DisplayAlert("Notice", "Fail", "OK");
+                await DisplayAlert("Notice", ex.Message, "OK");
                 return null;
             }
         }
@@ -91,9 +91,9 @@ namespace AutoAttendant.Views
 
                 return listTimeSlot_a_room;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await DisplayAlert("Notice", "Fail in Handle_TimeSlot_Of_a_Room ", "OK");
+                await DisplayAlert("Error", ex.Message, "OK");
                 return null;
             }
         }
@@ -131,9 +131,9 @@ namespace AutoAttendant.Views
                 this.BindingContext = lrvm;
                 listRoomTemp = lrvm.RoomCollection.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await DisplayAlert("Error", "Can not get Room", "OK");
+                await DisplayAlert("Error", ex.Message, "OK");
             }
         }
 
