@@ -86,7 +86,7 @@ namespace AutoAttendant.Views
                 Lb_LectureName.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(lecturer.name.ToLower());
                 string avaText = "";
                 lecturer.name.Split(' ').ToList().ForEach(i => avaText += i[0].ToString());
-                Avatar.Text = avaText;
+                Avatar.Text = avaText.ToUpper();
                 Avatar.TextColor = Color.FromHex("#021135");
             }
             catch(Exception ex)

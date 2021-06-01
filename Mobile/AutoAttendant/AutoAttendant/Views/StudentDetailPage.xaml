@@ -60,9 +60,9 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>-->
-            <Frame CornerRadius="65" 
-                   HeightRequest="130"
-                   WidthRequest="130"
+            <Frame CornerRadius="60" 
+                   HeightRequest="120"
+                   WidthRequest="120"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
                    Padding="0"

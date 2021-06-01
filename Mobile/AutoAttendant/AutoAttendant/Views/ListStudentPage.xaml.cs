@@ -47,6 +47,14 @@ namespace AutoAttendant.Views
             ReLoadStudenList();
             base.OnAppearing();
         }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+        }
+
+        
+
         public void ReLoadStudenList() 
         {
             if (lsnvm.StudentCollection.Count > 0)

@@ -9,7 +9,7 @@
             <Image
                 Source="temp.png"/>
             <StackLayout Margin="30, 0, 30, 0 ">
-                <Label  x:Name="Lb_user" Text="E-mail or Username"
+                <Label  x:Name="Lb_user" Text="E-mail"
                         VerticalOptions="Center" 
                         HorizontalOptions="Start" 
                         TextColor="#FFF"

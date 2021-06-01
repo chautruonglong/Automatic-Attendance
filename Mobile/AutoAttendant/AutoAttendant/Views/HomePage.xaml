@@ -32,12 +32,12 @@
                             <TapGestureRecognizer Tapped="ChangeAvatar" />
                         </Label.GestureRecognizers>
                     </Label>-->
-                    <xct:AvatarView x:Name="Avatar" HorizontalOptions="Center" VerticalOptions="Start" Size="80" Color="#CFDADF" Margin="0,30,0,0">
+                    <xct:AvatarView x:Name="Avatar" HorizontalOptions="Center" Text="X" VerticalOptions="Start" Size="80" Color="#CFDADF" Margin="0,30,0,0">
                         <xct:AvatarView.GestureRecognizers>
                             <TapGestureRecognizer Tapped="ChangeAvatar"/>
                         </xct:AvatarView.GestureRecognizers>
                     </xct:AvatarView>
-                    <Label x:Name="Lb_LectureName" Text="Ninh Khanh Duy" TextColor="#FFF" HorizontalOptions="Center" FontAttributes="Bold" FontSize="16" Margin="0,20"/>
+                    <Label x:Name="Lb_LectureName" Text="" TextColor="#FFF" HorizontalOptions="Center" FontAttributes="Bold" FontSize="16" Margin="0,20"/>
 
                     <ScrollView Orientation="Vertical">
                         <StackLayout BackgroundColor="#1A1A1D">

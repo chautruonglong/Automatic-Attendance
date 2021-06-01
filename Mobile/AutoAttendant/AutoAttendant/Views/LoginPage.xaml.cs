@@ -17,6 +17,7 @@ using System.IO;
 using Xamarin.Essentials;
 using System.Net;
 using AutoAttendant.ViewModel;
+using System.Threading;
 
 namespace AutoAttendant.Views
 {
@@ -47,10 +48,19 @@ namespace AutoAttendant.Views
         #endregion
 
         [Obsolete]
+        
+        public void paintLoading()
+        {
+            UserDialogs.Instance.ShowLoading("Please wait...");
+        }
+
+        [Obsolete]
         private async void LoginProcedure(object sender, EventArgs e)
         {
             try
             {
+                var thread = new Thread(paintLoading);
+                thread.Start();
                 HomePage.base_URL = "http://" + Entry_Api.Text;
                 //UserTemp userTemp = new UserTemp(Entry_user.Text, Entry_password.Text);
                 UserTemp userTemp = new UserTemp(Entry_user.Text, HashPW.HashPassword(Entry_password.Text));
@@ -67,19 +77,27 @@ namespace AutoAttendant.Views
                 //Data.Data.Instance.User = JsonConvert.DeserializeObject<User>(result); // dùng User để nhận json về vì có chứa thêm token, idLecture (static)
                 Data.Data.Instance.UserNui = JsonConvert.DeserializeObject<UserNui>(result);
                 UserNui userNui = JsonConvert.DeserializeObject<UserNui>(result);
+                
                 HomePage.lecturer_id = userNui.lecturer_id;
                 HomePage.api_key = userNui.authorization;
+                Data.Data.Instance.User = new User(Convert.ToInt32(userNui.lecturer_id), Entry_user.Text, Entry_password.Text);
 
 
                 if (response.IsSuccessStatusCode)
                 {
-                    UserDialogs.Instance.ShowLoading("Please wait...");
-                    await Task.Delay(2000);
+                    //UserDialogs.Instance.ShowLoading("Please wait...");
+                    //await Task.Delay(2000);
+                    thread.Abort();
                     UserDialogs.Instance.HideLoading();
                     SaveAccountLogined(); // save user and password for next time
-                    await Navigation.PushAsync(new HomePage()); 
+                    await Navigation.PushAsync(new HomePage());
                 }
-                else await DisplayAlert("Error", "Login Fail", "Try Again");
+                else {
+                    thread.Abort();
+                    UserDialogs.Instance.HideLoading();
+                    await DisplayAlert("Error", "Login Fail", "Try Again");
+                } 
+
             }
             catch (Exception ex)
             {

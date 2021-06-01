@@ -56,7 +56,7 @@ namespace AutoAttendant.Views
             try
             {
                 var httpService = new HttpService();
-                var base_URL = HomePage.base_URL + "/room";
+                var base_URL = HomePage.base_URL + "/room/list/";
                 var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
                 var listRoom = JsonConvert.DeserializeObject<ObservableCollection<Room>>(result);
 

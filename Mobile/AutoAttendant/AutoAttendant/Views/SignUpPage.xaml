@@ -79,8 +79,8 @@
                         FontFamily=""
                         FontAttributes="Bold"/>
 
-                <local:CustomEntry x:Name="Entry_confirm" TextColor="#FFF" 
-                                   HeightRequest="40" BackgroundColor="#022656"
+                <local:CustomEntry x:Name="Entry_confirm" TextColor="#FFF" IsPassword="True"
+                                   HeightRequest="40" BackgroundColor="#022656" IsPasswordFlag="True"
                                    VerticalOptions="StartAndExpand"
                                    Margin="0,0,0,15">
                 </local:CustomEntry>

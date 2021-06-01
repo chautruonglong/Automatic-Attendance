@@ -4,7 +4,7 @@
              x:Class="AutoAttendant.Views.SubjectPage">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="SearchItem" Icon="search25px.png" Priority="0" />
+        <!--<ToolbarItem Name="SearchItem" Icon="search25px.png" Priority="0" />-->
     </ContentPage.ToolbarItems>
     
     <ContentPage.Content>
