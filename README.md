@@ -1,23 +1,8 @@
-# Face Recognition Branch
+# Django Backend API
 - Chau Truong Long
 
-# Using Facenet Model
-- Ref: https://github.com/davidsandberg/facenet
-
-# Generrating My Images
+# API Views
 
 <p align="center">
-    <img src="Screenshots/generate.png" alt="alt text" style="max-width:100%;">
-</p>
-
-# Training My Images
-
-<p align="center">
-    <img src="Screenshots/training.png" alt="alt text" style="max-width:100%;">
-</p>
-
-# Test Recognition
-
-<p align="center">
-    <img src="Screenshots/long.jpg" alt="alt text" style="max-width:100%;">
+    <img src="screenshots/api_view.png" alt="alt text" style="max-width:100%;">
 </p>
