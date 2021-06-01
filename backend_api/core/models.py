@@ -2,10 +2,8 @@
 :author chautruonglong
 """
 
-from datetime import datetime
-from random import randint
 from django.db import models
-from django import forms
+
 from backend_api.utils import generate_date
 
 

@@ -1,10 +1,9 @@
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework_api_key.permissions import HasAPIKey
-from core.models import Attendance, Student, StudentSubject
-from mobile.attendance.utils import AttendanceParser
-from mobile.student.utils import StudentParser
+
+from core.models import Attendance, StudentSubject
 
 
 @api_view(['GET'])

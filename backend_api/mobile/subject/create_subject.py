@@ -2,16 +2,14 @@
 :author chautruonglong
 """
 
-from django.shortcuts import render
-from django.utils import timezone
 from django.db import transaction
-from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
-from rest_framework_api_key.models import APIKey
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
 from rest_framework_api_key.permissions import HasAPIKey
+
+from backend_api.utils import convert_date_django
 from core.models import Subject, StudentSubject, Student
-from backend_api.utils import convert_date_django, generate_date
 
 
 @api_view(['POST'])
@@ -41,11 +39,12 @@ def create_subject_api(request):
 
             for student in body['students']:
                 student_id = student['student_id']
+                yy = student_id[3:5]
                 student_name = student['name']
                 phone = student['phone']
                 birth = student['birth']
                 class_name = student['class_name']
-                img_3x4 = f'images/originals/it/k18/{student_id}.jpg'
+                img_3x4 = f'images/originals/it/k{yy}/{student_id}.jpg'
 
                 if not Student.objects.filter(student_id=student_id).exists():
                     Student.objects.create(

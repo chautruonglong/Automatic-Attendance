@@ -2,20 +2,22 @@
 :author chautruonglong
 """
 
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.utils import six
-from django.utils.http import int_to_base36
-from django.utils.crypto import salted_hmac
-from threading import Thread
+from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from backend_api import settings
-from django.shortcuts import render
-from django.utils.http import urlsafe_base64_encode
-from validate_email import validate_email
-from datetime import datetime
 from random import randint
 from smtplib import SMTP_SSL
+from threading import Thread
+
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.shortcuts import render
+from django.utils import six
+from django.utils.crypto import salted_hmac
+from django.utils.http import int_to_base36
+from django.utils.http import urlsafe_base64_encode
+from validate_email import validate_email
+
+from backend_api import settings
 
 
 class ActivateToken(PasswordResetTokenGenerator):

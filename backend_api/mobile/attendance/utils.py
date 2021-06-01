@@ -1,5 +1,5 @@
-from backend_api.utils import get_base_url
 from backend_api.settings import MEDIA_URL
+from backend_api.utils import get_base_url
 
 
 class AttendanceParser:

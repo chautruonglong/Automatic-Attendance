@@ -4,14 +4,13 @@
 
 from django.shortcuts import render
 from django.utils.http import urlsafe_base64_decode
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from rest_framework import status
-from hashlib import md5
-from core.models import Account, Lecturer
-from backend_api.utils import token_generator
-from backend_api.utils import get_base_url
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from backend_api.utils import mail_system
+from backend_api.utils import token_generator
+from core.models import Account, Lecturer
 
 
 @api_view(['POST'])
@@ -58,7 +57,7 @@ def signup_api(request):
                 )
 
         # Send first email
-        lecturer = Lecturer.objects.create(name=name, phone=phone, faculty=Lecturer.parser_faculty(faculty))
+        lecturer = Lecturer.objects.create(name=name, phone=phone, faculty=faculty)
         account = Account.objects.create(email=email, hash_pwd=hash_pwd, lecturer=lecturer)
         token = token_generator.make_token(account)
         mail_system.send(request, email, token)

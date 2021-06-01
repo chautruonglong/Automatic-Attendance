@@ -1,11 +1,12 @@
-from core.models import Unknown, Attendance, StudentSubject, Process
-from cv2 import imwrite
-from backend_api.utils import convert_time
-from backend_api.settings import MEDIA_URL
+import os
 from datetime import datetime
+
+from cv2 import imwrite
 from django.utils import six
 from django.utils.crypto import salted_hmac
-import os
+
+from backend_api.settings import MEDIA_URL
+from core.models import Unknown, Attendance, StudentSubject
 
 
 def save_attended(process_id, subject_id, student_id, img_face, confidence, date, time):

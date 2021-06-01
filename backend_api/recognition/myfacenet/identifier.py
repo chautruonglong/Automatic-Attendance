@@ -1,6 +1,7 @@
 from pickle import load
-from numpy import argmax, arange
+
 from facenet.src.facenet import load_model
+from numpy import argmax, arange
 
 
 class FacenetIdentifier:

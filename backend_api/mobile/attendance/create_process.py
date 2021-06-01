@@ -1,15 +1,16 @@
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework_api_key.permissions import HasAPIKey
 from datetime import datetime
+
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from backend_api.utils import generate_process_id
 from core.models import Process
 from recognition.attendance_process import attendance_process
 
 
 @api_view(['GET'])
-@permission_classes((HasAPIKey, ))
+# @permission_classes((HasAPIKey, ))
 def create_process_api(request, subject_id):
     try:
         now = datetime.now()
@@ -22,7 +23,7 @@ def create_process_api(request, subject_id):
             time=now.time()
         )
 
-        attendance_process.attendance(process_id, subject_id, window=False)
+        attendance_process.attendance(process_id, subject_id, window=False, rasp=True)
 
         return Response(
             data={

@@ -2,13 +2,11 @@
 :author chautruonglong
 """
 
-from django.shortcuts import render
-from django.utils import timezone
-from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
-from rest_framework_api_key.models import APIKey
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
 from rest_framework_api_key.permissions import HasAPIKey
+
 from core.models import Lecturer
 
 

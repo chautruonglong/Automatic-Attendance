@@ -1,9 +1,10 @@
 from django.contrib import admin
+
 from core import models
 
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('student_id', 'name', 'phone', 'birth', 'img_3x4')
+    list_display = ('student_id', 'name', 'phone', 'birth', 'class_name', 'img_3x4')
 
 
 class LecturerAdmin(admin.ModelAdmin):

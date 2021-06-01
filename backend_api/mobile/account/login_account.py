@@ -2,13 +2,12 @@
 :author chautruonglong
 """
 
-from django.shortcuts import render
 from django.utils import timezone
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework_api_key.models import APIKey
-from hashlib import md5
+
 from core.models import Account
 
 

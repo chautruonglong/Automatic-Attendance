@@ -1,6 +1,6 @@
-from backend_api.utils import get_base_url
 from backend_api import settings
 from backend_api.utils import convert_date
+from backend_api.utils import get_base_url
 
 
 class StudentParser:

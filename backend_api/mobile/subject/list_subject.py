@@ -2,13 +2,11 @@
 :author chautruonglong
 """
 
-from django.shortcuts import render
-from django.utils import timezone
-from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
-from rest_framework_api_key.models import APIKey
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
 from rest_framework_api_key.permissions import HasAPIKey
+
 from core.models import Subject
 from mobile.subject.utils import SubjectParser
 
@@ -17,7 +15,11 @@ from mobile.subject.utils import SubjectParser
 @permission_classes((HasAPIKey, ))
 def list_subject_api(request, lecturer_id, day):
     try:
-        subjects = Subject.objects.filter(lecturer_id=lecturer_id, day=day)
+        if day == 'all':
+            subjects = Subject.objects.filter(lecturer_id=lecturer_id)
+        else:
+            subjects = Subject.objects.filter(lecturer_id=lecturer_id, day=day)
+
         json_data = [SubjectParser(subject).to_dict() for subject in subjects]
 
         return Response(

@@ -2,23 +2,24 @@
 :author chautruonglong
 """
 
-from django.contrib import admin
-from django.urls import path, include
 from django.conf.urls.static import static
-from django.conf.urls import url
-from rest_framework import permissions
+from django.contrib import admin
+from django.urls import path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
+from rest_framework import permissions
+
 from backend_api import settings
 from mobile.account import login_account, signup_account
-from mobile.account import reset_pwd_form, update_password
-from mobile.lecturer import detail_lecturer, update_lecturer
-from mobile.subject import list_subject, create_subject, list_time_slot
-from mobile.student import list_student
-from mobile.room import list_room, update_room, create_room
+from mobile.account import update_password
 from mobile.attendance import create_process, state_process
-from mobile.attendance import list_attendance, list_history
 from mobile.attendance import detail_history
+from mobile.attendance import list_attendance, list_history
+from mobile.lecturer import detail_lecturer, update_lecturer
+from mobile.room import list_room, update_room, create_room
+from mobile.student import list_student
+from mobile.subject import list_subject, create_subject, list_time_slot
+from mobile.attendance import history_latest
 
 swagger_view = get_schema_view(
     openapi.Info(title='Automatic Attendance', default_version=''),
@@ -63,7 +64,8 @@ urlpatterns = [
 
     # Attendance
     path('attendance/list/<str:process_id>/', list_attendance.list_attendance_api),
-    path('attendance/history/list/<str:subject_id>/', list_history.list_history_api),
+    path('attendance/history/list/<str:subject_id>/<str:date>/', list_history.list_history_api),
+    path('attendance/history/latest/<str:subject_id>/<str:date>/', history_latest.history_latest_api),
     path('attendance/history/detail/<str:process_id>/', detail_history.detail_history_api)
 ]
 
