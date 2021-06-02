@@ -1,26 +1,30 @@
 from cv2 import VideoCapture, imencode
 from base64 import b64encode
+from raspberry.leb import Led
 
 
 class Camera:
     _camera = None
     _is_open = False
+    _led = Led()
 
-    def open(self):
-        if self._camera is None or not self._camera.grab():
-            self._camera = VideoCapture(1)
+    def open(self, video):
+        if self._is_open is False:
+            self._camera = VideoCapture(video)
 
             if not self._camera.isOpened():
                 raise Exception('Camera is not open')
+            
+            self._led.turn_on()
+            self._is_open = True
         else:
             raise Exception('Camera is using right now')
-
-        self._is_open = True
 
     def close(self):
         if self._camera is not None:
             self._camera.release()
             self._camera = None
+            self._led.turn_off()
             self._is_open = False
 
     def capture(self):

@@ -5,9 +5,9 @@ from camera.api.camera import camera
 
 
 @api_view(['GET'])
-def open_camera_api(request):
+def open_camera_api(request, video):
     try:
-        camera.open()
+        camera.open(video)
 
         return Response(
             data={
