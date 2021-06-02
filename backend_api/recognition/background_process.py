@@ -51,7 +51,7 @@ class BackgroundProcess:
                             students[student_id]['confidence'] = confidence
                             students[student_id]['img_face'] = img_face
 
-                    else:
+                    elif confidence > 50:
                         save_unknown(self._process_id, self._subject_id, img_face, confidence, date, time)
 
             timeout -= per

@@ -23,7 +23,7 @@ def create_process_api(request, subject_id):
             time=now.time()
         )
 
-        attendance_process.attendance(process_id, subject_id, window=False, rasp=True)
+        attendance_process.attendance(process_id, subject_id, window=True, rasp=True)
 
         return Response(
             data={

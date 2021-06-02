@@ -29,6 +29,8 @@ def save_attended(process_id, subject_id, student_id, img_face, confidence, date
             img_face=file_name[len(MEDIA_URL):],
             confidence=confidence
         )
+        print('Saving a known person')
+
     except Exception as error:
         print('Saving unknown person:', str(error))
         save_unknown(process_id, subject_id, img_face, confidence, date, time)
@@ -51,6 +53,8 @@ def save_unknown(process_id, subject_id, img_face, confidence, date, time):
         img_face=file_name[len(MEDIA_URL):],
         confidence=confidence
     )
+
+    print('Saving an unknown person')
 
 
 def generate_unknown_id(process_id, date, time, size=255):

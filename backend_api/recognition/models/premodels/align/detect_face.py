@@ -26,13 +26,15 @@ https://github.com/kpzhang93/MTCNN_face_detection_alignment
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from six import string_types, iteritems
 
+import os
+
+# from math import floor
+import cv2
 import numpy as np
 import tensorflow as tf
-#from math import floor
-import cv2
-import os
+from six import string_types, iteritems
+
 
 def layer(op):
     """Decorator for composable network layers."""

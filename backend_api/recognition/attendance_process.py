@@ -10,7 +10,7 @@ from recognition.myfacenet.identifier import FacenetIdentifier
 from recognition.raspberry_process import RaspberryProcess
 from recognition.window_process import WindowProcess
 
-CLASSIFIER_MODEL = 'recognition/models/mymodels/1814_140s_128d_svm_small.pkl'
+CLASSIFIER_MODEL = 'recognition/models/mymodels/1814_140s_128d_svm_big.pkl'
 FACENET_MODEL = 'recognition/models/premodels/128/20170512-110547.pb'
 MTCNN_MODEL = 'recognition/models/premodels/align'
 HAARCASCADE_MODEL = 'recognition/models/premodels/haarcascade/haarcascade_frontalface_default.xml'
@@ -18,7 +18,7 @@ HAARCASCADE_MODEL = 'recognition/models/premodels/haarcascade/haarcascade_fronta
 THRESHOLD = 70
 GPU_MEM_FRACTION = 0.4
 FACE_SIZE = 140
-MIN_SIZE = 70
+MIN_SIZE = 100
 
 
 class AttendanceProcess:
