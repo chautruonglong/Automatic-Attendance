@@ -11,7 +11,7 @@ class HaarcascadeDetector:
         img = cvtColor(img, COLOR_BGR2GRAY)
         faces = self._detector.detectMultiScale(
             image=img,
-            scaleFactor=1.2,
+            scaleFactor=1.4,
             minNeighbors=5,
             minSize=(self._min_size, self._min_size)
         )

@@ -28,7 +28,7 @@ def main(args):
             with sess.as_default():
                 # detector = MTCNNDetector(sess, MTCNN_MODEL, MIN_SIZE)
                 detector = HaarcascadeDetector(HAARCASCADE_MODEL, MIN_SIZE)
-                encoder = FacenetEncoder(FACENET_MODEL, FACE_SIZE)
+                encoder = FacenetEncoder(sess, FACENET_MODEL, FACE_SIZE)
                 identifier = FacenetIdentifier(None, CLASSIFIER_MODEL)
 
                 capture = VideoCapture(args.video)
@@ -45,16 +45,17 @@ def main(args):
                             x2 = int(face[2])
                             y2 = int(face[3])
 
-                            face_embedding = encoder.encode_face(sess, frame[y1:y2, x1:x2])
-                            id_student, confidence = identifier.identify(face_embedding)
-                            confidence *= 100
-                            confidence = round(confidence, 1)
-                            if confidence > THRESHOLD:
-                                put_face_label(frame, x1, y1, x2, y2, id_student, confidence)
-                            else:
-                                put_face_label(frame, x1, y1, x2, y2, 'Unknown', '')
+                            if x1 > 0 and y1 > 0 and x2 > 0 and y2 > 0:
+                                face_embedding = encoder.encode_face(frame[y1:y2, x1:x2])
+                                id_student, confidence = identifier.identify(face_embedding)
+                                confidence *= 100
+                                confidence = round(confidence, 1)
+                                if confidence > THRESHOLD:
+                                    put_face_label(frame, x1, y1, x2, y2, id_student, confidence)
+                                else:
+                                    put_face_label(frame, x1, y1, x2, y2, 'Unknown', '')
 
-                            print(f'Id: {id_student}, confidence: {confidence}')
+                                print(f'Id: {id_student}, confidence: {confidence}')
 
                         imshow('video', frame)
 

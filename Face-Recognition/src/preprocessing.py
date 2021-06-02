@@ -13,7 +13,7 @@ OUTPUT_DATASET = '../dataset/processed/'
 MTCNN_MODEL = '../models/premodels/align'
 FACE_SIZE = 140
 MARGIN = 20
-GPU_MEM_FRACTION = 0.3
+GPU_MEM_FRACTION = 0.9
 MIN_SIZE = 20
 
 
@@ -88,8 +88,8 @@ def main():
                                 bb[3] = minimum(det[3] + MARGIN / 2, img_size[0])
 
                                 cropped = img[bb[1]:bb[3], bb[0]:bb[2], :]
-                                scaled = imresize(cropped, (FACE_SIZE, FACE_SIZE))
-                                scaled = GaussianBlur(scaled, (3, 3), 0)
+                                blur = GaussianBlur(cropped, (3, 3), 0)
+                                scaled = imresize(blur, (FACE_SIZE, FACE_SIZE))
 
                                 successfully_images += 1
                                 imsave(output_file_dir, scaled)

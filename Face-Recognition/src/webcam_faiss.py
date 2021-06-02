@@ -23,7 +23,7 @@ def main():
 
         with sess.as_default():
             detector = MTCNNDetector(sess, MTCNN_MODEL, MIN_SIZE)
-            encoder = FacenetEncoder(FACENET_MODEL, FACE_SIZE)
+            encoder = FacenetEncoder(sess, FACENET_MODEL, FACE_SIZE)
             identifier = FaissIdentifier(None, INDEXING_MODEL)
 
             capture = VideoCapture(0)
@@ -41,16 +41,17 @@ def main():
                         x2 = int(face[2])
                         y2 = int(face[3])
 
-                        face_embedding = encoder.encode_face(sess, frame[y1:y2, x1:x2])
-                        distance, student_id = identifier.identify(face_embedding)
-                        distance = round(distance, 2)
+                        if x1 > 0 and y1 > 0 and x2 > 0 and y2 > 0:
+                            face_embedding = encoder.encode_face(frame[y1:y2, x1:x2])
+                            distance, student_id = identifier.identify(face_embedding)
+                            distance = round(distance, 2)
 
-                        if distance < THRESHOLD:
-                            put_face_label(frame, x1, y1, x2, y2, student_id, distance)
-                        else:
-                            put_face_label(frame, x1, y1, x2, y2, 'Unknown', 'Nan')
+                            if distance < THRESHOLD:
+                                put_face_label(frame, x1, y1, x2, y2, student_id, distance)
+                            else:
+                                put_face_label(frame, x1, y1, x2, y2, 'Unknown', 'Nan')
 
-                        print(f'Id: {student_id}, confidence: {distance}')
+                            print(f'Id: {student_id}, confidence: {distance}')
 
                     imshow('webcam', frame)
 

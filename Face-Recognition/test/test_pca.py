@@ -19,7 +19,7 @@ if __name__ == '__main__':
             encoder = FacenetEncoder(FACENET_MODEL, 140)
             pca = PCA(n_components=128)
             svc = SVC(probability=True)
-            img = imread('face.jpg')
+            img = imread('face.png')
 
             inputs = randint(1, 100, size=(1000, 512))
             print(len(inputs))
