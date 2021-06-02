@@ -133,7 +133,6 @@ namespace AutoAttendant.Views
                     step++;
                 }
             }
-            await DisplayAlert("Notice", "No subject today!", "OK");
             return "-1";
         }
 
@@ -147,7 +146,7 @@ namespace AutoAttendant.Views
                 var httpService = new HttpClient();
                 var api_key = Data.Data.Instance.UserNui.authorization;
                 httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-                var base_URL = HomePage.base_URL + "/subject/list/" + Data.Data.Instance.UserNui.lecturer_id.ToString() + "/" + "Monday" + "/";
+                var base_URL = HomePage.base_URL + "/subject/list/" + Data.Data.Instance.UserNui.lecturer_id.ToString() + "/" + DateTime.Now.DayOfWeek.ToString() + "/";
                 var result = await httpService.GetAsync(base_URL);
                 var jsonSubject = await result.Content.ReadAsStringAsync();
                 var listSubject = JsonConvert.DeserializeObject<ObservableCollection<Subject>>(jsonSubject);
@@ -158,7 +157,7 @@ namespace AutoAttendant.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Notice", ex.Message, "OK");
+                await DisplayAlert("Error: ", "Fail in HandleSubject" + ex.Message, "OK");
                 return null;
             }
         }
@@ -172,31 +171,35 @@ namespace AutoAttendant.Views
                 if (HomePage.checkCreateListSubject == 0)
                 {
                     var listSubject = new ObservableCollection<Subject>(await HandleSubject()); // list Subject trả về từ HandelSubject
-
-                    enableSubJectId = await GetEnableSubJectId(listSubject);
-
-                    foreach (Subject subject in listSubject)  // duyet trong list subject để thêm vào lsjvm
+                    if(listSubject.Count == 0)
                     {
-                        if (!enableSubJectId.Equals("-1"))
-                        {
-                            if (subject.subject_id == enableSubJectId)
-                            {
-                                subject.colorState = "#246CFE";  //luon gan' cho subject dau tien trong list active
-                            }
-                        }
-                        subject.stateString = "0 / 0"; 
-                        HomePage._lsjvm.SubjectCollection.Add(subject);
+
+                        //enableSubJectId = await GetEnableSubJectId(listSubject);
+                        enableSubJectId = "-2";
                     }
-                    //enableSubJectId = HomePage._lsjvm.SubjectCollection[0].subject_id;
-                    //HomePage._lsjvm.SubjectCollection[0].colorState = "#246CFE";
-                    HomePage.checkCreateListSubject = 1;
+                    else
+                    {
+                        enableSubJectId = await GetEnableSubJectId(listSubject);
+                        foreach (Subject subject in listSubject)  // duyet trong list subject để thêm vào lsjvm
+                        {
+                            if (!enableSubJectId.Equals("-1"))
+                            {
+                                if (subject.subject_id == enableSubJectId)
+                                {
+                                    subject.colorState = "#246CFE";  //luon gan' cho subject dau tien trong list active
+                                }
+                            }
+                            subject.stateString = "0 / 0";
+                            HomePage._lsjvm.SubjectCollection.Add(subject);
+                        }
+                        //enableSubJectId = HomePage._lsjvm.SubjectCollection[0].subject_id;
+                        //HomePage._lsjvm.SubjectCollection[0].colorState = "#246CFE";
+                        HomePage.checkCreateListSubject = 1;
+                        this.BindingContext = new ListSubjectViewModel();
+                        this.BindingContext = HomePage._lsjvm;
+                    }
                 }
-
                 //SetColorById();
-
-
-                this.BindingContext = new ListSubjectViewModel();
-                this.BindingContext = HomePage._lsjvm;
             }
             catch (Exception ex)
             {
@@ -213,7 +216,7 @@ namespace AutoAttendant.Views
                 int index = HomePage._lsjvm.SubjectCollection.IndexOf(item); // lấy ra index của subject vừa tìm dc
                 if (index > 0)
                 {
-                    HomePage._lsjvm.SubjectCollection[index - 1].colorState = "#0E368B";
+                    HomePage._lsjvm.SubjectCollection[index - 1].colorState = "#0E368B"; //set color for previous subject
                 }
             }
             else // set gia tri cho last subject
@@ -232,7 +235,7 @@ namespace AutoAttendant.Views
             {
                 switch (paraString)
                 {
-                    case "Join":
+                    case "Join":  //
                         var x = subject;
                         classes.Name = subject.subject_id; // gán cho biến static classes = class tương ứng của subject 
 
@@ -292,38 +295,52 @@ namespace AutoAttendant.Views
                         Label Subject = (Label)secondLabel;
                         Label TimeSlot = (Label)thirdLabel;
                         Label LabelId = (Label)forthLabel;
-                        if (ClassName.Text == enableSubJectId) // chỉ dc mở subject có id đang = enableId
-                        {
-                            var itemSelected = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == ClassName.Text && r.name == Subject.Text);
-                            var index = HomePage._lsjvm.SubjectCollection.IndexOf(itemSelected); // lấy index của subject đó trong lsvm
-                            Subject subject = HomePage._lsjvm.SubjectCollection[index]; // tìm dc schdule theo index
-
-                            var page = new PopUpSubjectOption(subject);
-                            page.Action += (sender1, stringparameter) =>
-                            {
-                                HandleSelectPopUp(stringparameter, subject);
-                            };
-                            await PopupNavigation.Instance.PushAsync(page);
-                        }
-                        else if (ClassName.Text != enableSubJectId)
+                        if(enableSubJectId == "-1")
                         {
                             var itemClicked = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == ClassName.Text);
-                            var itemEnable = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == enableSubJectId);
-                            if (HomePage._lsjvm.SubjectCollection.IndexOf(itemClicked) < HomePage._lsjvm.SubjectCollection.IndexOf(itemEnable) || enableSubJectId=="-1")
-                            {
+
                                 var page = new PopUpViewPreviousSubject(itemClicked);
                                 page.Action += (sender1, stringparameter) =>
                                 {
                                     HandleSelectPopUp(stringparameter, itemClicked);
                                 };
                                 await PopupNavigation.Instance.PushAsync(page);
-                            }
-                            else
-                            {
-                                await DisplayAlert("Notice", "Your current class must be finished!", "OK");
-                            }
+
                         }
-                       
+                        else
+                        {
+                            if (ClassName.Text == enableSubJectId) // chỉ dc mở subject có id đang = enableId
+                            {
+                                var itemSelected = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == ClassName.Text && r.name == Subject.Text);
+                                var index = HomePage._lsjvm.SubjectCollection.IndexOf(itemSelected); // lấy index của subject đó trong lsvm
+                                Subject subject = HomePage._lsjvm.SubjectCollection[index]; // tìm dc schdule theo index
+
+                                var page = new PopUpSubjectOption(subject);
+                                page.Action += (sender1, stringparameter) =>
+                                {
+                                    HandleSelectPopUp(stringparameter, subject);
+                                };
+                                await PopupNavigation.Instance.PushAsync(page);
+                            }
+                            else if (ClassName.Text != enableSubJectId)
+                            {
+                                var itemClicked = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == ClassName.Text);
+                                var itemEnable = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == enableSubJectId);
+                                if (HomePage._lsjvm.SubjectCollection.IndexOf(itemClicked) < HomePage._lsjvm.SubjectCollection.IndexOf(itemEnable) || enableSubJectId == "-1")
+                                {
+                                    var page = new PopUpViewPreviousSubject(itemClicked);
+                                    page.Action += (sender1, stringparameter) =>
+                                    {
+                                        HandleSelectPopUp(stringparameter, itemClicked);
+                                    };
+                                    await PopupNavigation.Instance.PushAsync(page);
+                                }
+                                else
+                                {
+                                    await DisplayAlert("Notice", "Your current class must be finished!", "OK");
+                                }
+                            }
+                        }            
                     }
                 }
             }

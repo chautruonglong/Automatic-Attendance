@@ -25,7 +25,7 @@ namespace AutoAttendant.Views
     {
         public static ListRoomViewModel _lrvm = new ListRoomViewModel();
         public static ListSubjectViewModel _lsjvm = new ListSubjectViewModel();     //list subject by day
-        public static ListSubjectViewModel _lsjavm = new ListSubjectViewModel();    //list all subject by lecturer_id
+        public static ListSubjectAllViewModel _lsjavm = new ListSubjectAllViewModel();    //list all subject by lecturer_id
         public static int checkCreateListSubject = 0; //avoid repeat subject from ShowSubject()
         public static int checkCreateRoom = 0; //avoid repeat schedule from ShowSchedule()
         public static int checkUpdateSubject = 0; // check load list subject again after update subject
@@ -40,7 +40,7 @@ namespace AutoAttendant.Views
         public HomePage()
         {
             InitializeComponent();
-            Detail = new NavigationPage(new SubjectPage());
+            Detail = new NavigationPage(new SubjectTabbedPage());
             GetLectureInfoById(Data.Data.Instance.UserNui.lecturer_id.ToString());
             HandleRoom();
         }
@@ -133,7 +133,7 @@ namespace AutoAttendant.Views
         private void HandleHome(object sender, EventArgs e)
         {
             //Navigation.PushAsync(new ClassPage());
-            Detail = new NavigationPage(new SubjectPage());
+            Detail = new NavigationPage(new SubjectTabbedPage());
             IsPresented = false;
         }
 

@@ -26,6 +26,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -34,21 +35,24 @@
                     
                 </Grid.ColumnDefinitions>
 
-                <Label Text="Name" TextColor="#FFF" Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
-                <Label x:Name="lb_Name" Text="Nguyễn Văn A" TextColor="#FFF" Grid.Row="0" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
-                
-                <Label Text="Class" TextColor="#FFF" Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
-                <Label x:Name="lb_Class" Text="18TCLC-DT2" TextColor="#FFF" Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
-                
-                <Label Text="Birth" TextColor="#FFF" Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
-                <Label x:Name="lb_birth" Text="9:00 AM" TextColor="#FFF" Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label Text="ID" TextColor="#FFF" Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_Id"  TextColor="#FFF" Grid.Row="0" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
 
-                <Label Text="Phone" TextColor="#FFF" Grid.Row="3" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
-                <Label x:Name="lb_phone" Text="9:00 AM" TextColor="#FFF" Grid.Row="3" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label Text="Name" TextColor="#FFF" Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_Name" TextColor="#FFF" Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+                
+                <Label Text="Class" TextColor="#FFF" Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_Class" TextColor="#FFF" Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+                
+                <Label Text="Birth" TextColor="#FFF" Grid.Row="3" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_birth" TextColor="#FFF" Grid.Row="3" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
 
-                <Label Text="Status" TextColor="#FFF" Grid.Row="4" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
-                <RadioButton Grid.Row="4" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" GroupName="status" Content="Attended" TextColor="#9DFE65" x:Name="btnAttendance"/>
-                <RadioButton Grid.Row="4" Grid.Column="2" HorizontalOptions="Start" VerticalOptions="Center" GroupName="status" Content="Absent" TextColor="#EC3108" x:Name="btnAbsent" IsChecked="False"/>
+                <Label Text="Phone" TextColor="#FFF" Grid.Row="4" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_phone" TextColor="#FFF" Grid.Row="4" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+
+                <Label Text="Status" TextColor="#FFF" Grid.Row="5" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <RadioButton Grid.Row="5" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" GroupName="status" Content="Attended" TextColor="#9DFE65" x:Name="btnAttendance"/>
+                <RadioButton Grid.Row="5" Grid.Column="2" HorizontalOptions="Start" VerticalOptions="Center" GroupName="status" Content="Absent" TextColor="#EC3108" x:Name="btnAbsent" IsChecked="False"/>
 
             </Grid>
             <!--<ListView HeightRequest="80">
@@ -60,9 +64,9 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>-->
-            <Frame CornerRadius="60" 
-                   HeightRequest="120"
-                   WidthRequest="120"
+            <Frame CornerRadius="50" 
+                   HeightRequest="100"
+                   WidthRequest="100"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
                    Padding="0"

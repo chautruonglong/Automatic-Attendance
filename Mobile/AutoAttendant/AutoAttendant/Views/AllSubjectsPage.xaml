@@ -12,7 +12,7 @@
 
             <StackLayout Padding="10,10,10,20" HeightRequest="500">
 
-                <ListView ItemsSource="{Binding SubjectCollection}" RowHeight="80" HorizontalOptions="Center">
+                <ListView ItemsSource="{Binding SubjectAllCollection}" RowHeight="80" HorizontalOptions="Center">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -22,7 +22,7 @@
                                             CornerRadius="10"
                                             Margin="10,0"
                                             HeightRequest="20"
-                                            BackgroundColor="{Binding colorState}">
+                                            BackgroundColor="#246CFE">
                                         <Frame.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="SubjectClick"/>
                                         </Frame.GestureRecognizers>

@@ -30,11 +30,14 @@ namespace AutoAttendant.Views
         public static ListStudentViewModel lsvm = new ListStudentViewModel();     /// Lưu ý coi chừng saiii\
         public static ListStudentNuiViewModel lsnvm = new ListStudentNuiViewModel();
         public static ObservableCollection<Attendance> listAttendance = new ObservableCollection<Attendance>();
+        public List<AttendanceNui> listUnknownImage = new List<AttendanceNui>();
+        public List<StudentNui> listNotYetAtd = new List<StudentNui>();
         int CheckSquence = 0;
 
         [Obsolete]
         public ListStudentPage(Subject subject)
         {
+
             InitializeComponent();
             //this.BindingContext = new ListStudentViewModel(); // listview se binding theo object List Student View Model
 
@@ -54,9 +57,9 @@ namespace AutoAttendant.Views
         }
 
         
-
         public void ReLoadStudenList() 
         {
+
             if (lsnvm.StudentCollection.Count > 0)
             {
                 this.BindingContext = new ListStudentNuiViewModel();
@@ -72,6 +75,7 @@ namespace AutoAttendant.Views
         {
             try
             {
+                lsnvm.StudentCollection.Clear();
                 var listStudent = new ObservableCollection<StudentNui>(await HandleStudentList(subject_id)); // list Subject trả về từ HandelSubject
 
                 if(listStudent.Count > 0)
@@ -109,7 +113,10 @@ namespace AutoAttendant.Views
                 var listStudent = JsonConvert.DeserializeObject<ObservableCollection<StudentNui>>(jsonStdList);
 
                 // order list student by name
-                listStudent = new ObservableCollection<StudentNui>(listStudent.OrderBy(r => r.name));
+
+
+
+                listStudent = new ObservableCollection<StudentNui>(listStudent.OrderBy(r => r.name.Split(' ').ToList()[r.name.Split(' ').ToList().Count - 1]));
                 return listStudent;
             }
             catch (Exception ex)
@@ -291,16 +298,30 @@ namespace AutoAttendant.Views
                         {   
                             try
                             {
+                                if (atd.type == "unknown")
+                                {
+                                    listUnknownImage.Add(atd);
+                                }
                                 var checkAttendance = lsnvm.StudentCollection.Single(r => r.student_id.Trim().Equals(atd.id.Trim()) && atd.type.Equals("known"));
                                 checkAttendance.state = true;
                                 checkAttendance.confidence = atd.confidence + "%";
                                 checkAttendance.img_attendance = atd.img_face;
+                                
                             }
                             catch(Exception) {
 
                             }
 
                         }
+
+                        foreach (StudentNui std in lsnvm.StudentCollection)
+                        {
+                            if (std.state == false)
+                            {
+                                listNotYetAtd.Add(std);
+                            }
+                        }
+
                         ReLoadStudenList();
                     }
 
@@ -316,6 +337,12 @@ namespace AutoAttendant.Views
                 await DisplayAlert("Notice", ex.Message, "OK");
             }
         }
+
+        private void ToUnknownPage(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new UnknownPage(listUnknownImage, listNotYetAtd));
+        }
+
         int TimeCount = 20;
         public void paintLoading()
         {
@@ -447,7 +474,7 @@ namespace AutoAttendant.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Notice", "Fail in HandleProcess \n" + ex.Message, "OK");
+                await DisplayAlert("Notice", "Fail in HandlePutStateProcess \n" + ex.Message, "OK");
             }
         }
 
@@ -492,7 +519,7 @@ namespace AutoAttendant.Views
                 }
 
                 // Put to Server
-                HandlePutStateProcess();
+                //HandlePutStateProcess();
                 //HandlePutStateRoom(schedule);    //cap nhat state cua Room
 
                 await Navigation.PopAsync();
@@ -659,5 +686,7 @@ namespace AutoAttendant.Views
         //    }
         //}
         #endregion
+
+        
     }
 }

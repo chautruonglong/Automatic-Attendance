@@ -88,21 +88,21 @@ namespace AutoAttendant.Views.PopUp
         public void GetTimeSlot(List<String> listTimeSlot)
         {
             usedTimeSlotLabel.Text = "|";
-            List<TimeSpan> listTimeSingle = new List<TimeSpan>();
-            foreach (string timeSlot in listTimeSlot)
-            { 
-                TimeSpan a=Convert.ToDateTime(timeSlot.Substring(0,5)).TimeOfDay;
-                TimeSpan b = Convert.ToDateTime(timeSlot.Substring(5, 5)).TimeOfDay;
-                listTimeSingle.Add(a);
-                listTimeSingle.Add(b);
-            }
+            //List<TimeSpan> listTimeSingle = new List<TimeSpan>();
+            //foreach (string timeSlot in listTimeSlot)
+            //{ 
+            //    TimeSpan a=Convert.ToDateTime(timeSlot.Substring(0,5)).TimeOfDay;
+            //    TimeSpan b = Convert.ToDateTime(timeSlot.Substring(5, 5)).TimeOfDay;
+            //    listTimeSingle.Add(a);
+            //    listTimeSingle.Add(b);
+            //}
 
-            var ArrayTimeSingle = listTimeSingle.ToArray();
-            for (int i = 0; i < listTimeSlot.Count() - 1; i++)
-            {
-                TimeSpan x = ArrayTimeSingle[2 * (i + 1)] - ArrayTimeSingle[2 * i + 1];
+            //var ArrayTimeSingle = listTimeSingle.ToArray();
+            //for (int i = 0; i < listTimeSlot.Count() - 1; i++)
+            //{
+            //    TimeSpan x = ArrayTimeSingle[2 * (i + 1)] - ArrayTimeSingle[2 * i + 1];
                 
-            }
+            //}
             foreach (string timeSlot  in listTimeSlot)
             {
                 usedTimeSlotLabel.Text = usedTimeSlotLabel.Text + "   " + timeSlot + "   " + "|";
@@ -156,9 +156,23 @@ namespace AutoAttendant.Views.PopUp
                 ListStd.day =lb_date.Text;
                 if (ListStd.day.Equals(DateTime.Now.DayOfWeek.ToString()))
                 {
-                    var subject = new Subject(ListStd.subject_id, ListStd.lecturer_id, ListStd.room_id, ListStd.name, ListStd.time_slot, ListStd.day);
-                    HomePage._lsjvm.SubjectCollection.Add(subject);
-
+                    if(SubjectPage.enableSubJectId == "-2")
+                    {
+                        var subject = new Subject(ListStd.subject_id, ListStd.lecturer_id, ListStd.room_id, ListStd.name, ListStd.time_slot, ListStd.day);
+                        SubjectPage.enableSubJectId = subject.subject_id;
+                        HomePage._lsjvm.SubjectCollection.Add(subject);
+                    }
+                    else if (SubjectPage.enableSubJectId == "-1")
+                    {
+                        var subject = new Subject(ListStd.subject_id, ListStd.lecturer_id, ListStd.room_id, ListStd.name, ListStd.time_slot, ListStd.day);
+                        SubjectPage.enableSubJectId = subject.subject_id;
+                        HomePage._lsjvm.SubjectCollection.Add(subject);
+                    }
+                    else
+                    {
+                        var subject = new Subject(ListStd.subject_id, ListStd.lecturer_id, ListStd.room_id, ListStd.name, ListStd.time_slot, ListStd.day);
+                        HomePage._lsjvm.SubjectCollection.Add(subject);
+                    }
                 }
                 var listtemp= HomePage._lsjvm.SubjectCollection.OrderBy(r => TimeSpan.Parse(r.time_slot.Substring(0, 5)));
                 HomePage._lsjvm.SubjectCollection = new ObservableCollection<Subject>(listtemp);
@@ -186,14 +200,13 @@ namespace AutoAttendant.Views.PopUp
                 var baseStdList_URL = HomePage.base_URL +"/subject/create/";
                 HttpResponseMessage response = await httpService.PostAsync(baseStdList_URL, contentStdList);
                 var message = await response.Content.ReadAsStringAsync();
-                await DisplayAlert("Error ", message, "OK");
+                await DisplayAlert("Notice", message, "OK");
 
                 if (response.IsSuccessStatusCode)
                 {
                     Action?.Invoke(this, "Add succesfully");
                     await PopupNavigation.Instance.PopAsync();
                 }
-                
             }
             catch (Exception ex)
             {
@@ -225,6 +238,9 @@ namespace AutoAttendant.Views.PopUp
                     IApplication application = excelEngine.Excel;
                     application.DefaultVersion = ExcelVersion.Excel2016;
                     var fileStream = await pickerResult.OpenReadAsync();
+
+                    var resourcePath = pickerResult.FullPath.ToString(); // lay ra path file
+                    lb_ExcelFile.Text = resourcePath;
 
                     //Open the workbook
                     IWorkbook workbook = application.Workbooks.Open(fileStream);
@@ -266,8 +282,6 @@ namespace AutoAttendant.Views.PopUp
                     ListStd.name = name_sub;
                     ListStd.subject_id = id_sub;
                     ListStd.students = StdNui_list;
-
-
                 }
             }
             catch(Exception ex)

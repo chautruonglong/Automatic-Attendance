@@ -59,21 +59,23 @@ namespace AutoAttendant.Views
         {
             try
             {
-                var thread = new Thread(paintLoading);
-                thread.Start();
+                UserDialogs.Instance.ShowLoading("Please wait...");
                 HomePage.base_URL = "http://" + Entry_Api.Text;
                 //UserTemp userTemp = new UserTemp(Entry_user.Text, Entry_password.Text);
                 UserTemp userTemp = new UserTemp(Entry_user.Text, HashPW.HashPassword(Entry_password.Text));
                 var httpService = new HttpClient();
+                httpService.Timeout = TimeSpan.FromSeconds(5);
 
                 string jsonData = JsonConvert.SerializeObject(userTemp); // dung` UserTemp để post login vì chỉ cần email vs password
                 //var base_URL = HomePage.base_URL + "/login";
                 var base_URL = HomePage.base_URL + "/account/login/";
 
                 StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+         
                 HttpResponseMessage response = await httpService.PostAsync(base_URL, content);
-                
                 var result = await response.Content.ReadAsStringAsync();
+
+                //UserDialogs.Instance.HideLoading();
                 //Data.Data.Instance.User = JsonConvert.DeserializeObject<User>(result); // dùng User để nhận json về vì có chứa thêm token, idLecture (static)
                 Data.Data.Instance.UserNui = JsonConvert.DeserializeObject<UserNui>(result);
                 UserNui userNui = JsonConvert.DeserializeObject<UserNui>(result);
@@ -86,23 +88,23 @@ namespace AutoAttendant.Views
                 if (response.IsSuccessStatusCode)
                 {
                     //UserDialogs.Instance.ShowLoading("Please wait...");
-                    //await Task.Delay(2000);
-                    thread.Abort();
-                    UserDialogs.Instance.HideLoading();
+                    //await Task.Delay(600);
                     SaveAccountLogined(); // save user and password for next time
                     await Navigation.PushAsync(new HomePage());
                 }
                 else {
-                    thread.Abort();
-                    UserDialogs.Instance.HideLoading();
+                    
+                    //UserDialogs.Instance.HideLoading();
                     await DisplayAlert("Error", "Login Fail", "Try Again");
                 } 
 
             }
             catch (Exception ex)
             {
-                await DisplayAlert("ERROR", ex.Message, "Try Again");
+                await DisplayAlert("Error", "Login Fail", "Try Again");
+                //await DisplayAlert("ERROR", ex.Message, "Try Again");
             }
+            UserDialogs.Instance.HideLoading();
         }
 
         private void ForgotPassword(object sender, EventArgs e)

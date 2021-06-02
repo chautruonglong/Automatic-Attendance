@@ -26,13 +26,14 @@ namespace AutoAttendant.Views
             try
             {
                 //Bo sung them student.ID
+                lb_Id.Text = student.student_id;
                 lb_Name.Text = student.name;
                 lb_Class.Text = student.class_name;
                 lb_birth.Text = student.birth;
                 lb_phone.Text = student.phone;
-                //Attendance atd = ListStudentPage.listAttendance.Single(r => r.student_id.Equals("102180171"));
                 Avatar.Source = student.img_3x4;
                 AvatarAttendance.Source = student.img_attendance;
+                //Attendance atd = ListStudentPage.listAttendance.Single(r => r.student_id.Equals("102180171"));
                 var x = student.state;
                 if (x)
                 {

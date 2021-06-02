@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoAttendant.Views.ListStudentForViewPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Pie chart" Order="Secondary" Clicked="ToChartPage"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#021135">
+            
+            <ListView ItemsSource="{Binding StudentCollection}" RowHeight="80" HorizontalOptions="Center"  x:Name="list_student">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Spacing="10" VerticalOptions="CenterAndExpand">
+                                <Frame OutlineColor="Black"
+                                   x:Name="frameStudent"
+                                   CornerRadius="10"
+                                   Margin="10,0"
+                                   HeightRequest="20"
+                                   BackgroundColor="#246CFE">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnTapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout Orientation="Horizontal" Spacing="10">
+                                        <Label Text="{Binding name}" TextColor="#000" FontSize="16" WidthRequest="250" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold"/>
+                                        <Label Text="{Binding phone}" TextColor="#000" FontSize="16" WidthRequest="1" VerticalTextAlignment="Center" IsVisible="False"/>
+                                        <Label Text="{Binding confidence}" TextColor="#000" FontSize="16" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="True" WidthRequest="50"/>
+                                        <Image Source="checked25px" WidthRequest="20" HeightRequest="20" IsVisible="False"/>
+                                        <CheckBox IsChecked="{Binding state}" Color="#9DFE65" VerticalOptions="Center" HeightRequest="25" IsVisible="True" x:Name="cbStatus"/>
+                                        <!--Binding checkbox theo state, true = checked || false = unchecked-->
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
