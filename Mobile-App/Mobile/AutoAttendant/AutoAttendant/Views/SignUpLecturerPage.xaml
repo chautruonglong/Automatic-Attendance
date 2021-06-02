@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:AutoAttendant" xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             x:Class="AutoAttendant.Views.SignUpLecturerPage">
+    <ContentPage.Content>
+        <ScrollView BackgroundColor="#021135" Padding="0,20">
+
+            <StackLayout Orientation="Vertical" Margin="20">
+
+                <StackLayout>
+                    <lottie:AnimationView x:Name="animation" Animation="face.json" AutoPlay="True" RepeatCount="1"
+                    WidthRequest="300" HeightRequest="300" HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+                <Label  x:Name="Lb_idLecturer" Text="ID"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        TextColor="#FFF"
+                        FontSize="18"
+                        FontFamily=""
+                        FontAttributes="Bold"/>
+
+                <local:CustomEntry x:Name="Entry_Id" TextColor="#FFF" 
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   VerticalOptions="StartAndExpand"
+                                   Margin="0,0,0,15">
+                </local:CustomEntry>
+
+                <Label  x:Name="Lb_Name" Text="Name"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        TextColor="#FFF"
+                        FontSize="18"
+                        FontFamily=""
+                        FontAttributes="Bold"/>
+
+                <local:CustomEntry x:Name="Entry_name" TextColor="#FFF" 
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   VerticalOptions="StartAndExpand"
+                                   Margin="0,0,0,15">
+                </local:CustomEntry>
+
+                <Label  x:Name="Lb_age" Text="Age"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        TextColor="#FFF"
+                        FontSize="18"
+                        FontFamily=""
+                        FontAttributes="Bold"/>
+
+                <local:CustomEntry x:Name="Entry_age" TextColor="#FFF" 
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   VerticalOptions="StartAndExpand"
+                                   Margin="0,0,0,15">
+                </local:CustomEntry>
+
+                <Label  x:Name="Lb_phone" Text="Phone"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        TextColor="#FFF"
+                        FontSize="18"
+                        FontFamily=""
+                        FontAttributes="Bold"/>
+
+                <local:CustomEntry x:Name="Entry_phone" TextColor="#FFF" 
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   VerticalOptions="StartAndExpand"
+                                   Margin="0,0,0,15">
+                </local:CustomEntry>
+
+                <Label  x:Name="Lb_faculty" Text="Faculty"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        TextColor="#FFF"
+                        FontSize="18"
+                        FontFamily=""
+                        FontAttributes="Bold"/>
+
+                <local:CustomEntry x:Name="Entry_faculty" TextColor="#FFF" 
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   VerticalOptions="StartAndExpand"
+                                   Margin="0,0,0,15">
+                </local:CustomEntry>
+
+                <Button Text="Go to Home page" BackgroundColor="#1832F6" TextTransform="None" FontAttributes="Bold"
+                        FontSize="16" TextColor="#FFF" BorderRadius="8" Margin="0,30,0,0" Clicked="btnToHomePage"  HeightRequest="40">
+
+                </Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoAttendant.Views.SubjectPage">
+
+    <ContentPage.ToolbarItems>
+        <!--<ToolbarItem Name="SearchItem" Icon="search25px.png" Priority="0" />-->
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#021135">
+            <!--<SearchBar Placeholder="Search" PlaceholderColor="#FFF" FontSize="16"  BackgroundColor="#021135" HeightRequest="40" TextColor="#FFF" CancelButtonColor="#FFF">
+
+            </SearchBar>-->
+            <StackLayout Orientation="Horizontal" Margin="10,0,0,0" Padding="20,20,20,10" x:Name="DatePickerLayout" Spacing="10">
+
+                <Image Source="classroom.png"></Image>
+                <Label Text="My Classes" TextColor="#FFF" FontSize="17"></Label>
+            </StackLayout>
+
+            <StackLayout Padding="10,10,10,20" HeightRequest="500">
+
+                <Button Text="Add subject" x:Name="btn_AddSubject" ContentLayout="Left" ImageSource="add"
+                        HorizontalOptions="Start" BackgroundColor="#021135" 
+                        TextTransform="None" FontSize="16" VerticalOptions="Center"
+                        Margin="0,0,0,10"  TextColor="#FFF" BorderRadius="10"
+                        BorderColor="#FFF" Clicked="AddSubjectClicked"/>
+                
+                <ListView ItemsSource="{Binding SubjectCollection}" RowHeight="80" HorizontalOptions="Center">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Spacing="10" VerticalOptions="CenterAndExpand">
+                                    <Frame OutlineColor="Black"
+                                            x:Name="frameStudent"
+                                            CornerRadius="10"
+                                            Margin="10,0"
+                                            HeightRequest="20"
+                                            BackgroundColor="{Binding colorState}">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="SubjectClick"/>
+                                        </Frame.GestureRecognizers>
+                                        <StackLayout Orientation="Horizontal" Spacing="10">
+                                            <Label Text="{Binding subject_id}" TextColor="#000" FontSize="13" WidthRequest="1" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold" Margin="-5,0,0,0" IsVisible="False"/>
+                                            <Label Text="{Binding name}" TextColor="#000" FontSize="13" WidthRequest="200" VerticalTextAlignment="Center" IsVisible="True" FontAttributes="Bold" HorizontalTextAlignment="Start"/>
+                                            <!--<Label Text="{Binding state}" TextColor="#000" FontSize="5" WidthRequest="5" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="False"/>-->
+                                            <!--<Label Text="{Binding id}" TextColor="#000" WidthRequest="5" IsVisible="False"></Label>-->
+                                            <Label Text="{Binding time_slot}" TextColor="#000" FontSize="13" WidthRequest="100" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" IsVisible="True" FontAttributes="Bold"></Label>
+                                            <Label Text="{Binding day}" TextColor="#000" FontSize="13" WidthRequest="70" VerticalTextAlignment="Center" HorizontalTextAlignment="End" IsVisible="True" FontAttributes="Bold"></Label>
+                                            <Image Source="attendance_Black" WidthRequest="20" HorizontalOptions="Start" Margin="-5,0,0,0"></Image>
+
+                                        </StackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

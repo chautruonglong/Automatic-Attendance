@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoAttendant.Views.UnknownPage">
+    <ContentPage.Content>
+
+
+        <StackLayout BackgroundColor="#021135">
+            <StackLayout Orientation="Horizontal" Spacing="100" Margin="20">
+                <Label Text="List Unknown" TextColor="#FFF" FontSize="18"/>
+                <Label Text="List Absent Student" TextColor="#FFF" FontSize="18"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" BackgroundColor="#021135" Spacing="20" Padding="20">
+
+                <ListView x:Name="list_Unknown" RowHeight="120" HorizontalOptions="Center">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Spacing="10" VerticalOptions="FillAndExpand" x:Name="Container">
+                                    <Frame CornerRadius="0" 
+                                       HeightRequest="400"
+                                       WidthRequest="100"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="FillAndExpand"
+                                       Padding="0"
+                                       IsClippedToBounds="True" Margin="0,0,0,10">
+
+                                        <StackLayout>
+                                            <Image x:Name="Avatar"
+                                           Source="{Binding img_face}" 
+                                           HorizontalOptions="FillAndExpand"
+                                           VerticalOptions="FillAndExpand"
+                                           Aspect="AspectFill"/>
+                                            <Label Text="{Binding confidence}" TextColor="#FFF" BackgroundColor="#021135" FontAttributes="Bold" FontSize="16"></Label>
+                                        </StackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+
+                <ListView x:Name="list_3x4"  RowHeight="120" HorizontalOptions="Center">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Spacing="10" VerticalOptions="Center" x:Name="Container">
+                                    <Frame CornerRadius="0" 
+                                       HeightRequest="400"
+                                       WidthRequest="100"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Padding="0"
+                                       IsClippedToBounds="True" Margin="0,0,0,10">
+
+                                        <Image x:Name="Avatar"
+                                           Source="{Binding img_3x4}" 
+                                           HorizontalOptions="FillAndExpand"
+                                           VerticalOptions="Center"
+                                           Aspect="AspectFill"/>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

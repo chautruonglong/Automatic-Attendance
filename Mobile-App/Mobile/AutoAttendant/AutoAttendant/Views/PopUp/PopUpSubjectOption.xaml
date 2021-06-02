@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage  xmlns:pages="http://rotorgames.com" xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoAttendant.Views.PopUp.PopUpSubjectOption">
+
+    <pages:PopupPage.Animation>
+        <pages:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+        <Frame CornerRadius="15"   
+               BackgroundColor="#3D3C40" Padding="10">
+
+            <StackLayout Orientation="Vertical" HeightRequest="350" WidthRequest="320" BackgroundColor="#3D3C40" Padding="20,10,20,10">
+                <!--<Button ImageSource="closewindow30px"  
+                                    BackgroundColor="#3D3C40" 
+                                    FontAttributes="Bold" TextTransform="None"
+                                    Margin="180,0,0,5"  TextColor="#FFF "
+                                    BorderColor="#FFF" BorderRadius="10" WidthRequest="30" HeightRequest="30" HorizontalOptions="End" Clicked="ClosePopUp"/>-->
+                <Label Text="Your schedule" FontSize="18" FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    TextColor="#FFF" Margin="0,0,0,10">
+
+                </Label>
+                <StackLayout Orientation="Horizontal" Margin="0,0,0,20">
+                    <Label Text="Class" TextColor="#F5F5F5" 
+                                       FontSize="15" FontAttributes="Bold"
+                                       VerticalOptions="Center" WidthRequest="100">
+                    </Label>
+                    <Label Text="{Binding subject_id}" TextColor="#F5F5F5" 
+                                       FontSize="15" FontAttributes="Bold"
+                                       VerticalOptions="Center" WidthRequest="200" HorizontalTextAlignment="Start">
+                    </Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Margin="0,0,0,20">
+                    <Label Text="Subject" TextColor="#F5F5F5" 
+                                       FontSize="15" FontAttributes="Bold"
+                                       VerticalOptions="Center" WidthRequest="100">
+                    </Label>
+                    <Label Text="{Binding name}" TextColor="#F5F5F5" 
+                                       FontSize="15" FontAttributes="Bold"
+                                       VerticalOptions="Center" WidthRequest="200" HorizontalTextAlignment="Start">
+                    </Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Margin="0,0,0,20">
+                    <Label Text="Room" TextColor="#F5F5F5" 
+                                       FontSize="15" FontAttributes="Bold"
+                                       VerticalOptions="Center" WidthRequest="100">
+                    </Label>
+                    <Label Text="{Binding room_id}" TextColor="#F5F5F5" 
+                                       FontSize="15" FontAttributes="Bold"
+                                       VerticalOptions="Center" WidthRequest="200" HorizontalTextAlignment="Start">
+                    </Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Margin="0,0,0,20">
+                    <Label Text="Day" TextColor="#F5F5F5" 
+                                       FontSize="15" FontAttributes="Bold"
+                                       VerticalOptions="Center" WidthRequest="100">
+                    </Label>
+                    <Label Text="{Binding day}" TextColor="#F5F5F5" 
+                                       FontSize="15" FontAttributes="Bold"
+                                       VerticalOptions="Center" WidthRequest="200" HorizontalTextAlignment="Start">
+                    </Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Margin="0,0,0,20">
+                    <Label Text="Time slot" TextColor="#F5F5F5" 
+                                       FontSize="15" FontAttributes="Bold"
+                                       VerticalOptions="Center" WidthRequest="100">
+                    </Label>
+                    <Label Text="{Binding time_slot}" TextColor="#F5F5F5" 
+                                       FontSize="15" FontAttributes="Bold"
+                                       VerticalOptions="Center" WidthRequest="100">
+                    </Label>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" Margin="-10,10,0,0" HorizontalOptions="Center" Spacing="20">
+                    <Button Text="Join"  HeightRequest="40" WidthRequest="90"
+                                    HorizontalOptions="Center" FontSize="15"
+                                    IsVisible="True" Background="#6562FC" BorderRadius="8"
+                                    Clicked="JoinClass" TextColor="#FFF" FontAttributes="Bold">
+                    </Button>
+                    <!--<Button Text="Update"  HeightRequest="40" WidthRequest="80"
+                                    HorizontalOptions="End" FontSize="15"
+                                    IsVisible="True" Background="#6562FC" BorderRadius="8"
+                                    Clicked="UpdateClass" TextColor="#FFF" FontAttributes="Bold">
+                    </Button>
+                    <Button Text="Delete"  HeightRequest="40" WidthRequest="80"
+                                    HorizontalOptions="End" FontSize="15"
+                                    IsVisible="True" Background="#6562FC" BorderRadius="8"
+                                    Clicked="DeleteClass" TextColor="#FFF" FontAttributes="Bold">
+                    </Button>-->
+                    <Button Text="Cancle"  HeightRequest="40" WidthRequest="90"
+                                    HorizontalOptions="Center" FontSize="15"
+                                    IsVisible="True" Background="#6562FC" BorderRadius="8"
+                                    Clicked="CancleClass" TextColor="#FFF" FontAttributes="Bold">
+                    </Button>
+                </StackLayout>
+
+            </StackLayout>
+        </Frame>
+    </StackLayout>
+</pages:PopupPage>

@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoAttendant.Views.ListStudentPage">
+    <ContentPage.ToolbarItems>
+        <!--<ToolbarItem Name="SearchItem" Icon="search25px.png" Priority="0" Clicked="ExportExcel"/>-->
+        <ToolbarItem Text="Pie chart" Order="Secondary" Clicked="ToChartPage"></ToolbarItem>
+        <ToolbarItem Text="Unknown List" Order="Secondary" Clicked="ToUnknownPage"></ToolbarItem>
+        <!--<ToolbarItem Text="Copy list students" Order="Secondary"></ToolbarItem>-->
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#021135">
+            <StackLayout Orientation="Horizontal" Padding="5,15,0,0" VerticalOptions="Center" Spacing="20">
+                <!--<Button x:Name="btnSortOption" Text="Class" ContentLayout="Right" ImageSource="sorting"  
+                        HorizontalOptions="Fill" VerticalOptions="Center" BackgroundColor="#021135" 
+                        FontAttributes="None" TextTransform="None" FontSize="16"
+                        BorderRadius="8" TextColor="#FFF"
+                        Clicked="OpenPicker"/>
+                <Picker IsEnabled="False" IsVisible="false" x:Name="PickerSort" SelectedIndexChanged="HandlePickerSort">
+                    <Picker.Items>
+                        <x:String>Class</x:String>
+                        <x:String>Name</x:String>
+                        <x:String>Time</x:String>
+                    </Picker.Items>
+                </Picker>-->
+                <Button x:Name="btnTakeAttendance" Text="Take Attendance" ContentLayout="Right" ImageSource="attendance"  
+                        HorizontalOptions="Start" VerticalOptions="Center" BackgroundColor="#021135" 
+                        FontAttributes="None" TextTransform="None" FontSize="15" HeightRequest="40"
+                        BorderRadius="8" TextColor="#FFF" BorderWidth="1" BorderColor="#FFF"
+                        Clicked="TakeAttendance" Margin="10,0,0,0"/>
+                <Button x:Name="btnSave" Text="Save" ContentLayout="Right" ImageSource="checked"  
+                        HorizontalOptions="CenterAndExpand" VerticalOptions="Center" BackgroundColor="#021135" 
+                        FontAttributes="None" TextTransform="None" FontSize="15" HeightRequest="40"
+                        BorderRadius="8" TextColor="#FFF" BorderWidth="1" BorderColor="#FFF"
+                        Clicked="ClickSaveToEndClass"/>
+            </StackLayout>
+            
+            <StackLayout Orientation="Horizontal" Padding="5,0,0,0" VerticalOptions="Center">
+                <!--<Label Text="Sort by" TextColor="#FFF" FontSize="18" WidthRequest="200" VerticalOptions="Center"/>-->
+                <Button Text="Add a student" x:Name="btn_AddStduent" ContentLayout="Left" ImageSource="add"
+                        HorizontalOptions="Fill" BackgroundColor="#021135" 
+                        TextTransform="None" FontSize="16"
+                        Margin="0,0,0,10"  TextColor="#FFF" BorderRadius="10"
+                        BorderColor="#FFF" Clicked="AddSingleStudent"/>
+                <Button Text="Import Excel" x:Name="btn_Excel" ContentLayout="Left" ImageSource="excel"
+                        HorizontalOptions="Fill" BackgroundColor="#021135" TextTransform="None" FontSize="16"
+                        Margin="40,0,0,10"  TextColor="#FFF" BorderRadius="10"
+                        BorderColor="#FFF" Clicked="ImportExcel"/>
+            </StackLayout>
+            <ListView ItemsSource="{Binding StudentCollection}" RowHeight="80" HorizontalOptions="Center"  x:Name="list_student">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Spacing="10" VerticalOptions="CenterAndExpand">
+                                <Frame OutlineColor="Black"
+                                   x:Name="frameStudent"
+                                   CornerRadius="10"
+                                   Margin="10,0"
+                                   HeightRequest="20"
+                                   BackgroundColor="#246CFE">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnTapped"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout Orientation="Horizontal" Spacing="10">
+                                        <Label Text="{Binding name}" TextColor="#000" FontSize="16" WidthRequest="250" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold"/>
+                                        <Label Text="{Binding phone}" TextColor="#000" FontSize="16" WidthRequest="1" VerticalTextAlignment="Center" IsVisible="False"/>
+                                        <Label Text="{Binding confidence}" TextColor="#000" FontSize="16" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="True" WidthRequest="70"/>
+                                        <Image Source="checked25px" WidthRequest="20" HeightRequest="20" IsVisible="False"/>
+                                        <CheckBox IsChecked="{Binding state}" Color="#9DFE65" VerticalOptions="Center" HeightRequest="25" IsVisible="True" x:Name="cbStatus"/>
+                                        <!--Binding checkbox theo state, true = checked || false = unchecked-->
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

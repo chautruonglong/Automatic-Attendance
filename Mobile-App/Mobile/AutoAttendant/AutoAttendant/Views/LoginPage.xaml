@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:AutoAttendant"
+             x:Class="AutoAttendant.Views.LoginPage"
+             NavigationPage.HasNavigationBar="false"
+             >
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#021135">
+            <Image
+                Source="temp.png"/>
+            <StackLayout Margin="30, 0, 30, 0 ">
+                <Label  x:Name="Lb_user" Text="E-mail"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        TextColor="#FFF"
+                        FontSize="16"
+                        FontFamily=""
+                        FontAttributes="Bold"/>
+
+                <local:CustomEntry x:Name="Entry_user" TextColor="#FFF" 
+                                   HeightRequest="38" BackgroundColor="#022656"
+                                   VerticalOptions="StartAndExpand"
+                                   Margin="0,0,0,20" FontSize="15">
+                </local:CustomEntry>
+
+                <Label  x:Name="Lb_password" Text="Password"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Start" 
+                        TextColor="#FFF"
+                        FontSize="16"
+                        FontAttributes="Bold"/>
+
+                <local:CustomEntry x:Name="Entry_password" IsPasswordFlag="True"
+                                   IsPassword="True" TextColor="#FFF"
+                                   HeightRequest="38" BackgroundColor="#022656"
+                                   Margin="0,0,0,5" FontSize="15">
+                </local:CustomEntry>
+
+                <Label x:Name="Lb_forgot" Text="Forgot Password?"
+                       TextColor="#FFF" HorizontalOptions="Start"
+                       Margin="0, 5, 0, 20">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ForgotPassword" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Button x:Name="Btn_login" Text="Login"
+                        Clicked="LoginProcedure" FontSize="16"
+                        BackgroundColor="#1832F6"
+                        TextColor="#FFF"
+                        FontAttributes="Bold"
+                        HeightRequest="40"
+                        BorderRadius="8"
+                        />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Margin="30,10,0,0">
+
+                <Label Text="Don't have an account?"
+                       TextColor="#FFF"
+                       FontSize="16"/>
+
+                <Label x:Name="Btn_signup" Text="Sign Up"
+                       TextColor="#FFF"
+                       TextTransform="None"
+                       BackgroundColor="#021135"
+                       FontAttributes="Bold"
+                       FontSize="17"
+                       Margin="5,-1,0,0">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="SignUp" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <local:CustomEntry x:Name="Entry_Api" TextColor="#FFF" Text="192.168.30.105:8000"
+                                   HeightRequest="40" BackgroundColor="#022656"
+                                   HorizontalOptions="Start" WidthRequest="80" IsVisible="False" Margin="10,0,0,0">
+                </local:CustomEntry>
+                
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Button x:Name="Btn_api"
+                        Clicked="OpenApiEntry" FontSize="10"
+                        BackgroundColor="#FFF"
+                        HeightRequest="10"
+                        WidthRequest="30"
+                        BorderRadius="8"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"
+                        />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

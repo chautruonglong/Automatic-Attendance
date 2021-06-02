@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                  x:Class="AutoAttendant.Views.HomePage"
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False"     
+             MasterBehavior="Popover"
+             >
+
+    <MasterDetailPage.Master>
+        <ContentPage Padding="10" BackgroundColor="#1A1A1D" Title="Master" >
+            <ContentPage.Content>
+                <StackLayout Margin="5,20,5,5">
+                    
+                    <!--<Frame CornerRadius="80" 
+                           HeightRequest="160"
+                           WidthRequest="160"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Padding="0"
+                           IsClippedToBounds="True"
+                           >
+                        <Image x:Name="Avatar"
+                               Source="DefaultAvatar.jpg" 
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="Center"
+                               Aspect="AspectFill"/>
+                    </Frame>
+                    
+                    <Label Text="Edit Image" TextColor="#FFF" Margin="0,20" FontSize="18" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ChangeAvatar" />
+                        </Label.GestureRecognizers>
+                    </Label>-->
+                    <xct:AvatarView x:Name="Avatar" HorizontalOptions="Center" Text="X" VerticalOptions="Start" Size="80" Color="#CFDADF" Margin="0,30,0,0">
+                        <xct:AvatarView.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ChangeAvatar"/>
+                        </xct:AvatarView.GestureRecognizers>
+                    </xct:AvatarView>
+                    <Label x:Name="Lb_LectureName" Text="" TextColor="#FFF" HorizontalOptions="Center" FontAttributes="Bold" FontSize="16" Margin="0,20"/>
+
+                    <ScrollView Orientation="Vertical">
+                        <StackLayout BackgroundColor="#1A1A1D">
+                            <Frame HeightRequest="25"
+                               BackgroundColor="#1A1A1D">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="HandleHome"/>
+                                </Frame.GestureRecognizers>
+                                <StackLayout Orientation="Horizontal" Padding="20,0" VerticalOptions="Center">
+                                    <Image Source="home25px" WidthRequest="25" HeightRequest="25" Margin="0,0,30,0"/>
+                                    <Label Text="Home" TextColor="#FFF" FontSize="17" VerticalTextAlignment="Center"/>
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame HeightRequest="25"
+                               BackgroundColor="#1A1A1D">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="HandleTeacherProfile"/>
+                                </Frame.GestureRecognizers>
+                                <StackLayout Orientation="Horizontal" Padding="20,0" VerticalOptions="Center">
+                                    <Image Source="user25px" WidthRequest="25" HeightRequest="25" Margin="0,0,30,0"/>
+                                    <Label Text="Profile" TextColor="#FFF" FontSize="17" VerticalTextAlignment="Center"/>
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame HeightRequest="25"
+                               BackgroundColor="#1A1A1D">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="HandleRoom"/>
+                                </Frame.GestureRecognizers>
+                                <StackLayout Orientation="Horizontal" Padding="20,0" VerticalOptions="Center">
+                                    <Image Source="room" WidthRequest="25" HeightRequest="25" Margin="0,0,30,0"/>
+                                    <Label Text="Rooms" TextColor="#FFF" FontSize="17" VerticalTextAlignment="Center"/>
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame HeightRequest="25"
+                               BackgroundColor="#1A1A1D">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="HandleHistory"/>
+                                </Frame.GestureRecognizers>
+                                <StackLayout Orientation="Horizontal" Padding="20,0" VerticalOptions="Center">
+                                    <Image Source="history" WidthRequest="25" HeightRequest="25" Margin="0,0,30,0"/>
+                                    <Label Text="History" TextColor="#FFF" FontSize="17" VerticalTextAlignment="Center"/>
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame HeightRequest="25"
+                               BackgroundColor="#1A1A1D">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="HandleSetting"/>
+                                </Frame.GestureRecognizers>
+                                <StackLayout Orientation="Horizontal" Padding="20,0" VerticalOptions="Center">
+                                    <Image Source="settings25px" WidthRequest="25" HeightRequest="25" Margin="0,0,30,0"/>
+                                    <Label Text="Setting" TextColor="#FFF" FontSize="17" VerticalTextAlignment="Center"/>
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame HeightRequest="25"
+                               BackgroundColor="#1A1A1D">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="HandleLogOut"/>
+                                </Frame.GestureRecognizers>
+                                <StackLayout Orientation="Horizontal" Padding="20,0" VerticalOptions="Center">
+                                    <Image Source="exit25px" WidthRequest="25" HeightRequest="25" Margin="0,0,30,0"/>
+                                    <Label Text="Log out" TextColor="#FFF" FontSize="17" VerticalTextAlignment="Center"/>
+                                </StackLayout>
+                            </Frame>
+                            
+                        </StackLayout>
+                    </ScrollView>
+                    
+
+                </StackLayout>
+            </ContentPage.Content>
+        </ContentPage>
+    </MasterDetailPage.Master>
+    
+    <MasterDetailPage.Detail>
+        <ContentPage>
+            <ContentPage.Content Padding="10">
+                <StackLayout BackgroundColor="#021135">
+
+
+                </StackLayout>
+            </ContentPage.Content>
+        </ContentPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

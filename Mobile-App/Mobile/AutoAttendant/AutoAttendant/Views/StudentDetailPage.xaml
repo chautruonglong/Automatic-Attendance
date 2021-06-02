@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoAttendant.Views.StudentDetailPage">
+    <ContentPage.Content>
+        <StackLayout Padding="20" BackgroundColor="#021135">
+            <Frame CornerRadius="50" 
+                   HeightRequest="100"
+                   WidthRequest="100"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Padding="0"
+                   IsClippedToBounds="True" Margin="0,0,0,10">
+                
+                <Image x:Name="Avatar"
+                       Source="DefaultAvatar.jpg" 
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       Aspect="AspectFill"/>
+            </Frame>
+
+            <Grid Padding="10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="90"/>
+                    
+                </Grid.ColumnDefinitions>
+
+                <Label Text="ID" TextColor="#FFF" Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_Id"  TextColor="#FFF" Grid.Row="0" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+
+                <Label Text="Name" TextColor="#FFF" Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_Name" TextColor="#FFF" Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+                
+                <Label Text="Class" TextColor="#FFF" Grid.Row="2" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_Class" TextColor="#FFF" Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+                
+                <Label Text="Birth" TextColor="#FFF" Grid.Row="3" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_birth" TextColor="#FFF" Grid.Row="3" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+
+                <Label Text="Phone" TextColor="#FFF" Grid.Row="4" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_phone" TextColor="#FFF" Grid.Row="4" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center"/>
+
+                <Label Text="Status" TextColor="#FFF" Grid.Row="5" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <RadioButton Grid.Row="5" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" GroupName="status" Content="Attended" TextColor="#9DFE65" x:Name="btnAttendance"/>
+                <RadioButton Grid.Row="5" Grid.Column="2" HorizontalOptions="Start" VerticalOptions="Center" GroupName="status" Content="Absent" TextColor="#EC3108" x:Name="btnAbsent" IsChecked="False"/>
+
+            </Grid>
+            <!--<ListView HeightRequest="80">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>-->
+            <Frame CornerRadius="50" 
+                   HeightRequest="100"
+                   WidthRequest="100"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Padding="0"
+                   IsClippedToBounds="True" Margin="0,20,0,10">
+
+                <Image x:Name="AvatarAttendance"
+                       Source="DefaultAvatar.jpg" 
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="FillAndExpand"
+                       Aspect="AspectFill"/>
+            </Frame>
+            
+            <Button x:Name="Btn_save" Text="Save"
+                        FontSize="16" Clicked="SaveAndBack"
+                        BackgroundColor="#1832F6"
+                        TextColor="#FFF"
+                        FontAttributes="Bold"
+                        HeightRequest="40"
+                        BorderRadius="8" Margin="20"
+                        />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

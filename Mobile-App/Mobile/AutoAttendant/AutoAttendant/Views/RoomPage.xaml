@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoAttendant.Views.RoomPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="SearchItem" Icon="search25px.png" Priority="0"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#021135">
+            <SearchBar Placeholder="Search" PlaceholderColor="#BFB5B5" FontSize="16"  BackgroundColor="#021135" HeightRequest="45" TextColor="#BFB5B5" CancelButtonColor="#BFB5B5" TextChanged="SearchRoom_TextChanged" Margin="0,0,0,20">
+
+            </SearchBar>
+            <StackLayout Orientation="Horizontal" Margin="10,0,0,0" x:Name="DatePickerLayout" VerticalOptions="Center">
+
+                <!--<Button Text="Date" x:Name="btnDatePicker" ContentLayout="Left" ImageSource="calendar"
+                        HorizontalOptions="Fill" BackgroundColor="#021135" 
+                        TextTransform="None" FontSize="16"
+                        Margin="0,10,0,10"  TextColor="#FFF" BorderRadius="10"
+                        BorderColor="#FFF" />
+
+                <Button Text="Add new room"  ContentLayout="Left" ImageSource="add"
+                        HorizontalOptions="Fill" BackgroundColor="#021135" 
+                        TextTransform="None" FontSize="16"
+                        Margin="100,10,0,10"  TextColor="#FFF" BorderRadius="10"
+                        BorderColor="#FFF"/>-->
+               
+      
+            </StackLayout>
+            
+
+            <StackLayout Padding="20,0" HeightRequest="500">
+                <Label x:Name="lb_date" Text="Today" FontSize="15" FontAttributes="Bold" TextColor="#FFF"/>
+                <ListView ItemsSource="{Binding RoomCollection}" RowHeight="80" HorizontalOptions="Center">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Spacing="10" VerticalOptions="CenterAndExpand" x:Name="Container">
+                                    <Frame OutlineColor="Black"
+                                            x:Name="frameStudent"
+                                            CornerRadius="10"
+                                            Margin="10,0"
+                                            HeightRequest="20"
+                                            BackgroundColor="#246CFE">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer/>
+                                        </Frame.GestureRecognizers>
+                                        <StackLayout Orientation="Horizontal" Spacing="10">
+                                            <Label Text="{Binding name}" TextColor="#000" FontSize="14" WidthRequest="100" VerticalTextAlignment="Center"
+                                                   HorizontalOptions="Start" FontAttributes="Bold"/>
+                                            <Label Text="{Binding state}" TextColor="#000" FontSize="14" WidthRequest="200" VerticalTextAlignment="Center"
+                                                   HorizontalOptions="StartAndExpand" FontAttributes="Bold"/>
+                                            <!--<Label Text="{Binding Classes}" TextColor="#000" FontSize="16" WidthRequest="70" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold"/>
+                                            <Label Text="{Binding Subject}" TextColor="#000" FontSize="16" WidthRequest="160" VerticalTextAlignment="Center" IsVisible="True" FontAttributes="Bold"/>
+                                            <Label Text="{Binding TimeSlot}" TextColor="#000" FontSize="16" WidthRequest="30" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="True"/>-->
+                                            <!--<Image Source="trash" WidthRequest="20" HeightRequest="20">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="DeleteRoom"/>
+                                                </Image.GestureRecognizers>
+                                            </Image>-->
+                                        </StackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

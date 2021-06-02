@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:AutoAttendant.Views"
+            x:Class="AutoAttendant.Views.ClassTabbedPage"
+            BarBackgroundColor="#212124"
+            BarTextColor="#FFF"
+            >
+
+    <!--<local:ListStudentPage x:Name="TabClass">
+        
+    </local:ListStudentPage>
+    <local:ChartPage Title="Attendance"></local:ChartPage>-->
+</TabbedPage>
