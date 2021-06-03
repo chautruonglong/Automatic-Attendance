@@ -132,8 +132,7 @@ namespace AutoAttendant.Views.PopUp
             }
         }
 
-
-
+        [Obsolete]
         public void AddSubjectInToListHomePageforToday(Subject subject)
         {
 

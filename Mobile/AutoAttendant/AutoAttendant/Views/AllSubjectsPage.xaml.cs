@@ -36,11 +36,10 @@ namespace AutoAttendant.Views
         [Obsolete]
         public void ReLoadSubjectList()
         {
-            if (HomePage._lsjavm.SubjectAllCollection.Count > 0)
-            {
-                this.BindingContext = new ListSubjectAllViewModel();
-                this.BindingContext = HomePage._lsjavm;
-            }
+            HomePage._lsjavm.SubjectAllCollection.Clear();
+            ShowAllSubject();
+            this.BindingContext = new ListSubjectAllViewModel();
+            this.BindingContext = HomePage._lsjavm;
         }
 
         [Obsolete]
@@ -72,23 +71,17 @@ namespace AutoAttendant.Views
         {
             try
             {
-                if(checkCreateAllSubject == 0)
+                var listSubject = new ObservableCollection<Subject>(await HandleAllSubject()); // list Subject trả về từ HandelSubject
+                if (listSubject.Count > 0)
                 {
-                    var listSubject = new ObservableCollection<Subject>(await HandleAllSubject()); // list Subject trả về từ HandelSubject
-                    if (listSubject.Count > 0)
+                    foreach (Subject subject in listSubject)  // duyet trong list subject để thêm vào lsjavm
                     {
-                        foreach (Subject subject in listSubject)  // duyet trong list subject để thêm vào lsjavm
-                        {
-                            HomePage._lsjavm.SubjectAllCollection.Add(subject);
-                        }
-                        checkCreateAllSubject = 1;
-
-                        this.BindingContext = new ListSubjectAllViewModel();
-                        this.BindingContext = HomePage._lsjavm;
+                        HomePage._lsjavm.SubjectAllCollection.Add(subject);
                     }
+
+                    this.BindingContext = new ListSubjectAllViewModel();
+                    this.BindingContext = HomePage._lsjavm;
                 }
-               
-                    
             }
             catch (Exception ex)
             {

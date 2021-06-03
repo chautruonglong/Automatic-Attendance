@@ -148,40 +148,40 @@ namespace AutoAttendant.Views
         #region Search Click
         private void SearchRoom_TextChanged(object sender, TextChangedEventArgs e)
         {
-        //    try
-        //    {
-        //        var listRoomAll = listRoomTemp;
+            try
+            {
+                var listRoomAll = listRoomTemp;
 
-        //        var searchRoom = e.NewTextValue; //text from search bar
-        //        if (string.IsNullOrWhiteSpace(searchRoom))
-        //        {
-        //            searchRoom = string.Empty;
-        //        }
+                var searchRoom = e.NewTextValue; //text from search bar
+                if (string.IsNullOrWhiteSpace(searchRoom))
+                {
+                    searchRoom = string.Empty;
+                }
 
-        //        searchRoom = searchRoom.ToLowerInvariant();
-        //        var filterdRooms = listRoomAll.Where(r => r.name.ToLowerInvariant().Contains(searchRoom)).ToList(); // rooms have name contains text in search bar 
-        //        if (string.IsNullOrWhiteSpace(searchRoom))
-        //        {
-        //            filterdRooms = listRoomAll.ToList();
-        //        }
+                searchRoom = searchRoom.ToLowerInvariant();
+                var filterdRooms = listRoomAll.Where(r => r.room_id.ToLowerInvariant().Contains(searchRoom)).ToList(); // rooms have name contains text in search bar 
+                if (string.IsNullOrWhiteSpace(searchRoom))
+                {
+                    filterdRooms = listRoomAll.ToList();
+                }
 
-        //        foreach (var room in listRoomAll)
-        //        {
-        //            if (!filterdRooms.Contains(room))
-        //            {
-        //                lrvm.RoomCollection.Remove(room); //remove rooms that dont have name in filterdRoom
-        //            }
-        //            else if (!lrvm.RoomCollection.Contains(room))
-        //            {
-        //                lrvm.RoomCollection.Add(room);
-        //                lrvm.RoomCollection.OrderBy(r => r.name);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        DisplayAlert("Fail", "Fail", "Try Again");
-        //    }
+                foreach (var room in listRoomAll)
+                {
+                    if (!filterdRooms.Contains(room))
+                    {
+                        lrvm.RoomCollection.Remove(room); //remove rooms that dont have name in filterdRoom
+                    }
+                    else if (!lrvm.RoomCollection.Contains(room))
+                    {
+                        lrvm.RoomCollection.Add(room);
+                        lrvm.RoomCollection.OrderBy(r => r.room_id);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                DisplayAlert("Fail", "Fail", "Try Again");
+            }
         }
         #endregion
 

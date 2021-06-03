@@ -25,9 +25,9 @@ namespace AutoAttendant.Views
             InitializeComponent();
             //this.BindingContext = new ListUnknownViewModel();
             StudentNui std1 = new StudentNui("102180191", "a", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180177.jpg");
-            std1.state = true;
+            std1.state = false;
             StudentNui std2 = new StudentNui("102180173", "a", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180178.jpg");
-            std2.state = true;
+            std2.state = false;
             notYetAtdList.Add(new StudentNui("3", "Tran Chi Minh", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
             notYetAtdList.Add(std1);
             notYetAtdList.Add(std2);

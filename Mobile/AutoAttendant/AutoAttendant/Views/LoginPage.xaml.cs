@@ -38,12 +38,14 @@ namespace AutoAttendant.Views
         {
             Preferences.Set("email", Entry_user.Text);
             Preferences.Set("password", Entry_password.Text);
+            Preferences.Set("ip", Entry_Api.Text);
         }
 
         public void GetSavedAccount()
         {
             Entry_user.Text = Preferences.Get("email", string.Empty);
             Entry_password.Text = Preferences.Get("password", string.Empty);
+            Entry_Api.Text = Preferences.Get("ip", string.Empty);
         }
         #endregion
 

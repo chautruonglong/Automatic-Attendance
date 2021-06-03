@@ -10,7 +10,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout BackgroundColor="#021135">
-            <StackLayout Orientation="Horizontal" Padding="5,15,0,0" VerticalOptions="Center" Spacing="20">
+            <StackLayout Orientation="Horizontal" Padding="5,15,0,0" VerticalOptions="Center" Spacing="20" Margin="0,10,0,20">
                 <!--<Button x:Name="btnSortOption" Text="Class" ContentLayout="Right" ImageSource="sorting"  
                         HorizontalOptions="Fill" VerticalOptions="Center" BackgroundColor="#021135" 
                         FontAttributes="None" TextTransform="None" FontSize="16"
