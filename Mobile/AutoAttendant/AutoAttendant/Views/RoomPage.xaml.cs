@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RoomPage : ContentPage
     {
-        ListRoomViewModel lrvm = new ListRoomViewModel();
+        public static ListRoomViewModel lrvm = new ListRoomViewModel();
         private static List<Room> listRoomTemp = new List<Room>(); // a copy from lrvm.RoomCollection
 
         [Obsolete]
@@ -55,13 +56,16 @@ namespace AutoAttendant.Views
         {
             try
             {
-                var httpService = new HttpService();
+                var httpService = new HttpClient();
+                var api_key = Data.Data.Instance.UserNui.authorization;
+                httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
                 var base_URL = HomePage.base_URL + "/room/list/";
-                var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
-                var listRoom = JsonConvert.DeserializeObject<ObservableCollection<Room>>(result);
+                var result = await httpService.GetAsync(base_URL);
+                var responseRoom = await result.Content.ReadAsStringAsync();
+                var listRoom = JsonConvert.DeserializeObject<ObservableCollection<Room>>(responseRoom);
 
                 // order Room by name
-                listRoom= new ObservableCollection<Room>(listRoom.OrderBy(r => r.room_id));
+                listRoom = new ObservableCollection<Room>(listRoom.OrderBy(r => r.room_id));
                 return listRoom;
             }
             catch (Exception ex)
@@ -72,22 +76,26 @@ namespace AutoAttendant.Views
         }
 
         [Obsolete]
-        public async Task<List<string>> Handle_TimeSlot_Of_a_Room(int idRoom) //get all time slot in a room 
+        public async Task<List<string>> Handle_TimeSlot_Of_a_Room(string idRoom) //get all time slot in a room 
         {
             try
             {
-                var httpService = new HttpService();
-                var base_URL = HomePage.base_URL + "/subject/?room_id="+idRoom+ "&day=" + DateTime.Now.DayOfWeek.ToString();
-                var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
-                var listSubject = JsonConvert.DeserializeObject<ObservableCollection<Subject>>(result);
+                var httpService = new HttpClient();
+                var api_key = Data.Data.Instance.UserNui.authorization;
+                httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+                var base_URL = HomePage.base_URL + "/subject/time_slot/list/" + idRoom + "/" + DateTime.Now.DayOfWeek.ToString() + "/";
+                var result = await httpService.GetAsync(base_URL);
+                var responseTimeSlot = await result.Content.ReadAsStringAsync();
+                
+                var listTimeSlot_a_room = JsonConvert.DeserializeObject<List<string>>(responseTimeSlot);
                 // order list subject by time slot
-                listSubject = new ObservableCollection<Subject>(listSubject.OrderBy(r => r.time_slot));
+               // listTimeSlot_a_room = new ObservableCollection<string>(listSubject.OrderBy(r => r.time_slot));
 
-                List<string> listTimeSlot_a_room = new List<string>();
-                foreach(Subject subject in listSubject)
-                {
-                    listTimeSlot_a_room.Add(subject.time_slot);
-                }
+                //List<string> listTimeSlot_a_room = new List<string>();
+                //foreach(Subject subject in listSubject)
+                //{
+                //    listTimeSlot_a_room.Add(subject.time_slot);
+                //}
 
                 return listTimeSlot_a_room;
             }
@@ -118,16 +126,16 @@ namespace AutoAttendant.Views
         {
             try
             {
+                lrvm.RoomCollection.Clear();
+
                 //HandleStateRoom(HomePage._lsjvm.SubjectCollection);
-                HomePage._lrvm.RoomCollection.Clear();
                 var listRoom = new ObservableCollection<Room>(await HandleRoom());
                 foreach (Room room in listRoom)
                 {
-                    List<string> listTimeSlot = await Handle_TimeSlot_Of_a_Room(Convert.ToInt32(room.room_id));
+                    List<string> listTimeSlot = await Handle_TimeSlot_Of_a_Room(room.room_id);
                     room.state = SetState_For_EachRoom(listTimeSlot);
-                    HomePage._lrvm.RoomCollection.Add(room);
+                    lrvm.RoomCollection.Add(room);
                 }
-                lrvm.RoomCollection = HomePage._lrvm.RoomCollection;
                 this.BindingContext = lrvm;
                 listRoomTemp = lrvm.RoomCollection.ToList();
             }

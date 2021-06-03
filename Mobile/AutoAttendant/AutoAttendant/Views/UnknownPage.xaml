@@ -2,37 +2,52 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AutoAttendant.Views.UnknownPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="save25px" Order="Primary" Clicked="SaveUpdateAttendance"></ToolbarItem>
+
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
 
-
         <StackLayout BackgroundColor="#021135">
-            <StackLayout Orientation="Horizontal" Spacing="100" Margin="20">
-                <Label Text="List Unknown" TextColor="#FFF" FontSize="18"/>
-                <Label Text="List Absent Student" TextColor="#FFF" FontSize="18"/>
+            <StackLayout Orientation="Horizontal" Spacing="60" Margin="20">
+                <Label Text="List Unknown" TextColor="#FFF" FontSize="16"/>
+                <Label Text="List Absent Student" TextColor="#FFF" FontSize="16"/>
             </StackLayout>
-            <StackLayout Orientation="Horizontal" BackgroundColor="#021135" Spacing="20" Padding="20">
+            <StackLayout Orientation="Horizontal" BackgroundColor="#021135" Padding="0,20,0,0">
 
-                <ListView x:Name="list_Unknown" RowHeight="120" HorizontalOptions="Center">
+                <ListView x:Name="list_Unknown" RowHeight="200" HorizontalOptions="Start" WidthRequest="300" Margin="0,0,0,0">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Spacing="10" VerticalOptions="FillAndExpand" x:Name="Container">
-                                    <Frame CornerRadius="0" 
+                                <StackLayout Spacing="10" VerticalOptions="Center" x:Name="Container">
+                                    <Frame CornerRadius="10" OutlineColor="#FFF"
                                        HeightRequest="400"
-                                       WidthRequest="100"
+                                       WidthRequest="160"
                                        HorizontalOptions="Center"
-                                       VerticalOptions="FillAndExpand"
+                                       BorderColor="#FFF"
+                                       VerticalOptions="Start"
                                        Padding="0"
-                                       IsClippedToBounds="True" Margin="0,0,0,10">
+                                       IsClippedToBounds="True" Margin="10,0,0,10">
 
-                                        <StackLayout>
-                                            <Image x:Name="Avatar"
-                                           Source="{Binding img_face}" 
-                                           HorizontalOptions="FillAndExpand"
-                                           VerticalOptions="FillAndExpand"
-                                           Aspect="AspectFill"/>
-                                            <Label Text="{Binding confidence}" TextColor="#FFF" BackgroundColor="#021135" FontAttributes="Bold" FontSize="16"></Label>
-                                        </StackLayout>
+                                        <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center" BackgroundColor="#021135">
+                                            <StackLayout Orientation="Vertical">
+                                                <Frame CornerRadius="10" OutlineColor="#FFF"
+                                                        HeightRequest="160"
+                                                        WidthRequest="120"
+                                                        HorizontalOptions="Center"
+                                                        BorderColor="#FFF"
+                                                        VerticalOptions="FillAndExpand"
+                                                        Padding="0"
+                                                        IsClippedToBounds="True" Margin="0,0,0,10">
+                                                    <Image  x:Name="UnknownAva"
+                                                            Source="{Binding img_face}" 
+                                                            HorizontalOptions="FillAndExpand"
+                                                            VerticalOptions="FillAndExpand"
+                                                            Aspect="AspectFill"/>
+                                                </Frame>
+                                            </StackLayout>
+                                            <Label Text="{Binding confidence}" TextColor="#FFF" FontSize="13" FontAttributes="Bold" Margin="0"></Label>
+                                        </FlexLayout>
                                     </Frame>
                                 </StackLayout>
                             </ViewCell>
@@ -41,24 +56,42 @@
                 </ListView>
 
 
-                <ListView x:Name="list_3x4"  RowHeight="120" HorizontalOptions="Center">
+                <ListView x:Name="list_3x4"  RowHeight="200" HorizontalOptions="Start" Margin="0,0,0,0">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Spacing="10" VerticalOptions="Center" x:Name="Container">
-                                    <Frame CornerRadius="0" 
+                                    <Frame CornerRadius="10" OutlineColor="#FFF"
                                        HeightRequest="400"
-                                       WidthRequest="100"
+                                       WidthRequest="160"
                                        HorizontalOptions="Center"
-                                       VerticalOptions="Center"
+                                       BorderColor="#FFF"
+                                       VerticalOptions="Start"
                                        Padding="0"
                                        IsClippedToBounds="True" Margin="0,0,0,10">
-
-                                        <Image x:Name="Avatar"
-                                           Source="{Binding img_3x4}" 
-                                           HorizontalOptions="FillAndExpand"
-                                           VerticalOptions="Center"
-                                           Aspect="AspectFill"/>
+                                        <FlexLayout JustifyContent="SpaceBetween" AlignItems="Center" BackgroundColor="#021135" Margin="0,0,0,0">
+                                            <StackLayout Orientation="Vertical">
+                                                <Frame CornerRadius="10" OutlineColor="#FFF"
+                                                        HeightRequest="160"
+                                                        WidthRequest="120"
+                                                        HorizontalOptions="Center"
+                                                        BorderColor="#FFF"
+                                                        VerticalOptions="FillAndExpand"
+                                                        Padding="0"
+                                                        IsClippedToBounds="True" Margin="0,0,0,10">
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="checkBoxClicked"/>
+                                                    </Frame.GestureRecognizers>
+                                                    <Image  x:Name="Ava3x4"
+                                                                    Source="{Binding img_3x4}" 
+                                                                    HorizontalOptions="FillAndExpand"
+                                                                    VerticalOptions="FillAndExpand"
+                                                                    Aspect="AspectFill" />
+                                                </Frame>
+                                            </StackLayout>
+                                            <CheckBox IsChecked="{Binding state}" Color="#9DFE65" VerticalOptions="Center" HeightRequest="25" IsVisible="True" x:Name="cbStatus"/>
+                                        </FlexLayout>
+                                        
                                     </Frame>
                                 </StackLayout>
                             </ViewCell>

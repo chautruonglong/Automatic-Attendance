@@ -53,13 +53,13 @@ namespace AutoAttendant.Views
             {
                 if (btnAttendance.IsChecked == true)
                 {
-                    var stu = ListStudentPage.lsvm.StudentCollection.Single(r => r.Name == lb_Name.Text); // chon student trong lsvm có name = lbName
-                    stu.State = true;
+                    var stu = ListStudentPage.lsnvm.StudentCollection.Single(r => r.name == lb_Name.Text); // chon student trong lsvm có name = lbName
+                    stu.state = true;
                 }
                 if (btnAbsent.IsChecked == true)
                 {
-                    var stu = ListStudentPage.lsvm.StudentCollection.Single(r => r.Name == lb_Name.Text);
-                    stu.State = false; ;
+                    var stu = ListStudentPage.lsnvm.StudentCollection.Single(r => r.name == lb_Name.Text);
+                    stu.state = false; ;
                 }
                 Navigation.PopAsync();
             }

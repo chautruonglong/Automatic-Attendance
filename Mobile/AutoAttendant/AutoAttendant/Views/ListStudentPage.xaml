@@ -35,8 +35,8 @@
                         Clicked="ClickSaveToEndClass"/>
             </StackLayout>
             
-            <StackLayout Orientation="Horizontal" Padding="5,0,0,0" VerticalOptions="Center">
-                <!--<Label Text="Sort by" TextColor="#FFF" FontSize="18" WidthRequest="200" VerticalOptions="Center"/>-->
+            <!--<StackLayout Orientation="Horizontal" Padding="5,0,0,0" VerticalOptions="Center">
+                --><!--<Label Text="Sort by" TextColor="#FFF" FontSize="18" WidthRequest="200" VerticalOptions="Center"/>--><!--
                 <Button Text="Add a student" x:Name="btn_AddStduent" ContentLayout="Left" ImageSource="add"
                         HorizontalOptions="Fill" BackgroundColor="#021135" 
                         TextTransform="None" FontSize="16"
@@ -45,8 +45,8 @@
                 <Button Text="Import Excel" x:Name="btn_Excel" ContentLayout="Left" ImageSource="excel"
                         HorizontalOptions="Fill" BackgroundColor="#021135" TextTransform="None" FontSize="16"
                         Margin="40,0,0,10"  TextColor="#FFF" BorderRadius="10"
-                        BorderColor="#FFF" Clicked="ImportExcel"/>
-            </StackLayout>
+                        BorderColor="#FFF"/>
+            </StackLayout>-->
             <ListView ItemsSource="{Binding StudentCollection}" RowHeight="80" HorizontalOptions="Center"  x:Name="list_student">
                 <ListView.ItemTemplate>
                     <DataTemplate>

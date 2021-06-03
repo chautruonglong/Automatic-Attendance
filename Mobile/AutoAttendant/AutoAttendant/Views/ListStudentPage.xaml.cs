@@ -27,18 +27,21 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ListStudentPage : ContentPage
     {
-        public static ListStudentViewModel lsvm = new ListStudentViewModel();     /// Lưu ý coi chừng saiii\
         public static ListStudentNuiViewModel lsnvm = new ListStudentNuiViewModel();
         public static ObservableCollection<Attendance> listAttendance = new ObservableCollection<Attendance>();
         public List<AttendanceNui> listUnknownImage = new List<AttendanceNui>();
-        public List<StudentNui> listNotYetAtd = new List<StudentNui>();
+        public static List<StudentNui> listNotYetAtd = new List<StudentNui>();
+        public static Subject subjectStatic;
+
         int CheckSquence = 0;
+
 
         [Obsolete]
         public ListStudentPage(Subject subject)
         {
 
             InitializeComponent();
+            subjectStatic = subject;
             //this.BindingContext = new ListStudentViewModel(); // listview se binding theo object List Student View Model
 
             this.BindingContext = new ListStudentNuiViewModel();
@@ -113,9 +116,6 @@ namespace AutoAttendant.Views
                 var listStudent = JsonConvert.DeserializeObject<ObservableCollection<StudentNui>>(jsonStdList);
 
                 // order list student by name
-
-
-
                 listStudent = new ObservableCollection<StudentNui>(listStudent.OrderBy(r => r.name.Split(' ').ToList()[r.name.Split(' ').ToList().Count - 1]));
                 return listStudent;
             }
@@ -126,77 +126,6 @@ namespace AutoAttendant.Views
             }
         }
 
-        async void ImportExcel(object sender, EventArgs e) // xu li import excel them student
-        {
-
-            try
-            {
-                var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
-                {
-                    { DevicePlatform.iOS, new[] {"com.microsoft.xlsx"} },
-                    { DevicePlatform.Android, new[] { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" } },
-                });
-                var pickerResult = await FilePicker.PickAsync(new PickOptions
-                {
-                    //FileTypes = FilePickerFileType.Images,
-                    FileTypes = customFileType,
-                    PickerTitle = "Pick an Excel file"
-                });
-
-                if (pickerResult != null)
-                {
-                    if (lsvm.StudentCollection.Count == 0) // chua co ds thi` import
-                    {
-                        //var stream = await pickerResult.OpenReadAsync();
-                        //resultImg.Source = ImageSource.FromStream(() => stream);
-                        //var resourcePath = pickerResult.FullPath.ToString(); // lay ra path file
-                        //await DisplayAlert("Message", "Path" + resourcePath, "OK");
-
-                        ExcelEngine excelEngine = new ExcelEngine();
-                        IApplication application = excelEngine.Excel;
-                        application.DefaultVersion = ExcelVersion.Excel2016;
-                        var fileStream = await pickerResult.OpenReadAsync();
-
-                        //Open the workbook
-                        IWorkbook workbook = application.Workbooks.Open(fileStream);
-
-                        //Access first worksheet from the workbook.
-                        IWorksheet worksheet = workbook.Worksheets[0];
-                        var numberOfStudent = (worksheet.Rows.Count() - 3);
-                        for (int i = 8; i <= numberOfStudent; i++)
-                        {
-                            string id = "B" + i.ToString();
-                            string name = "C" + i.ToString();
-                            string phone = "D" + i.ToString();
-                            var mess1 = worksheet.Range[id].Text.ToString();
-                            var mess2 = worksheet.Range[name].Text.ToString();
-                            var mess3 = worksheet.Range[phone].Text.ToString();
-
-                            try
-                            {
-                                Student student = new Student(mess1, mess2, "18TCLC-DT2", "IT", mess3, "url", false);
-                                SubjectPage.classes.StudentList1.Add(student);
-                            }
-                            catch (Exception ex)
-                            {
-                                await DisplayAlert("Notice", ex.Message, "OK");
-                            }
-                        }
-                        //ClassPage.classes.StudentList1.Add
-                        lsvm.StudentCollection = SubjectPage.classes.StudentList1;
-                        this.BindingContext = lsvm;
-                    }
-                    else //co roi` thi block
-                    {
-                        await DisplayAlert("Notice", "Just import only 1 file", "OK");
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                await DisplayAlert("Error", "Can't import this file", "OK");
-            }
-        }
 
         private async void AddSingleStudent(object sender, EventArgs e) // xu li khi them tung student
         {
@@ -277,13 +206,13 @@ namespace AutoAttendant.Views
                     var api_key = Data.Data.Instance.UserNui.authorization;
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
 
-                    var base1_URL = HomePage.base_URL + "/attendance/process/create/" + SubjectPage.classes.Name + "/";
+                    var base1_URL = HomePage.base_URL + "/attendance/process/create/" + subjectStatic.subject_id + "/";
                     var result1 = await httpClient.GetAsync(base1_URL);
                     var responseProcess = await result1.Content.ReadAsStringAsync();
                     var process = JsonConvert.DeserializeObject<Process>(responseProcess);
-                    process_id_atd = process.process_id;
                     if (process.process_id!="")
                     {
+                        process_id_atd = process.process_id;
                         var httpService2 = new HttpClient();
                         var api_key2 = Data.Data.Instance.UserNui.authorization;
                         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key2);
@@ -304,7 +233,7 @@ namespace AutoAttendant.Views
                                 }
                                 var checkAttendance = lsnvm.StudentCollection.Single(r => r.student_id.Trim().Equals(atd.id.Trim()) && atd.type.Equals("known"));
                                 checkAttendance.state = true;
-                                checkAttendance.confidence = atd.confidence + "%";
+                                checkAttendance.confidence = atd.confidence;
                                 checkAttendance.img_attendance = atd.img_face;
                                 
                             }
@@ -314,7 +243,7 @@ namespace AutoAttendant.Views
 
                         }
 
-                        foreach (StudentNui std in lsnvm.StudentCollection)
+                        foreach (StudentNui std in lsnvm.StudentCollection) // list absent //bo trong clicked cua ToUnknownPage();
                         {
                             if (std.state == false)
                             {
@@ -340,6 +269,14 @@ namespace AutoAttendant.Views
 
         private void ToUnknownPage(object sender, EventArgs e)
         {
+            listNotYetAtd.Clear();  //clear listNotYetAtd moi khi bam xem unknown list
+            foreach (StudentNui std in lsnvm.StudentCollection) // list absent 
+            {
+                if (std.state == false)
+                {
+                    listNotYetAtd.Add(std);
+                }
+            }
             Navigation.PushAsync(new UnknownPage(listUnknownImage, listNotYetAtd));
         }
 
@@ -369,48 +306,6 @@ namespace AutoAttendant.Views
             }
         }
 
-        public async void PostRawListStudent()
-        {
-            try
-            {
-                List<String> list_id = new List<string>();  // list to post to server
-                foreach (Student std in ClassPage.classes.StudentList1)
-                {
-                    list_id.Add(std.Id.Trim());
-                }
-                ListID listId = new ListID("10232602020181", list_id);
-                var httpService = new HttpClient();
-                string jsonListId = JsonConvert.SerializeObject(listId);
-                StringContent contentAttendance = new StringContent(jsonListId, Encoding.UTF8, "application/json");
-                var baseAttendance_URL = @"http://192.168.30.104:9000/mobile/";
-
-                CheckSquence++;
-
-                if (CheckSquence == 1)
-                {
-                    var thread = new Thread(paintLoading);
-                    thread.Start();
-                    HttpResponseMessage responseAttendance = await httpService.PostAsync(baseAttendance_URL, contentAttendance);
-                    var result = await responseAttendance.Content.ReadAsStringAsync();
-                    thread.Abort();
-
-                    listAttendance = JsonConvert.DeserializeObject<ObservableCollection<Attendance>>(result);
-                    foreach (Attendance atd in listAttendance)
-                    {
-                        if (atd.state == true)
-                        {
-                            var student = lsvm.StudentCollection.Single(r => r.Id.Trim().Equals(atd.student_id.Trim()));
-                            student.State = true;
-                        }
-                    }
-                    UserDialogs.Instance.Toast("Done");
-                }
-            }
-            catch (Exception)
-            {
-                await DisplayAlert("Notice", "No students in class. Import student list!", "OK");
-            }
-        }
 
         public void HandleAttendance()
         {
@@ -420,114 +315,92 @@ namespace AutoAttendant.Views
 
         #region Functions for Save Click
         [Obsolete]
-        public async void HandlePutStateSchedule(Schedule schedule) //update  schedule to server
+        public async void SaveLastProcessWithAttendance()
         {
-            var httpService = new HttpClient();
-            string jsonSchedule = JsonConvert.SerializeObject(schedule); // convert object => json
-            string colorState = "," + @"""colorState""";
-            int removeIndex = jsonSchedule.IndexOf(colorState);
-            jsonSchedule = jsonSchedule.Substring(0, removeIndex) + "}";
-            StringContent contentLecture = new StringContent(jsonSchedule, Encoding.UTF8, "application/json");
-            var baseLecture_URL = HomePage.base_URL + "/schedule/" + schedule.id.ToString();
-            HttpResponseMessage responseLecture =  await httpService.PutAsync(baseLecture_URL, contentLecture);
-        }
-
-        [Obsolete]
-        public async void HandlePutStateRoom(Schedule schedule) //update room to server
-        {
-            var roomNow = HomePage._lrvm.RoomCollection.Single(r => r.room_id == schedule.idRoom);
-            roomNow.state = "Available";
-            var httpService = new HttpClient();
-            string jsonRoom= JsonConvert.SerializeObject(roomNow); // convert object => json
-            StringContent contentLecture = new StringContent(jsonRoom, Encoding.UTF8, "application/json");
-            var baseLecture_URL = HomePage.base_URL + "/room/" + roomNow.room_id.ToString();
-            HttpResponseMessage responseLecture = await httpService.PutAsync(baseLecture_URL, contentLecture);
-        }
-
-        [Obsolete]
-        public async void HandlePutStateProcess()
-        {
-            //int status = 1;
-            //var date = DateTime.Now.Date.ToString().Substring(0, 19);
-            //var time = DateTime.Now.TimeOfDay.ToString().Substring(0, 8);
-
-            try
+            if (process_id_atd != null)
             {
-                var httpService = new HttpService();
-                string date = JsonConvert.SerializeObject(DateTime.Today);
-                date = date.Substring(1, 19);
-                date = date.Replace("00:00:00", "12:00:00");
-                var base_URL = HomePage.base_URL + "/process?subject_id=" + SubjectPage.classes.Name + "&date=" + date;
-                var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
+                var httpClient = new HttpClient();
+                var api_key = Data.Data.Instance.UserNui.authorization;
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
 
-                var process = JsonConvert.DeserializeObject<List<Process>>(result);
-                if(process.Count == 1)
+                var base_URL = HomePage.base_URL + "/attendance/update/" + process_id_atd + "/";
+                var jsonLastAttendance = JsonConvert.SerializeObject(lsnvm.StudentCollection);
+                StringContent content = new StringContent(jsonLastAttendance, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await httpClient.PutAsync(base_URL,content);
+                if (response.IsSuccessStatusCode)
                 {
-                    var getProcess = process[0];
-                    getProcess.state = true;
-                    var httpClient = new HttpClient();
-                    string jsonProcess = JsonConvert.SerializeObject(getProcess);
-                    StringContent contentProcess = new StringContent(jsonProcess, Encoding.UTF8, "application/json");
-                    var baseProcess_URL = HomePage.base_URL + "/process/" + getProcess.process_id.ToString();
-                    await httpClient.PutAsync(baseProcess_URL, contentProcess);
+                    await Navigation.PopAsync();
                 }
             }
-            catch (Exception ex)
+            else
             {
-                await DisplayAlert("Notice", "Fail in HandlePutStateProcess \n" + ex.Message, "OK");
+                var httpClient = new HttpClient();
+                var api_key = Data.Data.Instance.UserNui.authorization;
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+
+                var base_URL = HomePage.base_URL + "/attendance/update/" + process_id_atd + "/";
+                var jsonLastAttendance = JsonConvert.SerializeObject(lsnvm.StudentCollection);
+                StringContent content = new StringContent(jsonLastAttendance, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await httpClient.PutAsync(base_URL, content);
+                await Navigation.PopAsync();
+
             }
         }
 
         [Obsolete]
         private async void ClickSaveToEndClass(object sender, EventArgs e)
         {
-            string subject_id;
-            string name_subject;
-            string timeSlot;
-            int attendanceCount = 0;
-
-            var subject = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == SubjectPage.enableSubJectId);
-            int index = HomePage._lsjvm.SubjectCollection.IndexOf(subject);
-
-            subject_id = subject.subject_id;
-            timeSlot = subject.time_slot;
-            name_subject = subject.name;
-            foreach (Student std in lsvm.StudentCollection)
+            try
             {
-                if (std.State == true)
+                string subject_id;
+                string name_subject;
+                string timeSlot;
+                int attendanceCount = 0;
+
+                var subject = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == SubjectPage.enableSubJectId);
+                int index = HomePage._lsjvm.SubjectCollection.IndexOf(subject);
+
+                subject_id = subject.subject_id;
+                timeSlot = subject.time_slot;
+                name_subject = subject.name;
+                foreach (StudentNui std in lsnvm.StudentCollection)
                 {
-                    attendanceCount++;
+                    if (std.state == true)
+                    {
+                        attendanceCount++;
+                    }
                 }
-            }
-            var message = String.Format("Class: {0}\nSubject: {1}\nTime Slot: {2}\nAttendance: {3}", subject_id, name_subject, timeSlot, attendanceCount);
-            await DisplayAlert("Class Info", message, "Continue");
-            bool answer = await DisplayAlert("Notice", "You will be return to home page after save this class", "OK", "Cancel");
-            if (answer)
-            {
-                if (index < HomePage._lsjvm.SubjectCollection.Count - 1) // nếu index của subject vẫn còn nằm trong _lsjvm
+                var message = String.Format("Class: {0}\nSubject: {1}\nTime Slot: {2}\nAttendance: {3}", subject_id, name_subject, timeSlot, attendanceCount);
+                await DisplayAlert("Class Info", message, "Continue");
+                bool answer = await DisplayAlert("Notice", "You will be return to home page after save this class", "OK", "Cancel");
+                if (answer)
                 {
-                    SubjectPage.enableSubJectId = HomePage._lsjvm.SubjectCollection[index + 1].subject_id; // gán enableSubjectID = id của subject tiếp theo
-                    subject.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
-                    SubjectPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
-                    //process.state = 1; // state = 1 là process,subject này done
+                    if (index < HomePage._lsjvm.SubjectCollection.Count - 1) // nếu index của subject vẫn còn nằm trong _lsjvm
+                    {
+                        SubjectPage.enableSubJectId = HomePage._lsjvm.SubjectCollection[index + 1].subject_id; // gán enableSubjectID = id của subject tiếp theo
+                        subject.stateString = attendanceCount.ToString() + " / " + lsnvm.StudentCollection.Count.ToString();
+                        SubjectPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
+
+                    }
+                    else
+                    {
+                        SubjectPage.enableSubJectId = "-1"; // nếu index vượt thì gán = -1 để ko làm gì khi back về
+                        subject.stateString = attendanceCount.ToString() + " / " + lsnvm.StudentCollection.Count.ToString();
+                    }
+                    SaveLastProcessWithAttendance();
+                    //await Navigation.PopAsync();
                 }
                 else
                 {
-                    SubjectPage.enableSubJectId = "-1"; // nếu index vượt thì gán = -1 để ko làm gì khi back về
-                    //process.state = 1; / tiep tuc thay doi state cho process = 1;
-                    subject.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
+                    return;
                 }
-
-                // Put to Server
-                //HandlePutStateProcess();
-                //HandlePutStateRoom(schedule);    //cap nhat state cua Room
-
-                await Navigation.PopAsync();
             }
-            else
+            catch (Exception ex)
             {
-                return;
+                DisplayAlert("Error", ex.Message, "OK");
             }
+            
+            
         }
         #endregion
 
@@ -536,15 +409,15 @@ namespace AutoAttendant.Views
         public void GetDataForPieChart()
         {
             int attendanceCount = 0;
-            foreach (Student std in lsvm.StudentCollection)
+            foreach (StudentNui std in lsnvm.StudentCollection)
             {
-                if (std.State == true)
+                if (std.state == true)
                 {
                     attendanceCount++;
                 }
             }
             ChartPage.attendances = attendanceCount;
-            ChartPage.absentees = SubjectPage.classes.StudentList1.Count - attendanceCount;
+            ChartPage.absentees = lsnvm.StudentCollection.Count - attendanceCount;
         }
 
 
@@ -556,58 +429,7 @@ namespace AutoAttendant.Views
         #endregion
 
         [Obsolete]
-        private async void ClickSaveAndImport(object sender, EventArgs e) // phai luu ve DB
-        {
-            string className;
-            string timeSlot;
-            string subject;
-            int attendanceCount = 0;
-
-            var schedule = HomePage._lsvm.ScheduleCollection.Single(r => Convert.ToInt32(r.id) == ClassPage.first_id_in_list);
-            int index = HomePage._lsvm.ScheduleCollection.IndexOf(schedule);
-
-
-            className = ClassPage.classes.Name;
-            timeSlot = schedule.timeSlot;
-            subject = schedule.nameSubject;
-            foreach (Student std in lsvm.StudentCollection)
-            {
-                if (std.State == true)
-                {
-                    attendanceCount++;
-                }
-            }
-
-            var message = String.Format("Class: {0}\nSubject: {1}\nTime Slot: {2}\nAttendance: {3}", className, subject, timeSlot, attendanceCount);
-            await DisplayAlert("Class Info", message, "Continue");
-            bool answer = await DisplayAlert("Notice", "You will be return to home page after save this class", "OK", "Cancel");
-            if (answer)
-            {
-                if (index < HomePage._lsvm.ScheduleCollection.Count - 1) // nếu index của schedule vẫn còn nằm trong _lsvm
-                {
-                    ClassPage.first_id_in_list = Convert.ToInt32(HomePage._lsvm.ScheduleCollection[index + 1].id); // gán first id in list = id của schedule tiếp theo
-                    ClassPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
-                    schedule.state = 1; // state = 1 là schdule này done
-                    schedule.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
-                }
-                else
-                {
-                    ClassPage.first_id_in_list = -1; // nếu index vượt thì gán = -1 để ko làm gì khi back về
-                    schedule.state = 1;
-                    schedule.stateString = attendanceCount.ToString() + " / " + lsvm.StudentCollection.Count.ToString();
-                }
-
-                // Put to Server
-                HandlePutStateSchedule(schedule); //cap nhat state cua Schedule
-                HandlePutStateRoom(schedule);    //cap nhat state cua Room
-
-                await Navigation.PopAsync();
-            }
-            else
-            {
-                return;
-            }
-        }
+       
 
         #region ExportExcel
         private void ExportExcel(object sender, EventArgs e)

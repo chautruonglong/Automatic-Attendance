@@ -132,6 +132,32 @@ namespace AutoAttendant.Views.PopUp
             }
         }
 
+
+
+        public void AddSubjectInToListHomePageforToday(Subject subject)
+        {
+
+                if (ListStd.day.Equals(DateTime.Now.DayOfWeek.ToString()))
+                {
+                    if (SubjectPage.enableSubJectId == "-2")
+                    {
+                        SubjectPage.enableSubJectId = subject.subject_id;
+                        HomePage._lsjvm.SubjectCollection.Add(subject);
+                    }
+                    else if (SubjectPage.enableSubJectId == "-1")
+                    {
+                        SubjectPage.enableSubJectId = subject.subject_id;
+                        HomePage._lsjvm.SubjectCollection.Add(subject);
+                    }
+                    else
+                    {
+                        HomePage._lsjvm.SubjectCollection.Add(subject);
+                    }
+                    var listtemp = HomePage._lsjvm.SubjectCollection.OrderBy(r => TimeSpan.Parse(r.time_slot.Substring(0, 5)));
+                    HomePage._lsjvm.SubjectCollection = new ObservableCollection<Subject>(listtemp);
+                }
+            
+        }
         [Obsolete]
         private async void SaveNewSubject(object sender, EventArgs e)
         {
@@ -154,29 +180,13 @@ namespace AutoAttendant.Views.PopUp
                 ListStd.time_slot =timeBegin.ToString(@"hh\:mm") + "-"+ timeEnd.ToString(@"hh\:mm");
                 //
                 ListStd.day =lb_date.Text;
-                if (ListStd.day.Equals(DateTime.Now.DayOfWeek.ToString()))
-                {
-                    if(SubjectPage.enableSubJectId == "-2")
-                    {
-                        var subject = new Subject(ListStd.subject_id, ListStd.lecturer_id, ListStd.room_id, ListStd.name, ListStd.time_slot, ListStd.day);
-                        SubjectPage.enableSubJectId = subject.subject_id;
-                        HomePage._lsjvm.SubjectCollection.Add(subject);
-                    }
-                    else if (SubjectPage.enableSubJectId == "-1")
-                    {
-                        var subject = new Subject(ListStd.subject_id, ListStd.lecturer_id, ListStd.room_id, ListStd.name, ListStd.time_slot, ListStd.day);
-                        SubjectPage.enableSubJectId = subject.subject_id;
-                        HomePage._lsjvm.SubjectCollection.Add(subject);
-                    }
-                    else
-                    {
-                        var subject = new Subject(ListStd.subject_id, ListStd.lecturer_id, ListStd.room_id, ListStd.name, ListStd.time_slot, ListStd.day);
-                        HomePage._lsjvm.SubjectCollection.Add(subject);
-                    }
-                }
-                var listtemp= HomePage._lsjvm.SubjectCollection.OrderBy(r => TimeSpan.Parse(r.time_slot.Substring(0, 5)));
-                HomePage._lsjvm.SubjectCollection = new ObservableCollection<Subject>(listtemp);
-                SendListStdToServer(ListStd);
+
+                SendListStdToServer();
+
+                
+
+               
+          
 
                 //Back to Subject Page after Post to server
             }
@@ -187,24 +197,26 @@ namespace AutoAttendant.Views.PopUp
             
         }
 
+        public static bool checkMessageAddSubject = false;
         [Obsolete]
-        public async void SendListStdToServer(ListStd listStd)
+        public async void SendListStdToServer()
         {
             try
             {
+                var subject = new Subject(ListStd.subject_id, ListStd.lecturer_id, ListStd.room_id, ListStd.name, ListStd.time_slot, ListStd.day);
+
                 var httpService = new HttpClient();
                 var api_key = Data.Data.Instance.UserNui.authorization;
                 httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-                string jsonListId = JsonConvert.SerializeObject(listStd);
+                string jsonListId = JsonConvert.SerializeObject(ListStd);
                 StringContent contentStdList = new StringContent(jsonListId, Encoding.UTF8, "application/json");
                 var baseStdList_URL = HomePage.base_URL +"/subject/create/";
                 HttpResponseMessage response = await httpService.PostAsync(baseStdList_URL, contentStdList);
-                var message = await response.Content.ReadAsStringAsync();
-                await DisplayAlert("Notice", message, "OK");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    Action?.Invoke(this, "Add succesfully");
+                    AddSubjectInToListHomePageforToday(subject);
+                    Action?.Invoke(this, "Add sucesfully");
                     await PopupNavigation.Instance.PopAsync();
                 }
             }

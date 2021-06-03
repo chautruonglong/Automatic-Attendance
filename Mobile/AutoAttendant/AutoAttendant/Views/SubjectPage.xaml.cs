@@ -45,7 +45,7 @@ namespace AutoAttendant.Views
 
         [Obsolete]
         public void ReLoadSubjectList()
-        {
+        {   
             if (HomePage._lsjvm.SubjectCollection.Count > 0)
             {
                 this.BindingContext = new ListSubjectViewModel();
@@ -194,10 +194,11 @@ namespace AutoAttendant.Views
                         }
                         //enableSubJectId = HomePage._lsjvm.SubjectCollection[0].subject_id;
                         //HomePage._lsjvm.SubjectCollection[0].colorState = "#246CFE";
-                        HomePage.checkCreateListSubject = 1;
                         this.BindingContext = new ListSubjectViewModel();
                         this.BindingContext = HomePage._lsjvm;
                     }
+                    HomePage.checkCreateListSubject = 1;
+
                 }
                 //SetColorById();
             }
@@ -235,15 +236,7 @@ namespace AutoAttendant.Views
             {
                 switch (paraString)
                 {
-                    case "Join":  //
-                        var x = subject;
-                        classes.Name = subject.subject_id; // gán cho biến static classes = class tương ứng của subject 
-
-                        if (checkClearStd_ListPage == 1)
-                        {
-                            classes.StudentList1.Clear(); // clear list student khi join 1 subject mới
-                            checkClearStd_ListPage = 0;
-                        }
+                    case "Join":  
                         await Navigation.PushAsync(new ListStudentPage(subject));
                         break;
 
@@ -357,7 +350,7 @@ namespace AutoAttendant.Views
             var page = new PopUpAddSubject();
             page.Action += (sender1, stringparameter) =>
             {
-                if(stringparameter.Equals("Add succesfully"))
+                if(stringparameter.Equals("Add sucesfully"))
                 {
                     ReLoadSubjectList();
                 }

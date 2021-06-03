@@ -95,7 +95,7 @@
                         <Button x:Name="btnSelectTime" ImageSource="sortdown25px" Text="7:00" ContentLayout="Right"
                                 HorizontalOptions="Fill" VerticalOptions="Center" BackgroundColor="#3D3C40" FontSize="15"
                                 TextColor="#FFF" Clicked="OpenPickerTime" CornerRadius="8"/>
-                        <Picker IsEnabled="True" IsVisible="True" x:Name="PickerTime" SelectedIndexChanged="HandlePickerTime">
+                        <Picker IsEnabled="True" IsVisible="False" x:Name="PickerTime" SelectedIndexChanged="HandlePickerTime">
                             <Picker.Items>
                                 <x:String>07:00</x:String>
                                 <x:String>08:00</x:String>

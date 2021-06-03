@@ -45,7 +45,7 @@
                                             <TapGestureRecognizer/>
                                         </Frame.GestureRecognizers>
                                         <StackLayout Orientation="Horizontal" Spacing="10">
-                                            <Label Text="{Binding name}" TextColor="#000" FontSize="14" WidthRequest="100" VerticalTextAlignment="Center"
+                                            <Label Text="{Binding room_id}" TextColor="#000" FontSize="14" WidthRequest="100" VerticalTextAlignment="Center"
                                                    HorizontalOptions="Start" FontAttributes="Bold"/>
                                             <Label Text="{Binding state}" TextColor="#000" FontSize="14" WidthRequest="200" VerticalTextAlignment="Center"
                                                    HorizontalOptions="StartAndExpand" FontAttributes="Bold"/>

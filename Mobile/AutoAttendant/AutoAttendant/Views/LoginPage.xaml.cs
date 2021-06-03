@@ -78,10 +78,7 @@ namespace AutoAttendant.Views
                 //UserDialogs.Instance.HideLoading();
                 //Data.Data.Instance.User = JsonConvert.DeserializeObject<User>(result); // dùng User để nhận json về vì có chứa thêm token, idLecture (static)
                 Data.Data.Instance.UserNui = JsonConvert.DeserializeObject<UserNui>(result);
-                UserNui userNui = JsonConvert.DeserializeObject<UserNui>(result);
-                
-                HomePage.lecturer_id = userNui.lecturer_id;
-                HomePage.api_key = userNui.authorization;
+                UserNui userNui = JsonConvert.DeserializeObject<UserNui>(result);              
                 Data.Data.Instance.User = new User(Convert.ToInt32(userNui.lecturer_id), Entry_user.Text, Entry_password.Text);
 
 

@@ -29,8 +29,7 @@ namespace AutoAttendant.Views
         public static int checkCreateListSubject = 0; //avoid repeat subject from ShowSubject()
         public static int checkCreateRoom = 0; //avoid repeat schedule from ShowSchedule()
         public static int checkUpdateSubject = 0; // check load list subject again after update subject
-        public static string api_key;
-        public static string lecturer_id;
+
         public static string base_URL;
 
         public static ListScheduleViewModel _lsvm = new ListScheduleViewModel(); //k dung`
@@ -40,9 +39,9 @@ namespace AutoAttendant.Views
         public HomePage()
         {
             InitializeComponent();
-            Detail = new NavigationPage(new SubjectTabbedPage());
-            GetLectureInfoById(Data.Data.Instance.UserNui.lecturer_id.ToString());
-            HandleRoom();
+            Detail = new NavigationPage(new SubjectTabbedPage());                   //
+            GetLectureInfoById(Data.Data.Instance.UserNui.lecturer_id.ToString());  //
+            HandleRoom();                                                           //
         }
 
         public async void HandleRoom()
@@ -52,7 +51,6 @@ namespace AutoAttendant.Views
                 var httpService = new HttpClient();
                 var api_key = Data.Data.Instance.UserNui.authorization;
                 httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-                //var httpService = new HttpService();
                 var base_URL = HomePage.base_URL + "/room/list/";
                 var result = await httpService.GetAsync(base_URL);
                 var responseRoom = await result.Content.ReadAsStringAsync();
