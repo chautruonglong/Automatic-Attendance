@@ -141,8 +141,6 @@ namespace AutoAttendant.Views
         {
             try
             {
-                //var httpService = new HttpService();
-                //httpService.DefaultRequestHeaders.Accept.Add()
                 var httpService = new HttpClient();
                 var api_key = Data.Data.Instance.UserNui.authorization;
                 httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
@@ -352,6 +350,7 @@ namespace AutoAttendant.Views
             {
                 if(stringparameter.Equals("Add sucesfully"))
                 {
+                    DisplayAlert("Notice", "Create subject successfully", "OK");
                     ReLoadSubjectList();
                 }
             };

@@ -33,17 +33,12 @@ namespace AutoAttendant.Views
         public static List<StudentNui> listNotYetAtd = new List<StudentNui>();
         public static Subject subjectStatic;
 
-        int CheckSquence = 0;
-
-
         [Obsolete]
         public ListStudentPage(Subject subject)
         {
 
             InitializeComponent();
             subjectStatic = subject;
-            //this.BindingContext = new ListStudentViewModel(); // listview se binding theo object List Student View Model
-
             this.BindingContext = new ListStudentNuiViewModel();
             ShowStudentList(subject.subject_id); //goi student list xuong'
         }
@@ -52,11 +47,6 @@ namespace AutoAttendant.Views
         {
             ReLoadStudenList();
             base.OnAppearing();
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
         }
 
         
@@ -185,6 +175,7 @@ namespace AutoAttendant.Views
             }
             
         }
+
         public static string process_id_atd;
         #region Handle Attendances Functions()
         [Obsolete]
@@ -235,30 +226,22 @@ namespace AutoAttendant.Views
                                 checkAttendance.state = true;
                                 checkAttendance.confidence = atd.confidence;
                                 checkAttendance.img_attendance = atd.img_face;
-                                
                             }
                             catch(Exception) {
 
                             }
-
                         }
 
-                        foreach (StudentNui std in lsnvm.StudentCollection) // list absent //bo trong clicked cua ToUnknownPage();
-                        {
-                            if (std.state == false)
-                            {
-                                listNotYetAtd.Add(std);
-                            }
-                        }
+                        //foreach (StudentNui std in lsnvm.StudentCollection) // list absent //bo trong clicked cua ToUnknownPage();
+                        //{
+                        //    if (std.state == false)
+                        //    {
+                        //        listNotYetAtd.Add(std);
+                        //    }
+                        //}
 
                         ReLoadStudenList();
                     }
-
-                    //PostRawListStudent();
-                    //ReLoadStudenList();
-                    //var base2_URL = HomePage.base_URL + "/attendance/list/" + process.id + "/";
-                    //var result2 = await httpClient.GetAsync(base2_URL);
-                    //var responseProcess = await result2.Content.ReadAsStringAsync();
                 }
             }
             catch(Exception ex)
@@ -267,18 +250,7 @@ namespace AutoAttendant.Views
             }
         }
 
-        private void ToUnknownPage(object sender, EventArgs e)
-        {
-            listNotYetAtd.Clear();  //clear listNotYetAtd moi khi bam xem unknown list
-            foreach (StudentNui std in lsnvm.StudentCollection) // list absent 
-            {
-                if (std.state == false)
-                {
-                    listNotYetAtd.Add(std);
-                }
-            }
-            Navigation.PushAsync(new UnknownPage(listUnknownImage, listNotYetAtd));
-        }
+        
 
         int TimeCount = 20;
         public void paintLoading()
@@ -332,7 +304,7 @@ namespace AutoAttendant.Views
                     await Navigation.PopAsync();
                 }
             }
-            else
+            else //xoa cai ni
             {
                 var httpClient = new HttpClient();
                 var api_key = Data.Data.Instance.UserNui.authorization;
@@ -397,7 +369,7 @@ namespace AutoAttendant.Views
             }
             catch (Exception ex)
             {
-                DisplayAlert("Error", ex.Message, "OK");
+                await DisplayAlert("Error", "Fail in Save to end class "+ ex.Message, "OK");
             }
             
             
@@ -427,6 +399,19 @@ namespace AutoAttendant.Views
             Navigation.PushAsync(new ChartPage());
         }
         #endregion
+
+        private void ToUnknownPage(object sender, EventArgs e)
+        {
+            listNotYetAtd.Clear();  //clear listNotYetAtd moi khi bam xem unknown list
+            foreach (StudentNui std in lsnvm.StudentCollection) // list absent 
+            {
+                if (std.state == false)
+                {
+                    listNotYetAtd.Add(std);
+                }
+            }
+            Navigation.PushAsync(new UnknownPage(listUnknownImage, listNotYetAtd));
+        }
 
         [Obsolete]
        

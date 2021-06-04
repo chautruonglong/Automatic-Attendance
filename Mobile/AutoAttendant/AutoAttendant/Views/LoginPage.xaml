@@ -81,8 +81,8 @@
             <StackLayout Orientation="Horizontal">
                 <Button x:Name="Btn_api"
                         Clicked="OpenApiEntry" FontSize="10"
-                        BackgroundColor="#FFF"
-                        HeightRequest="10"
+                        BackgroundColor="#021135"
+                        HeightRequest="30"
                         WidthRequest="30"
                         BorderRadius="8"
                         VerticalOptions="Center"

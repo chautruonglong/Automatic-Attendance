@@ -162,8 +162,6 @@ namespace AutoAttendant.Views.PopUp
         {
             try
             {
-
-       
                 ListStd.room_id =btnSelectRoom.Text;
                 ListStd.lecturer_id = Data.Data.Instance.Lecture.id;
                 //
@@ -181,12 +179,6 @@ namespace AutoAttendant.Views.PopUp
                 ListStd.day =lb_date.Text;
 
                 SendListStdToServer();
-
-                
-
-               
-          
-
                 //Back to Subject Page after Post to server
             }
             catch(Exception ex)

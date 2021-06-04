@@ -31,11 +31,11 @@ namespace AutoAttendant.Views
             notYetAtdList.Add(new StudentNui("3", "Tran Chi Minh", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
             notYetAtdList.Add(std1);
             notYetAtdList.Add(std2);
-            notYetAtdList.Add(new StudentNui("4", "Chau Truong Long", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180174.jpg"));
-            notYetAtdList.Add(new StudentNui("5", "Le Anh Tuan", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180175.jpg"));
-            notYetAtdList.Add(new StudentNui("6", "Huynh Tran Khanh Toan", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180176.jpg"));
-            notYetAtdList.Add(new StudentNui("7", "a", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180177.jpg"));
-            notYetAtdList.Add(new StudentNui("8", "a", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180178.jpg"));
+            notYetAtdList.Add(new StudentNui("102180174", "Chau Truong Long", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180174.jpg"));
+            notYetAtdList.Add(new StudentNui("102180175", "Le Anh Tuan", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180175.jpg"));
+            notYetAtdList.Add(new StudentNui("102180176", "Huynh Tran Khanh Toan", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180176.jpg"));
+            notYetAtdList.Add(new StudentNui("102180177", "a", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180177.jpg"));
+            notYetAtdList.Add(new StudentNui("102180178", "a", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180178.jpg"));
 
 
             unknownList.Add(new AttendanceNui("unknown", "1", "50", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));

@@ -161,8 +161,8 @@ namespace AutoAttendant.Views
         private void HandleLogOut(object sender, EventArgs e)
         {
             checkCreateListSubject = 0;
-            //_lsvm.ScheduleCollection.Clear();
-            HomePage._lsjvm.SubjectCollection.Clear();
+
+            _lsjvm.SubjectCollection.Clear();
             // truoc khi out thi` cap nhat lai vo DB
             Navigation.PopToRootAsync();
         }

@@ -24,10 +24,6 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        public static ListRoomViewModel _lrvm = new ListRoomViewModel();
-        public static ListScheduleViewModel _lsvm = new ListScheduleViewModel();
-        public static int checkCreateListSchedule = 0; //avoid repeat schedule from ShowSchedule()
-        //public static Lecture _lecture = new Lecture();
         public LoginPage()
         {
             InitializeComponent();
@@ -77,23 +73,17 @@ namespace AutoAttendant.Views
                 HttpResponseMessage response = await httpService.PostAsync(base_URL, content);
                 var result = await response.Content.ReadAsStringAsync();
 
-                //UserDialogs.Instance.HideLoading();
-                //Data.Data.Instance.User = JsonConvert.DeserializeObject<User>(result); // dùng User để nhận json về vì có chứa thêm token, idLecture (static)
-                Data.Data.Instance.UserNui = JsonConvert.DeserializeObject<UserNui>(result);
+                Data.Data.Instance.UserNui = JsonConvert.DeserializeObject<UserNui>(result); // dung` UserNui de nhan response (api_key vs lecturer id)
                 UserNui userNui = JsonConvert.DeserializeObject<UserNui>(result);              
                 Data.Data.Instance.User = new User(Convert.ToInt32(userNui.lecturer_id), Entry_user.Text, Entry_password.Text);
 
 
                 if (response.IsSuccessStatusCode)
                 {
-                    //UserDialogs.Instance.ShowLoading("Please wait...");
-                    //await Task.Delay(600);
                     SaveAccountLogined(); // save user and password for next time
                     await Navigation.PushAsync(new HomePage());
                 }
                 else {
-                    
-                    //UserDialogs.Instance.HideLoading();
                     await DisplayAlert("Error", "Login Fail", "Try Again");
                 } 
 
@@ -101,7 +91,6 @@ namespace AutoAttendant.Views
             catch (Exception ex)
             {
                 await DisplayAlert("Error", "Login Fail", "Try Again");
-                //await DisplayAlert("ERROR", ex.Message, "Try Again");
             }
             UserDialogs.Instance.HideLoading();
         }
@@ -116,6 +105,7 @@ namespace AutoAttendant.Views
             Navigation.PushModalAsync(new SignUpPage());
         }
 
+        [Obsolete]
         private void OpenApiEntry(object sender, EventArgs e) 
         {
             Entry_Api.IsVisible = true;
