@@ -56,7 +56,8 @@ namespace AutoAttendant.Views
                 var listSubject = JsonConvert.DeserializeObject<ObservableCollection<Subject>>(jsonSubject);
 
                 // order list subject by time slot
-                listSubject = new ObservableCollection<Subject>(listSubject.OrderBy(r => r.day));
+                var dayIndex = new List<string> { "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY" };
+                listSubject = new ObservableCollection<Subject>(listSubject.OrderBy(r => dayIndex.IndexOf(r.day.ToUpper())));
                 return listSubject;
             }
             catch (Exception ex)

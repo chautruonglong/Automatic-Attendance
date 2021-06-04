@@ -350,7 +350,6 @@ namespace AutoAttendant.Views
             {
                 if(stringparameter.Equals("Add sucesfully"))
                 {
-                    DisplayAlert("Notice", "Create subject successfully", "OK");
                     ReLoadSubjectList();
                 }
             };

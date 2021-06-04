@@ -125,6 +125,7 @@ namespace AutoAttendant.Views.PopUp
                 {
                     PickerRoom.Items.Add(room.room_id);
                 }
+                btnSelectRoom.Text = PickerRoom.Items[0];
             }
             catch (Exception ex)
             {
@@ -162,7 +163,7 @@ namespace AutoAttendant.Views.PopUp
         {
             try
             {
-                ListStd.room_id =btnSelectRoom.Text;
+                ListStd.room_id = btnSelectRoom.Text;
                 ListStd.lecturer_id = Data.Data.Instance.Lecture.id;
                 //
                 TimeSpan timeBegin = Convert.ToDateTime(btnSelectTime.Text).TimeOfDay;
@@ -177,7 +178,7 @@ namespace AutoAttendant.Views.PopUp
                 ListStd.time_slot =timeBegin.ToString(@"hh\:mm") + "-"+ timeEnd.ToString(@"hh\:mm");
                 //
                 ListStd.day =lb_date.Text;
-
+                //ValidatePopUpAdd();
                 SendListStdToServer();
                 //Back to Subject Page after Post to server
             }
@@ -203,7 +204,8 @@ namespace AutoAttendant.Views.PopUp
                 StringContent contentStdList = new StringContent(jsonListId, Encoding.UTF8, "application/json");
                 var baseStdList_URL = HomePage.base_URL +"/subject/create/";
                 HttpResponseMessage response = await httpService.PostAsync(baseStdList_URL, contentStdList);
-
+                var message = await response.Content.ReadAsStringAsync();
+                await DisplayAlert("Notice", message, "OK");
                 if (response.IsSuccessStatusCode)
                 {
                     AddSubjectInToListHomePageforToday(subject);
@@ -216,6 +218,7 @@ namespace AutoAttendant.Views.PopUp
                 await DisplayAlert("Error ", "Fail in SendListoServer /n" + ex.Message, "OK");
             }
         }
+
         public  static ListStd ListStd = new ListStd();
         private async void ImportExcel(object sender, EventArgs e)
         {
