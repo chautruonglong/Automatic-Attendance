@@ -154,7 +154,7 @@ namespace AutoAttendant.Views
 
         private void SubjectClick(object sender, EventArgs e)
         {
-
+            Navigation.PushAsync(new DetailHistoryPage());
         }
     }
 }
