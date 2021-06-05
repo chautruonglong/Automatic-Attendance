@@ -176,8 +176,8 @@ namespace AutoAttendant.Views
             
         }
 
-        public static string process_id_atd = "";
-        public static List<AttendanceNui> listAttendanceOfProcess = new List<AttendanceNui>();
+        public static string process_id_atd = "";  //process_id tra ve khi bam' take attendance
+        public static List<AttendanceNui> listAttendanceOfProcess = new List<AttendanceNui>(); // list attendance tra ve sau khi take attendance co state = true;
         #region Handle Attendances Functions()
         [Obsolete]
         private async void TakeAttendance(object sender, EventArgs e) //create process and request to server to open camera
@@ -239,14 +239,6 @@ namespace AutoAttendant.Views
                             }
                         }
 
-                        //foreach (StudentNui std in lsnvm.StudentCollection) // list absent //bo trong clicked cua ToUnknownPage();
-                        //{
-                        //    if (std.state == false)
-                        //    {
-                        //        listNotYetAtd.Add(std);
-                        //    }
-                        //}
-
                         ReLoadStudenList();
                     }
                 }
@@ -259,7 +251,7 @@ namespace AutoAttendant.Views
 
         
 
-        int TimeCount = 20;
+        //int TimeCount = 20;
         public void paintLoading()
         {
             try
@@ -267,7 +259,7 @@ namespace AutoAttendant.Views
                 using (IProgressDialog progress = UserDialogs.Instance.Progress("Taking attendance...", null, null, true, MaskType.Gradient))
                 {
                     int i = 0;
-                    while(true)
+                    while (true)
                     {
                         progress.PercentComplete = i++;
                         //Task.Delay(2000);
@@ -286,10 +278,6 @@ namespace AutoAttendant.Views
         }
 
 
-        public void HandleAttendance()
-        {
-
-        }
         #endregion
 
         #region Functions for Save Click

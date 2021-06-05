@@ -1,4 +1,5 @@
-﻿using AutoAttendant.Models;
+﻿using Acr.UserDialogs;
+using AutoAttendant.Models;
 using AutoAttendant.Services;
 using AutoAttendant.ViewModel;
 using Newtonsoft.Json;
@@ -68,7 +69,9 @@ namespace AutoAttendant.Views
                     update_std.state = true;
                 }
             }
-            DisplayAlert("Notice", "Saved", "OK");
+            //DisplayAlert("Notice", "Saved", "OK");
+            UserDialogs.Instance.Toast("Saved successfully");
+            Navigation.PopAsync();
         }
 
         private void checkBoxClicked(object sender, EventArgs e)

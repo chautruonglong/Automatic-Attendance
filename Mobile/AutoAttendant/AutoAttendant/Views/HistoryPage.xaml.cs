@@ -2,11 +2,13 @@
 using AutoAttendant.Services;
 using AutoAttendant.ViewModel;
 using Newtonsoft.Json;
+using Syncfusion.XlsIO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,63 +20,102 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HistoryPage : ContentPage
     {
-        int checkCreateListSchedule = 0;
-        ListScheduleViewModel lsvm = new ListScheduleViewModel();
+        public static int checkCreateAllSubject = 0;
         [Obsolete]
         public HistoryPage()
         {
             InitializeComponent();
-            HandleDatePicker();
-            this.BindingContext = new ListScheduleViewModel();
+            ShowAllSubject();
         }
 
         [Obsolete]
-        public async Task<ObservableCollection<Schedule>> HandleScheduleByDate(string date)
+        protected override void OnAppearing() // goị trước khi screen page này xuất hiện
+        {
+            ReLoadSubjectList();
+            base.OnAppearing();
+        }
+
+        [Obsolete]
+        public void ReLoadSubjectList()
+        {
+            HomePage._lsjavm.SubjectAllCollection.Clear();
+            ShowAllSubject();
+            this.BindingContext = new ListSubjectAllViewModel();
+            this.BindingContext = HomePage._lsjavm;
+        }
+
+        [Obsolete]
+        public async Task<ObservableCollection<Subject>> HandleAllSubject() //get all subject by lecturer_id
         {
             try
             {
-                var httpService = new HttpService();
-                //var base_URL = HomePage.base_URL + "schedule?idTeacher=" + Data.Data.Instance.User.idLecture.ToString() + "&date=" + date;
-                var base_URL = HomePage.base_URL + "/schedule?idTeacher=" + Data.Data.Instance.Lecture.id.ToString() + "&date=" + date;
-                var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
-                var listSchedule = JsonConvert.DeserializeObject<ObservableCollection<Schedule>>(result);
-                return listSchedule;
-            }
-            catch (Exception)
-            {
-                await DisplayAlert("Notice", "Fail", "OK");
+                var httpService = new HttpClient();
+                var api_key = Data.Data.Instance.UserNui.authorization;
+                httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+                var base_URL = HomePage.base_URL + "/subject/list/" + Data.Data.Instance.UserNui.lecturer_id.ToString() + "/all/";
+                var result = await httpService.GetAsync(base_URL);
+                var jsonSubject = await result.Content.ReadAsStringAsync();
+                var listSubject = JsonConvert.DeserializeObject<ObservableCollection<Subject>>(jsonSubject);
 
+                // order list subject by time slot
+                var dayIndex = new List<string> { "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY" };
+                listSubject = new ObservableCollection<Subject>(listSubject.OrderBy(r => dayIndex.IndexOf(r.day.ToUpper())));
+                return listSubject;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Notice", ex.Message, "OK");
                 return null;
             }
         }
 
         [Obsolete]
-        public async void ShowSchedule(string date)
+        public async void ShowAllSubject()
         {
             try
             {
-                if (checkCreateListSchedule == 0)
+                var listSubject = new ObservableCollection<Subject>(await HandleAllSubject()); // list Subject trả về từ HandelSubject
+                if (listSubject.Count > 0)
                 {
-                    var listSchedule = new ObservableCollection<Schedule>(await HandleScheduleByDate(date)); // list Schedule trả về từ HandelSchedule
-                    if(listSchedule.Count == 0)
+                    HomePage._lsjavm.SubjectAllCollection.Clear();
+                    foreach (Subject subject in listSubject)  // duyet trong list subject để thêm vào lsjavm
                     {
-                        await DisplayAlert("Notice", "No schedule on this day", "OK");
+                        HomePage._lsjavm.SubjectAllCollection.Add(subject);
                     }
-                    else foreach (Schedule schedule in listSchedule)  // duyet trong list schedule để thêm vào lsvm
-                    {
-                        schedule.stateString = "0 / 0"; 
-                        lsvm.ScheduleCollection.Add(schedule);
 
-                    }
+                    this.BindingContext = new ListSubjectAllViewModel();
+                    this.BindingContext = HomePage._lsjavm;
                 }
-                //SetColorById();
-                //lsvm.ScheduleCollection = HomePage._lsvm.ScheduleCollection; // gán lsvm bên Login cho lsvm của trang này -> avoid add same schedule
-                this.BindingContext = lsvm;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await DisplayAlert("Notice", "Select date to view your history", "OK");
+                await DisplayAlert("Notice", "Fall in ShowAllSubject /n" + ex.Message, "OK");
             }
+        }
+
+        private async void GetExcel(object sender, EventArgs e)
+        {
+            var httpService = new HttpClient();
+            var api_key = Data.Data.Instance.UserNui.authorization;
+            httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+            var base_URL = "http://42.114.97.127:8000/resources/class/1814_KTDN.xlsx";
+            var result = await httpService.GetAsync(base_URL);
+            var streamExcel = await result.Content.ReadAsStreamAsync();
+
+            ExcelEngine excelEngine = new ExcelEngine();
+            IApplication application = excelEngine.Excel;
+            application.DefaultVersion = ExcelVersion.Excel2016;
+
+            //Open the workbook
+            IWorkbook workbook = application.Workbooks.Open(streamExcel);
+            //Access first worksheet from the workbook.
+            IWorksheet worksheet = workbook.Worksheets[0];
+            var numberOfStudent = (worksheet.Rows.Count() - 3);
+            var inforSubject = worksheet.Range["A5"].Text.Trim();
+            var lastindexOfNameSub = inforSubject.IndexOf("(");
+            var name_sub = inforSubject.Substring(5, lastindexOfNameSub - 5 - 1);
+            var id_sub = inforSubject.Substring(lastindexOfNameSub + 1, inforSubject.Count() - 2 - lastindexOfNameSub).Trim();
+            var x = worksheet.Range["B8"].Text.ToString();
         }
 
         [Obsolete]
@@ -106,11 +147,14 @@ namespace AutoAttendant.Views
                 //Format DateTime to send GET to server
 
                 string historyDate = JsonConvert.SerializeObject(datePicker.Date).Replace("\"", "");
-                lsvm.ScheduleCollection.Clear();
-                ShowSchedule(historyDate);
+                //lsvm.ScheduleCollection.Clear();
+                //ShowSchedule(historyDate);
             };
         }
 
+        private void SubjectClick(object sender, EventArgs e)
+        {
 
+        }
     }
 }
