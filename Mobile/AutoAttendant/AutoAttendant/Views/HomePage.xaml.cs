@@ -95,36 +95,34 @@ namespace AutoAttendant.Views
 
         async void ChangeAvatar(object sender, EventArgs e)
         {
-            try
-            {
-                await CrossMedia.Current.Initialize();
-                if (!CrossMedia.Current.IsPickPhotoSupported)
-                {
-                    await DisplayAlert("Notice", "Picking a photo is not supported", "OK");
-                    return;
-                }
-                var mediaOptions = new PickMediaOptions()
-                {
-                    PhotoSize = PhotoSize.Medium
-                };
-                var selectedFile = CrossMedia.Current.PickPhotoAsync(mediaOptions);
-                if (selectedFile == null)
-                {
-                    await DisplayAlert("Error", "Could not get the image from Gallery!", "OK");
-                    Avatar.Source = "DefaultAvatar.jpg";
-                }
-                //Avatar.Source = ImageSource.FromStream(() => selectedFile.GetStream());
-                else
-                {
-                    Avatar.Source = ImageSource.FromStream(() => selectedFile.Result.GetStream());
-                }
-            }
-            catch (Exception)
-            {
-                await DisplayAlert("Notice", "Picking a photo is not supported", "OK");
-            }
-            
-
+            //try
+            //{
+            //    await CrossMedia.Current.Initialize();
+            //    if (!CrossMedia.Current.IsPickPhotoSupported)
+            //    {
+            //        await DisplayAlert("Notice", "Picking a photo is not supported", "OK");
+            //        return;
+            //    }
+            //    var mediaOptions = new PickMediaOptions()
+            //    {
+            //        PhotoSize = PhotoSize.Medium
+            //    };
+            //    var selectedFile = CrossMedia.Current.PickPhotoAsync(mediaOptions);
+            //    if (selectedFile == null)
+            //    {
+            //        await DisplayAlert("Error", "Could not get the image from Gallery!", "OK");
+            //        Avatar.Source = "DefaultAvatar.jpg";
+            //    }
+            //    //Avatar.Source = ImageSource.FromStream(() => selectedFile.GetStream());
+            //    else
+            //    {
+            //        Avatar.Source = ImageSource.FromStream(() => selectedFile.Result.GetStream());
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    await DisplayAlert("Notice", "Picking a photo is not supported", "OK");
+            //}
         }
 
         #region Functions Handle Nav Bar

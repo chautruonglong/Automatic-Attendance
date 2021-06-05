@@ -123,7 +123,7 @@
                         </local:CustomEntry>
                     </StackLayout>
 
-                    <StackLayout Orientation="Horizontal" Margin="0,0,0,60">
+                    <StackLayout Orientation="Horizontal" Margin="0,0,0,30">
                         <Label Text="Used - Time slot:" TextColor="#F5F5F5" 
                                FontSize="14" FontAttributes="Bold"
                                VerticalOptions="Center" WidthRequest="150">

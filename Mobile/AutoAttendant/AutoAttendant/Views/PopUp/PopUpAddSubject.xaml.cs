@@ -26,6 +26,7 @@ namespace AutoAttendant.Views.PopUp
             InitializeComponent();
             HandleDatePicker();
             GetRoomForAddSubject();
+            GetTimeSlotDefault();
         }
 
         public EventHandler<string> Action;
@@ -54,6 +55,24 @@ namespace AutoAttendant.Views.PopUp
                 string day = datePicker.Date.DayOfWeek.ToString();
                 lb_date.Text = day;
             };
+        }
+
+        [Obsolete]
+        public async void GetTimeSlotDefault()
+        {
+            btnSelectRoom.Text = PickerRoom.Items[0].ToString();
+            var room = HomePage._lrvm.RoomCollection.Single(r => r.room_id == btnSelectRoom.Text);
+            var day = lb_date.Text;
+
+            var httpService = new HttpClient();
+            var api_key = Data.Data.Instance.UserNui.authorization;
+            httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+            var base_URL = HomePage.base_URL + "/subject/time_slot/list/" + room.room_id + "/" + day + "/";
+            var result = await httpService.GetAsync(base_URL);
+            var contentListTimeSlot = await result.Content.ReadAsStringAsync();
+            var listTimslottInRoom = JsonConvert.DeserializeObject<List<String>>(contentListTimeSlot);
+
+            GetTimeSlot(listTimslottInRoom);
         }
 
         [Obsolete]
@@ -88,6 +107,10 @@ namespace AutoAttendant.Views.PopUp
         public void GetTimeSlot(List<String> listTimeSlot)
         {
             usedTimeSlotLabel.Text = "|";
+            foreach (string timeSlot  in listTimeSlot)
+            {
+                usedTimeSlotLabel.Text = usedTimeSlotLabel.Text + "   " + timeSlot + "   " + "|";
+            }
             //List<TimeSpan> listTimeSingle = new List<TimeSpan>();
             //foreach (string timeSlot in listTimeSlot)
             //{ 
@@ -103,10 +126,6 @@ namespace AutoAttendant.Views.PopUp
             //    TimeSpan x = ArrayTimeSingle[2 * (i + 1)] - ArrayTimeSingle[2 * i + 1];
                 
             //}
-            foreach (string timeSlot  in listTimeSlot)
-            {
-                usedTimeSlotLabel.Text = usedTimeSlotLabel.Text + "   " + timeSlot + "   " + "|";
-            }
         }
 
         private void OpenPicker(object sender, EventArgs e)
@@ -166,8 +185,17 @@ namespace AutoAttendant.Views.PopUp
                 ListStd.room_id = btnSelectRoom.Text;
                 ListStd.lecturer_id = Data.Data.Instance.Lecture.id;
                 //
+                var x = 0;
                 TimeSpan timeBegin = Convert.ToDateTime(btnSelectTime.Text).TimeOfDay;
-                var x = Convert.ToInt32(Entry_period.Text) - 1;
+                if (string.IsNullOrEmpty(Entry_period.Text) || string.IsNullOrWhiteSpace(Entry_period.Text))
+                {
+                    await DisplayAlert("Notice", "Periods is not valid", "OK");
+                    return;
+                }
+                else {
+                    x = Convert.ToInt32(Entry_period.Text) - 1;
+                }
+                
                 TimeSpan period;
                 if (Convert.ToDateTime(x+":00").TimeOfDay+ timeBegin > TimeSpan.Parse("12:00"))
                 {
@@ -175,11 +203,14 @@ namespace AutoAttendant.Views.PopUp
                 } 
                 else {  period = Convert.ToDateTime(x + ":50").TimeOfDay; }
                 TimeSpan timeEnd = Convert.ToDateTime(btnSelectTime.Text).TimeOfDay+ period;
-                ListStd.time_slot =timeBegin.ToString(@"hh\:mm") + "-"+ timeEnd.ToString(@"hh\:mm");
+                ListStd.time_slot = timeBegin.ToString(@"hh\:mm") + "-"+ timeEnd.ToString(@"hh\:mm");
                 //
                 ListStd.day =lb_date.Text;
-                //ValidatePopUpAdd();
-                SendListStdToServer();
+                var isValidForm = ValidatePopUpAdd(timeBegin, timeEnd, usedTimeSlotLabel.Text);
+                if (isValidForm)
+                {
+                    SendListStdToServer();
+                }
                 //Back to Subject Page after Post to server
             }
             catch(Exception ex)
@@ -296,9 +327,26 @@ namespace AutoAttendant.Views.PopUp
             }
         }
 
-        public void ValidatePopUpAdd(string name, string roomName, string time_slot, string used_timeSlot, string day)
+        public bool ValidatePopUpAdd(TimeSpan time_start, TimeSpan time_end, string used_timeSlot)
         {
-
+            bool isValidateForm = false;
+            if(time_end <= TimeSpan.Parse("17:30")){
+                var x = time_start.Hours.ToString();
+                var x1 = time_end.Hours.ToString();
+                if (used_timeSlot.Contains(x) || used_timeSlot.Contains(x1))
+                {
+                    DisplayAlert("Notice", "This time slot was used by another", "Try again");
+                }
+                else
+                {
+                    isValidateForm = true;
+                }
+            }
+            else
+            {
+                DisplayAlert("Notice", "Time slot is not valid", "Try again");
+            }
+            return isValidateForm;
         }
 
         [Obsolete]

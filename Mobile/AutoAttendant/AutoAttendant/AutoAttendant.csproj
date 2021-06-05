@@ -33,10 +33,10 @@
     <EmbeddedResource Update="Views\ChartPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ClassPage.xaml">
+    <EmbeddedResource Update="Views\OldViews\ClassPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ClassTabbedPage.xaml">
+    <EmbeddedResource Update="Views\OldViews\ClassTabbedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ForgotPasswordPage.xaml">
@@ -93,7 +93,7 @@
     <EmbeddedResource Update="Views\SettingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\SignUpLecturerPage.xaml">
+    <EmbeddedResource Update="Views\OldViews\SignUpLecturerPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SignUpPage.xaml">
@@ -111,7 +111,7 @@
     <EmbeddedResource Update="Views\UnknownPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\UpdateSchedulePage.xaml">
+    <EmbeddedResource Update="Views\OldViews\UpdateSchedulePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
