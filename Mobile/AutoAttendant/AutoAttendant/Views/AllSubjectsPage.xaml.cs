@@ -1,6 +1,7 @@
 ﻿using AutoAttendant.Models;
 using AutoAttendant.ViewModel;
 using Newtonsoft.Json;
+using Syncfusion.XlsIO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -93,6 +94,32 @@ namespace AutoAttendant.Views
         private void SubjectClick(object sender, EventArgs e)
         {
 
+        }
+
+        private async void GetExcel(object sender, EventArgs e)
+        {
+            var httpService = new HttpClient();
+            var api_key = Data.Data.Instance.UserNui.authorization;
+            httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+            var base_URL = "http://42.114.97.127:8000/resources/class/1814_KTDN.xlsx";
+            var result = await httpService.GetAsync(base_URL);
+            var streamExcel = await result.Content.ReadAsStreamAsync();
+
+            ExcelEngine excelEngine = new ExcelEngine();
+            IApplication application = excelEngine.Excel;
+            application.DefaultVersion = ExcelVersion.Excel2016;
+
+
+            //Open the workbook
+            IWorkbook workbook = application.Workbooks.Open(streamExcel);
+            //Access first worksheet from the workbook.
+            IWorksheet worksheet = workbook.Worksheets[0];
+            var numberOfStudent = (worksheet.Rows.Count() - 3);
+            var inforSubject = worksheet.Range["A5"].Text.Trim();
+            var lastindexOfNameSub = inforSubject.IndexOf("(");
+            var name_sub = inforSubject.Substring(5, lastindexOfNameSub - 5 - 1);
+            var id_sub = inforSubject.Substring(lastindexOfNameSub + 1, inforSubject.Count() - 2 - lastindexOfNameSub).Trim();
+            var x = worksheet.Range["B8"].Text.ToString();
         }
     }
 }

@@ -20,35 +20,35 @@ namespace AutoAttendant.Views
     {
         ListUnknownViewModel luvm = new ListUnknownViewModel();
         List<StudentNui> notYetAtdListTemp = new List<StudentNui>();
-        public UnknownPage(List<AttendanceNui> unknownList, List<StudentNui> notYetAtdList)
+        public UnknownPage(List<AttendanceNui> unknownList)
         {
             InitializeComponent();
             //this.BindingContext = new ListUnknownViewModel();
-            StudentNui std1 = new StudentNui("102180191", "a", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180177.jpg");
-            std1.state = false;
-            StudentNui std2 = new StudentNui("102180173", "a", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180178.jpg");
-            std2.state = false;
-            notYetAtdList.Add(new StudentNui("3", "Tran Chi Minh", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
-            notYetAtdList.Add(std1);
-            notYetAtdList.Add(std2);
-            notYetAtdList.Add(new StudentNui("102180174", "Chau Truong Long", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180174.jpg"));
-            notYetAtdList.Add(new StudentNui("102180175", "Le Anh Tuan", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180175.jpg"));
-            notYetAtdList.Add(new StudentNui("102180176", "Huynh Tran Khanh Toan", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180176.jpg"));
-            notYetAtdList.Add(new StudentNui("102180177", "a", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180177.jpg"));
-            notYetAtdList.Add(new StudentNui("102180178", "a", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180178.jpg"));
+            //StudentNui std1 = new StudentNui("102180191", "a", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180177.jpg");
+            //std1.state = false;
+            //StudentNui std2 = new StudentNui("102180173", "a", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180178.jpg");
+            //std2.state = false;
+            //notYetAtdList.Add(new StudentNui("3", "Tran Chi Minh", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
+            //notYetAtdList.Add(std1);
+            //notYetAtdList.Add(std2);
+            //notYetAtdList.Add(new StudentNui("102180174", "Chau Truong Long", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180174.jpg"));
+            //notYetAtdList.Add(new StudentNui("102180175", "Le Anh Tuan", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180175.jpg"));
+            //notYetAtdList.Add(new StudentNui("102180176", "Huynh Tran Khanh Toan", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180176.jpg"));
+            //notYetAtdList.Add(new StudentNui("102180177", "a", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180177.jpg"));
+            //notYetAtdList.Add(new StudentNui("102180178", "a", "12", "aa", "abc", "http://cb.dut.udn.vn/ImageSV/18/102180178.jpg"));
 
 
-            unknownList.Add(new AttendanceNui("unknown", "1", "50", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
-            unknownList.Add(new AttendanceNui("unknown", "2", "60", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
-            unknownList.Add(new AttendanceNui("unknown", "3", "70", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
-            unknownList.Add(new AttendanceNui("unknown", "4", "80", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
-            unknownList.Add(new AttendanceNui("unknown", "1", "50", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
-            unknownList.Add(new AttendanceNui("unknown", "2", "60", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
-            unknownList.Add(new AttendanceNui("unknown", "3", "70", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
-            unknownList.Add(new AttendanceNui("unknown", "4", "80", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
-            notYetAtdListTemp = notYetAtdList;
+            //unknownList.Add(new AttendanceNui("unknown", "1", "50", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
+            //unknownList.Add(new AttendanceNui("unknown", "2", "60", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
+            //unknownList.Add(new AttendanceNui("unknown", "3", "70", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
+            //unknownList.Add(new AttendanceNui("unknown", "4", "80", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
+            //unknownList.Add(new AttendanceNui("unknown", "1", "50", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
+            //unknownList.Add(new AttendanceNui("unknown", "2", "60", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
+            //unknownList.Add(new AttendanceNui("unknown", "3", "70", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
+            //unknownList.Add(new AttendanceNui("unknown", "4", "80", "http://cb.dut.udn.vn/ImageSV/18/102180173.jpg"));
+            //notYetAtdListTemp = notYetAtdList;
 
-            list_3x4.ItemsSource = notYetAtdListTemp;
+            list_3x4.ItemsSource = ListStudentPage.listNotYetAtd;
             list_Unknown.ItemsSource = unknownList;
         }
 
@@ -60,7 +60,7 @@ namespace AutoAttendant.Views
             //duyet list notYetAtdList -> lay ra thong tin std co state = true
             //duyet single ListStudentPage.lsvm lay ra student.id == std.id
 
-            foreach (StudentNui stdn in notYetAtdListTemp)
+            foreach (StudentNui stdn in ListStudentPage.listNotYetAtd)
             {
                 if (stdn.state == true)
                 {

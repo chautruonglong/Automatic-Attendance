@@ -22,12 +22,12 @@ namespace AutoAttendant.Views
         public string historyDate = "";
 
         [Obsolete]
-        public ListStudentForViewPage(Subject subject, string date)
+        public ListStudentForViewPage(Subject subject)
         {
             InitializeComponent();
             this.BindingContext = new ListStudentNuiViewModel();
             ShowStudentList(subject.subject_id);
-            historyDate = date;
+            //historyDate = date;
         }
 
         private void OnTapped(object sender, EventArgs e)
@@ -36,19 +36,53 @@ namespace AutoAttendant.Views
         }
 
         [Obsolete]
+        public async Task<ObservableCollection<StudentNui>> HandleStudentList(string subject_id) //show list subject today
+        {
+            try
+            {
+                var httpService = new HttpClient();
+                var api_key = Data.Data.Instance.UserNui.authorization;
+                httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+                var base_URL = HomePage.base_URL + "/student/list/" + subject_id + "/";
+                var result = await httpService.GetAsync(base_URL);
+                var jsonStdList = await result.Content.ReadAsStringAsync();
+                var listStudent = JsonConvert.DeserializeObject<ObservableCollection<StudentNui>>(jsonStdList);
+
+                // order list student by name
+                listStudent = new ObservableCollection<StudentNui>(listStudent.OrderBy(r => r.name.Split(' ').ToList()[r.name.Split(' ').ToList().Count - 1]));
+                return listStudent;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("ERROR", ex.Message, "OK");
+                return null;
+            }
+        }
+
+        [Obsolete]
         public async void ShowStudentList(string subject_id)
         {
             try
             {
                 lsnvm.StudentCollection.Clear();
-                var listStudent = new ObservableCollection<StudentNui>(await HandleHistoryList(subject_id)); // list Subject trả về từ HandelSubject
-
+                var listAttendance = new ObservableCollection<AttendanceNui>(await GetAttendanceForView(subject_id)); // list Subject trả về từ HandelSubject
+                var listStudent = await HandleStudentList(subject_id);
+                
                 if (listStudent.Count > 0)
                 {
-                    foreach (StudentNui studentNui in listStudent)  // duyet trong listStudent để thêm vào lsvm
+                    foreach(AttendanceNui atdNui in listAttendance)
                     {
-                        lsnvm.StudentCollection.Add(studentNui);
+                        try
+                        {
+                            var std = listStudent.Single(r => r.student_id == atdNui.id && atdNui.type == "known");
+                            std.state = true;
+                        }
+                        catch (Exception)
+                        {
+
+                        }
                     }
+                    lsnvm.StudentCollection = listStudent;
                     this.BindingContext = lsnvm;
                 }
             }
@@ -60,22 +94,35 @@ namespace AutoAttendant.Views
         }
 
         [Obsolete]
-        public async Task<string> GetProcessForAttendance(string subject_id)
+        public async Task<ObservableCollection<AttendanceNui>> GetAttendanceForView(string subject_id)
         {
             try
             {
                 var httpService = new HttpClient();
                 var api_key = Data.Data.Instance.UserNui.authorization;
                 httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-                var base_URL = HomePage.base_URL + "/process/list/" + subject_id + "/" + historyDate + "/";
+                var date = String.Format("{0:yyyy-MM-dd}", DateTime.Now.Date);
+                var base_URL = HomePage.base_URL + "/attendance/history/latest/" + subject_id + "/" + date + "/";
                 var result = await httpService.GetAsync(base_URL);
                 if (result.IsSuccessStatusCode)
                 {
                     var jsonProcess = await result.Content.ReadAsStringAsync();
                     var process_id = JsonConvert.DeserializeObject<string>(jsonProcess);
-                    return process_id;
+
+                    var base2_URL = HomePage.base_URL + "/attendance/list/" + process_id + "/";
+                    var result2 = await httpService.GetAsync(base2_URL);
+                    var jsonHistoryList = await result2.Content.ReadAsStringAsync();
+                    var listAttendance = JsonConvert.DeserializeObject<ObservableCollection<AttendanceNui>>(jsonHistoryList);
+
+                    // order list student by name
+                    //listAttendance = new ObservableCollection<StudentNui>(listAttendance.OrderBy(r => r..Split(' ').ToList()[r.name.Split(' ').ToList().Count - 1]));
+                    return listAttendance;
                 }
-                else return null;
+                else
+                {
+                    await DisplayAlert("Notice", "Fail in GetProcessForAttendance ", "OK");
+                    return null;
+                }
                 
             }
             catch(Exception ex)
@@ -85,32 +132,7 @@ namespace AutoAttendant.Views
             }
         }
 
-        [Obsolete]
-        public async Task<ObservableCollection<StudentNui>> HandleHistoryList(string subject_id) //show list subject today
-        {
-            try
-            {
-                var httpService = new HttpClient();
-                var api_key = Data.Data.Instance.UserNui.authorization;
-                httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-                string process_id = await GetProcessForAttendance(subject_id);
-                var base_URL = HomePage.base_URL + "/attendance/list/" + process_id + "/";
-                var result = await httpService.GetAsync(base_URL);
-                var jsonHistoryList = await result.Content.ReadAsStringAsync();
-                var listAttendance = JsonConvert.DeserializeObject<ObservableCollection<StudentNui>>(jsonHistoryList);
-
-                // order list student by name
-             
-
-                listAttendance = new ObservableCollection<StudentNui>(listAttendance.OrderBy(r => r.name.Split(' ').ToList()[r.name.Split(' ').ToList().Count - 1]));
-                return listAttendance;
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("ERROR", ex.Message, "OK");
-                return null;
-            }
-        }
+       
 
         private void ToChartPage(object sender, EventArgs e)
         {

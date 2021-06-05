@@ -8,10 +8,11 @@
 
                 <Image Source="classroom.png"></Image>
                 <Label Text="My Classes" TextColor="#FFF" FontSize="17"></Label>
+                <Button Text="Click" Clicked="GetExcel"></Button>
             </StackLayout>
 
             <StackLayout Padding="10,10,10,20" HeightRequest="500">
-
+                 
                 <ListView ItemsSource="{Binding SubjectAllCollection}" RowHeight="80" HorizontalOptions="Center">
                     <ListView.ItemTemplate>
                         <DataTemplate>

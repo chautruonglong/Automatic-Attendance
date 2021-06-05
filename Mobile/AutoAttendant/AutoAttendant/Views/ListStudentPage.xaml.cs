@@ -176,7 +176,8 @@ namespace AutoAttendant.Views
             
         }
 
-        public static string process_id_atd;
+        public static string process_id_atd = "";
+        public static List<AttendanceNui> listAttendanceOfProcess = new List<AttendanceNui>();
         #region Handle Attendances Functions()
         [Obsolete]
         private async void TakeAttendance(object sender, EventArgs e) //create process and request to server to open camera
@@ -226,6 +227,12 @@ namespace AutoAttendant.Views
                                 checkAttendance.state = true;
                                 checkAttendance.confidence = atd.confidence;
                                 checkAttendance.img_attendance = atd.img_face;
+
+                                //
+                                if(atd.id == checkAttendance.student_id)
+                                {
+                                    listAttendanceOfProcess.Add(atd);
+                                }
                             }
                             catch(Exception) {
 
@@ -287,16 +294,48 @@ namespace AutoAttendant.Views
 
         #region Functions for Save Click
         [Obsolete]
+
+        public static List<AtdModify> listAtdModify = new List<AtdModify>();
+
+        [Obsolete]
         public async void SaveLastProcessWithAttendance()
         {
-            if (process_id_atd != null)
+            if (process_id_atd != "")
             {
                 var httpClient = new HttpClient();
                 var api_key = Data.Data.Instance.UserNui.authorization;
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+                List<string> listIdAttendance = new List<string>();
 
-                var base_URL = HomePage.base_URL + "/attendance/update/" + process_id_atd + "/";
-                var jsonLastAttendance = JsonConvert.SerializeObject(lsnvm.StudentCollection);
+
+                foreach (StudentNui stdn in listNotYetAtd) // false -> true
+                {
+                    if (stdn.state == true)
+                    {
+                        listAtdModify.Add(new AtdModify(stdn.student_id, stdn.state));
+                    }
+                }
+
+
+                try
+                {
+                    foreach (AttendanceNui atd in listAttendanceOfProcess) //true->false
+                    {
+                        var std = lsnvm.StudentCollection.Single(r => r.student_id == atd.id);
+                        if (std.state == false)
+                        {
+                            listAtdModify.Add(new AtdModify(std.student_id, std.state));
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    await DisplayAlert("ERROR", "SaveLastProcess" + ex.Message, "OK");
+                }
+                
+                var base_URL = HomePage.base_URL + "/attendance/update/" + subjectStatic.subject_id + "/" + process_id_atd + "/";
+                process_id_atd = "";
+                var jsonLastAttendance = JsonConvert.SerializeObject(listAtdModify);
                 StringContent content = new StringContent(jsonLastAttendance, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await httpClient.PutAsync(base_URL,content);
                 if (response.IsSuccessStatusCode)
@@ -304,18 +343,9 @@ namespace AutoAttendant.Views
                     await Navigation.PopAsync();
                 }
             }
-            else //xoa cai ni
+            else 
             {
-                var httpClient = new HttpClient();
-                var api_key = Data.Data.Instance.UserNui.authorization;
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-
-                var base_URL = HomePage.base_URL + "/attendance/update/" + process_id_atd + "/";
-                var jsonLastAttendance = JsonConvert.SerializeObject(lsnvm.StudentCollection);
-                StringContent content = new StringContent(jsonLastAttendance, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await httpClient.PutAsync(base_URL, content);
-                await Navigation.PopAsync();
-
+                await DisplayAlert("ERROR", "You must take attendance first", "OK");
             }
         }
 
@@ -410,7 +440,7 @@ namespace AutoAttendant.Views
                     listNotYetAtd.Add(std);
                 }
             }
-            Navigation.PushAsync(new UnknownPage(listUnknownImage, listNotYetAtd));
+            Navigation.PushAsync(new UnknownPage(listUnknownImage));
         }
 
         [Obsolete]

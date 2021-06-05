@@ -141,7 +141,7 @@ namespace AutoAttendant.Views
 
         private void HandleHistory(object sender, EventArgs e)
         {
-            Detail = new NavigationPage(new HistoryPage());
+            Detail = new NavigationPage(new AllSubjectsPage());
             IsPresented = false;
         }
 

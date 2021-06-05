@@ -247,7 +247,7 @@ namespace AutoAttendant.Views
                             classes.StudentList1.Clear(); // clear list student khi join 1 subject mới
                             checkClearStd_ListPage = 0;
                         }
-                        await Navigation.PushAsync(new ListStudentPage(subject));
+                        await Navigation.PushAsync(new ListStudentForViewPage(subject));
                         break;
 
 
