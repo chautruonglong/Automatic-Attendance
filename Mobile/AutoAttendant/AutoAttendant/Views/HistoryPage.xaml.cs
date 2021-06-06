@@ -98,7 +98,7 @@ namespace AutoAttendant.Views
             var httpService = new HttpClient();
             var api_key = Data.Data.Instance.UserNui.authorization;
             httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-            var base_URL = "http://42.114.97.127:8000/resources/class/1814_KTDN.xlsx";
+            var base_URL = "https://drive.google.com/u/0/uc?id=1nFfpB-T1V-V7fI0h6jJ1Ytw8u4cAYUbA&export=download";
             var result = await httpService.GetAsync(base_URL);
             var streamExcel = await result.Content.ReadAsStreamAsync();
 
@@ -110,12 +110,17 @@ namespace AutoAttendant.Views
             IWorkbook workbook = application.Workbooks.Open(streamExcel);
             //Access first worksheet from the workbook.
             IWorksheet worksheet = workbook.Worksheets[0];
-            var numberOfStudent = (worksheet.Rows.Count() - 3);
-            var inforSubject = worksheet.Range["A5"].Text.Trim();
-            var lastindexOfNameSub = inforSubject.IndexOf("(");
-            var name_sub = inforSubject.Substring(5, lastindexOfNameSub - 5 - 1);
-            var id_sub = inforSubject.Substring(lastindexOfNameSub + 1, inforSubject.Count() - 2 - lastindexOfNameSub).Trim();
-            var x = worksheet.Range["B8"].Text.ToString();
+            List<string> listId = new List<string>();
+            List<string> listName = new List<string>();
+            for (int i = 2; i <= worksheet.Rows.Count(); i++)
+            {
+                string id = "A" + i.ToString();
+                string name = "B" + i.ToString();
+                listId.Add(id);
+                listName.Add(name);
+            }
+            var x = listId;
+            var y = listName;
         }
 
         [Obsolete]
@@ -154,7 +159,7 @@ namespace AutoAttendant.Views
 
         private void SubjectClick(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new DetailHistoryPage());
+            Navigation.PushAsync(new DetailHistoryAttendancePage());
         }
     }
 }

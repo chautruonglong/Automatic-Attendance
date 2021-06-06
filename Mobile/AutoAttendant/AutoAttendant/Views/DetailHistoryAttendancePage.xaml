@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoAttendant.Views.DetailHistoryAttendancePage">
+    <ContentPage.Content>
+
+        <ScrollView  Orientation="Both" BackgroundColor="#021135" Padding="2" >
+            <Button Clicked="OpenExcel" Text="Open" ></Button>
+            <!--<Grid x:Name="gridLayout" >
+                
+                --><!--<Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Text="ID" TextColor="#FFF" Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_Id"  TextColor="#FFF" Grid.Row="0" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="102180173"/>
+
+                <Label Text="Name" TextColor="#FFF" Grid.Row="0" Grid.Column="2" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_Name" TextColor="#FFF" Grid.Row="0" Grid.Column="3" HorizontalOptions="Start" VerticalOptions="Center" Text="Chi Minh"/>
+
+                <Label Text="Class" TextColor="#FFF" Grid.Row="0" Grid.Column="4" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_Class" TextColor="#FFF" Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="102180173"/>
+
+                <Label Text="Birth" TextColor="#FFF" Grid.Row="0" Grid.Column="5" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_birth" TextColor="#FFF" Grid.Row="3" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="102180173"/>
+
+                <Label Text="Phone" TextColor="#FFF" Grid.Row="1" Grid.Column="0" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label x:Name="lb_phone" TextColor="#FFF" Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" Text="102180173"/>
+
+                <Label Text="Status" TextColor="#FFF" Grid.Row="1" Grid.Column="2" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <RadioButton Grid.Row="1" Grid.Column="3" HorizontalOptions="Start" VerticalOptions="Center" GroupName="status" Content="Attended" TextColor="#9DFE65" x:Name="btnAttendance"/>
+                <RadioButton Grid.Row="1" Grid.Column="4" HorizontalOptions="Start" VerticalOptions="Center" GroupName="status" Content="Absent" TextColor="#EC3108" x:Name="btnAbsent" IsChecked="False"/>--><!--
+            </Grid>-->
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
