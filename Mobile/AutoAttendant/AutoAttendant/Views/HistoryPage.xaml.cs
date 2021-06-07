@@ -26,6 +26,7 @@ namespace AutoAttendant.Views
         {
             InitializeComponent();
             ShowAllSubject();
+            HandleDatePicker();
         }
 
         [Obsolete]

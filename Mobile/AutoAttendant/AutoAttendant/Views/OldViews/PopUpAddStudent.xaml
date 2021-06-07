@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<pages:PopupPage  xmlns:pages="http://rotorgames.com" xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:AutoAttendant"
+                  x:Class="AutoAttendant.Views.PopUp.PopUpAddStudent">
+
+    <pages:PopupPage.Animation>
+        <pages:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+        <Frame CornerRadius="15"   
+               BackgroundColor="#3D3C40" Padding="10">
+
+            <StackLayout Orientation="Vertical" HeightRequest="220" WidthRequest="220" BackgroundColor="#3D3C40" Padding="20,10,10,0">
+                <Button ImageSource="closewindow30px"  
+                                    BackgroundColor="#3D3C40" 
+                                    FontAttributes="Bold" TextTransform="None"
+                                    Margin="180,0,0,5"  TextColor="#FFF "
+                                    BorderColor="#FFF" BorderRadius="10" WidthRequest="30" HeightRequest="30" HorizontalOptions="End" Clicked="ClosePopUp"/>
+                <Label Text="Add Student" FontSize="20" FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    TextColor="#FFF" Margin="0,0,0,10">
+
+                </Label>
+                <StackLayout Orientation="Horizontal" Margin="0,0,0,20">
+                    <Label Text="Student" TextColor="#F5F5F5" 
+                                       FontSize="18" FontAttributes="Bold"
+                                       VerticalOptions="Center" WidthRequest="100">
+                    </Label>
+                    <local:CustomEntry x:Name="Entry_room" TextColor="#FFF" FontSize="18"  
+                                               HeightRequest="50" Margin="30,0" WidthRequest="100"
+                                               VerticalOptions="Center" HorizontalOptions="Fill"
+                                               Placeholder="Enter Room" PlaceholderColor="#ccc"
+                                               >
+
+                    </local:CustomEntry>
+                </StackLayout>
+
+                <Button Text="Add"  HeightRequest="40" WidthRequest="100"
+                                    HorizontalOptions="End" 
+                                    IsVisible="True" Background="#6562FC" BorderRadius="8"
+                                    Clicked="AddStudent" TextColor="#FFF" FontAttributes="Bold">
+                </Button>
+            </StackLayout>
+        </Frame>
+    </StackLayout>
+</pages:PopupPage>

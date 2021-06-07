@@ -31,6 +31,7 @@ namespace AutoAttendant.Views.PopUp
 
         public EventHandler<string> Action;
 
+        [Obsolete]
         private void HandleDatePicker()
         {
             lb_date.Text = DateTime.Now.DayOfWeek.ToString();
@@ -54,6 +55,7 @@ namespace AutoAttendant.Views.PopUp
             {
                 string day = datePicker.Date.DayOfWeek.ToString();
                 lb_date.Text = day;
+                GetTimeSlotDefault();
             };
         }
 

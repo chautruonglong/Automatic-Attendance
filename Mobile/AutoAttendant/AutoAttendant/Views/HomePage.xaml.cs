@@ -67,11 +67,6 @@ namespace AutoAttendant.Views
         {
             try
             {
-                //var httpService = new HttpService();
-                //var base_URL = HomePage.base_URL + "/lecturer/detail/" + id + "/";
-                //var result = await httpService.SendAsync(base_URL, HttpMethod.Get);
-                //var lecture = JsonConvert.DeserializeObject<Lecture>(result);
-
                 var httpService = new HttpClient();
                 var api_key = Data.Data.Instance.UserNui.authorization;
                 httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
@@ -151,11 +146,11 @@ namespace AutoAttendant.Views
             IsPresented = false;
         }
 
-        private void HandleSetting(object sender, EventArgs e)
-        {
-            Detail = new NavigationPage(new SettingPage());
-            IsPresented = false;
-        }
+        //private void HandleSetting(object sender, EventArgs e)
+        //{
+        //    Detail = new NavigationPage(new SettingPage());
+        //    IsPresented = false;
+        //}
         private void HandleLogOut(object sender, EventArgs e)
         {
             checkCreateListSubject = 0;

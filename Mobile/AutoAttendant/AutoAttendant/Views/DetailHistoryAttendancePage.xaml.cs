@@ -15,19 +15,56 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DetailHistoryAttendancePage : ContentPage
     {
-        private List<String> listId = new List<string>();
-        private List<String> listName = new List<string>();
-
-        public List<string> ListId { get => listId; set => listId = value; }
-        public List<string> ListName { get => listName; set => listName = value; }
-
         public DetailHistoryAttendancePage()
         {
             InitializeComponent();
-            //GetExcel();
-
         }
 
+        [Obsolete]
+        private async void OpenPDF(object sender, EventArgs e)
+        {
+            try
+            {
+                var httpService = new HttpClient();
+                var api_key = Data.Data.Instance.UserNui.authorization;
+                httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+                var base_URL = HomePage.base_URL + "/GetLink";
+                var result = await httpService.GetAsync(base_URL);
+                if(result.IsSuccessStatusCode)
+                {
+                    var uriPDF = await result.Content.ReadAsStringAsync();
+                    await Browser.OpenAsync(uriPDF, BrowserLaunchMode.SystemPreferred);
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("ERROR", "Fail in Open PDF " + ex.Message, "OK");
+            }
+        }
+
+        [Obsolete]
+        private async void SendToEmail(object sender, EventArgs e)
+        {
+            try
+            {
+                var httpService = new HttpClient();
+                var api_key = Data.Data.Instance.UserNui.authorization;
+                httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+                var base_URL = HomePage.base_URL + "/GetLink";
+                var result = await httpService.GetAsync(base_URL);
+                if (result.IsSuccessStatusCode)
+                {
+                    await DisplayAlert("Notice", "Please check your email", "OK");
+                }
+            }
+            catch(Exception ex)
+            {
+                await DisplayAlert("ERROR", "Fail in Send to Email " + ex.Message, "OK");
+            }
+            
+        }
+
+        #region TempGrid
         //public void ShowExcel(List<string>listId, List<string>listName)
         //{
         //    gridLayout.RowDefinitions = new RowDefinitionCollection();
@@ -50,80 +87,70 @@ namespace AutoAttendant.Views
 
         public async void GetExcel()
         {
-            try
-            {
-                var httpService = new HttpClient();
-                //var api_key = Data.Data.Instance.UserNui.authorization;
-                //httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-                //var base_URL = @"https://drive.google.com/u/0/uc?id=1ra28UsQk0Y9bDumsqXwpbXttG4eSkwky&export=download";
-                var base_URL = @"http://192.168.30.107:8000/resources/statistics/excel/102324020201814/102324020201814_06-06-2021_17-07-37.xlsx";
-                var result = await httpService.GetAsync(base_URL);
-                var streamExcel = await result.Content.ReadAsStreamAsync();
+            //try
+            //{
+            //    var httpService = new HttpClient();
+            //    //var api_key = Data.Data.Instance.UserNui.authorization;
+            //    //httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+            //    //var base_URL = @"https://drive.google.com/u/0/uc?id=1ra28UsQk0Y9bDumsqXwpbXttG4eSkwky&export=download";
+            //    var base_URL = @"http://192.168.30.107:8000/resources/statistics/excel/102324020201814/102324020201814_06-06-2021_17-07-37.xlsx";
+            //    var result = await httpService.GetAsync(base_URL);
+            //    var streamExcel = await result.Content.ReadAsStreamAsync();
 
-                ExcelEngine excelEngine = new ExcelEngine();
-                IApplication application = excelEngine.Excel;
-                application.DefaultVersion = ExcelVersion.Excel2016;
+            //    ExcelEngine excelEngine = new ExcelEngine();
+            //    IApplication application = excelEngine.Excel;
+            //    application.DefaultVersion = ExcelVersion.Excel2016;
 
-                //Open the workbook
-                IWorkbook workbook = application.Workbooks.Open(streamExcel);
-                //Access first worksheet from the workbook.
-                IWorksheet worksheet = workbook.Worksheets[0];
-                var row = worksheet.Rows.Length;
-                for (int i = 2; i <= row; i++)
-                {
-                    string id = "A" + i.ToString();
-                    string name = "B" + i.ToString();
-                    var std_id = worksheet.Range[id].Text.ToString().Trim();
-                    var std_name = worksheet.Range[name].Text.ToString().Trim();
-                    ListId.Add(std_id);
-                    ListName.Add(std_name);
-                }
-                int j = 67;
+            //    //Open the workbook
+            //    IWorkbook workbook = application.Workbooks.Open(streamExcel);
+            //    //Access first worksheet from the workbook.
+            //    IWorksheet worksheet = workbook.Worksheets[0];
+            //    var row = worksheet.Rows.Length;
+            //    for (int i = 2; i <= row; i++)
+            //    {
+            //        string id = "A" + i.ToString();
+            //        string name = "B" + i.ToString();
+            //        var std_id = worksheet.Range[id].Text.ToString().Trim();
+            //        var std_name = worksheet.Range[name].Text.ToString().Trim();
+            //        //ListId.Add(std_id);
+            //        //ListName.Add(std_name);
+            //    }
+            //    int j = 67;
 
-                //while (true)
-                //{
-                //    string id = ((char)j).ToString();
-                //    string x = id + "1";
-                //    var title_id = worksheet.Range[x].DateTime;
-                //    if (!title_id.ToString().Equals(""))
-                //    {
-                //        List<bool> list_atd = new List<bool>();
-                //        for (int i = 2; i <= row; i++)
-                //        {
-                //            string id_value = id + i.ToString();
-                //            var std_id_value = worksheet.Range[id_value].Boolean;
+            //while (true)
+            //{
+            //    string id = ((char)j).ToString();
+            //    string x = id + "1";
+            //    var title_id = worksheet.Range[x].DateTime;
+            //    if (!title_id.ToString().Equals(""))
+            //    {
+            //        List<bool> list_atd = new List<bool>();
+            //        for (int i = 2; i <= row; i++)
+            //        {
+            //            string id_value = id + i.ToString();
+            //            var std_id_value = worksheet.Range[id_value].Boolean;
 
-                //            //list_atd.Add(std_id_value);
-                //        }
-                //    }
-                //    else
-                //    {
-                //        break;
-                //    }
-                //}
+            //            //list_atd.Add(std_id_value);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        break;
+            //    }
+            //}
 
-               // ShowExcel(ListId, ListName);
+            // ShowExcel(ListId, ListName);
 
 
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("ERROR", ex.Message, "OK");
-            }
-            
+            //}
+            //catch (Exception ex)
+            //{
+            //    await DisplayAlert("ERROR", ex.Message, "OK");
+            //}
+
         }
+        #endregion
 
-        private async void OpenExcel(object sender, EventArgs e)
-        {
-            try
-            {
-                var uri = @"http://192.168.30.107:8000/resources/statistics/excel/102324020201814/102324020201814_06-06-2021_19-32-11.pdf";
-                await Browser.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
-            }
-            catch (Exception ex)
-            {
-                // An unexpected error occured. No browser may be installed on the device.
-            }
-        }
+        
     }
 }

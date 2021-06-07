@@ -38,7 +38,7 @@
     <EmbeddedResource Update="Views\DetailHistoryAttendancePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\DetailHistoryPage.xaml">
+    <EmbeddedResource Update="Views\OldViews\DetailHistoryPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\OldViews\ClassPage.xaml">
@@ -68,10 +68,10 @@
     <EmbeddedResource Update="Views\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Page1.xaml">
+    <EmbeddedResource Update="Views\OldViews\Page1.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\PasswordVerificationPage.xaml">
+    <EmbeddedResource Update="Views\OldViews\PasswordVerificationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PopUp\PopUpAddSubject.xaml">
@@ -80,25 +80,25 @@
     <EmbeddedResource Update="Views\PopUp\PopUpSubjectOption.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\PopUp\PopupUpdateSchedule.xaml">
+    <EmbeddedResource Update="Views\OldViews\PopupUpdateSchedule.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\PopUp\PopUpView.xaml">
+    <EmbeddedResource Update="Views\OldViews\PopUpView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\PopUp\PopUpAddStudent.xaml">
+    <EmbeddedResource Update="Views\OldViews\PopUpAddStudent.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PopUp\PopUpViewPreviousSubject.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ResetPasswordPage.xaml">
+    <EmbeddedResource Update="Views\OldViews\ResetPasswordPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\RoomPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\SettingPage.xaml">
+    <EmbeddedResource Update="Views\OldViews\SettingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\OldViews\SignUpLecturerPage.xaml">

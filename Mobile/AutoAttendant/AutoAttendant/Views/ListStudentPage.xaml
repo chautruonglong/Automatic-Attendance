@@ -3,10 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AutoAttendant.Views.ListStudentPage">
     <ContentPage.ToolbarItems>
-        <!--<ToolbarItem Name="SearchItem" Icon="search25px.png" Priority="0" Clicked="ExportExcel"/>-->
         <ToolbarItem Text="Pie chart" Order="Secondary" Clicked="ToChartPage"></ToolbarItem>
         <ToolbarItem Text="Unknown List" Order="Secondary" Clicked="ToUnknownPage"></ToolbarItem>
-        <!--<ToolbarItem Text="Copy list students" Order="Secondary"></ToolbarItem>-->
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout BackgroundColor="#021135">
@@ -66,7 +64,7 @@
                                         <Label Text="{Binding phone}" TextColor="#000" FontSize="16" WidthRequest="1" VerticalTextAlignment="Center" IsVisible="False"/>
                                         <Label Text="{Binding confidence}" TextColor="#000" FontSize="16" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="True" WidthRequest="70"/>
                                         <Image Source="checked25px" WidthRequest="20" HeightRequest="20" IsVisible="False"/>
-                                        <CheckBox IsEnabled="False" IsChecked="{Binding state}" Color="#9DFE65" VerticalOptions="Center" HeightRequest="25" IsVisible="True" x:Name="cbStatus"/>
+                                        <CheckBox IsEnabled="True" IsChecked="{Binding state}" Color="#9DFE65" VerticalOptions="Center" HeightRequest="25" IsVisible="True" x:Name="cbStatus"/>
                                         <!--Binding checkbox theo state, true = checked || false = unchecked-->
                                     </StackLayout>
                                 </Frame>
