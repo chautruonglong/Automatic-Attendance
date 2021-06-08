@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AutoAttendant.Views.StudentDetailPage">
     <ContentPage.Content>
-        <StackLayout Padding="20" BackgroundColor="#021135">
+        <StackLayout Padding="10" BackgroundColor="#021135">
             <Frame CornerRadius="50" 
-                   HeightRequest="100"
+                   HeightRequest="110"
                    WidthRequest="100"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
@@ -30,7 +30,7 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="120"/>
                     <ColumnDefinition Width="90"/>
                     
                 </Grid.ColumnDefinitions>
@@ -65,7 +65,7 @@
                 </ListView.ItemTemplate>
             </ListView>-->
             <Frame CornerRadius="50" 
-                   HeightRequest="100"
+                   HeightRequest="110"
                    WidthRequest="100"
                    HorizontalOptions="Center"
                    VerticalOptions="Center"

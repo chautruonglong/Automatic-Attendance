@@ -28,9 +28,9 @@
                                         </Frame.GestureRecognizers>
                                         <StackLayout Orientation="Horizontal" Spacing="10">
                                             <Label Text="{Binding subject_id}" TextColor="#000" FontSize="13" WidthRequest="1" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold" Margin="-5,0,0,0" IsVisible="False"/>
-                                            <Label Text="{Binding name}" TextColor="#000" FontSize="13" WidthRequest="200" VerticalTextAlignment="Center" IsVisible="True" FontAttributes="Bold" HorizontalTextAlignment="Start"/>
+                                            <Label Text="{Binding name}" TextColor="#000" FontSize="13" WidthRequest="180" VerticalTextAlignment="Center" IsVisible="True" FontAttributes="Bold" HorizontalTextAlignment="Start"/>
                                             <Label Text="{Binding time_slot}" TextColor="#000" FontSize="13" WidthRequest="100" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" IsVisible="True" FontAttributes="Bold"></Label>
-                                            <Label Text="{Binding day}" TextColor="#000" FontSize="13" WidthRequest="70" VerticalTextAlignment="Center" HorizontalTextAlignment="End" IsVisible="True" FontAttributes="Bold"></Label>
+                                            <Label Text="{Binding day}" TextColor="#000" FontSize="13" WidthRequest="70" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" IsVisible="True" FontAttributes="Bold"></Label>
                                         </StackLayout>
                                     </Frame>
                                 </StackLayout>

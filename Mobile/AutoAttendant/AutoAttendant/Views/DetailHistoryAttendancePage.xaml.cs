@@ -1,10 +1,12 @@
-﻿using Syncfusion.XlsIO;
+﻿using Newtonsoft.Json;
+using Syncfusion.XlsIO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -15,9 +17,11 @@ namespace AutoAttendant.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DetailHistoryAttendancePage : ContentPage
     {
-        public DetailHistoryAttendancePage()
+        public string subjectId;
+        public DetailHistoryAttendancePage(string subject_id)
         {
             InitializeComponent();
+            subjectId = subject_id;
         }
 
         [Obsolete]
@@ -28,11 +32,15 @@ namespace AutoAttendant.Views
                 var httpService = new HttpClient();
                 var api_key = Data.Data.Instance.UserNui.authorization;
                 httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-                var base_URL = HomePage.base_URL + "/GetLink";
+                var base_URL = HomePage.base_URL + "/attendance/history/subject/" + subjectId + "/";
                 var result = await httpService.GetAsync(base_URL);
-                if(result.IsSuccessStatusCode)
+
+                if (result.IsSuccessStatusCode)
                 {
-                    var uriPDF = await result.Content.ReadAsStringAsync();
+                    var res = await result.Content.ReadAsStringAsync();
+                    var uriPDF = JsonConvert.DeserializeObject<string>(res);
+                    //string uri = "http://192.168.30.107:8000/resources/statistics/excel/102324020201814/102324020201814_07-06-2021_18-05-48.pdf";
+                    //string uri = "http://192.168.30.103:8000/resources/report.pdf";
                     await Browser.OpenAsync(uriPDF, BrowserLaunchMode.SystemPreferred);
                 }
             }
@@ -40,7 +48,7 @@ namespace AutoAttendant.Views
             {
                 await DisplayAlert("ERROR", "Fail in Open PDF " + ex.Message, "OK");
             }
-        }
+        } 
 
         [Obsolete]
         private async void SendToEmail(object sender, EventArgs e)
@@ -49,8 +57,9 @@ namespace AutoAttendant.Views
             {
                 var httpService = new HttpClient();
                 var api_key = Data.Data.Instance.UserNui.authorization;
+                var email = Data.Data.Instance.User.email;
                 httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-                var base_URL = HomePage.base_URL + "/GetLink";
+                var base_URL = HomePage.base_URL + "/";
                 var result = await httpService.GetAsync(base_URL);
                 if (result.IsSuccessStatusCode)
                 {
@@ -60,8 +69,7 @@ namespace AutoAttendant.Views
             catch(Exception ex)
             {
                 await DisplayAlert("ERROR", "Fail in Send to Email " + ex.Message, "OK");
-            }
-            
+            } 
         }
 
         #region TempGrid

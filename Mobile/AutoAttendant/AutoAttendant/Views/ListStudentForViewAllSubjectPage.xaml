@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AutoAttendant.Views.ListStudentForViewAllSubjectPage">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#021135" Padding="10,20">
+
+            <ListView ItemsSource="{Binding StudentCollection}" RowHeight="80" HorizontalOptions="Center"  x:Name="list_student">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Spacing="10" VerticalOptions="CenterAndExpand">
+                                <Frame OutlineColor="Black"
+                                   x:Name="frameStudent"
+                                   CornerRadius="10"
+                                   Margin="10,0"
+                                   HeightRequest="20"
+                                   BackgroundColor="#246CFE">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout Orientation="Horizontal" Spacing="10">
+                                        <Label Text="{Binding name}" TextColor="#000" FontSize="14" WidthRequest="250" VerticalTextAlignment="Center" HorizontalOptions="Start" FontAttributes="Bold"/>
+                                        <Label Text="{Binding phone}" TextColor="#000" FontSize="14" WidthRequest="120" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" IsVisible="True"/>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

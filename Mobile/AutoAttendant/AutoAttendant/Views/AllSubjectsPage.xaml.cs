@@ -91,9 +91,35 @@ namespace AutoAttendant.Views
             }
         }
 
+        [Obsolete]
         private void SubjectClick(object sender, EventArgs e)
         {
+            try
+            {
+                string message = string.Empty;
+                Frame f = sender as Frame;
+                var fContent = f.Content; // Lấy Content của Frame
+                var myStacklayout = fContent.GetType(); // lấy kiểu của Content
+                if (myStacklayout == typeof(StackLayout)) // check kiểu có phải Stack Layout ko
+                {
+                    StackLayout fStacklayout = (StackLayout)fContent;
+                    var listChildren = fStacklayout.Children; // Lấy tập Children của StackLayout
+                    var firstLabel = listChildren[0];
 
+                    if (firstLabel.GetType() == typeof(Label))
+                    {
+                        Label subjectId = (Label)firstLabel;
+                        string subject_id = subjectId.Text;
+
+
+                        Navigation.PushAsync(new ListStudentForViewAllSubjectPage(subject_id));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("ERROR", ex.Message, "OK");
+            }
         }
     }
 }

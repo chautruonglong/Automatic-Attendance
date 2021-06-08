@@ -1,7 +1,9 @@
 ﻿using AutoAttendant.Models;
 using AutoAttendant.Services;
 using AutoAttendant.ViewModel;
+using AutoAttendant.Views.PopUp;
 using Newtonsoft.Json;
+using Rg.Plugins.Popup.Services;
 using Syncfusion.XlsIO;
 using System;
 using System.Collections.Generic;
@@ -158,9 +160,38 @@ namespace AutoAttendant.Views
             };
         }
 
-        private void SubjectClick(object sender, EventArgs e)
+        private async void SubjectClick(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new DetailHistoryAttendancePage());
+            try
+            {
+                Frame f = sender as Frame;
+                var fContent = f.Content; // Lấy Content của Frame
+                var myStacklayout = fContent.GetType(); // lấy kiểu của Content
+                if (myStacklayout == typeof(StackLayout)) // check kiểu có phải Stack Layout ko
+                {
+                    StackLayout fStacklayout = (StackLayout)fContent;
+                    var listChildren = fStacklayout.Children; // Lấy tập Children của StackLayout
+                    var firstLabel = listChildren[0];
+
+                    //var isLabel = firstLabel.GetType(); // check kiểu của child đầu tiên
+                    if (firstLabel.GetType() == typeof(Label))
+                    {
+                        Label labelSubjectId = (Label)firstLabel;
+                        var subject_id = labelSubjectId.Text;
+                        //Navigation.PushAsync(new DetailHistoryAttendancePage(subject_id));
+                        var page = new PopUpHistoryOptions();
+                        page.Action += (sender1, stringparameter) =>
+                        {
+                            //HandleSelectPopUp(stringparameter, itemClicked);
+                        };
+                        await PopupNavigation.Instance.PushAsync(page);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("ERROR", ex.Message, "OK");
+            }
         }
     }
 }

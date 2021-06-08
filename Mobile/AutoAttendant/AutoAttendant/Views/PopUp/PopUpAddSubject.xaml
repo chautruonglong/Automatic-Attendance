@@ -17,6 +17,7 @@
 
     </pages:PopupPage.Animation>
 
+    
     <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
         <Frame CornerRadius="15"   
                BackgroundColor="#3D3C40" Padding="10">
@@ -77,7 +78,7 @@
                         </Label>
 
                         <Label x:Name="lb_ExcelFile" Text="" TextColor="#F5F5F5" 
-                               FontSize="14" FontAttributes="Bold"
+                               FontSize="14" FontAttributes="Bold" HeightRequest="50"
                                VerticalOptions="Center" WidthRequest="150">
                         </Label>
 
