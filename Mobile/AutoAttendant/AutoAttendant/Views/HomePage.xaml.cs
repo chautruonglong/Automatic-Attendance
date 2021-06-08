@@ -32,7 +32,6 @@ namespace AutoAttendant.Views
 
         public static string base_URL;
 
-        public static ListScheduleViewModel _lsvm = new ListScheduleViewModel(); //k dung`
         //public static Lecture _lecture = new Lecture();
         //public static string base_URL = "http://192.168.30.102:3000";
         //public static string base_URL = "http://192.168.30.104:8000";

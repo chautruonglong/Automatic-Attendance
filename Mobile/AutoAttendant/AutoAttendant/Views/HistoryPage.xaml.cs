@@ -13,7 +13,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -160,7 +160,7 @@ namespace AutoAttendant.Views
             };
         }
 
-        private async void SubjectClick(object sender, EventArgs e)
+        private  void SubjectClick(object sender, EventArgs e)
         {
             try
             {
@@ -179,18 +179,14 @@ namespace AutoAttendant.Views
                         Label labelSubjectId = (Label)firstLabel;
                         var subject_id = labelSubjectId.Text;
                         //Navigation.PushAsync(new DetailHistoryAttendancePage(subject_id));
-                        var page = new PopUpHistoryOptions();
-                        page.Action += (sender1, stringparameter) =>
-                        {
-                            //HandleSelectPopUp(stringparameter, itemClicked);
-                        };
-                        await PopupNavigation.Instance.PushAsync(page);
+                        string uriPDF = "http://192.168.30.103:8000/resources/report.pdf";
+                         Browser.OpenAsync(uriPDF, BrowserLaunchMode.SystemPreferred);
                     }
                 }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("ERROR", ex.Message, "OK");
+                 DisplayAlert("ERROR", ex.Message, "OK");
             }
         }
     }

@@ -120,7 +120,7 @@
                         <local:CustomEntry x:Name="Entry_period" TextColor="#FFF" FontSize="15"  
                                            HeightRequest="50" Margin="0,0,35,0" WidthRequest="200"
                                            VerticalOptions="Center" HorizontalOptions="Fill" Placeholder="Periods"
-                                           PlaceholderColor="#FFF">
+                                           PlaceholderColor="#FFF" MaxLength="1">
                         </local:CustomEntry>
                     </StackLayout>
 

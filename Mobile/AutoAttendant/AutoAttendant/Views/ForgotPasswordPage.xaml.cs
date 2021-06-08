@@ -19,10 +19,6 @@ namespace AutoAttendant.Views
             InitializeComponent();
         }
 
-        private void ToVerificationPage(object sender, EventArgs e)
-        {
-            Navigation.PushAsync(new PasswordVerificationPage());
-        }
 
         [Obsolete]
         private async  void SendEmailToReset(object sender, EventArgs e)

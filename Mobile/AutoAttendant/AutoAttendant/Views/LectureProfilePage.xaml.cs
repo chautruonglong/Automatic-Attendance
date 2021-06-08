@@ -42,7 +42,7 @@ namespace AutoAttendant.Views
                 var httpService = new HttpClient();
                 var api_key = Data.Data.Instance.UserNui.authorization;
                 httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-                var base_URL = HomePage.base_URL + "/lecturer/update/id_lecturer";
+                var base_URL = HomePage.base_URL + "/lecturer/update/"+Data.Data.Instance.Lecture.id+ "/";
                 Lecture lecturer = new Lecture(Entry_name.Text, Entry_phone.Text, Entry_faculty.Text);
                 string jsonLecturer = JsonConvert.SerializeObject(lecturer);
                 StringContent content = new StringContent(jsonLecturer, Encoding.UTF8, "application/json");

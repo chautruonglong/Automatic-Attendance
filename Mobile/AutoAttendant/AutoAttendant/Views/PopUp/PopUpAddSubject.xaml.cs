@@ -21,6 +21,7 @@ namespace AutoAttendant.Views.PopUp
     public partial class PopUpAddSubject
     {
         [Obsolete]
+        List<string> listTimslottInRoom = new List<string>();
         public PopUpAddSubject()
         {
             InitializeComponent();
@@ -72,7 +73,7 @@ namespace AutoAttendant.Views.PopUp
             var base_URL = HomePage.base_URL + "/subject/time_slot/list/" + room.room_id + "/" + day + "/";
             var result = await httpService.GetAsync(base_URL);
             var contentListTimeSlot = await result.Content.ReadAsStringAsync();
-            var listTimslottInRoom = JsonConvert.DeserializeObject<List<String>>(contentListTimeSlot);
+             listTimslottInRoom = JsonConvert.DeserializeObject<List<String>>(contentListTimeSlot);
 
             GetTimeSlot(listTimslottInRoom);
         }
@@ -95,7 +96,7 @@ namespace AutoAttendant.Views.PopUp
                     var base_URL = HomePage.base_URL + "/subject/time_slot/list/" + room.room_id + "/" + day + "/";
                     var result = await httpService.GetAsync(base_URL);
                     var contentListTimeSlot = await result.Content.ReadAsStringAsync();
-                    var listTimslottInRoom = JsonConvert.DeserializeObject<List<String>>(contentListTimeSlot);
+                    listTimslottInRoom = JsonConvert.DeserializeObject<List<String>>(contentListTimeSlot);
 
                     GetTimeSlot(listTimslottInRoom);
                 }
@@ -180,44 +181,127 @@ namespace AutoAttendant.Views.PopUp
             
         }
         [Obsolete]
-        private async void SaveNewSubject(object sender, EventArgs e)
+        public bool CheckValidateExceptTimeSpan()
+        {
+            if (lb_ExcelFile.Text == "")
+            {
+                DisplayAlert("Notice", "Excel file is empty", "OK");
+                return false;
+            }
+            if (string.IsNullOrEmpty(Entry_period.Text) || string.IsNullOrWhiteSpace(Entry_period.Text))
+            {
+                DisplayAlert("Notice", "Periods is not valid", "OK");
+                return false;
+            }
+            else
+            {
+                try
+                {
+                    var x = Convert.ToInt32(Entry_period.Text) - 1;
+                    if (x == 0)
+                    {
+                        DisplayAlert("Notice", "Period must be >=1", "OK");
+                        return false;
+                    }
+                }
+                catch
+                {
+                    DisplayAlert("Notice", "Period must be a number", "OK");
+                    return false;
+                }
+
+            }
+            return true;
+        }
+
+        [Obsolete]
+        public bool CheckValidateTimeSpan(TimeSpan time_start, TimeSpan time_end, string used_timeSlot)
+        {
+
+
+            if (time_end <= TimeSpan.Parse("17:30"))
+            {
+                var x = time_start.Hours.ToString();
+                var x1 = time_end.Hours.ToString();
+
+
+                foreach (string timeSlot in listTimslottInRoom)
+                {
+                    TimeSpan a = Convert.ToDateTime(timeSlot.Substring(0, 5)).TimeOfDay;
+                    TimeSpan b = Convert.ToDateTime(timeSlot.Substring(6, 5)).TimeOfDay;
+                    if (a< time_end && time_end < b)
+                    {
+                        DisplayAlert("Notice", "This time slot was used by another (in)", "Try again");
+                        return false;
+                    }
+                    else if (a < time_start && time_start < b)
+                    {
+                        DisplayAlert("Notice", "This time slot was used by another (in)", "Try again");
+                        return false;
+                    }
+                    else  if (time_start < a &&  time_end > b)
+                    {
+                        DisplayAlert("Notice", "This time slot was used by another (2side)", "Try again");
+                        return false;
+                    }
+                }
+
+                if (used_timeSlot.Contains(x) || used_timeSlot.Contains(x1))
+                {
+                    DisplayAlert("Notice", "This time slot was used by another (out)", "Try again");
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                DisplayAlert("Notice", "Time slot is not valid", "Try again");
+            }
+
+            return false;
+        }
+
+        [Obsolete]
+        private void SaveNewSubject(object sender, EventArgs e)
         {
             try
             {
-                ListStd.room_id = btnSelectRoom.Text;
-                ListStd.lecturer_id = Data.Data.Instance.Lecture.id;
-                //
-                var x = 0;
-                TimeSpan timeBegin = Convert.ToDateTime(btnSelectTime.Text).TimeOfDay;
-                if (string.IsNullOrEmpty(Entry_period.Text) || string.IsNullOrWhiteSpace(Entry_period.Text))
+                if (CheckValidateExceptTimeSpan())
                 {
-                    await DisplayAlert("Notice", "Periods is not valid", "OK");
-                    return;
+                    ListStd.room_id = btnSelectRoom.Text;
+                    ListStd.lecturer_id = Data.Data.Instance.Lecture.id;
+                    //
+                    var x = Convert.ToInt32(Entry_period.Text) - 1; ;
+                    TimeSpan timeBegin = Convert.ToDateTime(btnSelectTime.Text).TimeOfDay;
+                    TimeSpan period;
+
+               
+                    if (timeBegin < TimeSpan.Parse("12:00") && (Convert.ToDateTime(x + ":00").TimeOfDay + timeBegin >= TimeSpan.Parse("12:00")))
+                    {
+                        period = Convert.ToDateTime((x + 1) + ":20").TimeOfDay;
+
+                    }
+                    else { period = Convert.ToDateTime(x + ":50").TimeOfDay;}
+
+                    TimeSpan timeEnd = Convert.ToDateTime(btnSelectTime.Text).TimeOfDay + period;
+                    ListStd.time_slot = timeBegin.ToString(@"hh\:mm") + "-" + timeEnd.ToString(@"hh\:mm");
+                    //
+                    ListStd.day = lb_date.Text;
+                    var isValidForm = CheckValidateTimeSpan(timeBegin, timeEnd, usedTimeSlotLabel.Text);
+                    if (isValidForm)
+                    {
+                        SendListStdToServer();
+                    }
+                    //Back to Subject Page after Post to server
                 }
-                else {
-                    x = Convert.ToInt32(Entry_period.Text) - 1;
-                }
-                
-                TimeSpan period;
-                if (Convert.ToDateTime(x+":00").TimeOfDay+ timeBegin > TimeSpan.Parse("12:00"))
-                {
-                    period = Convert.ToDateTime(x + ":30").TimeOfDay;
-                } 
-                else {  period = Convert.ToDateTime(x + ":50").TimeOfDay; }
-                TimeSpan timeEnd = Convert.ToDateTime(btnSelectTime.Text).TimeOfDay+ period;
-                ListStd.time_slot = timeBegin.ToString(@"hh\:mm") + "-"+ timeEnd.ToString(@"hh\:mm");
-                //
-                ListStd.day =lb_date.Text;
-                var isValidForm = ValidatePopUpAdd(timeBegin, timeEnd, usedTimeSlotLabel.Text);
-                if (isValidForm)
-                {
-                    SendListStdToServer();
-                }
-                //Back to Subject Page after Post to server
+
             }
             catch(Exception ex)
             {
-                await DisplayAlert("ERROR", ex.Message, "OK");
+                 DisplayAlert("ERROR", ex.Message, "OK");
             }
             
         }
@@ -329,27 +413,7 @@ namespace AutoAttendant.Views.PopUp
             }
         }
 
-        public bool ValidatePopUpAdd(TimeSpan time_start, TimeSpan time_end, string used_timeSlot)
-        {
-            bool isValidateForm = false;
-            if(time_end <= TimeSpan.Parse("17:30")){
-                var x = time_start.Hours.ToString();
-                var x1 = time_end.Hours.ToString();
-                if (used_timeSlot.Contains(x) || used_timeSlot.Contains(x1))
-                {
-                    DisplayAlert("Notice", "This time slot was used by another", "Try again");
-                }
-                else
-                {
-                    isValidateForm = true;
-                }
-            }
-            else
-            {
-                DisplayAlert("Notice", "Time slot is not valid", "Try again");
-            }
-            return isValidateForm;
-        }
+        
 
         [Obsolete]
         private async void CancelAddSubjectPopup(object sender, EventArgs e)

@@ -31,7 +31,7 @@
                         TextTransform="None" FontSize="14" Clicked="OpenPDF" FontAttributes="Bold"
                         TextColor="#FFF" BorderRadius="10" Margin="0,0,10,0"
                         />
-                    <Button Text="Cancle" x:Name="btn_Send" FontAttributes="Bold"
+                    <Button Text="Cancle" x:Name="btn_Send" FontAttributes="Bold" Clicked="CancelPopup"
                         HorizontalOptions="Center" BackgroundColor="#6562FC" TextTransform="None" FontSize="14"
                         TextColor="#FFF" BorderRadius="10" VerticalOptions="Center" WidthRequest="120"
                         />

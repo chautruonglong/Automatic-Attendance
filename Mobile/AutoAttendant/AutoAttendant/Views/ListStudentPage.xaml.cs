@@ -119,21 +119,21 @@ namespace AutoAttendant.Views
 
         private async void AddSingleStudent(object sender, EventArgs e) // xu li khi them tung student
         {
-            var page = new PopUpView();
-            page.Action += async (sender1, stringparameter) =>
-            {
+            //var page = new PopUpView();
+            //page.Action += async (sender1, stringparameter) =>
+            //{
 
-                if (stringparameter != null)
-                {
+            //    if (stringparameter != null)
+            //    {
                     
-                }
-                else
-                {
-                    await DisplayAlert("Notice", "Invalid Syntax", "OK");
-                    return;
-                }
-            };
-            await PopupNavigation.Instance.PushAsync(page);
+            //    }
+            //    else
+            //    {
+            //        await DisplayAlert("Notice", "Invalid Syntax", "OK");
+            //        return;
+            //    }
+            //};
+            //await PopupNavigation.Instance.PushAsync(page);
         }
 #endregion
 
@@ -334,6 +334,7 @@ namespace AutoAttendant.Views
             else 
             {
                 await DisplayAlert("ERROR", "You must take attendance first", "OK");
+                return;
             }
         }
 
@@ -365,6 +366,10 @@ namespace AutoAttendant.Views
                 bool answer = await DisplayAlert("Notice", "You will be return to home page after save this class", "OK", "Cancel");
                 if (answer)
                 {
+                    //I. thay doi Tren Server truoc:
+                    SaveLastProcessWithAttendance(); 
+                    
+                    //II. thay doi Ttrên list sauu:
                     if (index < HomePage._lsjvm.SubjectCollection.Count - 1) // nếu index của subject vẫn còn nằm trong _lsjvm
                     {
                         SubjectPage.enableSubJectId = HomePage._lsjvm.SubjectCollection[index + 1].subject_id; // gán enableSubjectID = id của subject tiếp theo
@@ -377,7 +382,6 @@ namespace AutoAttendant.Views
                         SubjectPage.enableSubJectId = "-1"; // nếu index vượt thì gán = -1 để ko làm gì khi back về
                         subject.stateString = attendanceCount.ToString() + " / " + lsnvm.StudentCollection.Count.ToString();
                     }
-                    SaveLastProcessWithAttendance();
                     //await Navigation.PopAsync();
                 }
                 else

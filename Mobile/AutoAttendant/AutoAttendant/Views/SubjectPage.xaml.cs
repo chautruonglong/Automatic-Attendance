@@ -44,6 +44,27 @@ namespace AutoAttendant.Views
         }
 
         [Obsolete]
+        public async void SetColorById()
+        {
+            
+            enableSubJectId = await GetEnableSubJectId(HomePage._lsjvm.SubjectCollection);
+            if (enableSubJectId != "-1")
+            {
+                var item = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == enableSubJectId); // tìm subject có Id = enableSubjectID
+                item.colorState = "#246CFE"; // set color
+                int index = HomePage._lsjvm.SubjectCollection.IndexOf(item); // lấy ra index của subject vừa tìm dc
+                if (index > 0)
+                {
+                    HomePage._lsjvm.SubjectCollection[index - 1].colorState = "#0E368B"; //set color for previous subject
+                }
+            }
+            else // set gia tri cho last subject
+            {
+                var item = HomePage._lsjvm.SubjectCollection[HomePage._lsjvm.SubjectCollection.Count - 1];
+                item.colorState = "#0E368B";
+            }
+        }
+        [Obsolete]
         public void ReLoadSubjectList()
         {   
             if (HomePage._lsjvm.SubjectCollection.Count > 0)
@@ -206,28 +227,11 @@ namespace AutoAttendant.Views
             }
         }
         [Obsolete]
-        public void SetColorById()
-        {
-            if (enableSubJectId != "-1")
-            {
-                var item = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == enableSubJectId); // tìm subject có Id = enableSubjectID
-                item.colorState = "#246CFE"; // set color
-                int index = HomePage._lsjvm.SubjectCollection.IndexOf(item); // lấy ra index của subject vừa tìm dc
-                if (index > 0)
-                {
-                    HomePage._lsjvm.SubjectCollection[index - 1].colorState = "#0E368B"; //set color for previous subject
-                }
-            }
-            else // set gia tri cho last subject
-            {
-                var item = HomePage._lsjvm.SubjectCollection[HomePage._lsjvm.SubjectCollection.Count - 1];
-                item.colorState = "#0E368B";
-            }
-        }
+
         #endregion
 
         #region Handle Functions for SubjectClick
-        [Obsolete]
+        
         public async void HandleSelectPopUp(string paraString, Subject subject)
         {
             try
