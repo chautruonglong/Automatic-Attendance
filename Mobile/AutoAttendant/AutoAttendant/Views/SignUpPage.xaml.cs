@@ -68,49 +68,57 @@ namespace AutoAttendant.Views
                     {
                         if (password.Equals(confirmPassword))
                         {
-                            var userSignUp = new UserSignUp(name, phone, faculty, email, HashPW.HashPassword(password));
-                            string jsonUserSignUp = JsonConvert.SerializeObject(userSignUp);
-                            StringContent contentUserSignUp = new StringContent(jsonUserSignUp, Encoding.UTF8, "application/json");
-                            var baseSignUp_URL = HomePage.base_URL + "/account/signup/";
-                            HttpResponseMessage responseSignUp = await httpService.PostAsync(baseSignUp_URL, contentUserSignUp);
-
-                            //fake waiting
-                            UserDialogs.Instance.ShowLoading("Creating account...");
-                            await Task.Delay(1000);
-                            UserDialogs.Instance.HideLoading();
-                            UserDialogs.Instance.Toast("Your account was registered!");
-
-                            if (responseSignUp.IsSuccessStatusCode)
+                            if(!string.IsNullOrEmpty(Entry_name.Text) && !string.IsNullOrEmpty(Entry_phone.Text) && !string.IsNullOrEmpty(Entry_degree.Text))
                             {
-                                await Navigation.PopModalAsync();
+                                var userSignUp = new UserSignUp(name, phone, faculty, email, HashPW.HashPassword(password));
+                                string jsonUserSignUp = JsonConvert.SerializeObject(userSignUp);
+                                StringContent contentUserSignUp = new StringContent(jsonUserSignUp, Encoding.UTF8, "application/json");
+                                var baseSignUp_URL = HomePage.base_URL + "/account/signup/";
+                                HttpResponseMessage responseSignUp = await httpService.PostAsync(baseSignUp_URL, contentUserSignUp);
+
+                                //fake waiting
+                                UserDialogs.Instance.ShowLoading("Creating account...");
+                                await Task.Delay(1000);
+                                UserDialogs.Instance.HideLoading();
+                                UserDialogs.Instance.Toast("Your account was registered!");
+
+                                if (responseSignUp.IsSuccessStatusCode)
+                                {
+                                    await Navigation.PopModalAsync();
+                                }
+                                else
+                                {
+                                    var result = await responseSignUp.Content.ReadAsStringAsync();
+                                    await DisplayAlert("ERROR", result, "Try Again");
+                                }
                             }
                             else
                             {
-                                var result = await responseSignUp.Content.ReadAsStringAsync();
-                                await DisplayAlert("ERROR", result, "Try Again");
+                                await DisplayAlert("ERROR", "Entry is empty", "Try Again");
                             }
+                            
                         }
                         else
                         {
-                            DisplayAlert("ERROR", "Password and confirm password does not match", "Try Again");
+                            await DisplayAlert("ERROR", "Password and confirm password does not match", "Try Again");
                         }
                     }
                     else
                     {
-                        DisplayAlert("Warning: ", "Password is not valid: \n 1) It must contain at least a number \n 2) one upper case letter \n 3) 8 characters long.", "Try Again");
+                        await DisplayAlert("Warning: ", "Password is not valid: \n 1) It must contain at least a number \n 2) one upper case letter \n 3) 8 characters long.", "Try Again");
                     }
                    
                 }
                 else
                 {
-                     DisplayAlert("ERROR", "Email not valid " , "Try Again");
+                    await DisplayAlert("ERROR", "Email not valid " , "Try Again");
                 }
 
                 
             }
             catch (Exception ex)
             {
-                await DisplayAlert("ERROR", "Fail in btnSignUp " + ex.Message , "Try Again");
+                await DisplayAlert("ERROR", "Fail in Sign Up " + ex.Message , "Try Again");
             }
         }
     }
