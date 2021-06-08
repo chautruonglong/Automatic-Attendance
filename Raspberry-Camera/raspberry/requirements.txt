@@ -1,0 +1,7 @@
+opencv_python==4.5.2.52
+Django==3.2.3
+six==1.15.0
+numpy==1.19.2
+djangorestframework==3.12.4
+opencv-python~=4.5.2.52
+requests~=2.25.1
