@@ -12,9 +12,9 @@ git clone https://github.com/chautruonglong/NHOM_14.git
     ||Linux OS|Window OS|
     |-|-|-|
     |Python|3.6.*|3.6.*|
-    |SVM|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|
-    |KNN|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|
-    |FAISS|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|<img src="Screenshots/icon-no.png" alt="alt text" width=15>|
+    |[SVM](https://towardsdatascience.com/support-vector-machine-introduction-to-machine-learning-algorithms-934a444fca47)|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|
+    |[KNN](https://towardsdatascience.com/machine-learning-basics-with-the-k-nearest-neighbors-algorithm-6a6e71d01761)|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|
+    |[FAISS](https://towardsdatascience.com/understanding-faiss-619bb6db2d1a)|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|<img src="Screenshots/icon-no.png" alt="alt text" width=15>|
 
     **Note:** You should use **[Anaconda](https://www.anaconda.com/)** tool to fast setup enviroment
 
