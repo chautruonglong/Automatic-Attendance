@@ -12,9 +12,9 @@ git clone https://github.com/chautruonglong/NHOM_14.git
     ||Linux OS|Window OS|
     |-|-|-|
     |Python|3.6.*|3.6.*|
-    |SVM|<img src="Screenshots/icon-yes.svg" alt="alt text" style="max-width:100%;">|<img src="Screenshots/icon-yes.svg" alt="alt text" style="max-width:100%;">|
-    |KNN|<img src="Screenshots/icon-yes.svg" alt="alt text" style="max-width:100%;">|<img src="Screenshots/icon-yes.svg" alt="alt text" style="max-width:100%;">|
-    |FAISS|<img src="Screenshots/icon-yes.svg" alt="alt text" style="max-width:100%;">|<img src="Screenshots/icon-no.svg" alt="alt text" style="max-width:100%;">|
+    |SVM|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|
+    |KNN|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|
+    |FAISS|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|<img src="Screenshots/icon-no.png" alt="alt text" width=15>|
 
     **Note:** You should use **[Anaconda](https://www.anaconda.com/)** tool to fast setup enviroment
 
@@ -66,9 +66,9 @@ git clone https://github.com/chautruonglong/NHOM_14.git
     ||Linux OS|Window OS|
     |-|-|-|
     |Python|3.6.*|3.6.*|
-    |SVM|<img src="Screenshots/icon-yes.svg" alt="alt text" style="max-width:100%;">|<img src="Screenshots/icon-yes.svg" alt="alt text" style="max-width:100%;">|
-    |KNN|<img src="Screenshots/icon-yes.svg" alt="alt text" style="max-width:100%;">|<img src="Screenshots/icon-yes.svg" alt="alt text" style="max-width:100%;">|
-    |FAISS|<img src="Screenshots/icon-yes.svg" alt="alt text" style="max-width:100%;">|<img src="Screenshots/icon-no.svg" alt="alt text" style="max-width:100%;">|
+    |SVM|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|
+    |KNN|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|
+    |FAISS|<img src="Screenshots/icon-yes.png" alt="alt text" width=15>|<img src="Screenshots/icon-no.png" alt="alt text" width=15>|
 
     **Note:** You should use **[Anaconda](https://www.anaconda.com/)** tool to fast setup enviroment
 
@@ -126,43 +126,43 @@ git clone https://github.com/chautruonglong/NHOM_14.git
 
 ## System Overview
 <p align="center">
-    <img src="Screenshots/system_overview.png" alt="alt text" style="max-width:100%;">
+    <img src="Screenshots/system_overview.png" alt="alt text">
 </p>
 
 ## Mobile App
 
 >### Login
 <p align="center">
-    <img src="Screenshots/login.png" alt="alt text" style="max-width:100%;">
+    <img src="Screenshots/login.png" alt="alt text">
 </p>
 
 >### Activities
 <p align="center">
-    <img src="Screenshots/activities.png" alt="alt text" style="max-width:100%;">
+    <img src="Screenshots/activities.png" alt="alt text">
 </p>
 
 ## Recognition System
 
 <p align="center">
-    <img src="Screenshots/recognition.png" alt="alt text" style="max-width:100%;">
+    <img src="Screenshots/recognition.png" alt="alt text">
 </p>
 
 ## Database Diagram
 
 <p align="center">
-    <img src="Screenshots/database.png" alt="alt text" style="max-width:100%;">
+    <img src="Screenshots/database.png" alt="alt text">
 </p>
 
 ## Server API
 
 <p align="center">
-    <img src="Screenshots/server_api.png" alt="alt text" style="max-width:100%;">
+    <img src="Screenshots/server_api.png" alt="alt text">
 </p>
 
 
 ## Raspberry API
 
 <p align="center">
-    <img src="Screenshots/raspberry_api.png" alt="alt text" style="max-width:100%;">
+    <img src="Screenshots/raspberry_api.png" alt="alt text">
 </p>
 
