@@ -102,7 +102,7 @@ class Process(models.Model):
     process_id = models.CharField(primary_key=True, max_length=255)
     subject = models.ForeignKey(to=Subject, on_delete=models.CASCADE, null=False)
     state = models.BooleanField(default=False)
-    date = models.DateField(auto_now=True)
+    date = models.DateField(auto_now=False)
     time = models.TimeField(auto_now=True)
 
     def __str__(self):

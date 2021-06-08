@@ -7,16 +7,14 @@ from core.models import Process
 
 
 @api_view(['GET'])
-# @permission_classes((HasAPIKey, ))
+@permission_classes((HasAPIKey, ))
 def history_latest_api(request, subject_id, date):
     try:
         processes = Process.objects.filter(subject_id=subject_id, date=date)
         process = processes.order_by('-time').first()
 
         return Response(
-            data={
-                'process_id': process.process_id
-            },
+            data=process.process_id,
             status=status.HTTP_202_ACCEPTED
         )
 

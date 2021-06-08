@@ -9,8 +9,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from backend_api.utils import mail_system
-from backend_api.utils import token_generator
+from backend_api.utils import activate_token
 from core.models import Account, Lecturer
+from backend_api.utils import get_base_url
 
 
 @api_view(['POST'])
@@ -46,8 +47,8 @@ def signup_api(request):
                     }
                 )
 
-                token = token_generator.make_token(account)
-                mail_system.send(request, email, token)
+                token = activate_token.make_token(account)
+                mail_system.send_activate(request, email, token)
 
                 return Response(
                     data={
@@ -59,8 +60,8 @@ def signup_api(request):
         # Send first email
         lecturer = Lecturer.objects.create(name=name, phone=phone, faculty=faculty)
         account = Account.objects.create(email=email, hash_pwd=hash_pwd, lecturer=lecturer)
-        token = token_generator.make_token(account)
-        mail_system.send(request, email, token)
+        token = activate_token.make_token(account)
+        mail_system.send_activate(request, email, token)
 
         return Response(
             data={
@@ -85,21 +86,27 @@ def active_account_api(request, email_b64, token):
         email = urlsafe_base64_decode(email_b64).decode()
         account = Account.objects.get(email=email)
 
-        if account.is_active or token_generator.check_token(account, token) is False:
-            context = {
-                'message': 'The account has been activated or the link is not true'
-            }
-            return render(request, 'wrong_link.html', context)
+        if account.is_active or activate_token.check_token(account, token) is False:
+            raise Exception('The account has been activated or the link is not true')
+
         else:
             account.is_active = True
             account.save()
             context = {
-                'email': email
+                'icon': f'{get_base_url(request)}/resources/icons/yes.jpg',
+                'messages': [
+                    f'Hi, your account: {email}',
+                    f'You have successfully activated your account'
+                ]
             }
-            return render(request, 'activated_successfully.html', context)
+            return render(request, 'successfully.html', context)
 
     except Exception as error:
         context = {
-            'message': str(error)
+            'icon': f'{get_base_url(request)}/resources/icons/no.jpg',
+            'messages': [
+                'The link is not available',
+                f'Error: {str(error)}'
+            ]
         }
-        return render(request, 'wrong_link.html', context)
+        return render(request, 'failure.html', context)

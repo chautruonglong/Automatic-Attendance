@@ -63,7 +63,7 @@ class AttendanceProcess:
 
             else:
                 print('A background process is running')
-                process = BackgroundProcess(process_id, subject_id, 1, self._detector, self._encoder, self._identifier)
+                process = BackgroundProcess(process_id, subject_id, 0, self._detector, self._encoder, self._identifier)
                 try:
                     process.start(timeout, per, date, time, THRESHOLD)
                 except Exception as error:

@@ -13,3 +13,4 @@ tensorflow-gpu~=1.15.0
 opencv-python~=4.5.2.52
 pandas~=1.1.5
 requests~=2.25.1
+pdfkit~=0.6.1

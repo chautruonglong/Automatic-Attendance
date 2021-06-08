@@ -8,7 +8,8 @@ from email.mime.text import MIMEText
 from random import randint
 from smtplib import SMTP_SSL
 from threading import Thread
-
+from backend_api import settings
+from datetime import datetime
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.shortcuts import render
 from django.utils import six
@@ -17,14 +18,28 @@ from django.utils.http import int_to_base36
 from django.utils.http import urlsafe_base64_encode
 from validate_email import validate_email
 
-from backend_api import settings
-
 
 class ActivateToken(PasswordResetTokenGenerator):
     def _make_hash_value(self, account, timestamp):
         return (
                 six.text_type(account.email) + six.text_type(timestamp) +
                 six.text_type(account.is_active)
+        )
+
+    def _make_token_with_timestamp(self, account, timestamp):
+        ts_b36 = int_to_base36(timestamp)
+        hash = salted_hmac(
+            self.key_salt,
+            self._make_hash_value(account, timestamp),
+        ).hexdigest()
+        return f'{ts_b36}-{hash}'
+
+
+class ResetToken(PasswordResetTokenGenerator):
+    def _make_hash_value(self, account, timestamp):
+        return (
+                six.text_type(account.email) + six.text_type(timestamp) +
+                six.text_type(account.hash_pwd)
         )
 
     def _make_token_with_timestamp(self, account, timestamp):
@@ -54,17 +69,18 @@ class MailSystem:
         is_valid = validate_email(email, check_mx=True, verify=True)
         return is_valid is True
 
-    def _run(self, request, email, token):
+    def _activate(self, request, email, token):
+        now = datetime.now()
         email_b64 = urlsafe_base64_encode(email.encode())
         base_url = get_base_url(request)
-        link = f'{base_url}/account/signup/activate/{email_b64}/{token}'
+        link = f'{base_url}/account/signup/activate/{email_b64}/{token}/'
         context = {
             'link': link
         }
-        body = render(request, 'email_body.html', context).content.decode('utf-8')
+        body = render(request, 'activate_email.html', context).content.decode('utf-8')
 
         message = MIMEMultipart('The email')
-        message['Subject'] = 'Email Verification'
+        message['Subject'] = f'[Email Verification]-[{convert_date(now.date())}]-[{convert_time(now.time())}]'
         message['From'] = settings.EMAIL_HOST_USER
         message['To'] = email
         message.attach(MIMEText(body, 'html'))
@@ -75,9 +91,36 @@ class MailSystem:
             message.as_string()
         )
 
-    def send(self, request, email, token):
-        thread = Thread(target=self._run, args=(request, email, token))
-        print(f'Send email to {email}')
+    def send_activate(self, request, email, token):
+        thread = Thread(target=self._activate, args=(request, email, token))
+        print(f'Send activate email to {email}')
+        thread.start()
+
+    def _reset(self, request, email, token):
+        now = datetime.now()
+        email_b64 = urlsafe_base64_encode(email.encode())
+        base_url = get_base_url(request)
+        link = f'{base_url}/account/password/reset/{email_b64}/{token}/'
+        context = {
+            'link': link
+        }
+        body = render(request, 'reset_email.html', context).content.decode('utf-8')
+
+        message = MIMEMultipart('The email')
+        message['Subject'] = f'[Email Reset Password]-[{convert_date(now.date())}]-[{convert_time(now.time())}]'
+        message['From'] = settings.EMAIL_HOST_USER
+        message['To'] = email
+        message.attach(MIMEText(body, 'html'))
+
+        self._mail_server.sendmail(
+            settings.EMAIL_HOST_USER,
+            email,
+            message.as_string()
+        )
+
+    def send_reset(self, request, email, token):
+        thread = Thread(target=self._reset, args=(request, email, token))
+        print(f'Send reset password email to {email}')
         thread.start()
 
 
@@ -116,5 +159,6 @@ def generate_process_id(subject_id, date, time, size=255):
     return hash.hexdigest()[:size]
 
 
-token_generator = ActivateToken()
+activate_token = ActivateToken()
+reset_token = ResetToken()
 mail_system = MailSystem()

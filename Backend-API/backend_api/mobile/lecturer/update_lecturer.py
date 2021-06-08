@@ -28,7 +28,7 @@ def update_lecturer_api(request):
 
         return Response(
             data={
-                'message': 'Updated'
+                'message': 'Update successfully'
             },
             status=status.HTTP_202_ACCEPTED
         )

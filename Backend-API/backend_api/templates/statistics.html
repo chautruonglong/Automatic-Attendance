@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            table {
+                margin-left: auto;
+                margin-right: auto;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            caption {
+                text-align: center;
+                font-size: xxx-large;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+
+            table > thead > tr > td {
+                font-size: medium;
+                font-weight: bold;
+                text-align: center;
+            }
+
+            td {
+                text-align: center;
+            }
+
+            .text-right {
+                text-align: left;
+            }
+
+        </style>
+    </head>
+    <body>
+        <table border="solid black" width="100%">
+            <caption>
+                DANH SÁCH ĐIỂM DANH <br/>
+                Lớp: {{ name }} <br/>
+                Mã môn học: {{ subject_id }} <br/>
+                Giảng viên: {{ lecturer }} <br/>
+                Lịch: {{ day }}, {{ time_slot }} <br/>
+            </caption>
+            <thead>
+                <tr>
+                    {% for title in data_df.columns %}
+                        <td>{{ title }}</td>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for ind, row in data_df.iterrows %}
+                    <tr>
+                        <td class="text-right">{{ row.0 }}</td>
+                        <td class="text-right">{{ row.1 }}</td>
+                        {% for col in row|slice:"2:-1" %}
+                            <td>
+                                <img src="{{ col }}"/>
+                            </td>
+                        {% endfor %}
+                        <td>{{ row|last }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>
