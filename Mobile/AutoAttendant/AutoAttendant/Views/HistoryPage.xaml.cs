@@ -160,7 +160,8 @@ namespace AutoAttendant.Views
             };
         }
 
-        private  void SubjectClick(object sender, EventArgs e)
+        [Obsolete]
+        private async void SubjectClick(object sender, EventArgs e)
         {
             try
             {
@@ -179,8 +180,28 @@ namespace AutoAttendant.Views
                         Label labelSubjectId = (Label)firstLabel;
                         var subject_id = labelSubjectId.Text;
                         //Navigation.PushAsync(new DetailHistoryAttendancePage(subject_id));
-                        string uriPDF = "http://192.168.30.103:8000/resources/report.pdf";
-                         Browser.OpenAsync(uriPDF, BrowserLaunchMode.SystemPreferred);
+                        try
+                        {
+                            var httpService = new HttpClient();
+                            var api_key = Data.Data.Instance.UserNui.authorization;
+                            httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+                            var base_URL = HomePage.base_URL + "/attendance/history/subject/" + subject_id + "/";
+                            var result = await httpService.GetAsync(base_URL);
+
+                            if (result.IsSuccessStatusCode)
+                            {
+                                var res = await result.Content.ReadAsStringAsync();
+                                var uriPDF = JsonConvert.DeserializeObject<string>(res);
+                                //string uri = "http://192.168.30.107:8000/resources/statistics/excel/102324020201814/102324020201814_07-06-2021_18-05-48.pdf";
+                                await Browser.OpenAsync(uriPDF, BrowserLaunchMode.SystemPreferred);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            await DisplayAlert("ERROR", "Fail in Open PDF " + ex.Message, "OK");
+                        }
+                        //string uriPDF = "http://192.168.30.103:8000/resources/report.pdf";
+                        // Browser.OpenAsync(uriPDF, BrowserLaunchMode.SystemPreferred);
                     }
                 }
             }

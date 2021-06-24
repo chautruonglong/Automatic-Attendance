@@ -12,8 +12,8 @@ namespace AutoAttendant.Models
         string _name;
         string _time_slot;
         string _day;
-        private string _colorState = "#0E368B";
-        private string _stateString;
+        string _colorState;
+        string _stateString;
 
         public Subject(string subject_id, string id_lecturer, string room_id, string name, string time_slot, string day)
         {
@@ -23,6 +23,7 @@ namespace AutoAttendant.Models
             _name = name;
             _time_slot = time_slot;
             _day = day;
+            _colorState = "#0E368B";
         }
 
         public string subject_id { get => _subject_id; set => _subject_id = value; }

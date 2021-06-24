@@ -161,12 +161,7 @@ namespace AutoAttendant.Views.PopUp
 
                 if (ListStd.day.Equals(DateTime.Now.DayOfWeek.ToString()))
                 {
-                    if (SubjectPage.enableSubJectId == "-2")
-                    {
-                        SubjectPage.enableSubJectId = subject.subject_id;
-                        HomePage._lsjvm.SubjectCollection.Add(subject);
-                    }
-                    else if (SubjectPage.enableSubJectId == "-1")
+                    if (SubjectPage.enableSubJectId == "-2" || SubjectPage.enableSubJectId == "-1")
                     {
                         SubjectPage.enableSubJectId = subject.subject_id;
                         HomePage._lsjvm.SubjectCollection.Add(subject);

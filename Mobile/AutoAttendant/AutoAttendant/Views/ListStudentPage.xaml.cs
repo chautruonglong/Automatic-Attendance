@@ -286,7 +286,7 @@ namespace AutoAttendant.Views
         public static List<AtdModify> listAtdModify = new List<AtdModify>();
 
         [Obsolete]
-        public async void SaveLastProcessWithAttendance()
+        public async Task<bool> SaveLastProcessWithAttendance()
         {
             if (process_id_atd != "")
             {
@@ -330,11 +330,12 @@ namespace AutoAttendant.Views
                 {
                     await Navigation.PopAsync();
                 }
+                return true; // đã có process, chớ kh phải kiểm tra coi respone có work
             }
             else 
             {
                 await DisplayAlert("ERROR", "You must take attendance first", "OK");
-                return;
+                return false;
             }
         }
 
@@ -367,21 +368,25 @@ namespace AutoAttendant.Views
                 if (answer)
                 {
                     //I. thay doi Tren Server truoc:
-                    SaveLastProcessWithAttendance(); 
-                    
-                    //II. thay doi Ttrên list sauu:
-                    if (index < HomePage._lsjvm.SubjectCollection.Count - 1) // nếu index của subject vẫn còn nằm trong _lsjvm
-                    {
-                        SubjectPage.enableSubJectId = HomePage._lsjvm.SubjectCollection[index + 1].subject_id; // gán enableSubjectID = id của subject tiếp theo
-                        subject.stateString = attendanceCount.ToString() + " / " + lsnvm.StudentCollection.Count.ToString();
-                        SubjectPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
+                    var checkProcessCoTonTai =  await SaveLastProcessWithAttendance();
 
-                    }
-                    else
+                    //II. thay doi Ttrên list sauu:
+                    if (checkProcessCoTonTai)
                     {
-                        SubjectPage.enableSubJectId = "-1"; // nếu index vượt thì gán = -1 để ko làm gì khi back về
-                        subject.stateString = attendanceCount.ToString() + " / " + lsnvm.StudentCollection.Count.ToString();
+                        if (index < HomePage._lsjvm.SubjectCollection.Count - 1) // nếu index của subject vẫn còn nằm trong _lsjvm
+                        {
+                            SubjectPage.enableSubJectId = HomePage._lsjvm.SubjectCollection[index + 1].subject_id; // gán enableSubjectID = id của subject tiếp theo
+                            subject.stateString = attendanceCount.ToString() + " / " + lsnvm.StudentCollection.Count.ToString();
+                            SubjectPage.checkClearStd_ListPage = 1; // =1 để khi back về chọn schedule mới sẽ clear list student cũ
+
+                        }
+                        else
+                        {
+                            SubjectPage.enableSubJectId = "-1"; // nếu index vượt thì gán = -1 để ko làm gì khi back về
+                            subject.stateString = attendanceCount.ToString() + " / " + lsnvm.StudentCollection.Count.ToString();
+                        }
                     }
+                    
                     //await Navigation.PopAsync();
                 }
                 else

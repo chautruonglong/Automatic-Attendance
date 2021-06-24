@@ -44,10 +44,10 @@ namespace AutoAttendant.Views
         }
 
         [Obsolete]
-        public async void SetColorById()
+        public void SetColorById()
         {
             
-            enableSubJectId = await GetEnableSubJectId(HomePage._lsjvm.SubjectCollection);
+           // enableSubJectId = await GetEnableSubJectId(HomePage._lsjvm.SubjectCollection);
             if (enableSubJectId != "-1")
             {
                 var item = HomePage._lsjvm.SubjectCollection.Single(r => r.subject_id == enableSubJectId); // tìm subject có Id = enableSubjectID
@@ -60,17 +60,17 @@ namespace AutoAttendant.Views
             }
             else // set gia tri cho last subject
             {
-                var item = HomePage._lsjvm.SubjectCollection[HomePage._lsjvm.SubjectCollection.Count - 1];
+                var item = HomePage._lsjvm.SubjectCollection[HomePage._lsjvm.SubjectCollection.Count - 1];      
                 item.colorState = "#0E368B";
             }
         }
         [Obsolete]
-        public void ReLoadSubjectList()
+        public async void ReLoadSubjectList()
         {   
             if (HomePage._lsjvm.SubjectCollection.Count > 0)
             {
+                 SetColorById();
                 this.BindingContext = new ListSubjectViewModel();
-                SetColorById();
                 this.BindingContext = HomePage._lsjvm;
             }
         }
@@ -149,7 +149,7 @@ namespace AutoAttendant.Views
                 {
                     return listSubject[step].subject_id;
                 }
-                else if (list_process.Count > 0 && list_process[0].state == true)
+                else if (list_process.Count > 0 )
                 {
                     step++;
                 }
