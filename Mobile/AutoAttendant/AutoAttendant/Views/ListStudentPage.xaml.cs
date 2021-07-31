@@ -32,6 +32,7 @@ namespace AutoAttendant.Views
         public List<AttendanceNui> listUnknownImage = new List<AttendanceNui>();
         public static List<StudentNui> listNotYetAtd = new List<StudentNui>();
         public static Subject subjectStatic;
+        private List<bool> cloneStates = new List<bool>();
 
         [Obsolete]
         public ListStudentPage(Subject subject)
@@ -238,7 +239,12 @@ namespace AutoAttendant.Views
 
                             }
                         }
-
+                        cloneStates.Clear();
+                        foreach (var item in lsnvm.StudentCollection)
+                        {
+                            cloneStates.Add(item.state);
+                        }
+                        
                         ReLoadStudenList();
                     }
                 }
@@ -281,44 +287,56 @@ namespace AutoAttendant.Views
         #endregion
 
         #region Functions for Save Click
-        [Obsolete]
+        
 
-        public static List<AtdModify> listAtdModify = new List<AtdModify>();
 
         [Obsolete]
         public async Task<bool> SaveLastProcessWithAttendance()
         {
+            List<AtdModify> listAtdModify = new List<AtdModify>();
+            //listAtdModify.Clear();
             if (process_id_atd != "")
             {
                 var httpClient = new HttpClient();
                 var api_key = Data.Data.Instance.UserNui.authorization;
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-                List<string> listIdAttendance = new List<string>();
+                //List<string> listIdAttendance = new List<string>();
 
 
-                foreach (StudentNui stdn in listNotYetAtd) // false -> true
+                //foreach (StudentNui stdn in listNotYetAtd) // false -> true
+                //{
+                //    var std = lsnvm.StudentCollection.Single(r => r.student_id == stdn.student_id); //std la` student dc thay doi checkbox ben ngoai`
+                //    if (stdn.state == true || std.state == true)
+                //    {
+                //        listAtdModify.Add(new AtdModify(stdn.student_id, stdn.state));
+                //    }
+                //}
+
+
+                //try
+                //{
+                //    foreach (AttendanceNui atd in listAttendanceOfProcess) //true->false
+                //    {
+                //        var std = lsnvm.StudentCollection.Single(r => r.student_id == atd.id);
+                //        if (std.state == false)
+                //        {
+                //            listAtdModify.Add(new AtdModify(std.student_id, std.state));
+                //        }
+                    
+                  
+                //    }
+                //}
+                //catch(Exception ex)
+                //{
+                //    await DisplayAlert("ERROR", "SaveLastProcess" + ex.Message, "OK");
+                //}
+
+                for (int i = 0; i < cloneStates.Count; ++i)
                 {
-                    if (stdn.state == true)
+                    if (cloneStates[i] != lsnvm.StudentCollection[i].state)
                     {
-                        listAtdModify.Add(new AtdModify(stdn.student_id, stdn.state));
+                        listAtdModify.Add(new AtdModify(lsnvm.StudentCollection[i].student_id, lsnvm.StudentCollection[i].state));
                     }
-                }
-
-
-                try
-                {
-                    foreach (AttendanceNui atd in listAttendanceOfProcess) //true->false
-                    {
-                        var std = lsnvm.StudentCollection.Single(r => r.student_id == atd.id);
-                        if (std.state == false)
-                        {
-                            listAtdModify.Add(new AtdModify(std.student_id, std.state));
-                        }
-                    }
-                }
-                catch(Exception ex)
-                {
-                    await DisplayAlert("ERROR", "SaveLastProcess" + ex.Message, "OK");
                 }
                 
                 var base_URL = HomePage.base_URL + "/attendance/update/" + subjectStatic.subject_id + "/" + process_id_atd + "/";
@@ -494,6 +512,7 @@ namespace AutoAttendant.Views
             }
         }
 
+
         //private void OnCheckBoxCheckedChanged(object sender, CheckedChangedEventArgs e)
         //{
         //    string value = string.Empty;
@@ -521,6 +540,9 @@ namespace AutoAttendant.Views
         //}
         #endregion
 
-        
+        private void HanldeCheckboxChange(object sender, CheckedChangedEventArgs e)
+        {
+
+        }
     }
 }

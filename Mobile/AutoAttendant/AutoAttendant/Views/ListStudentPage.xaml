@@ -64,7 +64,7 @@
                                         <Label Text="{Binding phone}" TextColor="#000" FontSize="12" WidthRequest="1" VerticalTextAlignment="Center" IsVisible="False"/>
                                         <Label Text="{Binding confidence}" TextColor="#000" FontSize="14" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontAttributes="Bold" IsVisible="True" WidthRequest="70"/>
                                         <Image Source="checked25px" WidthRequest="20" HeightRequest="20" IsVisible="False"/>
-                                        <CheckBox IsEnabled="True" IsChecked="{Binding state}" Color="#9DFE65" VerticalOptions="Center" HeightRequest="25" IsVisible="True" x:Name="cbStatus"/>
+                                        <CheckBox IsEnabled="True" IsChecked="{Binding state}" Color="#9DFE65" VerticalOptions="Center" HeightRequest="25" IsVisible="True" x:Name="cbStatus" CheckedChanged="HanldeCheckboxChange"/>
                                         <!--Binding checkbox theo state, true = checked || false = unchecked-->
                                     </StackLayout>
                                 </Frame>

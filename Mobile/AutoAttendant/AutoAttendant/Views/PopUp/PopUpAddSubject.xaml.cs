@@ -25,9 +25,17 @@ namespace AutoAttendant.Views.PopUp
         public PopUpAddSubject()
         {
             InitializeComponent();
-            HandleDatePicker();
-            GetRoomForAddSubject();
-            GetTimeSlotDefault();
+            try
+            {
+                HandleDatePicker();
+                GetRoomForAddSubject();
+                GetTimeSlotDefault();
+
+            }
+            catch(Exception ex)
+            {
+                DisplayAlert("ERROR", ex.Message, "OK");
+            }
         }
 
         public EventHandler<string> Action;
@@ -63,19 +71,27 @@ namespace AutoAttendant.Views.PopUp
         [Obsolete]
         public async void GetTimeSlotDefault()
         {
-            btnSelectRoom.Text = PickerRoom.Items[0].ToString();
-            var room = HomePage._lrvm.RoomCollection.Single(r => r.room_id == btnSelectRoom.Text);
-            var day = lb_date.Text;
+            if(PickerRoom.Items.Count > 0)
+            {
+                btnSelectRoom.Text = PickerRoom.Items[0].ToString();
+                var room = HomePage._lrvm.RoomCollection.Single(r => r.room_id == btnSelectRoom.Text);
+                var day = lb_date.Text;
 
-            var httpService = new HttpClient();
-            var api_key = Data.Data.Instance.UserNui.authorization;
-            httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
-            var base_URL = HomePage.base_URL + "/subject/time_slot/list/" + room.room_id + "/" + day + "/";
-            var result = await httpService.GetAsync(base_URL);
-            var contentListTimeSlot = await result.Content.ReadAsStringAsync();
-             listTimslottInRoom = JsonConvert.DeserializeObject<List<String>>(contentListTimeSlot);
+                var httpService = new HttpClient();
+                var api_key = Data.Data.Instance.UserNui.authorization;
+                httpService.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("authorization", api_key);
+                var base_URL = HomePage.base_URL + "/subject/time_slot/list/" + room.room_id + "/" + day + "/";
+                var result = await httpService.GetAsync(base_URL);
+                var contentListTimeSlot = await result.Content.ReadAsStringAsync();
+                listTimslottInRoom = JsonConvert.DeserializeObject<List<String>>(contentListTimeSlot);
 
-            GetTimeSlot(listTimslottInRoom);
+                GetTimeSlot(listTimslottInRoom);
+            }
+            else
+            {
+                await DisplayAlert("ERROR", "Error when get room", "OK");
+            }
+            
         }
 
         [Obsolete]
@@ -143,11 +159,18 @@ namespace AutoAttendant.Views.PopUp
             try
             {
                 var listRoom = HomePage._lrvm.RoomCollection;
-                foreach (Room room in listRoom)
+                if (listRoom.Count > 0)
                 {
-                    PickerRoom.Items.Add(room.room_id);
+                    foreach (Room room in listRoom)
+                    {
+                        PickerRoom.Items.Add(room.room_id);
+                    }
+                    btnSelectRoom.Text = PickerRoom.Items[0];
                 }
-                btnSelectRoom.Text = PickerRoom.Items[0];
+                else
+                {
+                    btnSelectRoom.Text = "EMPTY LIST";
+                }
             }
             catch (Exception ex)
             {
